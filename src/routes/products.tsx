@@ -100,6 +100,42 @@ function ProductsPage() {
         </div>
       </section>
 
+      {/* SaaS apps showcase */}
+      <section className="bg-surface py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="text-sm font-semibold uppercase tracking-wider text-brand">Cloud SaaS apps</span>
+            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">A focused app for every job</h2>
+            <p className="mt-3 text-muted-foreground">
+              Each Zanscode SaaS lives on its own site — pick the ones that fit your team and start free.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {saasApps.map((app) => (
+              <a
+                key={app.name}
+                href={app.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex flex-col rounded-2xl border border-border bg-card p-6 shadow-soft transition-all hover:-translate-y-1 hover:border-brand hover:shadow-brand"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground">
+                    <app.icon className="h-5 w-5" />
+                  </div>
+                  <ExternalLink className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-brand" />
+                </div>
+                <h3 className="mt-5 text-lg font-semibold">{app.name}</h3>
+                <p className="mt-2 flex-1 text-sm text-muted-foreground">{app.desc}</p>
+                <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-brand">
+                  Visit site <ExternalLink className="h-3.5 w-3.5" />
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Key features */}
       <section className="bg-surface py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
