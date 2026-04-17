@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Boxes, Cpu, Globe2, LineChart, ShieldCheck, Smartphone, Sparkles, Zap, Check } from "lucide-react";
+import { ArrowRight, Boxes, Cpu, Globe2, LineChart, ShieldCheck, Smartphone, Sparkles, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import heroBg from "@/assets/hero-bg.jpg";
