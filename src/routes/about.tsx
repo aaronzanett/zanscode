@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Briefcase, Users, Heart, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { FAQ } from "@/components/site/FAQ";
+
 import aboutTeam from "@/assets/about-team.jpg";
 
 export const Route = createFileRoute("/about")({

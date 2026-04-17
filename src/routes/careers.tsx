@@ -5,7 +5,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { FAQ } from "@/components/site/FAQ";
+
 
 export const Route = createFileRoute("/careers")({
   head: () => ({

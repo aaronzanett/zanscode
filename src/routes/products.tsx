@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { FAQ } from "@/components/site/FAQ";
+
 import productApps from "@/assets/product-apps.jpg";
 import productPos from "@/assets/product-pos.jpg";
 import productSaas from "@/assets/product-saas.jpg";

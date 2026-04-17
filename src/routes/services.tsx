@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Code2, Layout, Cloud, Wrench, Users, Headphones, ShoppingBag, Truck, Stethoscope, GraduationCap, Landmark, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { FAQ } from "@/components/site/FAQ";
+
 
 export const Route = createFileRoute("/services")({
   head: () => ({
