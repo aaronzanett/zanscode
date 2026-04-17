@@ -16,18 +16,21 @@ const nav = [
 export function Header() {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link to="/" className="flex items-center gap-2">
-          <img src={logo} alt="Zanscode" className="h-7 w-auto" />
+    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/75 backdrop-blur-xl">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <Link to="/" className="flex items-center gap-2 shrink-0">
+          <img src={logo} alt="Zanscode" className="h-10 w-auto md:h-11" />
         </Link>
         <nav className="hidden items-center gap-1 md:flex">
           {nav.map((n) => (
             <Link
               key={n.to}
               to={n.to}
-              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-              activeProps={{ className: "rounded-md px-3 py-2 text-sm font-semibold text-brand bg-secondary" }}
+              className="relative rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground [&.active]:text-foreground"
+              activeProps={{
+                className:
+                  "relative rounded-full px-4 py-2 text-sm font-semibold text-foreground bg-secondary/70 active",
+              }}
               activeOptions={{ exact: n.to === "/" }}
             >
               {n.label}
@@ -55,11 +58,13 @@ export function Header() {
                 to={n.to}
                 onClick={() => setOpen(false)}
                 className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-secondary"
+                activeProps={{ className: "block rounded-md px-3 py-2 text-sm font-semibold text-foreground bg-secondary" }}
+                activeOptions={{ exact: n.to === "/" }}
               >
                 {n.label}
               </Link>
             ))}
-            <Link to="/app" onClick={() => setOpen(false)} className="block rounded-md px-3 py-2 text-sm font-semibold text-brand">
+            <Link to="/app" onClick={() => setOpen(false)} className="block rounded-md px-3 py-2 text-sm font-semibold text-foreground">
               Open App
             </Link>
           </div>
