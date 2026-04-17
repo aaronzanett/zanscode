@@ -1,38 +1,174 @@
 import { Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { Mail, MapPin, Phone, ArrowRight, Linkedin, Twitter, Github, Youtube, ShieldCheck, Globe } from "lucide-react";
 import logo from "@/assets/zanscode-logo.png";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+
+const columns = [
+  {
+    title: "Products",
+    links: [
+      { to: "/products" as const, label: "Solutions overview" },
+      { to: "/products" as const, label: "Zanscode ERP" },
+      { to: "/products" as const, label: "Zanscode POS" },
+      { to: "/saas" as const, label: "SaaS platform" },
+      { to: "/app" as const, label: "Internal app" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { to: "/about" as const, label: "About us" },
+      { to: "/services" as const, label: "Services" },
+      { to: "/contact" as const, label: "Contact" },
+      { to: "/about" as const, label: "Careers" },
+      { to: "/about" as const, label: "Press kit" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { to: "/services" as const, label: "Case studies" },
+      { to: "/services" as const, label: "Documentation" },
+      { to: "/saas" as const, label: "Pricing" },
+      { to: "/contact" as const, label: "Support" },
+      { to: "/contact" as const, label: "Status" },
+    ],
+  },
+];
+
+const socials = [
+  { icon: Linkedin, label: "LinkedIn", href: "#" },
+  { icon: Twitter, label: "Twitter", href: "#" },
+  { icon: Github, label: "GitHub", href: "#" },
+  { icon: Youtube, label: "YouTube", href: "#" },
+];
 
 export function Footer() {
+  const [email, setEmail] = useState("");
+
+  function onSubscribe(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      toast.error("Please enter a valid email.");
+      return;
+    }
+    toast.success("Subscribed — welcome aboard.");
+    setEmail("");
+  }
+
   return (
     <footer className="border-t border-border bg-surface">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-4 lg:px-8">
-        <div className="lg:col-span-2">
-          <img src={logo} alt="Zanscode" className="h-8 w-auto" />
-          <p className="mt-4 max-w-sm text-sm text-muted-foreground">
+      {/* Newsletter band */}
+      <div className="border-b border-border bg-card">
+        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-4 py-10 sm:px-6 lg:flex-row lg:items-center lg:px-8">
+          <div className="max-w-xl">
+            <h3 className="text-xl font-semibold tracking-tight sm:text-2xl">Stay ahead of enterprise tech.</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Monthly insights on systems, automation, and the platforms shaping modern business — straight to your inbox.
+            </p>
+          </div>
+          <form onSubmit={onSubscribe} className="flex w-full max-w-md items-center gap-2">
+            <Input
+              type="email"
+              required
+              placeholder="you@company.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="h-11"
+            />
+            <Button type="submit" variant="brand" size="lg" className="shrink-0">
+              Subscribe <ArrowRight className="h-4 w-4" />
+            </Button>
+          </form>
+        </div>
+      </div>
+
+      {/* Main grid */}
+      <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:px-8">
+        {/* Brand block */}
+        <div className="lg:col-span-4">
+          <Link to="/" className="inline-flex items-center">
+            <img src={logo} alt="Zanscode" className="h-9 w-auto" />
+          </Link>
+          <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
             Zanscode builds technology that powers well-organized, scalable business systems —
             from web and mobile to SaaS and enterprise platforms.
           </p>
-        </div>
-        <div>
-          <h4 className="text-sm font-semibold">Company</h4>
-          <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/about" className="hover:text-foreground">About</Link></li>
-            <li><Link to="/services" className="hover:text-foreground">Services</Link></li>
-            <li><Link to="/contact" className="hover:text-foreground">Contact</Link></li>
+
+          <ul className="mt-6 space-y-3 text-sm">
+            <li className="flex items-start gap-3">
+              <Mail className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
+              <a href="mailto:hello@zanscode.com" className="text-muted-foreground hover:text-foreground">
+                hello@zanscode.com
+              </a>
+            </li>
+            <li className="flex items-start gap-3">
+              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
+              <span className="text-muted-foreground">+1 (555) 010-0123</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
+              <span className="text-muted-foreground">Innovation District, Jakarta, Indonesia</span>
+            </li>
           </ul>
         </div>
-        <div>
-          <h4 className="text-sm font-semibold">Products</h4>
-          <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/products" className="hover:text-foreground">Solutions</Link></li>
-            <li><Link to="/saas" className="hover:text-foreground">SaaS</Link></li>
-            <li><Link to="/app" className="hover:text-foreground">Internal App</Link></li>
-          </ul>
+
+        {/* Link columns */}
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-8">
+          {columns.map((col) => (
+            <div key={col.title}>
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-foreground">{col.title}</h4>
+              <ul className="mt-4 space-y-3 text-sm">
+                {col.links.map((link, i) => (
+                  <li key={`${col.title}-${i}`}>
+                    <Link to={link.to} className="text-muted-foreground transition-colors hover:text-foreground">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
+
+      {/* Trust strip */}
       <div className="border-t border-border">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 py-6 text-xs text-muted-foreground sm:flex-row sm:px-6 lg:px-8">
-          <p>© {new Date().getFullYear()} Zanscode. All rights reserved.</p>
-          <p>Built with care for modern businesses.</p>
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-5 text-xs text-muted-foreground sm:px-6 lg:px-8">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-3.5 w-3.5" /> SOC 2 Type II</span>
+            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-3.5 w-3.5" /> ISO 27001</span>
+            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-3.5 w-3.5" /> GDPR Ready</span>
+            <span className="inline-flex items-center gap-1.5"><Globe className="h-3.5 w-3.5" /> Global delivery</span>
+          </div>
+          <div className="flex items-center gap-2">
+            {socials.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                aria-label={s.label}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-brand hover:text-foreground"
+              >
+                <s.icon className="h-4 w-4" />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Legal bar */}
+      <div className="border-t border-border bg-background">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-5 text-xs text-muted-foreground sm:flex-row sm:px-6 lg:px-8">
+          <p>© {new Date().getFullYear()} Zanscode, Inc. All rights reserved.</p>
+          <div className="flex items-center gap-5">
+            <Link to="/about" className="hover:text-foreground">Privacy</Link>
+            <Link to="/about" className="hover:text-foreground">Terms</Link>
+            <Link to="/about" className="hover:text-foreground">Security</Link>
+            <Link to="/contact" className="hover:text-foreground">Cookies</Link>
+          </div>
         </div>
       </div>
     </footer>
