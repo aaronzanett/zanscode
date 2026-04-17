@@ -43,18 +43,6 @@ const socials = [
 ];
 
 export function Footer() {
-  const [email, setEmail] = useState("");
-
-  function onSubscribe(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      toast.error("Please enter a valid email.");
-      return;
-    }
-    toast.success("Subscribed — welcome aboard.");
-    setEmail("");
-  }
-
   return (
     <footer className="border-t border-border bg-surface">
       {/* Main grid */}
