@@ -26,6 +26,7 @@ export function Header() {
             <Link
               key={n.to}
               to={n.to}
+              preload="render"
               className="relative rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground [&.active]:text-foreground"
               activeProps={{
                 className:
