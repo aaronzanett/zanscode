@@ -125,86 +125,21 @@ function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="relative overflow-hidden bg-background py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-hero p-10 text-white shadow-brand sm:p-14 lg:p-20">
-            {/* Decorative layers */}
-            <div className="pointer-events-none absolute inset-0 opacity-30 [background-image:radial-gradient(circle_at_25%_20%,white_1px,transparent_1px)] [background-size:36px_36px]" />
-            <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand-cyan/30 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-32 -left-20 h-80 w-80 rounded-full bg-brand/40 blur-3xl" />
-
-            <div className="relative grid gap-10 lg:grid-cols-5 lg:items-center">
-              <div className="lg:col-span-3">
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur">
-                  <Sparkles className="h-3.5 w-3.5" /> Defined by excellence
-                </span>
-                <h2 className="mt-5 text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
-                  Ready to organize your business with technology?
-                </h2>
-                <p className="mt-4 max-w-xl text-base text-white/80 sm:text-lg">
-                  From Jakarta to the world — we partner with ambitious teams to design, build, and scale
-                  systems that simply work. <span className="font-medium text-white">Siap membantu bisnis Anda tumbuh.</span>
-                </p>
-
-                <ul className="mt-7 grid gap-3 sm:grid-cols-2">
-                  {[
-                    "Free 30-min discovery call",
-                    "Tailored proposal in 48 hours",
-                    "Dedicated delivery team",
-                    "Transparent pricing & timelines",
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-sm text-white/90">
-                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/15">
-                        <Check className="h-3 w-3" />
-                      </span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-9 flex flex-wrap items-center gap-3">
-                  <Button asChild size="xl" variant="hero">
-                    <Link to="/contact">Start your project <ArrowRight className="ml-1 h-4 w-4" /></Link>
-                  </Button>
-                  <Button asChild size="xl" variant="ghost" className="text-white hover:bg-white/10 hover:text-white">
-                    <Link to="/services">Explore services</Link>
-                  </Button>
-                </div>
-              </div>
-
-              {/* Highlight card */}
-              <div className="relative lg:col-span-2">
-                <div className="rounded-2xl border border-white/15 bg-white/5 p-7 backdrop-blur-xl">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10">
-                      <Sparkles className="h-5 w-5 text-brand-cyan" />
-                    </div>
-                    <div>
-                      <p className="text-xs uppercase tracking-wider text-white/60">Our promise</p>
-                      <p className="text-lg font-semibold">Defined by excellence.</p>
-                    </div>
-                  </div>
-                  <p className="mt-5 text-sm leading-relaxed text-white/75">
-                    Every line of code, every interaction, every release — crafted to a higher standard.
-                    That's the Zanscode way.
-                  </p>
-                  <div className="mt-6 grid grid-cols-3 gap-3 border-t border-white/10 pt-5">
-                    <div>
-                      <p className="text-2xl font-bold">120+</p>
-                      <p className="text-[10px] uppercase tracking-wider text-white/60">Projects</p>
-                    </div>
-                    <div>
-                      <p className="text-2xl font-bold">45</p>
-                      <p className="text-[10px] uppercase tracking-wider text-white/60">Clients</p>
-                    </div>
-                    <div>
-                      <p className="text-2xl font-bold">24/7</p>
-                      <p className="text-[10px] uppercase tracking-wider text-white/60">Support</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <section className="bg-background py-24">
+        <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+            Ready to organize your business with technology?
+          </h2>
+          <p className="mx-auto mt-5 max-w-2xl text-base text-muted-foreground sm:text-lg">
+            Tell us about your operation — we'll propose the fastest path from chaos to clarity.
+          </p>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+            <Button asChild size="xl" variant="brand">
+              <Link to="/contact">Start a project <ArrowRight className="ml-1 h-4 w-4" /></Link>
+            </Button>
+            <Button asChild size="xl" variant="outline">
+              <Link to="/services">Explore services</Link>
+            </Button>
           </div>
         </div>
       </section>
