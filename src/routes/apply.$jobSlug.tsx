@@ -401,9 +401,7 @@ function ApplyPage() {
 
               <p className="mt-6 text-center text-xs text-muted-foreground">
                 Prefer email?{" "}
-                <a href={`mailto:careers@zanscode.com?subject=Application: ${encodeURIComponent(job.title)}`} className="cursor-pointer font-semibold text-brand hover:underline">
-                  <Mail className="mr-1 inline h-3 w-3" /> careers@zanscode.com
-                </a>
+                <a href={`mailto:careers@zanscode.com?subject=Application: ${encodeURIComponent(job.title)}`} className="cursor-pointer font-semibold text-brand hover:underline"><Mail className="mr-1 inline h-3 w-3" />careers@zanscode.com</a>
               </p>
             </div>
           </div>
