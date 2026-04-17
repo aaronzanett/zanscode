@@ -56,9 +56,9 @@ function ContactPage() {
     setData((d) => ({ ...d, [k]: v }));
 
   const canContinue = useMemo(() => {
-    if (step === 0) return data.name.trim() && /\S+@\S+\.\S+/.test(data.email);
-    if (step === 1) return data.company.trim();
-    if (step === 2) return data.projectType && data.budget && data.timeline;
+    if (step === 0) return data.name.trim().length > 0 && /\S+@\S+\.\S+/.test(data.email);
+    if (step === 1) return data.company.trim().length > 0;
+    if (step === 2) return Boolean(data.projectType && data.budget && data.timeline);
     if (step === 3) return data.message.trim().length >= 10;
     return false;
   }, [step, data]);
@@ -66,8 +66,12 @@ function ContactPage() {
   const progress = ((step + (done ? 1 : 0)) / steps.length) * 100;
 
   function next() {
-    if (step < steps.length - 1) setStep((s) => s + 1);
-    else submit();
+    if (!canContinue) return;
+    if (step < steps.length - 1) {
+      setStep((s) => s + 1);
+    } else {
+      submit();
+    }
   }
 
   function submit() {
