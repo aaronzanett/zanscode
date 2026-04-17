@@ -19,7 +19,7 @@ const columns = [
       { to: "/about" as const, label: "About us" },
       { to: "/services" as const, label: "Services" },
       { to: "/contact" as const, label: "Contact" },
-      { to: "/about" as const, label: "Careers" },
+      { to: "/careers" as const, label: "Careers" },
       { to: "/about" as const, label: "Press kit" },
     ],
   },
