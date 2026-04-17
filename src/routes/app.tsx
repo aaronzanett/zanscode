@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, useLocation } from "@tanstack/react-router";
-import { LayoutDashboard, Users, Briefcase, DollarSign, Boxes, Settings, Bell, Search } from "lucide-react";
+import { LayoutDashboard, Users, UserCog, Briefcase, DollarSign, Boxes, Settings, Bell, Search } from "lucide-react";
 import logo from "@/assets/zanscode-logo.png";
 import { Input } from "@/components/ui/input";
 
@@ -14,13 +14,14 @@ export const Route = createFileRoute("/app")({
   component: AppLayout,
 });
 
-type NavItem = { to: "/app" | "/app/customers" | "/app/projects" | "/app/finance" | "/app/inventory" | "/app/settings"; label: string; icon: typeof LayoutDashboard; exact?: boolean };
+type NavItem = { to: "/app" | "/app/customers" | "/app/projects" | "/app/finance" | "/app/inventory" | "/app/users" | "/app/settings"; label: string; icon: typeof LayoutDashboard; exact?: boolean };
 const sidebar: NavItem[] = [
   { to: "/app", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/app/customers", label: "Customers", icon: Users },
   { to: "/app/projects", label: "Projects", icon: Briefcase },
   { to: "/app/finance", label: "Finance", icon: DollarSign },
   { to: "/app/inventory", label: "Inventory", icon: Boxes },
+  { to: "/app/users", label: "Users", icon: UserCog },
   { to: "/app/settings", label: "Settings", icon: Settings },
 ];
 
