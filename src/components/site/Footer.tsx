@@ -1,10 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { Mail, MapPin, Phone, ArrowRight, Linkedin, Twitter, Github, Youtube, ShieldCheck, Globe } from "lucide-react";
+import { Mail, MapPin, Phone, Linkedin, Twitter, Github, Youtube, ShieldCheck, Globe } from "lucide-react";
 import logo from "@/assets/zanscode-logo.png";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 
 const columns = [
   {
@@ -47,45 +43,8 @@ const socials = [
 ];
 
 export function Footer() {
-  const [email, setEmail] = useState("");
-
-  function onSubscribe(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      toast.error("Please enter a valid email.");
-      return;
-    }
-    toast.success("Subscribed — welcome aboard.");
-    setEmail("");
-  }
-
   return (
     <footer className="border-t border-border bg-surface">
-      {/* Newsletter band */}
-      <div className="border-b border-border bg-card">
-        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-4 py-10 sm:px-6 lg:flex-row lg:items-center lg:px-8">
-          <div className="max-w-xl">
-            <h3 className="text-xl font-semibold tracking-tight sm:text-2xl">Stay ahead of enterprise tech.</h3>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Monthly insights on systems, automation, and the platforms shaping modern business — straight to your inbox.
-            </p>
-          </div>
-          <form onSubmit={onSubscribe} className="flex w-full max-w-md items-center gap-2">
-            <Input
-              type="email"
-              required
-              placeholder="you@company.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="h-11"
-            />
-            <Button type="submit" variant="brand" size="lg" className="shrink-0">
-              Subscribe <ArrowRight className="h-4 w-4" />
-            </Button>
-          </form>
-        </div>
-      </div>
-
       {/* Main grid */}
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:px-8">
         {/* Brand block */}
