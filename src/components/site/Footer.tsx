@@ -1,10 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { Mail, MapPin, Phone, ArrowRight, Linkedin, Twitter, Github, Youtube, ShieldCheck, Globe } from "lucide-react";
+import { Mail, MapPin, Phone, Linkedin, Twitter, Github, Youtube, ShieldCheck, Globe } from "lucide-react";
 import logo from "@/assets/zanscode-logo.png";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 
 const columns = [
   {
