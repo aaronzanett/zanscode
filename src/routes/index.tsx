@@ -1,26 +1,140 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight, Boxes, Cpu, Globe2, LineChart, ShieldCheck, Smartphone, Sparkles, Zap } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { SiteLayout } from "@/components/site/SiteLayout";
+import heroBg from "@/assets/hero-bg.jpg";
+import productSaas from "@/assets/product-saas.jpg";
 
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "Zanscode — Technology Solutions for Modern Business" },
+      { name: "description", content: "Zanscode builds web, mobile, desktop and SaaS solutions that power well-organized, scalable business systems." },
+      { property: "og:title", content: "Zanscode — Technology Solutions for Modern Business" },
+      { property: "og:description", content: "Web, mobile, desktop and SaaS solutions for organized, scalable businesses." },
+    ],
+  }),
+  component: HomePage,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
+const features = [
+  { icon: Globe2, title: "Web Platforms", desc: "High-performance websites and web apps engineered for scale." },
+  { icon: Smartphone, title: "Mobile Apps", desc: "Native and cross-platform Android & iOS experiences." },
+  { icon: Cpu, title: "Desktop Software", desc: "Robust desktop tools tailored to operations teams." },
+  { icon: Boxes, title: "SaaS Products", desc: "Multi-tenant cloud products with billing & analytics ready." },
+  { icon: ShieldCheck, title: "Enterprise Security", desc: "Hardened infrastructure, RBAC, audits, and compliance." },
+  { icon: LineChart, title: "Business Intelligence", desc: "Real-time dashboards turning data into decisions." },
+];
 
-function Index() {
-  return <PlaceholderIndex />;
+const stats = [
+  { v: "120+", l: "Projects shipped" },
+  { v: "45", l: "Enterprise clients" },
+  { v: "99.98%", l: "Platform uptime" },
+  { v: "24/7", l: "Dedicated support" },
+];
+
+function HomePage() {
+  return (
+    <SiteLayout>
+      {/* Hero */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0">
+          <img src={heroBg} alt="" className="h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-hero opacity-90" />
+        </div>
+        <div className="relative mx-auto max-w-7xl px-4 py-28 sm:px-6 lg:px-8 lg:py-36">
+          <div className="max-w-3xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white backdrop-blur">
+              <Sparkles className="h-3.5 w-3.5" /> Technology partner for ambitious teams
+            </span>
+            <h1 className="mt-6 text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
+              Build a business system that <span className="text-brand-cyan">runs itself</span>.
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg text-white/80">
+              Zanscode designs and ships modern technology — websites, mobile, desktop and SaaS —
+              so your operations are organized, automated, and ready to scale.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button asChild size="xl" variant="brand">
+                <Link to="/contact">Start a project <ArrowRight className="ml-1 h-4 w-4" /></Link>
+              </Button>
+              <Button asChild size="xl" variant="hero">
+                <Link to="/products">Explore products</Link>
+              </Button>
+            </div>
+            <dl className="mt-14 grid grid-cols-2 gap-6 sm:grid-cols-4">
+              {stats.map((s) => (
+                <div key={s.l}>
+                  <dt className="text-2xl font-bold text-white sm:text-3xl">{s.v}</dt>
+                  <dd className="mt-1 text-xs uppercase tracking-wider text-white/60">{s.l}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="bg-background py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold sm:text-4xl">Everything to run a modern operation</h2>
+            <p className="mt-4 text-muted-foreground">
+              One partner across every layer of your stack — from customer-facing apps to back-office tooling.
+            </p>
+          </div>
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {features.map((f) => (
+              <div key={f.title} className="group rounded-2xl border border-border bg-card p-6 shadow-soft transition-all hover:-translate-y-1 hover:shadow-brand">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground">
+                  <f.icon className="h-5 w-5" />
+                </div>
+                <h3 className="mt-5 text-lg font-semibold">{f.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SaaS Highlight */}
+      <section className="bg-surface py-24">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+          <div>
+            <span className="text-sm font-semibold uppercase tracking-wider text-brand">Flagship SaaS</span>
+            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Zanscode OS — your business, organized.</h2>
+            <p className="mt-4 text-muted-foreground">
+              An all-in-one operating platform for modern teams: CRM, projects, finance, HR and analytics —
+              connected by a single source of truth.
+            </p>
+            <ul className="mt-6 space-y-3 text-sm">
+              {["Unified workspace across departments", "Real-time KPI dashboards", "Automations & workflows", "Open API & integrations"].map((i) => (
+                <li key={i} className="flex items-center gap-2"><Zap className="h-4 w-4 text-brand-cyan" /> {i}</li>
+              ))}
+            </ul>
+            <div className="mt-8 flex gap-3">
+              <Button asChild variant="brand"><Link to="/saas">View SaaS lineup</Link></Button>
+              <Button asChild variant="outline"><Link to="/app">Try internal demo</Link></Button>
+            </div>
+          </div>
+          <div className="relative">
+            <div className="absolute -inset-6 rounded-3xl bg-gradient-brand opacity-20 blur-3xl" />
+            <img src={productSaas} alt="Zanscode OS dashboard" loading="lazy" width={1024} height={768} className="relative rounded-2xl border border-border shadow-brand" />
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="relative overflow-hidden bg-gradient-hero py-20 text-white">
+        <div className="mx-auto max-w-5xl px-4 text-center sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold sm:text-4xl">Ready to organize your business with technology?</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-white/80">Tell us about your operation. We'll propose the fastest path from chaos to clarity.</p>
+          <div className="mt-8 flex justify-center gap-3">
+            <Button asChild size="xl" variant="brand"><Link to="/contact">Talk to us</Link></Button>
+            <Button asChild size="xl" variant="hero"><Link to="/services">See services</Link></Button>
+          </div>
+        </div>
+      </section>
+    </SiteLayout>
+  );
 }
