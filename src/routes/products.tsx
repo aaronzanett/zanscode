@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Zap, ShieldCheck, Globe2, Smartphone, BarChart3, Plug } from "lucide-react";
+import { Zap, ShieldCheck, Globe2, Smartphone, BarChart3, Plug, ExternalLink, Users, Briefcase, Wallet, UserCog, LineChart, Boxes } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { FAQ } from "@/components/site/FAQ";
@@ -11,9 +11,9 @@ export const Route = createFileRoute("/products")({
   head: () => ({
     meta: [
       { title: "Products — Zanscode" },
-      { name: "description", content: "Ready-to-deploy products from Zanscode: ERP, POS, fleet, HR and more." },
-      { property: "og:title", content: "Products — Zanscode" },
-      { property: "og:description", content: "Ready-to-deploy products to power your operations." },
+      { name: "description", content: "Explore Zanscode's finished products and SaaS apps — ERP, POS, CRM, HR, BI and more." },
+      { property: "og:title", content: "Products & SaaS — Zanscode" },
+      { property: "og:description", content: "Finished products and cloud SaaS apps to power every part of your business." },
       { property: "og:image", content: productApps },
     ],
   }),
@@ -24,6 +24,16 @@ const products = [
   { name: "Zanscode ERP", img: productApps, tag: "Enterprise", desc: "End-to-end resource planning across finance, inventory, sales and HR — for mid-market teams." },
   { name: "ZansPOS", img: productPos, tag: "Retail & F&B", desc: "Cloud-connected POS with offline mode, multi-outlet stock, loyalty and analytics." },
   { name: "Zanscode OS", img: productSaas, tag: "SaaS", desc: "Modular operating platform for modern businesses — CRM, projects, finance and BI in one." },
+];
+
+// NOTE: Replace these placeholder URLs with each product's real website when ready.
+const saasApps = [
+  { icon: Users, name: "Zanscode CRM", desc: "Pipeline, deals and a true 360° view of every customer.", url: "https://crm.zanscode.com" },
+  { icon: Briefcase, name: "Zanscode Projects", desc: "Tasks, sprints and team time tracking — built for delivery.", url: "https://projects.zanscode.com" },
+  { icon: Wallet, name: "Zanscode Finance", desc: "Invoicing, expenses and reporting in one clean ledger.", url: "https://finance.zanscode.com" },
+  { icon: UserCog, name: "Zanscode HR", desc: "People, payroll and performance — from hire to retire.", url: "https://hr.zanscode.com" },
+  { icon: LineChart, name: "Zanscode BI", desc: "Real-time dashboards that turn raw data into decisions.", url: "https://bi.zanscode.com" },
+  { icon: Boxes, name: "Zanscode Inventory", desc: "Multi-warehouse stock control with live sync.", url: "https://inventory.zanscode.com" },
 ];
 
 const features = [

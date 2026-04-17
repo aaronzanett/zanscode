@@ -9,7 +9,7 @@ const columns = [
       { to: "/products" as const, label: "Solutions overview" },
       { to: "/products" as const, label: "Zanscode ERP" },
       { to: "/products" as const, label: "Zanscode POS" },
-      { to: "/saas" as const, label: "SaaS platform" },
+      { to: "/products" as const, label: "SaaS apps" },
       { to: "/app" as const, label: "Internal app" },
     ],
   },
@@ -28,7 +28,7 @@ const columns = [
     links: [
       { to: "/services" as const, label: "Case studies" },
       { to: "/services" as const, label: "Documentation" },
-      { to: "/saas" as const, label: "Pricing" },
+      { to: "/products" as const, label: "Pricing" },
       { to: "/contact" as const, label: "Support" },
       { to: "/contact" as const, label: "Status" },
     ],
