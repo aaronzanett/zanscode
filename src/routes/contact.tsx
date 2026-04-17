@@ -258,6 +258,11 @@ function ContactPage() {
           </div>
         </div>
       </section>
+
+      <FAQ
+        items={faqs}
+        subtitle="Everything you need to know about working with Zanscode — services, products, SaaS, hiring and more."
+      />
     </SiteLayout>
   );
 }
