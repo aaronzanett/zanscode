@@ -92,7 +92,7 @@ function ProductsPage() {
                 <p className="mt-3 text-muted-foreground">{p.desc}</p>
                 <div className="mt-6 flex gap-3">
                   <Button asChild variant="brand"><Link to="/contact">Request demo</Link></Button>
-                  <Button asChild variant="outline"><Link to="/saas">Learn more</Link></Button>
+                  <Button asChild variant="outline"><Link to="/contact">Learn more</Link></Button>
                 </div>
               </div>
             </article>
