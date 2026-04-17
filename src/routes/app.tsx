@@ -14,14 +14,15 @@ export const Route = createFileRoute("/app")({
   component: AppLayout,
 });
 
-const sidebar = [
+type NavItem = { to: "/app" | "/app/customers" | "/app/projects" | "/app/finance" | "/app/inventory" | "/app/settings"; label: string; icon: typeof LayoutDashboard; exact?: boolean };
+const sidebar: NavItem[] = [
   { to: "/app", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/app/customers", label: "Customers", icon: Users },
   { to: "/app/projects", label: "Projects", icon: Briefcase },
   { to: "/app/finance", label: "Finance", icon: DollarSign },
   { to: "/app/inventory", label: "Inventory", icon: Boxes },
   { to: "/app/settings", label: "Settings", icon: Settings },
-] as const;
+];
 
 function AppLayout() {
   const loc = useLocation();
