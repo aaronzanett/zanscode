@@ -395,49 +395,7 @@ function ProductsPage() {
         </div>
       </section>
 
-      {/* Horizontal apps */}
-      <section className="py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-wider text-brand">Horizontal apps</span>
-            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">The business essentials, covered</h2>
-            <p className="mt-3 text-muted-foreground">
-              Apps that work for any industry — sales, finance, people and analytics. Mix and match with your industry SaaS.
-            </p>
-          </div>
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {horizontalApps.map((app) => (
-              <a
-                key={app.name}
-                href={app.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative flex flex-col rounded-2xl border border-border bg-card p-6 shadow-soft transition-all hover:-translate-y-1 hover:border-brand hover:shadow-brand"
-              >
-                {app.badge && (
-                  <span className="absolute right-4 top-4 rounded-full bg-brand px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-brand-foreground">
-                    {app.badge}
-                  </span>
-                )}
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground">
-                  <app.icon className="h-5 w-5" />
-                </div>
-                <h4 className="mt-5 text-lg font-semibold">{app.name}</h4>
-                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-brand">{app.tagline}</p>
-                <p className="mt-3 flex-1 text-sm text-muted-foreground">{app.desc}</p>
-                <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
-                  <span className="text-xs text-muted-foreground">
-                    From <span className="font-semibold text-foreground">{app.startingPrice}</span>
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand transition-transform group-hover:translate-x-0.5">
-                    Visit site <ArrowRight className="h-3.5 w-3.5" />
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* Testimonials */}
       <section className="bg-surface py-20">
