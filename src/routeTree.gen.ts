@@ -18,6 +18,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as ApplyJobSlugRouteImport } from './routes/apply.$jobSlug'
+import { Route as AppUsersRouteImport } from './routes/app.users'
 import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppProjectsRouteImport } from './routes/app.projects'
 import { Route as AppInventoryRouteImport } from './routes/app.inventory'
@@ -69,6 +70,11 @@ const ApplyJobSlugRoute = ApplyJobSlugRouteImport.update({
   path: '/apply/$jobSlug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppUsersRoute = AppUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppSettingsRoute = AppSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -108,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/app/inventory': typeof AppInventoryRoute
   '/app/projects': typeof AppProjectsRoute
   '/app/settings': typeof AppSettingsRoute
+  '/app/users': typeof AppUsersRoute
   '/apply/$jobSlug': typeof ApplyJobSlugRoute
   '/app/': typeof AppIndexRoute
 }
@@ -123,6 +130,7 @@ export interface FileRoutesByTo {
   '/app/inventory': typeof AppInventoryRoute
   '/app/projects': typeof AppProjectsRoute
   '/app/settings': typeof AppSettingsRoute
+  '/app/users': typeof AppUsersRoute
   '/apply/$jobSlug': typeof ApplyJobSlugRoute
   '/app': typeof AppIndexRoute
 }
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/app/inventory': typeof AppInventoryRoute
   '/app/projects': typeof AppProjectsRoute
   '/app/settings': typeof AppSettingsRoute
+  '/app/users': typeof AppUsersRoute
   '/apply/$jobSlug': typeof ApplyJobSlugRoute
   '/app/': typeof AppIndexRoute
 }
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
     | '/app/inventory'
     | '/app/projects'
     | '/app/settings'
+    | '/app/users'
     | '/apply/$jobSlug'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
@@ -173,6 +183,7 @@ export interface FileRouteTypes {
     | '/app/inventory'
     | '/app/projects'
     | '/app/settings'
+    | '/app/users'
     | '/apply/$jobSlug'
     | '/app'
   id:
@@ -189,6 +200,7 @@ export interface FileRouteTypes {
     | '/app/inventory'
     | '/app/projects'
     | '/app/settings'
+    | '/app/users'
     | '/apply/$jobSlug'
     | '/app/'
   fileRoutesById: FileRoutesById
@@ -269,6 +281,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApplyJobSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/users': {
+      id: '/app/users'
+      path: '/users'
+      fullPath: '/app/users'
+      preLoaderRoute: typeof AppUsersRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/settings': {
       id: '/app/settings'
       path: '/settings'
@@ -313,6 +332,7 @@ interface AppRouteChildren {
   AppInventoryRoute: typeof AppInventoryRoute
   AppProjectsRoute: typeof AppProjectsRoute
   AppSettingsRoute: typeof AppSettingsRoute
+  AppUsersRoute: typeof AppUsersRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
@@ -322,6 +342,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppInventoryRoute: AppInventoryRoute,
   AppProjectsRoute: AppProjectsRoute,
   AppSettingsRoute: AppSettingsRoute,
+  AppUsersRoute: AppUsersRoute,
   AppIndexRoute: AppIndexRoute,
 }
 

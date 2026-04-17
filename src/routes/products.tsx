@@ -3,8 +3,7 @@ import { useMemo, useState } from "react";
 import {
   Scissors, GraduationCap, UtensilsCrossed, ShoppingBag, Stethoscope, Dumbbell,
   Hotel, Car, Building2, Sparkles as SparklesIcon, Wrench, Truck,
-  Users, Briefcase, Wallet, UserCog, LineChart, Boxes, Headphones, Megaphone,
-  Calendar, ExternalLink, ArrowRight, Check, Star, Search, Zap, ShieldCheck,
+  ExternalLink, ArrowRight, Check, Star, Search, Zap, ShieldCheck,
   Globe2, Smartphone, Plug, BarChart3, Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -31,7 +30,7 @@ export const Route = createFileRoute("/products")({
 type Industry = "Beauty & Wellness" | "Education" | "Food & Beverage" | "Retail" | "Healthcare" | "Fitness" | "Hospitality" | "Automotive" | "Real Estate" | "Services" | "Logistics";
 
 type SaasApp = {
-  icon: typeof Users;
+  icon: typeof Scissors;
   name: string;
   tagline: string;
   desc: string;
@@ -149,17 +148,7 @@ const industryApps: SaasApp[] = [
   },
 ];
 
-const horizontalApps: SaasApp[] = [
-  { icon: Users, name: "Zanscode CRM", tagline: "Customer 360°", desc: "Pipeline, deals and a unified view of every customer interaction.", url: "https://crm.zanscode.com", startingPrice: "$19/user/mo", badge: "Popular", industry: "Services", highlights: [] },
-  { icon: Wallet, name: "Zanscode Finance", tagline: "Books, sorted", desc: "Invoicing, expenses, multi-currency and reporting in one ledger.", url: "https://finance.zanscode.com", startingPrice: "$29/mo", industry: "Services", highlights: [] },
-  { icon: UserCog, name: "Zanscode HR", tagline: "From hire to retire", desc: "People records, payroll, attendance and performance reviews.", url: "https://hr.zanscode.com", startingPrice: "$5/employee/mo", industry: "Services", highlights: [] },
-  { icon: Boxes, name: "Zanscode Inventory", tagline: "Stock, in sync", desc: "Multi-warehouse stock control with live sync to POS and e-commerce.", url: "https://inventory.zanscode.com", startingPrice: "$39/mo", industry: "Retail", highlights: [] },
-  { icon: Briefcase, name: "Zanscode Projects", tagline: "Ship on time", desc: "Tasks, sprints, time tracking and client collaboration in one tool.", url: "https://projects.zanscode.com", startingPrice: "$12/user/mo", badge: "New", industry: "Services", highlights: [] },
-  { icon: Megaphone, name: "Zanscode Marketing", tagline: "Campaigns that convert", desc: "Email, WhatsApp and social campaigns with built-in attribution.", url: "https://marketing.zanscode.com", startingPrice: "$29/mo", industry: "Services", highlights: [] },
-  { icon: Headphones, name: "Zanscode Helpdesk", tagline: "Faster support", desc: "Omnichannel ticketing with SLAs, automations and CSAT scoring.", url: "https://helpdesk.zanscode.com", startingPrice: "$15/agent/mo", industry: "Services", highlights: [] },
-  { icon: LineChart, name: "Zanscode BI", tagline: "Decisions in real time", desc: "Live dashboards across every Zanscode app and your existing data.", url: "https://bi.zanscode.com", startingPrice: "$49/mo", industry: "Services", highlights: [] },
-  { icon: Calendar, name: "Zanscode Scheduling", tagline: "Shifts made simple", desc: "Smart shift planning with availability, swaps and labor cost forecasts.", url: "https://scheduling.zanscode.com", startingPrice: "$3/employee/mo", industry: "Services", highlights: [] },
-];
+
 
 const featuredOS = {
   name: "Zanscode OS",
@@ -406,49 +395,7 @@ function ProductsPage() {
         </div>
       </section>
 
-      {/* Horizontal apps */}
-      <section className="py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-wider text-brand">Horizontal apps</span>
-            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">The business essentials, covered</h2>
-            <p className="mt-3 text-muted-foreground">
-              Apps that work for any industry — sales, finance, people and analytics. Mix and match with your industry SaaS.
-            </p>
-          </div>
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {horizontalApps.map((app) => (
-              <a
-                key={app.name}
-                href={app.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative flex flex-col rounded-2xl border border-border bg-card p-6 shadow-soft transition-all hover:-translate-y-1 hover:border-brand hover:shadow-brand"
-              >
-                {app.badge && (
-                  <span className="absolute right-4 top-4 rounded-full bg-brand px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-brand-foreground">
-                    {app.badge}
-                  </span>
-                )}
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground">
-                  <app.icon className="h-5 w-5" />
-                </div>
-                <h4 className="mt-5 text-lg font-semibold">{app.name}</h4>
-                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-brand">{app.tagline}</p>
-                <p className="mt-3 flex-1 text-sm text-muted-foreground">{app.desc}</p>
-                <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
-                  <span className="text-xs text-muted-foreground">
-                    From <span className="font-semibold text-foreground">{app.startingPrice}</span>
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand transition-transform group-hover:translate-x-0.5">
-                    Visit site <ArrowRight className="h-3.5 w-3.5" />
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* Testimonials */}
       <section className="bg-surface py-20">
