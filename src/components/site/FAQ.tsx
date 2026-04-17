@@ -13,7 +13,7 @@ export function FAQ({ title = "Frequently asked questions", subtitle, items }: {
         <Accordion type="single" collapsible className="mt-10">
           {items.map((item, i) => (
             <AccordionItem key={i} value={`item-${i}`} className="border-b border-border">
-              <AccordionTrigger className="text-left text-base font-semibold hover:no-underline">{item.q}</AccordionTrigger>
+              <AccordionTrigger className="cursor-pointer text-left text-base font-semibold hover:no-underline [&>svg]:cursor-pointer">{item.q}</AccordionTrigger>
               <AccordionContent className="text-sm text-muted-foreground">{item.a}</AccordionContent>
             </AccordionItem>
           ))}

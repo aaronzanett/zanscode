@@ -1,11 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
 import {
   ArrowRight, MapPin, Briefcase, Clock, Heart, Rocket, GraduationCap,
-  Globe2, Coffee, Laptop, Users, Sparkles, Mail,
+  Globe2, Coffee, Laptop, Users, Sparkles, Mail, Search,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { SiteLayout } from "@/components/site/SiteLayout";
-
+import { jobs, teams, type JobTeam } from "@/data/jobs";
 
 export const Route = createFileRoute("/careers")({
   head: () => ({
@@ -42,29 +44,6 @@ const benefits = [
   { icon: Clock, t: "Generous time off", d: "20 days PTO + local holidays + a paid week off in December." },
 ];
 
-type Job = {
-  title: string;
-  team: "Engineering" | "Design" | "Product" | "Operations" | "Sales";
-  location: string;
-  type: "Full-time" | "Contract" | "Internship";
-  level: string;
-};
-
-const jobs: Job[] = [
-  { title: "Senior Full-Stack Engineer", team: "Engineering", location: "Remote / Jakarta", type: "Full-time", level: "Senior" },
-  { title: "Mobile Engineer (React Native)", team: "Engineering", location: "Remote / Jakarta", type: "Full-time", level: "Mid" },
-  { title: "Platform / DevOps Engineer", team: "Engineering", location: "Remote", type: "Full-time", level: "Senior" },
-  { title: "Engineering Intern", team: "Engineering", location: "Jakarta", type: "Internship", level: "Junior" },
-  { title: "Product Designer", team: "Design", location: "Remote / Singapore", type: "Full-time", level: "Mid" },
-  { title: "Brand & Marketing Designer", team: "Design", location: "Remote", type: "Full-time", level: "Mid" },
-  { title: "Senior Product Manager — SaaS", team: "Product", location: "Remote / Jakarta", type: "Full-time", level: "Senior" },
-  { title: "Customer Success Manager", team: "Operations", location: "Jakarta", type: "Full-time", level: "Mid" },
-  { title: "Implementation Consultant", team: "Operations", location: "Remote (APAC)", type: "Contract", level: "Mid" },
-  { title: "Enterprise Account Executive", team: "Sales", location: "Singapore", type: "Full-time", level: "Senior" },
-];
-
-const teams = ["All", "Engineering", "Design", "Product", "Operations", "Sales"] as const;
-
 const process = [
   { n: "01", t: "Apply", d: "Send your CV — a short note about why Zanscode goes a long way." },
   { n: "02", t: "Intro chat", d: "30 minutes with our talent team to align on the role and your goals." },
@@ -73,6 +52,20 @@ const process = [
 ];
 
 function CareersPage() {
+  const [activeTeam, setActiveTeam] = useState<"All" | JobTeam>("All");
+  const [activeType, setActiveType] = useState<"All" | "Full-time" | "Contract" | "Internship">("All");
+  const [query, setQuery] = useState("");
+
+  const filteredJobs = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return jobs.filter((j) => {
+      if (activeTeam !== "All" && j.team !== activeTeam) return false;
+      if (activeType !== "All" && j.type !== activeType) return false;
+      if (q && !`${j.title} ${j.location} ${j.level} ${j.summary}`.toLowerCase().includes(q)) return false;
+      return true;
+    });
+  }, [activeTeam, activeType, query]);
+
   return (
     <SiteLayout>
       {/* Hero */}
@@ -148,7 +141,7 @@ function CareersPage() {
         </div>
       </section>
 
-      {/* Open roles */}
+      {/* Open roles + filters */}
       <section id="open-roles" className="py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
@@ -157,47 +150,107 @@ function CareersPage() {
             <p className="mt-3 text-muted-foreground">{jobs.length} positions across our teams — fully remote and on-site.</p>
           </div>
 
-          <div className="mt-10 flex flex-wrap justify-center gap-2">
-            {teams.map((t) => (
-              <span
-                key={t}
-                className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-muted-foreground"
-              >
-                {t}
-                {t !== "All" && (
-                  <span className="ml-2 text-xs text-brand">
-                    {jobs.filter((j) => j.team === t).length}
-                  </span>
-                )}
-              </span>
-            ))}
+          {/* Search */}
+          <div className="mx-auto mt-10 max-w-2xl">
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search by title, location, level…"
+                className="pl-10"
+              />
+            </div>
           </div>
 
-          <div className="mx-auto mt-10 max-w-4xl divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card shadow-soft">
-            {jobs.map((job) => (
-              <a
-                key={job.title}
-                href={`mailto:careers@zanscode.com?subject=Application: ${encodeURIComponent(job.title)}`}
-                className="group flex flex-col gap-3 p-5 transition-colors hover:bg-secondary/50 sm:flex-row sm:items-center sm:justify-between sm:gap-6"
-              >
-                <div className="flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="text-base font-semibold group-hover:text-brand">{job.title}</h3>
-                    <span className="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-brand">
-                      {job.team}
+          {/* Team filter chips */}
+          <div className="mt-6 flex flex-wrap justify-center gap-2">
+            {teams.map((t) => {
+              const count = t === "All" ? jobs.length : jobs.filter((j) => j.team === t).length;
+              const active = activeTeam === t;
+              return (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => setActiveTeam(t)}
+                  className={`cursor-pointer rounded-full border px-4 py-2 text-sm font-medium transition-all ${
+                    active
+                      ? "border-brand bg-brand text-brand-foreground shadow-soft"
+                      : "border-border bg-card text-foreground hover:border-brand/40 hover:bg-secondary"
+                  }`}
+                >
+                  {t}
+                  <span className={`ml-2 text-xs ${active ? "text-brand-foreground/80" : "text-brand"}`}>{count}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Type filter */}
+          <div className="mt-3 flex flex-wrap justify-center gap-2">
+            {(["All", "Full-time", "Contract", "Internship"] as const).map((t) => {
+              const active = activeType === t;
+              return (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => setActiveType(t)}
+                  className={`cursor-pointer rounded-full border px-3 py-1 text-xs font-medium transition-all ${
+                    active
+                      ? "border-brand bg-secondary text-brand"
+                      : "border-border bg-card text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {t}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="mx-auto mt-8 max-w-4xl">
+            {filteredJobs.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-border bg-card p-10 text-center">
+                <p className="text-sm text-muted-foreground">No roles match your filters.</p>
+                <button
+                  type="button"
+                  onClick={() => { setActiveTeam("All"); setActiveType("All"); setQuery(""); }}
+                  className="mt-3 cursor-pointer text-sm font-semibold text-brand hover:underline"
+                >
+                  Clear filters
+                </button>
+              </div>
+            ) : (
+              <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card shadow-soft">
+                {filteredJobs.map((job) => (
+                  <Link
+                    key={job.slug}
+                    to="/apply/$jobSlug"
+                    params={{ jobSlug: job.slug }}
+                    preload="intent"
+                    className="group flex cursor-pointer flex-col gap-3 p-5 transition-colors hover:bg-secondary/50 sm:flex-row sm:items-center sm:justify-between sm:gap-6"
+                  >
+                    <div className="flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="text-base font-semibold group-hover:text-brand">{job.title}</h3>
+                        <span className="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-brand">
+                          {job.team}
+                        </span>
+                      </div>
+                      <p className="mt-1.5 text-sm text-muted-foreground">{job.summary}</p>
+                      <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                        <span className="inline-flex items-center gap-1"><MapPin className="h-3.5 w-3.5" /> {job.location}</span>
+                        <span className="inline-flex items-center gap-1"><Briefcase className="h-3.5 w-3.5" /> {job.type}</span>
+                        <span className="inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> {job.level}</span>
+                      </div>
+                    </div>
+                    <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand transition-transform group-hover:translate-x-0.5">
+                      Quick apply <ArrowRight className="h-3.5 w-3.5" />
                     </span>
-                  </div>
-                  <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
-                    <span className="inline-flex items-center gap-1"><MapPin className="h-3.5 w-3.5" /> {job.location}</span>
-                    <span className="inline-flex items-center gap-1"><Briefcase className="h-3.5 w-3.5" /> {job.type}</span>
-                    <span className="inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> {job.level}</span>
-                  </div>
-                </div>
-                <span className="inline-flex items-center gap-1 text-sm font-semibold text-brand transition-transform group-hover:translate-x-0.5">
-                  Apply <ArrowRight className="h-3.5 w-3.5" />
-                </span>
-              </a>
-            ))}
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
 
           <p className="mt-8 text-center text-sm text-muted-foreground">
@@ -228,6 +281,7 @@ function CareersPage() {
           </div>
         </div>
       </section>
+
       {/* CTA */}
       <section className="py-20">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
