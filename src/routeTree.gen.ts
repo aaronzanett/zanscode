@@ -10,7 +10,6 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServicesRouteImport } from './routes/services'
-import { Route as SaasRouteImport } from './routes/saas'
 import { Route as ProductsRouteImport } from './routes/products'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AppRouteImport } from './routes/app'
@@ -26,11 +25,6 @@ import { Route as AppCustomersRouteImport } from './routes/app.customers'
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SaasRoute = SaasRouteImport.update({
-  id: '/saas',
-  path: '/saas',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductsRoute = ProductsRouteImport.update({
@@ -95,7 +89,6 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteWithChildren
   '/contact': typeof ContactRoute
   '/products': typeof ProductsRoute
-  '/saas': typeof SaasRoute
   '/services': typeof ServicesRoute
   '/app/customers': typeof AppCustomersRoute
   '/app/finance': typeof AppFinanceRoute
@@ -109,7 +102,6 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/products': typeof ProductsRoute
-  '/saas': typeof SaasRoute
   '/services': typeof ServicesRoute
   '/app/customers': typeof AppCustomersRoute
   '/app/finance': typeof AppFinanceRoute
@@ -125,7 +117,6 @@ export interface FileRoutesById {
   '/app': typeof AppRouteWithChildren
   '/contact': typeof ContactRoute
   '/products': typeof ProductsRoute
-  '/saas': typeof SaasRoute
   '/services': typeof ServicesRoute
   '/app/customers': typeof AppCustomersRoute
   '/app/finance': typeof AppFinanceRoute
@@ -142,7 +133,6 @@ export interface FileRouteTypes {
     | '/app'
     | '/contact'
     | '/products'
-    | '/saas'
     | '/services'
     | '/app/customers'
     | '/app/finance'
@@ -156,7 +146,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/products'
-    | '/saas'
     | '/services'
     | '/app/customers'
     | '/app/finance'
@@ -171,7 +160,6 @@ export interface FileRouteTypes {
     | '/app'
     | '/contact'
     | '/products'
-    | '/saas'
     | '/services'
     | '/app/customers'
     | '/app/finance'
@@ -187,7 +175,6 @@ export interface RootRouteChildren {
   AppRoute: typeof AppRouteWithChildren
   ContactRoute: typeof ContactRoute
   ProductsRoute: typeof ProductsRoute
-  SaasRoute: typeof SaasRoute
   ServicesRoute: typeof ServicesRoute
 }
 
@@ -198,13 +185,6 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/saas': {
-      id: '/saas'
-      path: '/saas'
-      fullPath: '/saas'
-      preLoaderRoute: typeof SaasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/products': {
@@ -313,7 +293,6 @@ const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRouteWithChildren,
   ContactRoute: ContactRoute,
   ProductsRoute: ProductsRoute,
-  SaasRoute: SaasRoute,
   ServicesRoute: ServicesRoute,
 }
 export const routeTree = rootRouteImport

@@ -163,7 +163,7 @@ function HomePage() {
               ))}
             </ul>
             <div className="mt-8 flex gap-3">
-              <Button asChild variant="brand"><Link to="/saas">View SaaS lineup</Link></Button>
+              <Button asChild variant="brand"><Link to="/products">View SaaS lineup</Link></Button>
               <Button asChild variant="outline"><Link to="/app">Try internal demo</Link></Button>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Zap, ShieldCheck, Globe2, Smartphone, BarChart3, Plug } from "lucide-react";
+import { Zap, ShieldCheck, Globe2, Smartphone, BarChart3, Plug, ExternalLink, Users, Briefcase, Wallet, UserCog, LineChart, Boxes } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { FAQ } from "@/components/site/FAQ";
@@ -11,9 +11,9 @@ export const Route = createFileRoute("/products")({
   head: () => ({
     meta: [
       { title: "Products — Zanscode" },
-      { name: "description", content: "Ready-to-deploy products from Zanscode: ERP, POS, fleet, HR and more." },
-      { property: "og:title", content: "Products — Zanscode" },
-      { property: "og:description", content: "Ready-to-deploy products to power your operations." },
+      { name: "description", content: "Explore Zanscode's finished products and SaaS apps — ERP, POS, CRM, HR, BI and more." },
+      { property: "og:title", content: "Products & SaaS — Zanscode" },
+      { property: "og:description", content: "Finished products and cloud SaaS apps to power every part of your business." },
       { property: "og:image", content: productApps },
     ],
   }),
@@ -24,6 +24,16 @@ const products = [
   { name: "Zanscode ERP", img: productApps, tag: "Enterprise", desc: "End-to-end resource planning across finance, inventory, sales and HR — for mid-market teams." },
   { name: "ZansPOS", img: productPos, tag: "Retail & F&B", desc: "Cloud-connected POS with offline mode, multi-outlet stock, loyalty and analytics." },
   { name: "Zanscode OS", img: productSaas, tag: "SaaS", desc: "Modular operating platform for modern businesses — CRM, projects, finance and BI in one." },
+];
+
+// NOTE: Replace these placeholder URLs with each product's real website when ready.
+const saasApps = [
+  { icon: Users, name: "Zanscode CRM", desc: "Pipeline, deals and a true 360° view of every customer.", url: "https://crm.zanscode.com" },
+  { icon: Briefcase, name: "Zanscode Projects", desc: "Tasks, sprints and team time tracking — built for delivery.", url: "https://projects.zanscode.com" },
+  { icon: Wallet, name: "Zanscode Finance", desc: "Invoicing, expenses and reporting in one clean ledger.", url: "https://finance.zanscode.com" },
+  { icon: UserCog, name: "Zanscode HR", desc: "People, payroll and performance — from hire to retire.", url: "https://hr.zanscode.com" },
+  { icon: LineChart, name: "Zanscode BI", desc: "Real-time dashboards that turn raw data into decisions.", url: "https://bi.zanscode.com" },
+  { icon: Boxes, name: "Zanscode Inventory", desc: "Multi-warehouse stock control with live sync.", url: "https://inventory.zanscode.com" },
 ];
 
 const features = [
@@ -82,11 +92,47 @@ function ProductsPage() {
                 <p className="mt-3 text-muted-foreground">{p.desc}</p>
                 <div className="mt-6 flex gap-3">
                   <Button asChild variant="brand"><Link to="/contact">Request demo</Link></Button>
-                  <Button asChild variant="outline"><Link to="/saas">Learn more</Link></Button>
+                  <Button asChild variant="outline"><Link to="/contact">Learn more</Link></Button>
                 </div>
               </div>
             </article>
           ))}
+        </div>
+      </section>
+
+      {/* SaaS apps showcase */}
+      <section className="bg-surface py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="text-sm font-semibold uppercase tracking-wider text-brand">Cloud SaaS apps</span>
+            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">A focused app for every job</h2>
+            <p className="mt-3 text-muted-foreground">
+              Each Zanscode SaaS lives on its own site — pick the ones that fit your team and start free.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {saasApps.map((app) => (
+              <a
+                key={app.name}
+                href={app.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex flex-col rounded-2xl border border-border bg-card p-6 shadow-soft transition-all hover:-translate-y-1 hover:border-brand hover:shadow-brand"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground">
+                    <app.icon className="h-5 w-5" />
+                  </div>
+                  <ExternalLink className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-brand" />
+                </div>
+                <h3 className="mt-5 text-lg font-semibold">{app.name}</h3>
+                <p className="mt-2 flex-1 text-sm text-muted-foreground">{app.desc}</p>
+                <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-brand">
+                  Visit site <ExternalLink className="h-3.5 w-3.5" />
+                </span>
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 
