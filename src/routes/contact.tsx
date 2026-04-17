@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { SiteLayout } from "@/components/site/SiteLayout";
+import { FAQ } from "@/components/site/FAQ";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/contact")({
@@ -46,6 +47,24 @@ const steps = [
 const projectTypes = ["Custom software", "ERP / Internal system", "SaaS product", "Mobile app", "Other"];
 const budgets = ["< $10k", "$10k – $25k", "$25k – $50k", "$50k – $100k", "$100k+"];
 const timelines = ["ASAP", "1–3 months", "3–6 months", "Flexible"];
+
+const faqs = [
+  { q: "What kinds of projects do you take on?", a: "From quick MVPs to multi-year enterprise platforms across web, mobile, desktop and SaaS — typically for teams that need a long-term technology partner." },
+  { q: "How do you price projects?", a: "Project-based engagements are quoted as a fixed fee after a short discovery. Dedicated teams and staff augmentation are billed monthly per role." },
+  { q: "How fast can we get started?", a: "Most engagements kick off within 1–2 weeks after a discovery call. For urgent projects we can mobilize a small squad in days." },
+  { q: "Can you work with our existing tech stack?", a: "Yes — we adapt to your stack rather than forcing a rewrite. Most of our engineers are full-stack across modern web, mobile and cloud." },
+  { q: "Do you sign NDAs?", a: "Always. We can sign your NDA before the first conversation, or share ours." },
+  { q: "Who owns the code and IP?", a: "You do. All deliverables, source code and assets are transferred to you under a clear IP assignment." },
+  { q: "Do you work with international clients?", a: "Yes. We serve clients across Southeast Asia, Australia, Europe and North America with overlapping working hours." },
+  { q: "What time zones do you cover?", a: "Our delivery teams overlap with Asia, Europe, and the Americas. We schedule live overlap windows that work for your team." },
+  { q: "Can products be customized for our workflow?", a: "Yes — every product supports configuration, custom modules, and white-labeling. We can extend functionality through the open API or as a paid customization." },
+  { q: "Can I use just one SaaS app, or do I need the whole suite?", a: "Each Zanscode SaaS works perfectly on its own. When you adopt more than one, they automatically share data and sign-in — no extra setup required." },
+  { q: "Is there a free trial for SaaS apps?", a: "Yes. Every Zanscode SaaS app includes a 14-day free trial — no credit card required. Zanscode OS includes 30 days for full team evaluation." },
+  { q: "Is on-premise deployment available?", a: "Yes for ERP and OS. Enterprise plans include on-prem or private-cloud deployments with the same feature set as our managed cloud." },
+  { q: "How is data migration handled?", a: "We provide migration tooling and a guided onboarding process — most teams are live with their historical data within 2–4 weeks." },
+  { q: "Where are you based and how big is the team?", a: "Headquartered in Jakarta, Indonesia, with 60+ specialists across Southeast Asia and remote contributors globally — engineering, design, product and operations." },
+  { q: "Are you hiring?", a: "Yes — we're always interested in talented engineers, designers and product people. See our Careers page for open roles." },
+];
 
 function ContactPage() {
   const [step, setStep] = useState(0);
@@ -239,6 +258,11 @@ function ContactPage() {
           </div>
         </div>
       </section>
+
+      <FAQ
+        items={faqs}
+        subtitle="Everything you need to know about working with Zanscode — services, products, SaaS, hiring and more."
+      />
     </SiteLayout>
   );
 }

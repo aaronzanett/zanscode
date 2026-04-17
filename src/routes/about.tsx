@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Briefcase, Users, Heart, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { FAQ } from "@/components/site/FAQ";
+
 import aboutTeam from "@/assets/about-team.jpg";
 
 export const Route = createFileRoute("/about")({
@@ -38,12 +38,6 @@ const leaders = [
 ];
 
 const partners = ["AWS", "Google Cloud", "Microsoft", "Stripe", "Cloudflare", "MongoDB"];
-
-const faqs = [
-  { q: "Where are you based?", a: "Headquartered in Jakarta, Indonesia, with team members across Southeast Asia and remote contributors globally." },
-  { q: "How big is the team?", a: "30+ specialists across engineering, design, product and operations." },
-  { q: "Are you hiring?", a: "Yes — we're always interested in talented engineers, designers and product people. Reach out via Contact." },
-];
 
 function AboutPage() {
   return (
@@ -152,10 +146,6 @@ function AboutPage() {
           </div>
         </div>
       </section>
-
-      {/* FAQ */}
-      <FAQ items={faqs} />
-
       {/* Careers CTA */}
       <section className="bg-gradient-hero py-20 text-white">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">

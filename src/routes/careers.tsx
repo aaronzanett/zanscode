@@ -5,7 +5,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { FAQ } from "@/components/site/FAQ";
+
 
 export const Route = createFileRoute("/careers")({
   head: () => ({
@@ -70,14 +70,6 @@ const process = [
   { n: "02", t: "Intro chat", d: "30 minutes with our talent team to align on the role and your goals." },
   { n: "03", t: "Craft interview", d: "1–2 conversations with the hiring team focused on your discipline." },
   { n: "04", t: "Final & offer", d: "Meet a founder, then a clear written offer within a week." },
-];
-
-const faqs = [
-  { q: "Do you sponsor relocation or work permits?", a: "Yes — for select senior roles in Jakarta and Singapore. We handle the visa process and provide a relocation allowance." },
-  { q: "Can I work fully remote?", a: "Most engineering, design and product roles are remote-friendly within APAC, EU and Americas time zones (with 4-hour daily overlap with the team)." },
-  { q: "I don't see a role that fits — can I still apply?", a: "Absolutely. Send a note to careers@zanscode.com telling us how you'd add value, and we'll keep you in mind as new roles open." },
-  { q: "What's the interview process like?", a: "Practical and respectful — typically 3 conversations over 2 weeks. We share questions in advance and give feedback at every stage." },
-  { q: "Do you hire interns and new graduates?", a: "Yes. We run a structured 6-month internship program twice a year with a clear path to full-time conversion." },
 ];
 
 function CareersPage() {
@@ -236,10 +228,6 @@ function CareersPage() {
           </div>
         </div>
       </section>
-
-      {/* FAQ */}
-      <FAQ items={faqs} subtitle="Everything you need to know before applying." />
-
       {/* CTA */}
       <section className="py-20">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
