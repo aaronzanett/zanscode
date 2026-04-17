@@ -56,13 +56,6 @@ const testimonials = [
   { quote: "A true partner — they think with us, not just for us. The roadmap kept getting better.", name: "Sari Pratama", role: "VP Product, EduNext" },
 ];
 
-const faqs = [
-  { q: "What kinds of projects do you take on?", a: "From quick MVPs to multi-year enterprise platforms across web, mobile, desktop and SaaS — typically for teams that need a long-term technology partner." },
-  { q: "How fast can we get started?", a: "Most engagements kick off within 1–2 weeks after a discovery call. For urgent projects we can mobilize a small squad in days." },
-  { q: "Do you work with international clients?", a: "Yes. We serve clients across Southeast Asia, Australia, Europe and North America with overlapping working hours." },
-  { q: "Who owns the code and IP?", a: "You do. All deliverables, source code and assets are transferred to you under a clear IP assignment." },
-];
-
 function HomePage() {
   return (
     <SiteLayout>
@@ -223,10 +216,6 @@ function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* FAQ */}
-      <FAQ items={faqs} subtitle="Quick answers to the questions we hear most." />
-
       {/* CTA */}
       <section className="bg-background py-24">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">

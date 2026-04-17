@@ -54,13 +54,6 @@ const industries = [
   { icon: Landmark, name: "Finance" },
 ];
 
-const faqs = [
-  { q: "How do you price projects?", a: "Project-based engagements are quoted as a fixed fee after a short discovery. Dedicated teams and staff augmentation are billed monthly per role." },
-  { q: "Can you work with our existing tech stack?", a: "Yes — we adapt to your stack rather than forcing a rewrite. Most of our engineers are full-stack across modern web, mobile and cloud." },
-  { q: "Do you sign NDAs?", a: "Always. We can sign your NDA before the first conversation, or share ours." },
-  { q: "What time zones do you cover?", a: "Our delivery teams overlap with Asia, Europe, and the Americas. We schedule live overlap windows that work for your team." },
-];
-
 function ServicesPage() {
   return (
     <SiteLayout>
@@ -170,10 +163,6 @@ function ServicesPage() {
           </div>
         </div>
       </section>
-
-      {/* FAQ */}
-      <FAQ items={faqs} />
-
       {/* CTA */}
       <section className="bg-surface py-20">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">

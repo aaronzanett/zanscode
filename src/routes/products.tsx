@@ -119,14 +119,6 @@ const testimonial = {
   role: "COO, NusaMart Group",
 };
 
-const faqs = [
-  { q: "Can products be customized for our workflow?", a: "Yes — every product supports configuration, custom modules, and white-labeling. We can extend functionality through the open API or as a paid customization." },
-  { q: "Can I use just one SaaS app, or do I need the whole suite?", a: "Each Zanscode SaaS works perfectly on its own. When you adopt more than one, they automatically share data and sign-in — no extra setup required." },
-  { q: "Is there a free trial?", a: "Yes. Every Zanscode SaaS app includes a 14-day free trial — no credit card required. Zanscode OS includes 30 days for full team evaluation." },
-  { q: "Is on-premise deployment available?", a: "Yes for ERP and OS. Enterprise plans include on-prem or private-cloud deployments with the same feature set as our managed cloud." },
-  { q: "How is data migration handled?", a: "We provide migration tooling and a guided onboarding process — most teams are live with their historical data within 2–4 weeks." },
-];
-
 function ProductsPage() {
   return (
     <SiteLayout>
@@ -344,10 +336,6 @@ function ProductsPage() {
           </div>
         </div>
       </section>
-
-      {/* FAQ */}
-      <FAQ items={faqs} />
-
       {/* CTA */}
       <section className="py-20">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
