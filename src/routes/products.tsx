@@ -30,7 +30,7 @@ export const Route = createFileRoute("/products")({
 type Industry = "Beauty & Wellness" | "Education" | "Food & Beverage" | "Retail" | "Healthcare" | "Fitness" | "Hospitality" | "Automotive" | "Real Estate" | "Services" | "Logistics";
 
 type SaasApp = {
-  icon: typeof Users;
+  icon: typeof Scissors;
   name: string;
   tagline: string;
   desc: string;
@@ -148,17 +148,7 @@ const industryApps: SaasApp[] = [
   },
 ];
 
-const horizontalApps: SaasApp[] = [
-  { icon: Users, name: "Zanscode CRM", tagline: "Customer 360°", desc: "Pipeline, deals and a unified view of every customer interaction.", url: "https://crm.zanscode.com", startingPrice: "$19/user/mo", badge: "Popular", industry: "Services", highlights: [] },
-  { icon: Wallet, name: "Zanscode Finance", tagline: "Books, sorted", desc: "Invoicing, expenses, multi-currency and reporting in one ledger.", url: "https://finance.zanscode.com", startingPrice: "$29/mo", industry: "Services", highlights: [] },
-  { icon: UserCog, name: "Zanscode HR", tagline: "From hire to retire", desc: "People records, payroll, attendance and performance reviews.", url: "https://hr.zanscode.com", startingPrice: "$5/employee/mo", industry: "Services", highlights: [] },
-  { icon: Boxes, name: "Zanscode Inventory", tagline: "Stock, in sync", desc: "Multi-warehouse stock control with live sync to POS and e-commerce.", url: "https://inventory.zanscode.com", startingPrice: "$39/mo", industry: "Retail", highlights: [] },
-  { icon: Briefcase, name: "Zanscode Projects", tagline: "Ship on time", desc: "Tasks, sprints, time tracking and client collaboration in one tool.", url: "https://projects.zanscode.com", startingPrice: "$12/user/mo", badge: "New", industry: "Services", highlights: [] },
-  { icon: Megaphone, name: "Zanscode Marketing", tagline: "Campaigns that convert", desc: "Email, WhatsApp and social campaigns with built-in attribution.", url: "https://marketing.zanscode.com", startingPrice: "$29/mo", industry: "Services", highlights: [] },
-  { icon: Headphones, name: "Zanscode Helpdesk", tagline: "Faster support", desc: "Omnichannel ticketing with SLAs, automations and CSAT scoring.", url: "https://helpdesk.zanscode.com", startingPrice: "$15/agent/mo", industry: "Services", highlights: [] },
-  { icon: LineChart, name: "Zanscode BI", tagline: "Decisions in real time", desc: "Live dashboards across every Zanscode app and your existing data.", url: "https://bi.zanscode.com", startingPrice: "$49/mo", industry: "Services", highlights: [] },
-  { icon: Calendar, name: "Zanscode Scheduling", tagline: "Shifts made simple", desc: "Smart shift planning with availability, swaps and labor cost forecasts.", url: "https://scheduling.zanscode.com", startingPrice: "$3/employee/mo", industry: "Services", highlights: [] },
-];
+
 
 const featuredOS = {
   name: "Zanscode OS",
