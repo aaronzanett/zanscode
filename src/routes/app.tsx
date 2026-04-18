@@ -40,10 +40,16 @@ function AppLayout() {
               <Link
                 key={item.to}
                 to={item.to}
-                className={`group relative flex items-center gap-3 overflow-hidden rounded-lg px-3 py-2 text-sm font-medium transition-all duration-300 ease-out ${active ? "bg-gradient-brand animate-gradient-shift text-brand-foreground shadow-soft" : "text-muted-foreground hover:bg-secondary hover:text-foreground hover:translate-x-1"}`}
+                className={`group relative flex items-center gap-3 overflow-hidden rounded-lg px-3 py-2 text-sm font-medium transition-all duration-300 ease-out ${active ? "bg-gradient-brand text-brand-foreground shadow-soft" : "text-muted-foreground hover:bg-secondary hover:text-foreground hover:translate-x-1"}`}
               >
-                <item.icon className={`h-4 w-4 transition-transform duration-300 ${active ? "scale-110" : "group-hover:scale-110 group-hover:rotate-3"}`} />
-                <span className="transition-transform duration-300">{item.label}</span>
+                {active && (
+                  <span
+                    key={loc.pathname}
+                    className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shimmer-sweep_900ms_ease-out_forwards]"
+                  />
+                )}
+                <item.icon className={`relative h-4 w-4 transition-transform duration-300 ${active ? "scale-110" : "group-hover:scale-110 group-hover:rotate-3"}`} />
+                <span className="relative transition-transform duration-300">{item.label}</span>
               </Link>
             );
           })}

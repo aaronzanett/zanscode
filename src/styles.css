@@ -145,15 +145,20 @@
   }
 }
 
-@keyframes gradient-shift {
+@keyframes shimmer-sweep {
+  0% { transform: translateX(-100%); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+@keyframes gradient-sweep {
   0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
 }
 
 @layer utilities {
-  .animate-gradient-shift {
+  .animate-gradient-sweep {
     background-size: 200% 200%;
-    animation: gradient-shift 4s ease-in-out infinite;
+    animation: gradient-sweep 900ms ease-out 1 both;
   }
 }
