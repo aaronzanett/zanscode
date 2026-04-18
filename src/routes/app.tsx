@@ -48,7 +48,7 @@ function AppLayout() {
                     className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shimmer-sweep_900ms_ease-out_forwards]"
                   />
                 )}
-                <item.icon className={`relative h-4 w-4 transition-transform duration-300 ${active ? "scale-110" : "group-hover:scale-110 group-hover:rotate-3"}`} />
+                <item.icon className={`relative h-4 w-4 transition-transform duration-300 ${active ? "scale-110" : ""}`} />
                 <span className="relative transition-transform duration-300">{item.label}</span>
               </Link>
             );
