@@ -141,6 +141,24 @@ function UsersPage() {
   const [deleting, setDeleting] = useState<User | null>(null);
   const [bulkDelete, setBulkDelete] = useState(false);
 
+  const [rolePerms, setRolePerms] = useState<Record<Role, Permission[]>>(defaultRolePermissions);
+  const [activeRole, setActiveRole] = useState<Role>("Admin");
+
+  function togglePerm(role: Role, perm: Permission) {
+    if (role === "Owner") {
+      toast.info("Owner has full access by default");
+      return;
+    }
+    setRolePerms((prev) => {
+      const has = prev[role].includes(perm);
+      return { ...prev, [role]: has ? prev[role].filter((p) => p !== perm) : [...prev[role], perm] };
+    });
+  }
+  function resetRolePerms(role: Role) {
+    setRolePerms((prev) => ({ ...prev, [role]: defaultRolePermissions[role] }));
+    toast.success(`Reset ${role} permissions to defaults`);
+  }
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return users.filter((u) => {
