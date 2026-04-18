@@ -64,6 +64,48 @@ const roles: Role[] = ["Owner", "Admin", "Manager", "Member", "Viewer"];
 const statuses: Status[] = ["Active", "Invited", "Suspended"];
 const departments = ["Executive", "Engineering", "Product", "Sales", "Design", "Operations", "Marketing", "Support"];
 
+type Permission =
+  | "users.manage" | "users.view" | "billing.manage"
+  | "projects.manage" | "projects.view"
+  | "finance.manage" | "finance.view"
+  | "inventory.manage" | "settings.manage" | "reports.export";
+
+const permissionGroups: { group: string; items: { key: Permission; label: string; desc: string }[] }[] = [
+  {
+    group: "Workspace",
+    items: [
+      { key: "users.manage", label: "Manage users", desc: "Invite, edit, suspend and remove members." },
+      { key: "users.view", label: "View users", desc: "See the team directory." },
+      { key: "settings.manage", label: "Manage settings", desc: "Change workspace configuration." },
+      { key: "billing.manage", label: "Manage billing", desc: "Update plan and payment methods." },
+    ],
+  },
+  {
+    group: "Operations",
+    items: [
+      { key: "projects.manage", label: "Manage projects", desc: "Create and edit projects." },
+      { key: "projects.view", label: "View projects", desc: "Read-only access to projects." },
+      { key: "inventory.manage", label: "Manage inventory", desc: "Adjust stock and items." },
+    ],
+  },
+  {
+    group: "Finance & reports",
+    items: [
+      { key: "finance.manage", label: "Manage finance", desc: "Create invoices and transactions." },
+      { key: "finance.view", label: "View finance", desc: "Read-only financial data." },
+      { key: "reports.export", label: "Export reports", desc: "Download CSV / PDF exports." },
+    ],
+  },
+];
+
+const defaultRolePermissions: Record<Role, Permission[]> = {
+  Owner: ["users.manage", "users.view", "billing.manage", "projects.manage", "projects.view", "finance.manage", "finance.view", "inventory.manage", "settings.manage", "reports.export"],
+  Admin: ["users.manage", "users.view", "projects.manage", "projects.view", "finance.manage", "finance.view", "inventory.manage", "settings.manage", "reports.export"],
+  Manager: ["users.view", "projects.manage", "projects.view", "finance.view", "inventory.manage", "reports.export"],
+  Member: ["users.view", "projects.view", "finance.view"],
+  Viewer: ["users.view", "projects.view"],
+};
+
 const roleStyles: Record<Role, string> = {
   Owner: "bg-purple-100 text-purple-700 dark:bg-purple-500/15 dark:text-purple-300",
   Admin: "bg-rose-100 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300",
@@ -98,6 +140,24 @@ function UsersPage() {
   const [editing, setEditing] = useState<User | null>(null);
   const [deleting, setDeleting] = useState<User | null>(null);
   const [bulkDelete, setBulkDelete] = useState(false);
+
+  const [rolePerms, setRolePerms] = useState<Record<Role, Permission[]>>(defaultRolePermissions);
+  const [activeRole, setActiveRole] = useState<Role>("Admin");
+
+  function togglePerm(role: Role, perm: Permission) {
+    if (role === "Owner") {
+      toast.info("Owner has full access by default");
+      return;
+    }
+    setRolePerms((prev) => {
+      const has = prev[role].includes(perm);
+      return { ...prev, [role]: has ? prev[role].filter((p) => p !== perm) : [...prev[role], perm] };
+    });
+  }
+  function resetRolePerms(role: Role) {
+    setRolePerms((prev) => ({ ...prev, [role]: defaultRolePermissions[role] }));
+    toast.success(`Reset ${role} permissions to defaults`);
+  }
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -376,7 +436,77 @@ function UsersPage() {
         </div>
       </div>
 
-      {/* Edit / New dialog */}
+      {/* Roles & Permissions */}
+      <div className="rounded-xl border border-border bg-card shadow-soft">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-5">
+          <div>
+            <h2 className="text-lg font-semibold">Roles & Permissions</h2>
+            <p className="text-sm text-muted-foreground">Define what each role can do across the workspace.</p>
+          </div>
+          <Button variant="outline" size="sm" onClick={() => resetRolePerms(activeRole)}>
+            Reset {activeRole} to defaults
+          </Button>
+        </div>
+
+        {/* Role tabs */}
+        <div className="flex flex-wrap gap-2 border-b border-border p-4">
+          {roles.map((r) => {
+            const RIcon = roleIcon[r];
+            const active = activeRole === r;
+            return (
+              <button
+                key={r}
+                onClick={() => setActiveRole(r)}
+                className={`inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium transition-all ${
+                  active
+                    ? "bg-gradient-brand text-brand-foreground shadow-soft"
+                    : "bg-secondary text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <RIcon className="h-3.5 w-3.5" />
+                {r}
+                <span className={`ml-1 rounded-full px-1.5 py-0.5 text-[10px] ${active ? "bg-white/20" : "bg-background"}`}>
+                  {rolePerms[r].length}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Permission matrix for active role */}
+        <div className="grid gap-6 p-5 md:grid-cols-3">
+          {permissionGroups.map((g) => (
+            <div key={g.group} className="space-y-3">
+              <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{g.group}</div>
+              <div className="space-y-2">
+                {g.items.map((p) => {
+                  const enabled = rolePerms[activeRole].includes(p.key);
+                  return (
+                    <label
+                      key={p.key}
+                      className={`flex cursor-pointer items-start gap-3 rounded-lg border p-3 transition-colors ${
+                        enabled ? "border-brand/40 bg-brand/5" : "border-border hover:bg-secondary/50"
+                      }`}
+                    >
+                      <Checkbox
+                        checked={enabled}
+                        onCheckedChange={() => togglePerm(activeRole, p.key)}
+                        className="mt-0.5"
+                      />
+                      <div className="min-w-0">
+                        <div className="text-sm font-medium">{p.label}</div>
+                        <div className="text-xs text-muted-foreground">{p.desc}</div>
+                      </div>
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent>
           <DialogHeader>
