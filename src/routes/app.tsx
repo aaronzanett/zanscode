@@ -30,8 +30,8 @@ function AppLayout() {
   return (
     <div className="flex min-h-screen bg-surface">
       <aside className="hidden w-64 flex-col border-r border-border bg-card lg:flex">
-        <div className="flex h-16 items-center border-b border-border px-6">
-          <Link to="/"><img src={logo} alt="Zanscode" className="h-7 w-auto" /></Link>
+        <div className="flex h-16 items-center overflow-hidden border-b border-border px-6">
+          <Link to="/" className="flex items-center"><img src={logo} alt="Zanscode" className="h-12 w-auto" /></Link>
         </div>
         <nav className="flex-1 space-y-1 p-3">
           {sidebar.map((item) => {
@@ -40,10 +40,13 @@ function AppLayout() {
               <Link
                 key={item.to}
                 to={item.to}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${active ? "bg-gradient-brand text-brand-foreground shadow-soft" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
+                className={`group relative flex items-center gap-3 overflow-hidden rounded-lg px-3 py-2 text-sm font-medium transition-all duration-300 ease-out ${active ? "bg-gradient-brand text-brand-foreground shadow-soft scale-[1.02]" : "text-muted-foreground hover:bg-secondary hover:text-foreground hover:translate-x-1"}`}
               >
-                <item.icon className="h-4 w-4" />
-                {item.label}
+                {active && (
+                  <span className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-brand-foreground/80 animate-fade-in" />
+                )}
+                <item.icon className={`h-4 w-4 transition-transform duration-300 ${active ? "scale-110" : "group-hover:scale-110 group-hover:rotate-3"}`} />
+                <span className="transition-transform duration-300">{item.label}</span>
               </Link>
             );
           })}
