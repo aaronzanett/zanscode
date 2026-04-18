@@ -64,6 +64,48 @@ const roles: Role[] = ["Owner", "Admin", "Manager", "Member", "Viewer"];
 const statuses: Status[] = ["Active", "Invited", "Suspended"];
 const departments = ["Executive", "Engineering", "Product", "Sales", "Design", "Operations", "Marketing", "Support"];
 
+type Permission =
+  | "users.manage" | "users.view" | "billing.manage"
+  | "projects.manage" | "projects.view"
+  | "finance.manage" | "finance.view"
+  | "inventory.manage" | "settings.manage" | "reports.export";
+
+const permissionGroups: { group: string; items: { key: Permission; label: string; desc: string }[] }[] = [
+  {
+    group: "Workspace",
+    items: [
+      { key: "users.manage", label: "Manage users", desc: "Invite, edit, suspend and remove members." },
+      { key: "users.view", label: "View users", desc: "See the team directory." },
+      { key: "settings.manage", label: "Manage settings", desc: "Change workspace configuration." },
+      { key: "billing.manage", label: "Manage billing", desc: "Update plan and payment methods." },
+    ],
+  },
+  {
+    group: "Operations",
+    items: [
+      { key: "projects.manage", label: "Manage projects", desc: "Create and edit projects." },
+      { key: "projects.view", label: "View projects", desc: "Read-only access to projects." },
+      { key: "inventory.manage", label: "Manage inventory", desc: "Adjust stock and items." },
+    ],
+  },
+  {
+    group: "Finance & reports",
+    items: [
+      { key: "finance.manage", label: "Manage finance", desc: "Create invoices and transactions." },
+      { key: "finance.view", label: "View finance", desc: "Read-only financial data." },
+      { key: "reports.export", label: "Export reports", desc: "Download CSV / PDF exports." },
+    ],
+  },
+];
+
+const defaultRolePermissions: Record<Role, Permission[]> = {
+  Owner: ["users.manage", "users.view", "billing.manage", "projects.manage", "projects.view", "finance.manage", "finance.view", "inventory.manage", "settings.manage", "reports.export"],
+  Admin: ["users.manage", "users.view", "projects.manage", "projects.view", "finance.manage", "finance.view", "inventory.manage", "settings.manage", "reports.export"],
+  Manager: ["users.view", "projects.manage", "projects.view", "finance.view", "inventory.manage", "reports.export"],
+  Member: ["users.view", "projects.view", "finance.view"],
+  Viewer: ["users.view", "projects.view"],
+};
+
 const roleStyles: Record<Role, string> = {
   Owner: "bg-purple-100 text-purple-700 dark:bg-purple-500/15 dark:text-purple-300",
   Admin: "bg-rose-100 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300",
