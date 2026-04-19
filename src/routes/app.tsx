@@ -207,8 +207,8 @@ function AppLayout() {
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-card px-4 sm:px-6">
-          <div className="flex flex-1 items-center gap-2 sm:gap-3">
+        <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border bg-card/80 px-4 backdrop-blur sm:px-6">
+          <div className="flex items-center gap-2">
             <button
               className="inline-flex h-9 w-9 items-center justify-center rounded-lg hover:bg-secondary lg:hidden"
               onClick={() => setOpen((v) => !v)}
@@ -217,8 +217,7 @@ function AppLayout() {
             >
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
-            <Search className="hidden h-4 w-4 text-muted-foreground sm:block" />
-            <Input placeholder="Search anything…" className="max-w-md border-0 bg-transparent shadow-none focus-visible:ring-0" />
+            <div className="text-sm font-semibold">Zanscode OS</div>
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
             <button className="rounded-lg p-2 hover:bg-secondary"><Bell className="h-4 w-4" /></button>
