@@ -4,6 +4,7 @@ import {
   LayoutDashboard, Users, UserCog, Briefcase, DollarSign, Boxes, Settings, Bell, Search, Menu, X,
   Target, Handshake, GitBranch, IdCard, Wallet, CalendarDays, UserPlus,
   ListChecks, Clock, Receipt, BarChart3, Truck, ClipboardList, LineChart, ShieldCheck,
+  ChevronDown,
 } from "lucide-react";
 import logo from "@/assets/zanscode-logo.png";
 import { Input } from "@/components/ui/input";
