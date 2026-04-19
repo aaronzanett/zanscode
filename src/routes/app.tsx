@@ -4,6 +4,7 @@ import {
   LayoutDashboard, Users, UserCog, Briefcase, DollarSign, Boxes, Settings, Bell, Search, Menu, X,
   Target, Handshake, GitBranch, IdCard, Wallet, CalendarDays, UserPlus,
   ListChecks, Clock, Receipt, BarChart3, Truck, ClipboardList, LineChart, ShieldCheck,
+  ChevronDown,
 } from "lucide-react";
 import logo from "@/assets/zanscode-logo.png";
 import { Input } from "@/components/ui/input";
@@ -101,6 +102,15 @@ function SidebarContent({ pathname, onNavigate, query, setQuery }: { pathname: s
       .filter((g) => g.items.length > 0);
   }, [query]);
 
+  // Collapsible state per group; default = all open
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() =>
+    Object.fromEntries(groups.map((g) => [g.label, true]))
+  );
+  const toggleGroup = (label: string) =>
+    setOpenGroups((prev) => ({ ...prev, [label]: !(prev[label] ?? true) }));
+
+  const searching = query.trim().length > 0;
+
   return (
     <>
       <div className="flex h-14 shrink-0 items-center overflow-hidden border-b border-border px-5">
@@ -119,39 +129,64 @@ function SidebarContent({ pathname, onNavigate, query, setQuery }: { pathname: s
           />
         </div>
       </div>
-      <nav className="flex-1 overflow-y-auto px-3 py-3">
+      <nav className="scrollbar-thin flex-1 overflow-y-auto px-3 py-3">
         {filtered.length === 0 && (
           <p className="px-2 py-4 text-center text-xs text-muted-foreground">No matches</p>
         )}
-        {filtered.map((group) => (
-          <div key={group.label} className="mb-4 last:mb-0">
-            <div className="mb-1 px-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
-              {group.label}
+        {filtered.map((group) => {
+          const isOpen = searching ? true : (openGroups[group.label] ?? true);
+          return (
+            <div key={group.label} className="mb-3 last:mb-0">
+              <button
+                type="button"
+                onClick={() => !searching && toggleGroup(group.label)}
+                aria-expanded={isOpen}
+                disabled={searching}
+                className="group flex w-full items-center justify-between rounded-md px-2 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 transition-colors hover:text-foreground disabled:opacity-100"
+              >
+                <span>{group.label}</span>
+                <ChevronDown
+                  className={cn(
+                    "h-3.5 w-3.5 shrink-0 transition-transform duration-200 ease-out",
+                    isOpen ? "rotate-0" : "-rotate-90",
+                  )}
+                  strokeWidth={2.5}
+                />
+              </button>
+              <div
+                className={cn(
+                  "grid transition-all duration-200 ease-out",
+                  isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+                )}
+              >
+                <div className="overflow-hidden">
+                  <div className="mt-1 space-y-0.5">
+                    {group.items.map((item) => {
+                      const active = item.exact ? pathname === item.to : pathname === item.to || pathname.startsWith(item.to + "/");
+                      return (
+                        <Link
+                          key={item.to}
+                          to={item.to}
+                          onClick={onNavigate}
+                          className={`group relative flex items-center gap-2.5 overflow-hidden rounded-md px-2.5 py-1.5 text-sm font-medium transition-colors ${active ? "bg-gradient-brand text-brand-foreground shadow-soft" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
+                        >
+                          {active && (
+                            <span
+                              key={pathname}
+                              className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shimmer-sweep_900ms_ease-out_forwards]"
+                            />
+                          )}
+                          <item.icon className={`relative h-4 w-4 ${active ? "scale-110" : ""}`} />
+                          <span className="relative">{item.label}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="space-y-0.5">
-              {group.items.map((item) => {
-                const active = item.exact ? pathname === item.to : pathname === item.to || pathname.startsWith(item.to + "/");
-                return (
-                  <Link
-                    key={item.to}
-                    to={item.to}
-                    onClick={onNavigate}
-                    className={`group relative flex items-center gap-2.5 overflow-hidden rounded-md px-2.5 py-1.5 text-sm font-medium transition-colors ${active ? "bg-gradient-brand text-brand-foreground shadow-soft" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
-                  >
-                    {active && (
-                      <span
-                        key={pathname}
-                        className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shimmer-sweep_900ms_ease-out_forwards]"
-                      />
-                    )}
-                    <item.icon className={`relative h-4 w-4 ${active ? "scale-110" : ""}`} />
-                    <span className="relative">{item.label}</span>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </nav>
       <div className="shrink-0 border-t border-border p-4">
         <div className="flex items-center gap-3">
