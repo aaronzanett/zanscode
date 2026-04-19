@@ -9,6 +9,7 @@ import {
 import logo from "@/assets/zanscode-logo.png";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { LiveClock } from "@/components/app/LiveClock";
 
 export const Route = createFileRoute("/app")({
   head: () => ({
@@ -255,6 +256,7 @@ function AppLayout() {
             <div className="text-sm font-semibold">Zanscode OS</div>
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
+            <LiveClock />
             <button className="rounded-lg p-2 hover:bg-secondary"><Bell className="h-4 w-4" /></button>
             <Link to="/" className="hidden text-xs text-muted-foreground hover:text-foreground sm:inline">← Back to site</Link>
           </div>
