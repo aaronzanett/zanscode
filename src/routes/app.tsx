@@ -95,7 +95,7 @@ const groups: NavGroup[] = [
   },
 ];
 
-function SidebarContent({ pathname, onNavigate, query, setQuery }: { pathname: string; onNavigate?: () => void; query: string; setQuery: (v: string) => void }) {
+function SidebarContent({ pathname, onNavigate, query, setQuery, session, onSignOut }: { pathname: string; onNavigate?: () => void; query: string; setQuery: (v: string) => void; session: StaffSession | null; onSignOut: () => void }) {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return groups;
@@ -205,8 +205,22 @@ function SidebarContent({ pathname, onNavigate, query, setQuery }: { pathname: s
 
 function AppLayout() {
   const loc = useLocation();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [session, setSession] = useState<StaffSession | null>(null);
+  const [checked, setChecked] = useState(false);
+
+  // Auth guard — redirect to /staff/login if not signed in
+  useEffect(() => {
+    const s = getSession();
+    if (!s) {
+      navigate({ to: "/staff/login" });
+      return;
+    }
+    setSession(s);
+    setChecked(true);
+  }, [navigate]);
 
   useEffect(() => {
     if (open) {
@@ -218,11 +232,24 @@ function AppLayout() {
     }
   }, [open]);
 
+  const handleSignOut = () => {
+    signOut();
+    navigate({ to: "/staff/login" });
+  };
+
+  if (!checked) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-surface">
+        <div className="text-sm text-muted-foreground">Loading…</div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex min-h-screen bg-surface">
       {/* Desktop sidebar */}
       <aside className="sticky top-0 hidden h-screen w-64 flex-col border-r border-border bg-card lg:flex">
-        <SidebarContent pathname={loc.pathname} query={query} setQuery={setQuery} />
+        <SidebarContent pathname={loc.pathname} query={query} setQuery={setQuery} session={session} onSignOut={handleSignOut} />
       </aside>
 
       {/* Mobile drawer */}
@@ -240,7 +267,7 @@ function AppLayout() {
           open ? "translate-x-0" : "-translate-x-full",
         )}
       >
-        <SidebarContent pathname={loc.pathname} onNavigate={() => setOpen(false)} query={query} setQuery={setQuery} />
+        <SidebarContent pathname={loc.pathname} onNavigate={() => setOpen(false)} query={query} setQuery={setQuery} session={session} onSignOut={handleSignOut} />
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
