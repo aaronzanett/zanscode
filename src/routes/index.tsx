@@ -78,32 +78,43 @@ function HomePage() {
           <img src={heroBg} alt="" className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-hero opacity-90" />
         </div>
+        <div className="pointer-events-none absolute -top-32 right-[-10%] h-96 w-96 rounded-full bg-brand-cyan/20 blur-3xl animate-blob-drift" aria-hidden />
+        <div className="pointer-events-none absolute -bottom-32 left-[-10%] h-96 w-96 rounded-full bg-white/10 blur-3xl animate-blob-drift" style={{ animationDelay: "-7s" }} aria-hidden />
+
         <div className="relative mx-auto max-w-7xl px-4 py-28 sm:px-6 lg:px-8 lg:py-36">
           <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white backdrop-blur">
-              <Sparkles className="h-3.5 w-3.5" /> Technology partner for ambitious teams
-            </span>
-            <h1 className="mt-6 text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
-              Build a business system that <span className="text-brand-cyan">runs itself</span>.
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg text-white/80">
-              Zanscode designs and ships modern technology — websites, mobile, desktop and SaaS —
-              so your operations are organized, automated, and ready to scale.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button asChild size="xl" variant="brand">
-                <Link to="/contact">Start a project <ArrowRight className="ml-1 h-4 w-4" /></Link>
-              </Button>
-              <Button asChild size="xl" variant="hero">
-                <Link to="/products">Explore products</Link>
-              </Button>
-            </div>
+            <Reveal variant="fade">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white backdrop-blur">
+                <Sparkles className="h-3.5 w-3.5" /> Technology partner for ambitious teams
+              </span>
+            </Reveal>
+            <Reveal variant="up" delay={120}>
+              <h1 className="mt-6 text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
+                Build a business system that <span className="text-shine">runs itself</span>.
+              </h1>
+            </Reveal>
+            <Reveal variant="up" delay={220}>
+              <p className="mt-6 max-w-2xl text-lg text-white/80">
+                Zanscode designs and ships modern technology — websites, mobile, desktop and SaaS —
+                so your operations are organized, automated, and ready to scale.
+              </p>
+            </Reveal>
+            <Reveal variant="up" delay={320}>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button asChild size="xl" variant="brand">
+                  <Link to="/contact">Start a project <ArrowRight className="ml-1 h-4 w-4" /></Link>
+                </Button>
+                <Button asChild size="xl" variant="hero">
+                  <Link to="/products">Explore products</Link>
+                </Button>
+              </div>
+            </Reveal>
             <dl className="mt-14 grid grid-cols-2 gap-6 sm:grid-cols-4">
-              {stats.map((s) => (
-                <div key={s.l}>
+              {stats.map((s, i) => (
+                <Reveal key={s.l} variant="up" delay={400 + i * 80} as="div">
                   <dt className="text-2xl font-bold text-white sm:text-3xl">{s.v}</dt>
                   <dd className="mt-1 text-xs uppercase tracking-wider text-white/60">{s.l}</dd>
-                </div>
+                </Reveal>
               ))}
             </dl>
           </div>
