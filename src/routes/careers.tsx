@@ -7,6 +7,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SiteLayout } from "@/components/site/SiteLayout";
+import { Reveal } from "@/components/site/Reveal";
 import { jobs, teams, type JobTeam } from "@/data/jobs";
 
 export const Route = createFileRoute("/careers")({
@@ -70,30 +71,38 @@ function CareersPage() {
     <SiteLayout>
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-hero py-24 text-white">
-        <div className="absolute -right-20 -top-20 h-96 w-96 rounded-full bg-brand-cyan/30 blur-3xl" />
-        <div className="absolute -bottom-24 -left-10 h-96 w-96 rounded-full bg-brand/40 blur-3xl" />
+        <div className="absolute -right-20 -top-20 h-96 w-96 rounded-full bg-brand-cyan/30 blur-3xl animate-blob-drift" />
+        <div className="absolute -bottom-24 -left-10 h-96 w-96 rounded-full bg-brand/40 blur-3xl animate-blob-drift" style={{ animationDelay: "-12s" }} />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold backdrop-blur">
-            <Sparkles className="h-3.5 w-3.5" /> We're hiring
-          </span>
-          <h1 className="mt-5 text-4xl font-bold sm:text-5xl lg:text-6xl">Build technology that moves businesses forward.</h1>
-          <p className="mt-5 max-w-2xl text-lg text-white/80">
-            Join a global team shipping products used by thousands of teams every day. Curious people, real ownership, work that matters.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild size="xl" variant="brand">
-              <a href="#open-roles">View open roles <ArrowRight className="ml-1 h-4 w-4" /></a>
-            </Button>
-            <Button asChild size="xl" variant="hero">
-              <a href="mailto:careers@zanscode.com">Email us</a>
-            </Button>
-          </div>
+          <Reveal variant="fade">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold backdrop-blur">
+              <Sparkles className="h-3.5 w-3.5" /> We're hiring
+            </span>
+          </Reveal>
+          <Reveal variant="up" delay={200}>
+            <h1 className="mt-5 text-4xl font-bold sm:text-5xl lg:text-6xl">Build technology that moves businesses forward.</h1>
+          </Reveal>
+          <Reveal variant="up" delay={400}>
+            <p className="mt-5 max-w-2xl text-lg text-white/80">
+              Join a global team shipping products used by thousands of teams every day. Curious people, real ownership, work that matters.
+            </p>
+          </Reveal>
+          <Reveal variant="up" delay={600}>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button asChild size="xl" variant="brand">
+                <a href="#open-roles">View open roles <ArrowRight className="ml-1 h-4 w-4" /></a>
+              </Button>
+              <Button asChild size="xl" variant="hero">
+                <a href="mailto:careers@zanscode.com">Email us</a>
+              </Button>
+            </div>
+          </Reveal>
           <dl className="mt-14 grid grid-cols-2 gap-6 sm:grid-cols-4">
-            {stats.map((s) => (
-              <div key={s.l}>
+            {stats.map((s, i) => (
+              <Reveal key={s.l} variant="up" delay={750 + i * 140} as="div">
                 <dt className="text-3xl font-bold">{s.v}</dt>
                 <dd className="mt-1 text-xs uppercase tracking-wider text-white/60">{s.l}</dd>
-              </div>
+              </Reveal>
             ))}
           </dl>
         </div>
@@ -102,19 +111,21 @@ function CareersPage() {
       {/* Values */}
       <section className="bg-background py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
+          <Reveal variant="up" className="mx-auto max-w-2xl text-center">
             <span className="text-sm font-semibold uppercase tracking-wider text-brand">How we work</span>
             <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Our values</h2>
-          </div>
+          </Reveal>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {values.map((v) => (
-              <div key={v.t} className="rounded-2xl border border-border bg-card p-6 shadow-soft">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground">
-                  <v.icon className="h-5 w-5" />
+            {values.map((v, i) => (
+              <Reveal key={v.t} variant="up" delay={i * 140} as="div">
+                <div className="lift group h-full rounded-2xl border border-border bg-card p-6 shadow-soft hover:border-brand/40 hover:shadow-brand">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                    <v.icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="mt-5 text-lg font-semibold">{v.t}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{v.d}</p>
                 </div>
-                <h3 className="mt-5 text-lg font-semibold">{v.t}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{v.d}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -123,19 +134,21 @@ function CareersPage() {
       {/* Benefits */}
       <section className="bg-surface py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
+          <Reveal variant="up" className="mx-auto max-w-2xl text-center">
             <span className="text-sm font-semibold uppercase tracking-wider text-brand">Benefits</span>
             <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Taking care of our team</h2>
-          </div>
+          </Reveal>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {benefits.map((b) => (
-              <div key={b.t} className="rounded-2xl border border-border bg-card p-6 shadow-soft">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-secondary text-brand">
-                  <b.icon className="h-5 w-5" />
+            {benefits.map((b, i) => (
+              <Reveal key={b.t} variant="up" delay={i * 140} as="div">
+                <div className="lift group h-full rounded-2xl border border-border bg-card p-6 shadow-soft hover:border-brand/40 hover:shadow-brand">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-secondary text-brand transition-transform duration-500 group-hover:scale-110">
+                    <b.icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="mt-5 text-lg font-semibold">{b.t}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{b.d}</p>
                 </div>
-                <h3 className="mt-5 text-lg font-semibold">{b.t}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{b.d}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>

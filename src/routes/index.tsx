@@ -88,18 +88,18 @@ function HomePage() {
                 <Sparkles className="h-3.5 w-3.5" /> Technology partner for ambitious teams
               </span>
             </Reveal>
-            <Reveal variant="up" delay={120}>
+            <Reveal variant="up" delay={200}>
               <h1 className="mt-6 text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
                 Build a business system that <span className="text-shine">runs itself</span>.
               </h1>
             </Reveal>
-            <Reveal variant="up" delay={220}>
+            <Reveal variant="up" delay={400}>
               <p className="mt-6 max-w-2xl text-lg text-white/80">
                 Zanscode designs and ships modern technology — websites, mobile, desktop and SaaS —
                 so your operations are organized, automated, and ready to scale.
               </p>
             </Reveal>
-            <Reveal variant="up" delay={320}>
+            <Reveal variant="up" delay={600}>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Button asChild size="xl" variant="brand">
                   <Link to="/contact">Start a project <ArrowRight className="ml-1 h-4 w-4" /></Link>
@@ -111,7 +111,7 @@ function HomePage() {
             </Reveal>
             <dl className="mt-14 grid grid-cols-2 gap-6 sm:grid-cols-4">
               {stats.map((s, i) => (
-                <Reveal key={s.l} variant="up" delay={400 + i * 80} as="div">
+                <Reveal key={s.l} variant="up" delay={750 + i * 140} as="div">
                   <dt className="text-2xl font-bold text-white sm:text-3xl">{s.v}</dt>
                   <dd className="mt-1 text-xs uppercase tracking-wider text-white/60">{s.l}</dd>
                 </Reveal>
@@ -133,7 +133,7 @@ function HomePage() {
           </Reveal>
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((f, i) => (
-              <Reveal key={f.title} variant="up" delay={i * 80} as="div">
+              <Reveal key={f.title} variant="up" delay={i * 140} as="div">
                 <div className="lift group h-full rounded-2xl border border-border bg-card p-6 shadow-soft hover:shadow-brand hover:border-brand/40">
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
                     <f.icon className="h-5 w-5" />
@@ -157,7 +157,7 @@ function HomePage() {
           </Reveal>
           <div className="mt-12 grid gap-4 sm:grid-cols-3 lg:grid-cols-6">
             {industries.map((i, idx) => (
-              <Reveal key={i.name} variant="scale" delay={idx * 60} as="div">
+              <Reveal key={i.name} variant="scale" delay={idx * 110} as="div">
                 <div className="lift group flex h-full flex-col items-center rounded-2xl border border-border bg-card p-6 text-center hover:shadow-soft hover:border-brand/30">
                   <i.icon className="h-7 w-7 text-brand transition-transform duration-300 group-hover:scale-110" />
                   <span className="mt-3 text-sm font-medium">{i.name}</span>
@@ -194,7 +194,7 @@ function HomePage() {
               <Button asChild variant="outline"><Link to="/app">Try internal demo</Link></Button>
             </div>
           </Reveal>
-          <Reveal variant="scale" delay={150}>
+          <Reveal variant="scale" delay={250}>
             <div className="relative">
               <div className="absolute -inset-6 rounded-3xl bg-gradient-brand opacity-20 blur-3xl animate-blob-drift" />
               <img src={productSaas} alt="Zanscode OS dashboard" loading="lazy" width={1024} height={768} className="relative rounded-2xl border border-border shadow-brand transition-transform duration-500 hover:scale-[1.02]" />
@@ -213,7 +213,7 @@ function HomePage() {
           </Reveal>
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {process.map((p, i) => (
-              <Reveal key={p.n} variant="up" delay={i * 100} as="div">
+              <Reveal key={p.n} variant="up" delay={i * 180} as="div">
                 <div className="lift group h-full rounded-2xl border border-border bg-card p-6 shadow-soft hover:border-brand/40 hover:shadow-brand">
                   <div className="flex items-center justify-between">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground transition-transform duration-300 group-hover:scale-110">
@@ -239,7 +239,7 @@ function HomePage() {
           </Reveal>
           <div className="mt-14 grid gap-6 lg:grid-cols-3">
             {testimonials.map((t, i) => (
-              <Reveal key={t.name} variant="up" delay={i * 120} as="div">
+              <Reveal key={t.name} variant="up" delay={i * 200} as="div">
                 <figure className="lift flex h-full flex-col rounded-2xl border border-border bg-card p-6 shadow-soft hover:border-brand/40 hover:shadow-brand">
                   <Quote className="h-6 w-6 text-brand" />
                   <blockquote className="mt-4 flex-1 text-sm text-foreground">"{t.quote}"</blockquote>
