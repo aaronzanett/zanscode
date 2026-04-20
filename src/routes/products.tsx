@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SiteLayout } from "@/components/site/SiteLayout";
+import { Reveal } from "@/components/site/Reveal";
 
 import productApps from "@/assets/product-apps.jpg";
 
@@ -204,32 +205,40 @@ function ProductsPage() {
     <SiteLayout>
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-soft py-20">
-        <div className="absolute -right-40 top-0 h-96 w-96 rounded-full bg-brand/10 blur-3xl" aria-hidden />
-        <div className="absolute -left-32 bottom-0 h-80 w-80 rounded-full bg-brand-cyan/15 blur-3xl" aria-hidden />
+        <div className="absolute -right-40 top-0 h-96 w-96 rounded-full bg-brand/10 blur-3xl animate-blob-drift" aria-hidden />
+        <div className="absolute -left-32 bottom-0 h-80 w-80 rounded-full bg-brand-cyan/15 blur-3xl animate-blob-drift" style={{ animationDelay: "-14s" }} aria-hidden />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand shadow-soft">
-            <Sparkles className="h-3.5 w-3.5" /> SaaS for every business
-          </span>
-          <h1 className="mt-4 max-w-3xl text-4xl font-bold sm:text-5xl lg:text-6xl">
-            SaaS isn't just for tech. <span className="text-gradient-brand">It's for your business.</span>
-          </h1>
-          <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
-            From barbershops to schools, restaurants to clinics — Zanscode builds focused SaaS apps for the way your industry actually works. Pick one, or run your whole company on the suite.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild variant="brand" size="lg"><Link to="/contact">Find your app</Link></Button>
-            <Button asChild variant="outline" size="lg">
-              <a href={featuredOS.url} target="_blank" rel="noopener noreferrer">
-                Explore Zanscode OS <ExternalLink className="ml-1 h-4 w-4" />
-              </a>
-            </Button>
-          </div>
+          <Reveal variant="fade">
+            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand shadow-soft">
+              <Sparkles className="h-3.5 w-3.5" /> SaaS for every business
+            </span>
+          </Reveal>
+          <Reveal variant="up" delay={200}>
+            <h1 className="mt-4 max-w-3xl text-4xl font-bold sm:text-5xl lg:text-6xl">
+              SaaS isn't just for tech. <span className="text-gradient-brand">It's for your business.</span>
+            </h1>
+          </Reveal>
+          <Reveal variant="up" delay={400}>
+            <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
+              From barbershops to schools, restaurants to clinics — Zanscode builds focused SaaS apps for the way your industry actually works. Pick one, or run your whole company on the suite.
+            </p>
+          </Reveal>
+          <Reveal variant="up" delay={600}>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button asChild variant="brand" size="lg"><Link to="/contact">Find your app</Link></Button>
+              <Button asChild variant="outline" size="lg">
+                <a href={featuredOS.url} target="_blank" rel="noopener noreferrer">
+                  Explore Zanscode OS <ExternalLink className="ml-1 h-4 w-4" />
+                </a>
+              </Button>
+            </div>
+          </Reveal>
           <dl className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-4">
-            {stats.map((s) => (
-              <div key={s.l} className="rounded-2xl border border-border bg-card/60 p-4 backdrop-blur">
+            {stats.map((s, i) => (
+              <Reveal key={s.l} variant="up" delay={750 + i * 140} as="div" className="rounded-2xl border border-border bg-card/60 p-4 backdrop-blur">
                 <dt className="text-3xl font-bold text-foreground">{s.v}</dt>
                 <dd className="mt-1 text-xs uppercase tracking-wider text-muted-foreground">{s.l}</dd>
-              </div>
+              </Reveal>
             ))}
           </dl>
         </div>
