@@ -1,7 +1,10 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { ArrowRight, Boxes, Cpu, Globe2, LineChart, ShieldCheck, Smartphone, Sparkles, Zap, Building2, ShoppingBag, Truck, Stethoscope, GraduationCap, Landmark, Search, PenTool, Hammer, Rocket, Star, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteLayout } from "@/components/site/SiteLayout";
+import { isAppSubdomain } from "@/lib/host";
+import { isSignedIn } from "@/lib/auth";
 
 import heroBg from "@/assets/hero-bg.jpg";
 import productSaas from "@/assets/product-saas.jpg";
@@ -57,6 +60,15 @@ const testimonials = [
 ];
 
 function HomePage() {
+  const navigate = useNavigate();
+
+  // Host-aware: on app.* subdomain, the root path goes straight into the staff app.
+  useEffect(() => {
+    if (isAppSubdomain()) {
+      navigate({ to: isSignedIn() ? "/app" : "/staff/login" });
+    }
+  }, [navigate]);
+
   return (
     <SiteLayout>
       {/* Hero */}

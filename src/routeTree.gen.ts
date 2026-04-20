@@ -17,6 +17,7 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as StaffLoginRouteImport } from './routes/staff.login'
 import { Route as ApplyJobSlugRouteImport } from './routes/apply.$jobSlug'
 import { Route as AppUsersRouteImport } from './routes/app.users'
 import { Route as AppTimesheetsRouteImport } from './routes/app.timesheets'
@@ -79,6 +80,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRoute,
+} as any)
+const StaffLoginRoute = StaffLoginRouteImport.update({
+  id: '/staff/login',
+  path: '/staff/login',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApplyJobSlugRoute = ApplyJobSlugRouteImport.update({
   id: '/apply/$jobSlug',
@@ -221,6 +227,7 @@ export interface FileRoutesByFullPath {
   '/app/timesheets': typeof AppTimesheetsRoute
   '/app/users': typeof AppUsersRoute
   '/apply/$jobSlug': typeof ApplyJobSlugRoute
+  '/staff/login': typeof StaffLoginRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
@@ -252,6 +259,7 @@ export interface FileRoutesByTo {
   '/app/timesheets': typeof AppTimesheetsRoute
   '/app/users': typeof AppUsersRoute
   '/apply/$jobSlug': typeof ApplyJobSlugRoute
+  '/staff/login': typeof StaffLoginRoute
   '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
@@ -285,6 +293,7 @@ export interface FileRoutesById {
   '/app/timesheets': typeof AppTimesheetsRoute
   '/app/users': typeof AppUsersRoute
   '/apply/$jobSlug': typeof ApplyJobSlugRoute
+  '/staff/login': typeof StaffLoginRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
@@ -319,6 +328,7 @@ export interface FileRouteTypes {
     | '/app/timesheets'
     | '/app/users'
     | '/apply/$jobSlug'
+    | '/staff/login'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -350,6 +360,7 @@ export interface FileRouteTypes {
     | '/app/timesheets'
     | '/app/users'
     | '/apply/$jobSlug'
+    | '/staff/login'
     | '/app'
   id:
     | '__root__'
@@ -382,6 +393,7 @@ export interface FileRouteTypes {
     | '/app/timesheets'
     | '/app/users'
     | '/apply/$jobSlug'
+    | '/staff/login'
     | '/app/'
   fileRoutesById: FileRoutesById
 }
@@ -394,6 +406,7 @@ export interface RootRouteChildren {
   ProductsRoute: typeof ProductsRoute
   ServicesRoute: typeof ServicesRoute
   ApplyJobSlugRoute: typeof ApplyJobSlugRoute
+  StaffLoginRoute: typeof StaffLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -453,6 +466,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/staff/login': {
+      id: '/staff/login'
+      path: '/staff/login'
+      fullPath: '/staff/login'
+      preLoaderRoute: typeof StaffLoginRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/apply/$jobSlug': {
       id: '/apply/$jobSlug'
@@ -672,16 +692,8 @@ const rootRouteChildren: RootRouteChildren = {
   ProductsRoute: ProductsRoute,
   ServicesRoute: ServicesRoute,
   ApplyJobSlugRoute: ApplyJobSlugRoute,
+  StaffLoginRoute: StaffLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
