@@ -156,9 +156,9 @@
   100% { background-position: 100% 50%; }
 }
 
-/* Elegant scroll-reveal */
+/* Elegant scroll-reveal — slow, calm, premium feel */
 @keyframes reveal-up {
-  from { opacity: 0; transform: translate3d(0, 18px, 0); }
+  from { opacity: 0; transform: translate3d(0, 24px, 0); }
   to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 @keyframes reveal-fade {
@@ -166,16 +166,16 @@
   to { opacity: 1; }
 }
 @keyframes reveal-scale {
-  from { opacity: 0; transform: scale(0.96); }
+  from { opacity: 0; transform: scale(0.97); }
   to { opacity: 1; transform: scale(1); }
 }
 @keyframes float-soft {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  50% { transform: translateY(-8px); }
 }
 @keyframes blob-drift {
   0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(20px, -15px, 0) scale(1.06); }
+  50% { transform: translate3d(24px, -18px, 0) scale(1.05); }
 }
 @keyframes shine-x {
   0% { background-position: -200% 0; }
@@ -188,14 +188,14 @@
     animation: gradient-sweep 900ms ease-out 1 both;
   }
 
-  /* Reveal primitives — used by <Reveal /> component */
+  /* Reveal primitives — slower, softer easing */
   .reveal { opacity: 0; will-change: opacity, transform; }
-  .reveal-visible.reveal-up    { animation: reveal-up    700ms cubic-bezier(0.22, 1, 0.36, 1) both; }
-  .reveal-visible.reveal-fade  { animation: reveal-fade  800ms ease-out both; }
-  .reveal-visible.reveal-scale { animation: reveal-scale 700ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .reveal-visible.reveal-up    { animation: reveal-up    1100ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .reveal-visible.reveal-fade  { animation: reveal-fade  1300ms cubic-bezier(0.4, 0, 0.2, 1) both; }
+  .reveal-visible.reveal-scale { animation: reveal-scale 1100ms cubic-bezier(0.22, 1, 0.36, 1) both; }
 
-  .animate-float-soft { animation: float-soft 6s ease-in-out infinite; }
-  .animate-blob-drift { animation: blob-drift 14s ease-in-out infinite; }
+  .animate-float-soft { animation: float-soft 9s ease-in-out infinite; }
+  .animate-blob-drift { animation: blob-drift 22s ease-in-out infinite; }
 
   .text-shine {
     background: linear-gradient(
@@ -208,13 +208,13 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    animation: shine-x 4s linear infinite;
+    animation: shine-x 7s ease-in-out infinite;
   }
 
   .lift {
-    transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1),
-                box-shadow 350ms cubic-bezier(0.22, 1, 0.36, 1),
-                border-color 250ms ease;
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 500ms cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 350ms ease;
   }
   .lift:hover { transform: translateY(-4px); }
 
