@@ -1,15 +1,16 @@
-import { createFileRoute, Link, Outlet, useLocation } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
   LayoutDashboard, Users, UserCog, Briefcase, DollarSign, Boxes, Settings, Bell, Search, Menu, X,
   Target, Handshake, GitBranch, IdCard, Wallet, CalendarDays, UserPlus,
   ListChecks, Clock, Receipt, BarChart3, Truck, ClipboardList, LineChart, ShieldCheck,
-  ChevronDown,
+  ChevronDown, LogOut,
 } from "lucide-react";
 import logo from "@/assets/zanscode-logo.png";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { LiveClock } from "@/components/app/LiveClock";
+import { getSession, signOut, type StaffSession } from "@/lib/auth";
 
 export const Route = createFileRoute("/app")({
   head: () => ({
