@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Code2, Layout, Cloud, Wrench, Users, Headphones, ShoppingBag, Truck, Stethoscope, GraduationCap, Landmark, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteLayout } from "@/components/site/SiteLayout";
+import { Reveal } from "@/components/site/Reveal";
 
 
 export const Route = createFileRoute("/services")({
@@ -57,32 +58,42 @@ const industries = [
 function ServicesPage() {
   return (
     <SiteLayout>
-      <section className="bg-gradient-soft py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <span className="text-sm font-semibold uppercase tracking-wider text-brand">Services</span>
-          <h1 className="mt-3 text-4xl font-bold sm:text-5xl">From idea to launch — and beyond.</h1>
-          <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-            We partner with companies to build, ship and operate technology that delivers real business value.
-          </p>
+      <section className="relative overflow-hidden bg-gradient-soft py-20">
+        <div className="pointer-events-none absolute -top-32 right-[-10%] h-96 w-96 rounded-full bg-brand-cyan/15 blur-3xl animate-blob-drift" aria-hidden />
+        <div className="pointer-events-none absolute -bottom-32 left-[-10%] h-96 w-96 rounded-full bg-brand/10 blur-3xl animate-blob-drift" style={{ animationDelay: "-11s" }} aria-hidden />
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <Reveal variant="fade">
+            <span className="text-sm font-semibold uppercase tracking-wider text-brand">Services</span>
+          </Reveal>
+          <Reveal variant="up" delay={200}>
+            <h1 className="mt-3 text-4xl font-bold sm:text-5xl">From idea to launch — and beyond.</h1>
+          </Reveal>
+          <Reveal variant="up" delay={400}>
+            <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
+              We partner with companies to build, ship and operate technology that delivers real business value.
+            </p>
+          </Reveal>
         </div>
       </section>
 
       {/* Services grid */}
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
+          <Reveal variant="up" className="mx-auto max-w-2xl text-center">
             <span className="text-sm font-semibold uppercase tracking-wider text-brand">Capabilities</span>
             <h2 className="mt-3 text-3xl font-bold">What we deliver</h2>
-          </div>
+          </Reveal>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((s) => (
-              <div key={s.title} className="rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:shadow-brand">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground">
-                  <s.icon className="h-5 w-5" />
+            {services.map((s, i) => (
+              <Reveal key={s.title} variant="up" delay={i * 140} as="div">
+                <div className="lift group h-full rounded-2xl border border-border bg-card p-6 hover:border-brand/40 hover:shadow-brand">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                    <s.icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="mt-5 text-lg font-semibold">{s.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{s.desc}</p>
                 </div>
-                <h3 className="mt-5 text-lg font-semibold">{s.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{s.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -91,14 +102,18 @@ function ServicesPage() {
       {/* Process */}
       <section className="bg-surface py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold">How we work</h2>
+          <Reveal variant="up">
+            <h2 className="text-3xl font-bold">How we work</h2>
+          </Reveal>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {process.map((p) => (
-              <div key={p.n} className="rounded-2xl border border-border bg-card p-6">
-                <div className="text-3xl font-bold text-gradient-brand">{p.n}</div>
-                <h3 className="mt-2 text-lg font-semibold">{p.t}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{p.d}</p>
-              </div>
+            {process.map((p, i) => (
+              <Reveal key={p.n} variant="up" delay={i * 180} as="div">
+                <div className="lift h-full rounded-2xl border border-border bg-card p-6 hover:border-brand/40 hover:shadow-soft">
+                  <div className="text-3xl font-bold text-gradient-brand">{p.n}</div>
+                  <h3 className="mt-2 text-lg font-semibold">{p.t}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{p.d}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -107,17 +122,19 @@ function ServicesPage() {
       {/* Engagement models */}
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
+          <Reveal variant="up" className="mx-auto max-w-2xl text-center">
             <span className="text-sm font-semibold uppercase tracking-wider text-brand">Engagement models</span>
             <h2 className="mt-3 text-3xl font-bold">Work with us your way</h2>
-          </div>
+          </Reveal>
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {engagements.map((e) => (
-              <div key={e.t} className="flex h-full flex-col rounded-2xl border border-border bg-card p-6 shadow-soft">
-                <h3 className="text-lg font-semibold">{e.t}</h3>
-                <p className="mt-2 flex-1 text-sm text-muted-foreground">{e.d}</p>
-                <div className="mt-4 rounded-lg bg-secondary px-3 py-2 text-xs font-medium text-foreground">{e.best}</div>
-              </div>
+            {engagements.map((e, i) => (
+              <Reveal key={e.t} variant="up" delay={i * 180} as="div">
+                <div className="lift flex h-full flex-col rounded-2xl border border-border bg-card p-6 shadow-soft hover:border-brand/40 hover:shadow-brand">
+                  <h3 className="text-lg font-semibold">{e.t}</h3>
+                  <p className="mt-2 flex-1 text-sm text-muted-foreground">{e.d}</p>
+                  <div className="mt-4 rounded-lg bg-secondary px-3 py-2 text-xs font-medium text-foreground">{e.best}</div>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -126,21 +143,23 @@ function ServicesPage() {
       {/* Tech stack */}
       <section className="bg-surface py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
+          <Reveal variant="up" className="mx-auto max-w-2xl text-center">
             <span className="text-sm font-semibold uppercase tracking-wider text-brand">Tech stack</span>
             <h2 className="mt-3 text-3xl font-bold">Modern, proven technologies</h2>
             <p className="mt-3 text-muted-foreground">We pick the right tools for your problem — not the trend of the week.</p>
-          </div>
+          </Reveal>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {Object.entries(stack).map(([cat, items]) => (
-              <div key={cat} className="rounded-2xl border border-border bg-card p-6">
-                <h3 className="text-sm font-semibold uppercase tracking-wide text-brand">{cat}</h3>
-                <ul className="mt-4 flex flex-wrap gap-2">
-                  {items.map((i) => (
-                    <li key={i} className="rounded-full bg-secondary px-3 py-1 text-xs font-medium">{i}</li>
-                  ))}
-                </ul>
-              </div>
+            {Object.entries(stack).map(([cat, items], i) => (
+              <Reveal key={cat} variant="up" delay={i * 140} as="div">
+                <div className="lift h-full rounded-2xl border border-border bg-card p-6 hover:border-brand/40 hover:shadow-soft">
+                  <h3 className="text-sm font-semibold uppercase tracking-wide text-brand">{cat}</h3>
+                  <ul className="mt-4 flex flex-wrap gap-2">
+                    {items.map((it) => (
+                      <li key={it} className="rounded-full bg-secondary px-3 py-1 text-xs font-medium">{it}</li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -149,16 +168,18 @@ function ServicesPage() {
       {/* Industries */}
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
+          <Reveal variant="up" className="mx-auto max-w-2xl text-center">
             <span className="text-sm font-semibold uppercase tracking-wider text-brand">Industries</span>
             <h2 className="mt-3 text-3xl font-bold">Domains we know well</h2>
-          </div>
+          </Reveal>
           <div className="mt-10 grid gap-4 sm:grid-cols-3 lg:grid-cols-6">
-            {industries.map((i) => (
-              <div key={i.name} className="flex flex-col items-center rounded-2xl border border-border bg-card p-6 text-center hover:shadow-soft">
-                <i.icon className="h-7 w-7 text-brand" />
-                <span className="mt-3 text-sm font-medium">{i.name}</span>
-              </div>
+            {industries.map((i, idx) => (
+              <Reveal key={i.name} variant="scale" delay={idx * 100} as="div">
+                <div className="lift group flex h-full flex-col items-center rounded-2xl border border-border bg-card p-6 text-center hover:border-brand/30 hover:shadow-soft">
+                  <i.icon className="h-7 w-7 text-brand transition-transform duration-500 group-hover:scale-110" />
+                  <span className="mt-3 text-sm font-medium">{i.name}</span>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -166,11 +187,13 @@ function ServicesPage() {
       {/* CTA */}
       <section className="bg-surface py-20">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold sm:text-4xl">Have a project in mind?</h2>
-          <p className="mt-3 text-muted-foreground">Tell us what you're building — we'll propose the right team and plan.</p>
-          <div className="mt-8">
-            <Button asChild variant="brand" size="lg"><Link to="/contact">Discuss your project</Link></Button>
-          </div>
+          <Reveal variant="up">
+            <h2 className="text-3xl font-bold sm:text-4xl">Have a project in mind?</h2>
+            <p className="mt-3 text-muted-foreground">Tell us what you're building — we'll propose the right team and plan.</p>
+            <div className="mt-8">
+              <Button asChild variant="brand" size="lg"><Link to="/contact">Discuss your project</Link></Button>
+            </div>
+          </Reveal>
         </div>
       </section>
     </SiteLayout>

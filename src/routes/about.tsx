@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Briefcase, Users, Heart, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteLayout } from "@/components/site/SiteLayout";
+import { Reveal } from "@/components/site/Reveal";
 
 import aboutTeam from "@/assets/about-team.jpg";
 
@@ -43,36 +44,47 @@ function AboutPage() {
   return (
     <SiteLayout>
       {/* Hero */}
-      <section className="bg-gradient-soft py-20">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+      <section className="relative overflow-hidden bg-gradient-soft py-20">
+        <div className="pointer-events-none absolute -top-24 right-[-12%] h-96 w-96 rounded-full bg-brand-cyan/15 blur-3xl animate-blob-drift" aria-hidden />
+        <div className="relative mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div>
-            <span className="text-sm font-semibold uppercase tracking-wider text-brand">About</span>
-            <h1 className="mt-3 text-4xl font-bold sm:text-5xl">A technology partner for businesses that mean it.</h1>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Zanscode is a startup on a mission to help organizations operate at their best by combining
-              well-organized business systems with the latest technology — across web, mobile, desktop and cloud.
-            </p>
+            <Reveal variant="fade">
+              <span className="text-sm font-semibold uppercase tracking-wider text-brand">About</span>
+            </Reveal>
+            <Reveal variant="up" delay={200}>
+              <h1 className="mt-3 text-4xl font-bold sm:text-5xl">A technology partner for businesses that mean it.</h1>
+            </Reveal>
+            <Reveal variant="up" delay={400}>
+              <p className="mt-4 text-lg text-muted-foreground">
+                Zanscode is a startup on a mission to help organizations operate at their best by combining
+                well-organized business systems with the latest technology — across web, mobile, desktop and cloud.
+              </p>
+            </Reveal>
           </div>
-          <img src={aboutTeam} alt="The Zanscode team" loading="lazy" width={1280} height={800} className="rounded-2xl border border-border shadow-brand" />
+          <Reveal variant="scale" delay={300}>
+            <img src={aboutTeam} alt="The Zanscode team" loading="lazy" width={1280} height={800} className="rounded-2xl border border-border shadow-brand transition-transform duration-700 hover:scale-[1.02]" />
+          </Reveal>
         </div>
       </section>
 
       {/* Values */}
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
+          <Reveal variant="up" className="mx-auto max-w-2xl text-center">
             <span className="text-sm font-semibold uppercase tracking-wider text-brand">Our values</span>
             <h2 className="mt-3 text-3xl font-bold">What we believe</h2>
-          </div>
+          </Reveal>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {values.map((v) => (
-              <div key={v.t} className="rounded-2xl border border-border bg-card p-6 shadow-soft">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground">
-                  <Heart className="h-5 w-5" />
+            {values.map((v, i) => (
+              <Reveal key={v.t} variant="up" delay={i * 160} as="div">
+                <div className="lift group h-full rounded-2xl border border-border bg-card p-6 shadow-soft hover:border-brand/40 hover:shadow-brand">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                    <Heart className="h-5 w-5" />
+                  </div>
+                  <h3 className="mt-5 text-lg font-semibold">{v.t}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{v.d}</p>
                 </div>
-                <h3 className="mt-5 text-lg font-semibold">{v.t}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{v.d}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -81,18 +93,18 @@ function AboutPage() {
       {/* Timeline / Story */}
       <section className="bg-surface py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
+          <Reveal variant="up" className="mx-auto max-w-2xl text-center">
             <span className="text-sm font-semibold uppercase tracking-wider text-brand">Our story</span>
             <h2 className="mt-3 text-3xl font-bold">From a small idea to a growing platform</h2>
-          </div>
+          </Reveal>
           <ol className="relative mx-auto mt-14 max-w-3xl space-y-8 border-l border-border pl-8">
-            {timeline.map((item) => (
-              <li key={item.t} className="relative">
+            {timeline.map((item, i) => (
+              <Reveal key={item.t} variant="up" delay={i * 180} as="li" className="relative">
                 <span className="absolute -left-[37px] flex h-6 w-6 items-center justify-center rounded-full bg-gradient-brand text-xs font-bold text-brand-foreground">●</span>
                 <div className="text-xs font-semibold uppercase tracking-wider text-brand">{item.year}</div>
                 <h3 className="mt-1 text-lg font-semibold">{item.t}</h3>
                 <p className="mt-1 text-sm text-muted-foreground">{item.d}</p>
-              </li>
+              </Reveal>
             ))}
           </ol>
         </div>
@@ -101,11 +113,11 @@ function AboutPage() {
       {/* Stats */}
       <section className="py-20">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 text-center sm:grid-cols-3 sm:px-6 lg:px-8">
-          {[{v: "2023", l: "Founded"}, {v: "30+", l: "Specialists"}, {v: "12", l: "Countries served"}].map((s) => (
-            <div key={s.l}>
+          {[{v: "2023", l: "Founded"}, {v: "30+", l: "Specialists"}, {v: "12", l: "Countries served"}].map((s, i) => (
+            <Reveal key={s.l} variant="up" delay={i * 180} as="div">
               <div className="text-4xl font-bold text-gradient-brand">{s.v}</div>
               <div className="mt-2 text-sm uppercase tracking-wider text-muted-foreground">{s.l}</div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -113,20 +125,22 @@ function AboutPage() {
       {/* Leadership */}
       <section className="bg-surface py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
+          <Reveal variant="up" className="mx-auto max-w-2xl text-center">
             <span className="text-sm font-semibold uppercase tracking-wider text-brand">Leadership</span>
             <h2 className="mt-3 text-3xl font-bold">The people behind Zanscode</h2>
-          </div>
+          </Reveal>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {leaders.map((l) => (
-              <div key={l.name} className="rounded-2xl border border-border bg-card p-6 text-center shadow-soft">
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-brand text-brand-foreground">
-                  <Users className="h-7 w-7" />
+            {leaders.map((l, i) => (
+              <Reveal key={l.name} variant="up" delay={i * 180} as="div">
+                <div className="lift h-full rounded-2xl border border-border bg-card p-6 text-center shadow-soft hover:border-brand/40 hover:shadow-brand">
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-brand text-brand-foreground">
+                    <Users className="h-7 w-7" />
+                  </div>
+                  <h3 className="mt-4 text-lg font-semibold">{l.name}</h3>
+                  <div className="text-sm text-brand">{l.role}</div>
+                  <p className="mt-2 text-sm text-muted-foreground">{l.bio}</p>
                 </div>
-                <h3 className="mt-4 text-lg font-semibold">{l.name}</h3>
-                <div className="text-sm text-brand">{l.role}</div>
-                <p className="mt-2 text-sm text-muted-foreground">{l.bio}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -135,20 +149,24 @@ function AboutPage() {
       {/* Partners */}
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
+          <Reveal variant="up" className="mx-auto max-w-2xl text-center">
             <span className="text-sm font-semibold uppercase tracking-wider text-brand">Partners</span>
             <h2 className="mt-3 text-3xl font-bold">Trusted technology partners</h2>
-          </div>
+          </Reveal>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            {partners.map((p) => (
-              <span key={p} className="rounded-xl border border-border bg-card px-6 py-3 text-base font-semibold text-muted-foreground shadow-soft">{p}</span>
+            {partners.map((p, i) => (
+              <Reveal key={p} variant="scale" delay={i * 100} as="span" className="rounded-xl border border-border bg-card px-6 py-3 text-base font-semibold text-muted-foreground shadow-soft">
+                {p}
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
       {/* Careers CTA */}
-      <section className="bg-gradient-hero py-20 text-white">
-        <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden bg-gradient-hero py-20 text-white">
+        <div className="pointer-events-none absolute -top-24 left-[-10%] h-96 w-96 rounded-full bg-brand-cyan/20 blur-3xl animate-blob-drift" aria-hidden />
+        <div className="pointer-events-none absolute -bottom-24 right-[-10%] h-96 w-96 rounded-full bg-white/10 blur-3xl animate-blob-drift" style={{ animationDelay: "-13s" }} aria-hidden />
+        <Reveal variant="up" className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
           <Briefcase className="mx-auto h-10 w-10 text-brand-cyan" />
           <h2 className="mt-4 text-3xl font-bold sm:text-4xl">Build the future with us</h2>
           <p className="mx-auto mt-4 max-w-2xl text-white/80">
@@ -162,7 +180,7 @@ function AboutPage() {
               <Link to="/contact">Partner with us</Link>
             </Button>
           </div>
-        </div>
+        </Reveal>
       </section>
     </SiteLayout>
   );
