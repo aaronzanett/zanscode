@@ -298,7 +298,7 @@ function AppLayout() {
             <Link to="/" className="hidden text-xs text-muted-foreground hover:text-foreground sm:inline">← Back to site</Link>
           </div>
         </header>
-        <div className="flex-1 p-4 sm:p-6 lg:p-8">
+        <div className="flex-1 p-4 sm:p-5 lg:p-6">
           <Outlet />
         </div>
       </div>
