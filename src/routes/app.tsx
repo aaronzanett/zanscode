@@ -212,6 +212,7 @@ function AppLayout() {
   const [query, setQuery] = useState("");
   const [session, setSession] = useState<StaffSession | null>(null);
   const [checked, setChecked] = useState(false);
+  const settings = useAppSettings();
 
   // Auth guard — redirect to /staff/login if not signed in
   useEffect(() => {
