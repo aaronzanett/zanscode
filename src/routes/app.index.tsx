@@ -212,7 +212,7 @@ function Dashboard() {
       config,
       greeting: pickStable(config.greetings, seed),
       sub: pickStable(config.sub, seed + hour),
-      userName: "",
+      userName: getSession()?.name?.split(" ")[0] ?? "",
     };
   }, [now]);
 
