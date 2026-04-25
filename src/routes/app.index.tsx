@@ -12,6 +12,7 @@ import {
   Sunset,
   Moon,
 } from "lucide-react";
+import { getSession } from "@/lib/auth";
 
 export const Route = createFileRoute("/app/")({
   component: Dashboard,
