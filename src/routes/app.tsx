@@ -1,16 +1,18 @@
 import { createFileRoute, Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
-  LayoutDashboard, Users, UserCog, Briefcase, DollarSign, Boxes, Settings, Bell, Search, Menu, X,
+  LayoutDashboard, Users, UserCog, Briefcase, DollarSign, Boxes, Settings, Search, Menu, X,
   Target, Handshake, GitBranch, IdCard, Wallet, CalendarDays, UserPlus,
   ListChecks, Clock, Receipt, BarChart3, Truck, ClipboardList, LineChart, ShieldCheck,
-  ChevronDown, LogOut,
+  ChevronDown, LogOut, Wrench,
 } from "lucide-react";
 import logo from "@/assets/zanscode-logo.png";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { LiveClock } from "@/components/app/LiveClock";
+import { NotificationsBell } from "@/components/app/NotificationsBell";
 import { getSession, signOut, type StaffSession } from "@/lib/auth";
+import { useAppSettings } from "@/hooks/use-app-settings";
 
 export const Route = createFileRoute("/app")({
   head: () => ({
@@ -210,6 +212,7 @@ function AppLayout() {
   const [query, setQuery] = useState("");
   const [session, setSession] = useState<StaffSession | null>(null);
   const [checked, setChecked] = useState(false);
+  const settings = useAppSettings();
 
   // Auth guard — redirect to /staff/login if not signed in
   useEffect(() => {
@@ -281,11 +284,17 @@ function AppLayout() {
             >
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
-            <div className="text-sm font-semibold">Zanscode OS</div>
+            <div className="text-sm font-semibold">{settings.appName}</div>
+            {settings.maintenanceMode && (
+              <span className="ml-1 inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-600 dark:text-amber-400">
+                <Wrench className="h-3 w-3" />
+                Maintenance
+              </span>
+            )}
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
             <LiveClock />
-            <button className="rounded-lg p-2 hover:bg-secondary"><Bell className="h-4 w-4" /></button>
+            <NotificationsBell />
             <Link to="/" className="hidden text-xs text-muted-foreground hover:text-foreground sm:inline">← Back to site</Link>
           </div>
         </header>
