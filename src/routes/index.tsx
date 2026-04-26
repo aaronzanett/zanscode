@@ -120,18 +120,18 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Outcomes */}
+      {/* Capabilities */}
       <section className="bg-background py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Reveal variant="up" className="mx-auto max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-wider text-brand">Why business owners choose Zanscode</span>
-            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Outcomes you can measure in weeks</h2>
+            <span className="text-sm font-semibold uppercase tracking-wider text-brand">What we build</span>
+            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Custom software, end to end</h2>
             <p className="mt-4 text-muted-foreground">
-              Built for owners and operators of growing companies who need their business to run more like a system and less like a fire drill.
+              From the system architecture to the last pixel — one engineering partner across every layer of your business stack.
             </p>
           </Reveal>
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {outcomes.map((f, i) => (
+            {capabilities.map((f, i) => (
               <Reveal key={f.title} variant="up" delay={i * 140} as="div">
                 <div className="lift group h-full rounded-2xl border border-border bg-card p-6 shadow-soft hover:shadow-brand hover:border-brand/40">
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
@@ -143,6 +143,9 @@ function HomePage() {
               </Reveal>
             ))}
           </div>
+          <Reveal variant="up" delay={300} className="mt-10 text-center">
+            <Button asChild variant="outline"><Link to="/services">See all services <ArrowRight className="ml-1 h-4 w-4" /></Link></Button>
+          </Reveal>
         </div>
       </section>
 
