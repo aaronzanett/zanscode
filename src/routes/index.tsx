@@ -266,17 +266,17 @@ function HomePage() {
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
           <Reveal variant="up">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-              Ready to run your business on Zanscode?
+              Have a system in mind? Let's build it.
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-base text-muted-foreground sm:text-lg">
-              Tell us about your business — we'll show you exactly which Zanscode product fits and how fast you can be live.
+              Tell us what you're trying to solve — we'll propose the architecture, team and timeline to get it shipped.
             </p>
             <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
               <Button asChild size="xl" variant="brand">
-                <Link to="/contact">Book a demo <ArrowRight className="ml-1 h-4 w-4" /></Link>
+                <Link to="/contact">Start a project <ArrowRight className="ml-1 h-4 w-4" /></Link>
               </Button>
               <Button asChild size="xl" variant="outline">
-                <Link to="/products">See all products</Link>
+                <Link to="/services">Explore services</Link>
               </Button>
             </div>
           </Reveal>
