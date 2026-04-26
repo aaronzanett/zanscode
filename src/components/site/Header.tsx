@@ -62,7 +62,7 @@ export function Header() {
           </Link>
           <Button asChild size="sm" variant="brand" className="group">
             <Link to="/contact">
-              Book a demo
+              Start a project
               <ArrowRight className="transition-transform group-hover:translate-x-0.5" />
             </Link>
           </Button>
@@ -147,7 +147,7 @@ export function Header() {
           >
             <Button asChild size="lg" variant="brand" className="w-full group">
               <Link to="/contact" onClick={() => setOpen(false)}>
-                Book a demo
+                Start a project
                 <ArrowRight className="transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>
