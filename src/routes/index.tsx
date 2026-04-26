@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { ArrowRight, Boxes, Cpu, Globe2, LineChart, ShieldCheck, Smartphone, Sparkles, Zap, Building2, ShoppingBag, Truck, Stethoscope, GraduationCap, Landmark, Search, PenTool, Hammer, Rocket, Star, Quote } from "lucide-react";
+import { ArrowRight, Boxes, LineChart, ShieldCheck, Sparkles, Zap, Building2, ShoppingBag, Truck, Stethoscope, GraduationCap, Landmark, Quote, Clock, TrendingUp, Users2, Workflow, CheckCircle2, PlayCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { Reveal } from "@/components/site/Reveal";
@@ -22,20 +22,20 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const features = [
-  { icon: Globe2, title: "Web Platforms", desc: "High-performance websites and web apps engineered for scale." },
-  { icon: Smartphone, title: "Mobile Apps", desc: "Native and cross-platform Android & iOS experiences." },
-  { icon: Cpu, title: "Desktop Software", desc: "Robust desktop tools tailored to operations teams." },
-  { icon: Boxes, title: "SaaS Products", desc: "Multi-tenant cloud products with billing & analytics ready." },
-  { icon: ShieldCheck, title: "Enterprise Security", desc: "Hardened infrastructure, RBAC, audits, and compliance." },
-  { icon: LineChart, title: "Business Intelligence", desc: "Real-time dashboards turning data into decisions." },
+const outcomes = [
+  { icon: Clock, title: "Save hours every week", desc: "Automate quoting, invoicing, scheduling and reporting your team does by hand today." },
+  { icon: TrendingUp, title: "Grow revenue with clarity", desc: "See what's working in real time — by outlet, product, customer or salesperson." },
+  { icon: Workflow, title: "One system, not ten tabs", desc: "Replace spreadsheets and disconnected tools with a single source of truth." },
+  { icon: Users2, title: "Empower your team", desc: "Give managers and staff the same accurate data, on web and mobile." },
+  { icon: ShieldCheck, title: "Enterprise-grade security", desc: "RBAC, audit logs, SSO and compliance baked into every product." },
+  { icon: LineChart, title: "Decisions backed by data", desc: "Live dashboards turn daily operations into your monthly board report." },
 ];
 
 const stats = [
-  { v: "120+", l: "Projects shipped" },
-  { v: "45", l: "Enterprise clients" },
+  { v: "8,500+", l: "Active business users" },
+  { v: "11", l: "Industries served" },
+  { v: "30+", l: "Countries live" },
   { v: "99.98%", l: "Platform uptime" },
-  { v: "24/7", l: "Dedicated support" },
 ];
 
 const industries = [
@@ -47,17 +47,16 @@ const industries = [
   { icon: Landmark, name: "Finance" },
 ];
 
-const process = [
-  { icon: Search, n: "01", t: "Discover", d: "Workshops to map goals, users and constraints." },
-  { icon: PenTool, n: "02", t: "Design", d: "Architecture, UX and a measurable success plan." },
-  { icon: Hammer, n: "03", t: "Build", d: "Iterative delivery with weekly demos." },
-  { icon: Rocket, n: "04", t: "Scale", d: "Operate, optimize and grow long-term." },
+const journey = [
+  { n: "01", t: "Pick your product", d: "Choose a Zanscode SaaS that fits your industry — or the full Zanscode OS suite." },
+  { n: "02", t: "Onboard in days", d: "Our team migrates your data, configures roles and trains your staff." },
+  { n: "03", t: "Run & optimize", d: "Operate daily on one platform, with continuous updates and dedicated support." },
 ];
 
 const testimonials = [
-  { quote: "Zanscode replaced four disconnected tools with one system. Our ops team finally trusts the data.", name: "Anita Wijaya", role: "COO, RetailCo" },
-  { quote: "Shipped our flagship mobile app in 14 weeks. Quality and communication were outstanding.", name: "Marcus Lee", role: "Founder, FleetIQ" },
-  { quote: "A true partner — they think with us, not just for us. The roadmap kept getting better.", name: "Sari Pratama", role: "VP Product, EduNext" },
+  { quote: "Zanscode replaced four disconnected tools with one system. Our ops team finally trusts the data.", name: "Anita Wijaya", role: "COO, RetailCo (12 outlets)" },
+  { quote: "We cut monthly closing from 9 days to 2. The dashboards are now my morning coffee.", name: "Marcus Lee", role: "CEO, FleetIQ (mid-sized logistics)" },
+  { quote: "A true partner — they understand mid-sized businesses, not just enterprises or startups.", name: "Sari Pratama", role: "Owner, EduNext Group" },
 ];
 
 function HomePage() {
@@ -85,27 +84,26 @@ function HomePage() {
           <div className="max-w-3xl">
             <Reveal variant="fade">
               <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white backdrop-blur">
-                <Sparkles className="h-3.5 w-3.5" /> Technology partner for ambitious teams
+                <Sparkles className="h-3.5 w-3.5" /> SaaS built for business owners
               </span>
             </Reveal>
             <Reveal variant="up" delay={200}>
               <h1 className="mt-6 text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
-                Build a business system that <span className="text-shine">runs itself</span>.
+                Run your business on software that <span className="text-shine">actually fits</span>.
               </h1>
             </Reveal>
             <Reveal variant="up" delay={400}>
               <p className="mt-6 max-w-2xl text-lg text-white/80">
-                Zanscode designs and ships modern technology — websites, mobile, desktop and SaaS —
-                so your operations are organized, automated, and ready to scale.
+                Zanscode is a SaaS company helping business owners and mid-sized companies replace spreadsheets, disconnected tools and manual work with one modern platform — built for the way your industry actually operates.
               </p>
             </Reveal>
             <Reveal variant="up" delay={600}>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Button asChild size="xl" variant="brand">
-                  <Link to="/contact">Start a project <ArrowRight className="ml-1 h-4 w-4" /></Link>
+                  <Link to="/products">Explore our SaaS <ArrowRight className="ml-1 h-4 w-4" /></Link>
                 </Button>
                 <Button asChild size="xl" variant="hero">
-                  <Link to="/products">Explore products</Link>
+                  <Link to="/contact"><PlayCircle className="mr-1 h-4 w-4" /> Book a demo</Link>
                 </Button>
               </div>
             </Reveal>
@@ -121,18 +119,18 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Features / What we do */}
+      {/* Outcomes */}
       <section className="bg-background py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Reveal variant="up" className="mx-auto max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-wider text-brand">What we do</span>
-            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Everything to run a modern operation</h2>
+            <span className="text-sm font-semibold uppercase tracking-wider text-brand">Why business owners choose Zanscode</span>
+            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Outcomes you can measure in weeks</h2>
             <p className="mt-4 text-muted-foreground">
-              One partner across every layer of your stack — from customer-facing apps to back-office tooling.
+              Built for owners and operators of growing companies who need their business to run more like a system and less like a fire drill.
             </p>
           </Reveal>
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((f, i) => (
+            {outcomes.map((f, i) => (
               <Reveal key={f.title} variant="up" delay={i * 140} as="div">
                 <div className="lift group h-full rounded-2xl border border-border bg-card p-6 shadow-soft hover:shadow-brand hover:border-brand/40">
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
@@ -153,7 +151,7 @@ function HomePage() {
           <Reveal variant="up" className="mx-auto max-w-2xl text-center">
             <span className="text-sm font-semibold uppercase tracking-wider text-brand">Industries</span>
             <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Trusted across industries</h2>
-            <p className="mt-4 text-muted-foreground">From storefronts to enterprises — we adapt to how your industry works.</p>
+            <p className="mt-4 text-muted-foreground">From single-location owners to multi-branch mid-sized companies — Zanscode adapts to how your industry operates.</p>
           </Reveal>
           <div className="mt-12 grid gap-4 sm:grid-cols-3 lg:grid-cols-6">
             {industries.map((i, idx) => (
@@ -168,60 +166,59 @@ function HomePage() {
         </div>
       </section>
 
-      {/* SaaS Highlight */}
+      {/* SaaS suite highlight */}
       <section className="bg-background py-24">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <Reveal variant="up">
-            <span className="text-sm font-semibold uppercase tracking-wider text-brand">Flagship SaaS</span>
-            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Zanscode OS — your business, organized.</h2>
+            <span className="text-sm font-semibold uppercase tracking-wider text-brand">The Zanscode SaaS suite</span>
+            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">One vendor. Every part of your business.</h2>
             <p className="mt-4 text-muted-foreground">
-              An all-in-one operating platform for modern teams: CRM, projects, finance, HR and analytics —
-              connected by a single source of truth.
+              Pick a single product to fix one painful workflow, or run your whole company on the connected suite — sales, operations, finance, HR and analytics on one platform.
             </p>
             <ul className="mt-6 space-y-3 text-sm">
-              {["Unified workspace across departments", "Real-time KPI dashboards", "Automations & workflows", "Open API & integrations"].map((i, idx) => (
+              {[
+                "25+ industry-ready SaaS products",
+                "Single sign-on across every module",
+                "Live dashboards out of the box",
+                "Open APIs and 100+ integrations",
+              ].map((i, idx) => (
                 <li
                   key={i}
                   className="flex items-center gap-2 transition-transform duration-300 hover:translate-x-1"
                   style={{ transitionDelay: `${idx * 30}ms` }}
                 >
-                  <Zap className="h-4 w-4 text-brand-cyan" /> {i}
+                  <CheckCircle2 className="h-4 w-4 text-brand-cyan" /> {i}
                 </li>
               ))}
             </ul>
             <div className="mt-8 flex gap-3">
-              <Button asChild variant="brand"><Link to="/products">View SaaS lineup</Link></Button>
-              <Button asChild variant="outline"><Link to="/app">Try internal demo</Link></Button>
+              <Button asChild variant="brand"><Link to="/products">Browse all products</Link></Button>
+              <Button asChild variant="outline"><Link to="/contact">Talk to sales</Link></Button>
             </div>
           </Reveal>
           <Reveal variant="scale" delay={250}>
             <div className="relative">
               <div className="absolute -inset-6 rounded-3xl bg-gradient-brand opacity-20 blur-3xl animate-blob-drift" />
-              <img src={productSaas} alt="Zanscode OS dashboard" loading="lazy" width={1024} height={768} className="relative rounded-2xl border border-border shadow-brand transition-transform duration-500 hover:scale-[1.02]" />
+              <img src={productSaas} alt="Zanscode SaaS suite dashboard" loading="lazy" width={1024} height={768} className="relative rounded-2xl border border-border shadow-brand transition-transform duration-500 hover:scale-[1.02]" />
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* Process */}
+      {/* How to get started */}
       <section className="bg-surface py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Reveal variant="up" className="mx-auto max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-wider text-brand">How we work</span>
-            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">A clear path from idea to scale</h2>
-            <p className="mt-4 text-muted-foreground">A proven four-step process that keeps everyone aligned and moving.</p>
+            <span className="text-sm font-semibold uppercase tracking-wider text-brand">Getting started</span>
+            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">From sign-up to running your business — in days</h2>
+            <p className="mt-4 text-muted-foreground">No long custom builds. Pick the product, onboard with our team, and start running.</p>
           </Reveal>
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {process.map((p, i) => (
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {journey.map((p, i) => (
               <Reveal key={p.n} variant="up" delay={i * 180} as="div">
                 <div className="lift group h-full rounded-2xl border border-border bg-card p-6 shadow-soft hover:border-brand/40 hover:shadow-brand">
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground transition-transform duration-300 group-hover:scale-110">
-                      <p.icon className="h-5 w-5" />
-                    </div>
-                    <span className="text-2xl font-bold text-gradient-brand">{p.n}</span>
-                  </div>
-                  <h3 className="mt-5 text-lg font-semibold">{p.t}</h3>
+                  <span className="text-2xl font-bold text-gradient-brand">{p.n}</span>
+                  <h3 className="mt-3 text-lg font-semibold">{p.t}</h3>
                   <p className="mt-2 text-sm text-muted-foreground">{p.d}</p>
                 </div>
               </Reveal>
@@ -234,8 +231,8 @@ function HomePage() {
       <section className="bg-background py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Reveal variant="up" className="mx-auto max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-wider text-brand">Testimonials</span>
-            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">What partners say</h2>
+            <span className="text-sm font-semibold uppercase tracking-wider text-brand">Customer stories</span>
+            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Loved by owners and operators</h2>
           </Reveal>
           <div className="mt-14 grid gap-6 lg:grid-cols-3">
             {testimonials.map((t, i) => (
@@ -243,10 +240,7 @@ function HomePage() {
                 <figure className="lift flex h-full flex-col rounded-2xl border border-border bg-card p-6 shadow-soft hover:border-brand/40 hover:shadow-brand">
                   <Quote className="h-6 w-6 text-brand" />
                   <blockquote className="mt-4 flex-1 text-sm text-foreground">"{t.quote}"</blockquote>
-                  <div className="mt-6 flex items-center gap-1 text-brand-cyan">
-                    {Array.from({ length: 5 }).map((_, idx) => <Star key={idx} className="h-4 w-4 fill-current" />)}
-                  </div>
-                  <figcaption className="mt-3 text-sm">
+                  <figcaption className="mt-6 text-sm">
                     <div className="font-semibold">{t.name}</div>
                     <div className="text-muted-foreground">{t.role}</div>
                   </figcaption>
@@ -261,17 +255,17 @@ function HomePage() {
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
           <Reveal variant="up">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-              Ready to organize your business with technology?
+              Ready to run your business on Zanscode?
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-base text-muted-foreground sm:text-lg">
-              Tell us about your operation — we'll propose the fastest path from chaos to clarity.
+              Tell us about your business — we'll show you exactly which Zanscode product fits and how fast you can be live.
             </p>
             <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
               <Button asChild size="xl" variant="brand">
-                <Link to="/contact">Start a project <ArrowRight className="ml-1 h-4 w-4" /></Link>
+                <Link to="/contact">Book a demo <ArrowRight className="ml-1 h-4 w-4" /></Link>
               </Button>
               <Button asChild size="xl" variant="outline">
-                <Link to="/services">Explore services</Link>
+                <Link to="/products">See all products</Link>
               </Button>
             </div>
           </Reveal>
