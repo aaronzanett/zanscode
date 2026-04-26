@@ -147,7 +147,7 @@ export function Header() {
           >
             <Button asChild size="lg" variant="brand" className="w-full group">
               <Link to="/contact" onClick={() => setOpen(false)}>
-                Get a quote
+                Book a demo
                 <ArrowRight className="transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>
