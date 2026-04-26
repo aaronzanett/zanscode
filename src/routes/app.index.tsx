@@ -120,12 +120,12 @@ const periodConfig: Record<
   }
 > = {
   morning: {
-    label: "Pagi",
-    greetings: ["Selamat pagi ☀️", "Pagi yang cerah!", "Halo, selamat pagi", "Semangat pagi 🌅"],
+    label: "Morning",
+    greetings: ["Good morning", "Rise and shine", "Hello, good morning", "A bright new morning"],
     sub: [
-      "Mulai hari dengan langkah ringan dan fokus yang jernih.",
-      "Secangkir kopi dan satu kemenangan kecil — itu sudah cukup untuk memulai.",
-      "Hari baru, peluang baru. Ayo kita buat berarti.",
+      "Start the day with a light step and a clear focus.",
+      "A cup of coffee and one small win — that's enough to begin.",
+      "A new day, new chances. Let's make it count.",
     ],
     icon: Sunrise,
     sky: "linear-gradient(180deg, #ffd89b 0%, #ffb56b 45%, #ff8a5b 100%)",
@@ -137,12 +137,12 @@ const periodConfig: Record<
     accent: "rgba(255, 209, 102, 0.55)",
   },
   midday: {
-    label: "Siang",
-    greetings: ["Selamat siang 🌤️", "Halo, siang ini produktif?", "Apa kabar siang ini?"],
+    label: "Midday",
+    greetings: ["Good afternoon", "Hope your day is productive", "How's your day going?"],
     sub: [
-      "Ambil napas sebentar, lalu lanjutkan dengan tenang.",
-      "Tetap terhidrasi — performa terbaik datang dari tubuh yang segar.",
-      "Sedikit istirahat sering kali mempercepat hasil.",
+      "Take a breath, then carry on calmly.",
+      "Stay hydrated — peak performance comes from a fresh body.",
+      "A short break often speeds up the result.",
     ],
     icon: Sun,
     sky: "linear-gradient(180deg, #7ec8ff 0%, #b6e0ff 50%, #e8f4ff 100%)",
@@ -154,12 +154,12 @@ const periodConfig: Record<
     accent: "rgba(126, 200, 255, 0.6)",
   },
   afternoon: {
-    label: "Sore",
-    greetings: ["Selamat sore 🌇", "Sore yang hangat", "Halo, sudah sore"],
+    label: "Late afternoon",
+    greetings: ["Good afternoon", "A warm afternoon", "Hello, the day rolls on"],
     sub: [
-      "Tinjau kembali progres hari ini — apa yang patut dirayakan?",
-      "Saat terbaik untuk merapikan ekor pekerjaan sebelum esok.",
-      "Sedikit refleksi sore mempertajam langkah esok hari.",
+      "Look back at today's progress — what's worth celebrating?",
+      "A great time to tidy up loose ends before tomorrow.",
+      "A little afternoon reflection sharpens tomorrow's steps.",
     ],
     icon: Sunset,
     sky: "linear-gradient(180deg, #ffb178 0%, #ff7e5f 45%, #c44569 100%)",
@@ -171,12 +171,12 @@ const periodConfig: Record<
     accent: "rgba(255, 126, 95, 0.55)",
   },
   evening: {
-    label: "Petang",
-    greetings: ["Selamat petang 🌆", "Hari hampir usai", "Halo, petang yang tenang"],
+    label: "Evening",
+    greetings: ["Good evening", "The day is winding down", "Hello, a calm evening"],
     sub: [
-      "Saatnya menutup hari dengan rapi.",
-      "Tarik napas — kamu sudah melewati banyak hal hari ini.",
-      "Catat satu hal yang membuat hari ini bermakna.",
+      "Time to wrap things up neatly.",
+      "Take a breath — you've moved through a lot today.",
+      "Note one thing that made today meaningful.",
     ],
     icon: Sunset,
     sky: "linear-gradient(180deg, #4b3b8f 0%, #7a4a8c 45%, #d96e7a 100%)",
@@ -188,12 +188,12 @@ const periodConfig: Record<
     accent: "rgba(217, 110, 122, 0.5)",
   },
   night: {
-    label: "Malam",
-    greetings: ["Selamat malam 🌙", "Malam yang tenang", "Halo, masih bekerja?"],
+    label: "Night",
+    greetings: ["Good night", "A quiet night", "Hello, still working?"],
     sub: [
-      "Beri ruang untuk istirahat — esok masih panjang.",
-      "Bintang-bintang sudah keluar; mungkin saatnya pelan-pelan.",
-      "Ide terbaik sering datang setelah tidur yang cukup.",
+      "Make space for rest — tomorrow is still long.",
+      "The stars are out; perhaps it's time to slow down.",
+      "The best ideas often come after good sleep.",
     ],
     icon: Moon,
     sky: "linear-gradient(180deg, #0b1029 0%, #161a3d 50%, #2a1f4a 100%)",
@@ -259,7 +259,7 @@ function Dashboard() {
       day: "2-digit",
     }).format(now);
     const seed = dayKey.split("-").reduce((a, b) => a + parseInt(b, 10), 0);
-    const dateLabel = new Intl.DateTimeFormat("id-ID", {
+    const dateLabel = new Intl.DateTimeFormat("en-GB", {
       timeZone: "Asia/Jakarta",
       weekday: "long",
       day: "numeric",
@@ -366,12 +366,12 @@ function Dashboard() {
             </div>
             <div className="hidden text-right text-[11px] text-white/85 sm:block">{dateLabel}</div>
           </div>
-          <div>
-            <h1 className="text-2xl font-bold text-white drop-shadow-sm sm:text-3xl">
+          <div className="min-w-0">
+            <h1 className="truncate text-xl font-bold text-white drop-shadow-sm sm:text-2xl md:text-3xl">
               {greeting}
               {userName ? `, ${userName}` : ""}
             </h1>
-            <p className="mt-1 line-clamp-1 max-w-xl text-xs text-white/85 sm:text-sm">{sub}</p>
+            <p className="mt-1 line-clamp-2 max-w-xl text-xs text-white/85 sm:line-clamp-1 sm:text-sm">{sub}</p>
           </div>
         </div>
       </div>
@@ -480,10 +480,10 @@ function Dashboard() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-brand" />
-              <h2 className="text-sm font-semibold">Tugas hari ini</h2>
+              <h2 className="text-sm font-semibold">Today's tasks</h2>
             </div>
             <span className="text-[11px] text-muted-foreground">
-              {taskState.filter((t) => !t.done).length} aktif
+              {taskState.filter((t) => !t.done).length} active
             </span>
           </div>
           <ul className="mt-3 space-y-1.5">
@@ -518,9 +518,9 @@ function Dashboard() {
         <div className="flex items-center justify-between border-b border-border px-5 py-3">
           <div className="flex items-center gap-2">
             <Activity className="h-4 w-4 text-brand" />
-            <h2 className="text-sm font-semibold">Aktivitas terbaru</h2>
+            <h2 className="text-sm font-semibold">Recent activity</h2>
           </div>
-          <button className="text-[11px] font-medium text-brand hover:underline">Lihat semua</button>
+          <button className="text-[11px] font-medium text-brand hover:underline">View all</button>
         </div>
         <ul className="divide-y divide-border">
           {activity.map((a, i) => (
@@ -531,7 +531,7 @@ function Dashboard() {
               <div className="min-w-0 flex-1">
                 <div className="truncate font-medium">{a.t}</div>
                 <div className="truncate text-xs text-muted-foreground">
-                  {a.w} • {a.time} lalu
+                  {a.w} • {a.time} ago
                 </div>
               </div>
               {a.a !== "—" && (
