@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { ArrowRight, Boxes, LineChart, ShieldCheck, Sparkles, Zap, Building2, ShoppingBag, Truck, Stethoscope, GraduationCap, Landmark, Quote, Clock, TrendingUp, Users2, Workflow, CheckCircle2, PlayCircle } from "lucide-react";
+import { ArrowRight, LineChart, ShieldCheck, Sparkles, Building2, ShoppingBag, Truck, Stethoscope, GraduationCap, Landmark, Quote, Workflow, CheckCircle2, PlayCircle, Code2, Smartphone, Cloud, Cpu, Plug, Search, PenTool, Hammer, Rocket, Boxes } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { Reveal } from "@/components/site/Reveal";
