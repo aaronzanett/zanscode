@@ -22,20 +22,20 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const features = [
-  { icon: Globe2, title: "Web Platforms", desc: "High-performance websites and web apps engineered for scale." },
-  { icon: Smartphone, title: "Mobile Apps", desc: "Native and cross-platform Android & iOS experiences." },
-  { icon: Cpu, title: "Desktop Software", desc: "Robust desktop tools tailored to operations teams." },
-  { icon: Boxes, title: "SaaS Products", desc: "Multi-tenant cloud products with billing & analytics ready." },
-  { icon: ShieldCheck, title: "Enterprise Security", desc: "Hardened infrastructure, RBAC, audits, and compliance." },
-  { icon: LineChart, title: "Business Intelligence", desc: "Real-time dashboards turning data into decisions." },
+const outcomes = [
+  { icon: Clock, title: "Save hours every week", desc: "Automate quoting, invoicing, scheduling and reporting your team does by hand today." },
+  { icon: TrendingUp, title: "Grow revenue with clarity", desc: "See what's working in real time — by outlet, product, customer or salesperson." },
+  { icon: Workflow, title: "One system, not ten tabs", desc: "Replace spreadsheets and disconnected tools with a single source of truth." },
+  { icon: Users2, title: "Empower your team", desc: "Give managers and staff the same accurate data, on web and mobile." },
+  { icon: ShieldCheck, title: "Enterprise-grade security", desc: "RBAC, audit logs, SSO and compliance baked into every product." },
+  { icon: LineChart, title: "Decisions backed by data", desc: "Live dashboards turn daily operations into your monthly board report." },
 ];
 
 const stats = [
-  { v: "120+", l: "Projects shipped" },
-  { v: "45", l: "Enterprise clients" },
+  { v: "8,500+", l: "Active business users" },
+  { v: "11", l: "Industries served" },
+  { v: "30+", l: "Countries live" },
   { v: "99.98%", l: "Platform uptime" },
-  { v: "24/7", l: "Dedicated support" },
 ];
 
 const industries = [
@@ -47,17 +47,16 @@ const industries = [
   { icon: Landmark, name: "Finance" },
 ];
 
-const process = [
-  { icon: Search, n: "01", t: "Discover", d: "Workshops to map goals, users and constraints." },
-  { icon: PenTool, n: "02", t: "Design", d: "Architecture, UX and a measurable success plan." },
-  { icon: Hammer, n: "03", t: "Build", d: "Iterative delivery with weekly demos." },
-  { icon: Rocket, n: "04", t: "Scale", d: "Operate, optimize and grow long-term." },
+const journey = [
+  { n: "01", t: "Pick your product", d: "Choose a Zanscode SaaS that fits your industry — or the full Zanscode OS suite." },
+  { n: "02", t: "Onboard in days", d: "Our team migrates your data, configures roles and trains your staff." },
+  { n: "03", t: "Run & optimize", d: "Operate daily on one platform, with continuous updates and dedicated support." },
 ];
 
 const testimonials = [
-  { quote: "Zanscode replaced four disconnected tools with one system. Our ops team finally trusts the data.", name: "Anita Wijaya", role: "COO, RetailCo" },
-  { quote: "Shipped our flagship mobile app in 14 weeks. Quality and communication were outstanding.", name: "Marcus Lee", role: "Founder, FleetIQ" },
-  { quote: "A true partner — they think with us, not just for us. The roadmap kept getting better.", name: "Sari Pratama", role: "VP Product, EduNext" },
+  { quote: "Zanscode replaced four disconnected tools with one system. Our ops team finally trusts the data.", name: "Anita Wijaya", role: "COO, RetailCo (12 outlets)" },
+  { quote: "We cut monthly closing from 9 days to 2. The dashboards are now my morning coffee.", name: "Marcus Lee", role: "CEO, FleetIQ (mid-sized logistics)" },
+  { quote: "A true partner — they understand mid-sized businesses, not just enterprises or startups.", name: "Sari Pratama", role: "Owner, EduNext Group" },
 ];
 
 function HomePage() {
