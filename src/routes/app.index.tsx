@@ -65,22 +65,22 @@ const activity = [
   { t: "Invoice #INV-2041 paid", w: "Acme Corp", a: "$4,200", time: "2m", tone: "emerald" as const },
   { t: "New customer onboarded", w: "Northwind Ltd", a: "—", time: "21m", tone: "sky" as const },
   { t: "Project milestone completed", w: "Zenith App v2", a: "—", time: "1h", tone: "violet" as const },
-  { t: "Stock replenished — SKU 8821", w: "Warehouse JKT", a: "+240", time: "3h", tone: "amber" as const },
+  { t: "Stock replenished — SKU 8821", w: "Jakarta Warehouse", a: "+240", time: "3h", tone: "amber" as const },
   { t: "Subscription renewed", w: "Riverside Inc", a: "$1,290", time: "5h", tone: "emerald" as const },
 ];
 
 const tasks = [
-  { t: "Review Q2 budget proposal", due: "Hari ini", done: false },
-  { t: "Approve 3 leave requests", due: "Hari ini", done: false },
-  { t: "Sign off vendor contract", due: "Besok", done: false },
-  { t: "Send weekly report to board", due: "Jum'at", done: true },
+  { t: "Review Q2 budget proposal", due: "Today", done: false },
+  { t: "Approve 3 leave requests", due: "Today", done: false },
+  { t: "Sign off vendor contract", due: "Tomorrow", done: false },
+  { t: "Send weekly report to board", due: "Friday", done: true },
 ];
 
 const quickActions = [
-  { t: "Buat invoice", to: "/app/finance" as const, i: FileText },
-  { t: "Tambah pelanggan", to: "/app/customers" as const, i: UserPlus },
-  { t: "Catat pengeluaran", to: "/app/expenses" as const, i: Receipt },
-  { t: "Buat tugas", to: "/app/tasks" as const, i: Plus },
+  { t: "Create invoice", to: "/app/finance" as const, i: FileText },
+  { t: "Add customer", to: "/app/customers" as const, i: UserPlus },
+  { t: "Log expense", to: "/app/expenses" as const, i: Receipt },
+  { t: "New task", to: "/app/tasks" as const, i: Plus },
 ];
 
 type Period = "morning" | "midday" | "afternoon" | "evening" | "night";
