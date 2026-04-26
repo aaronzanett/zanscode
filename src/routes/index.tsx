@@ -84,27 +84,26 @@ function HomePage() {
           <div className="max-w-3xl">
             <Reveal variant="fade">
               <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white backdrop-blur">
-                <Sparkles className="h-3.5 w-3.5" /> Technology partner for ambitious teams
+                <Sparkles className="h-3.5 w-3.5" /> SaaS built for business owners
               </span>
             </Reveal>
             <Reveal variant="up" delay={200}>
               <h1 className="mt-6 text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
-                Build a business system that <span className="text-shine">runs itself</span>.
+                Run your business on software that <span className="text-shine">actually fits</span>.
               </h1>
             </Reveal>
             <Reveal variant="up" delay={400}>
               <p className="mt-6 max-w-2xl text-lg text-white/80">
-                Zanscode designs and ships modern technology — websites, mobile, desktop and SaaS —
-                so your operations are organized, automated, and ready to scale.
+                Zanscode is a SaaS company helping business owners and mid-sized companies replace spreadsheets, disconnected tools and manual work with one modern platform — built for the way your industry actually operates.
               </p>
             </Reveal>
             <Reveal variant="up" delay={600}>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Button asChild size="xl" variant="brand">
-                  <Link to="/contact">Start a project <ArrowRight className="ml-1 h-4 w-4" /></Link>
+                  <Link to="/products">Explore our SaaS <ArrowRight className="ml-1 h-4 w-4" /></Link>
                 </Button>
                 <Button asChild size="xl" variant="hero">
-                  <Link to="/products">Explore products</Link>
+                  <Link to="/contact"><PlayCircle className="mr-1 h-4 w-4" /> Book a demo</Link>
                 </Button>
               </div>
             </Reveal>
