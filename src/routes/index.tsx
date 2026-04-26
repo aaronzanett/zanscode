@@ -13,28 +13,28 @@ import productSaas from "@/assets/product-saas.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Zanscode — Technology Solutions for Modern Business" },
-      { name: "description", content: "Zanscode builds web, mobile, desktop and SaaS solutions that power well-organized, scalable business systems." },
-      { property: "og:title", content: "Zanscode — Technology Solutions for Modern Business" },
-      { property: "og:description", content: "Web, mobile, desktop and SaaS solutions for organized, scalable businesses." },
+      { title: "Zanscode — Custom Software & Systems for Modern Business" },
+      { name: "description", content: "Zanscode designs and builds custom software, business systems and modern web, mobile and cloud applications for business owners and mid-sized companies." },
+      { property: "og:title", content: "Zanscode — Custom Software & Systems for Modern Business" },
+      { property: "og:description", content: "Custom software, business systems and modern apps engineered for business owners and mid-sized companies." },
     ],
   }),
   component: HomePage,
 });
 
-const outcomes = [
-  { icon: Clock, title: "Save hours every week", desc: "Automate quoting, invoicing, scheduling and reporting your team does by hand today." },
-  { icon: TrendingUp, title: "Grow revenue with clarity", desc: "See what's working in real time — by outlet, product, customer or salesperson." },
-  { icon: Workflow, title: "One system, not ten tabs", desc: "Replace spreadsheets and disconnected tools with a single source of truth." },
-  { icon: Users2, title: "Empower your team", desc: "Give managers and staff the same accurate data, on web and mobile." },
-  { icon: ShieldCheck, title: "Enterprise-grade security", desc: "RBAC, audit logs, SSO and compliance baked into every product." },
-  { icon: LineChart, title: "Decisions backed by data", desc: "Live dashboards turn daily operations into your monthly board report." },
+const capabilities = [
+  { icon: Code2, title: "Custom business software", desc: "Tailored systems engineered around how your business actually operates — not the other way around." },
+  { icon: Workflow, title: "ERP & operations systems", desc: "Inventory, sales, finance, HR and reporting unified into one source of truth." },
+  { icon: Smartphone, title: "Web & mobile applications", desc: "Customer-facing and internal apps for web, iOS and Android — fast, modern, reliable." },
+  { icon: Cloud, title: "Cloud & DevOps", desc: "Scalable infrastructure on AWS, GCP and Azure with CI/CD, monitoring and SLAs." },
+  { icon: Plug, title: "System integration", desc: "Connect ERP, CRM, accounting, payments and 3rd-party services into one workflow." },
+  { icon: ShieldCheck, title: "Security & compliance", desc: "RBAC, audit logs, SSO and hardened infrastructure for enterprise-grade trust." },
 ];
 
 const stats = [
-  { v: "8,500+", l: "Active business users" },
+  { v: "120+", l: "Systems delivered" },
+  { v: "45", l: "Enterprise clients" },
   { v: "11", l: "Industries served" },
-  { v: "30+", l: "Countries live" },
   { v: "99.98%", l: "Platform uptime" },
 ];
 
@@ -47,16 +47,17 @@ const industries = [
   { icon: Landmark, name: "Finance" },
 ];
 
-const journey = [
-  { n: "01", t: "Pick your product", d: "Choose a Zanscode SaaS that fits your industry — or the full Zanscode OS suite." },
-  { n: "02", t: "Onboard in days", d: "Our team migrates your data, configures roles and trains your staff." },
-  { n: "03", t: "Run & optimize", d: "Operate daily on one platform, with continuous updates and dedicated support." },
+const process = [
+  { icon: Search, n: "01", t: "Discover", d: "Workshops to map goals, users, workflows and constraints." },
+  { icon: PenTool, n: "02", t: "Design", d: "System architecture, UX and a measurable success plan." },
+  { icon: Hammer, n: "03", t: "Build", d: "Iterative delivery with weekly demos and tight feedback." },
+  { icon: Rocket, n: "04", t: "Scale", d: "Operate, optimize and evolve the system long-term." },
 ];
 
 const testimonials = [
-  { quote: "Zanscode replaced four disconnected tools with one system. Our ops team finally trusts the data.", name: "Anita Wijaya", role: "COO, RetailCo (12 outlets)" },
-  { quote: "We cut monthly closing from 9 days to 2. The dashboards are now my morning coffee.", name: "Marcus Lee", role: "CEO, FleetIQ (mid-sized logistics)" },
-  { quote: "A true partner — they understand mid-sized businesses, not just enterprises or startups.", name: "Sari Pratama", role: "Owner, EduNext Group" },
+  { quote: "Zanscode rebuilt our operations system from scratch. What took 4 tools now runs in one — and our team finally trusts the data.", name: "Anita Wijaya", role: "COO, RetailCo (12 outlets)" },
+  { quote: "They shipped our custom logistics platform in 14 weeks. Quality, communication and engineering were outstanding.", name: "Marcus Lee", role: "CEO, FleetIQ" },
+  { quote: "A true software partner — they think with us, not just for us. The system keeps getting better quarter after quarter.", name: "Sari Pratama", role: "Owner, EduNext Group" },
 ];
 
 function HomePage() {
