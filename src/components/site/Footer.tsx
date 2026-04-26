@@ -53,8 +53,8 @@ export function Footer() {
             <img src={logo} alt="Zanscode" className="h-9 w-auto" />
           </Link>
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
-            Zanscode is a SaaS company building modern, industry-ready software for
-            business owners and mid-sized companies — so your operations finally run on one system.
+            Zanscode is a software company designing and building custom systems, web, mobile and cloud
+            applications — plus a growing line of SaaS products — for business owners and mid-sized companies.
           </p>
 
           <ul className="mt-6 space-y-3 text-sm">
