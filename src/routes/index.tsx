@@ -170,21 +170,50 @@ function HomePage() {
         </div>
       </section>
 
-      {/* SaaS suite highlight */}
+      {/* Process */}
       <section className="bg-background py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <Reveal variant="up" className="mx-auto max-w-2xl text-center">
+            <span className="text-sm font-semibold uppercase tracking-wider text-brand">How we work</span>
+            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">A clear path from idea to scale</h2>
+            <p className="mt-4 text-muted-foreground">A proven four-step engineering process that keeps everyone aligned and shipping.</p>
+          </Reveal>
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {process.map((p, i) => (
+              <Reveal key={p.n} variant="up" delay={i * 180} as="div">
+                <div className="lift group h-full rounded-2xl border border-border bg-card p-6 shadow-soft hover:border-brand/40 hover:shadow-brand">
+                  <div className="flex items-center justify-between">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground transition-transform duration-300 group-hover:scale-110">
+                      <p.icon className="h-5 w-5" />
+                    </div>
+                    <span className="text-2xl font-bold text-gradient-brand">{p.n}</span>
+                  </div>
+                  <h3 className="mt-5 text-lg font-semibold">{p.t}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{p.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SaaS products callout */}
+      <section className="bg-surface py-24">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <Reveal variant="up">
-            <span className="text-sm font-semibold uppercase tracking-wider text-brand">The Zanscode SaaS suite</span>
-            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">One vendor. Every part of your business.</h2>
+            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand shadow-soft">
+              <Boxes className="h-3.5 w-3.5" /> Also from Zanscode
+            </span>
+            <h2 className="mt-4 text-3xl font-bold sm:text-4xl">Ready-made SaaS products, by the same team.</h2>
             <p className="mt-4 text-muted-foreground">
-              Pick a single product to fix one painful workflow, or run your whole company on the connected suite — sales, operations, finance, HR and analytics on one platform.
+              Beyond custom systems, we ship a growing line of SaaS products for specific industries — from POS and clinic management to school and field-service apps. If a Zanscode product already fits, you can run on it from day one.
             </p>
             <ul className="mt-6 space-y-3 text-sm">
               {[
                 "25+ industry-ready SaaS products",
-                "Single sign-on across every module",
-                "Live dashboards out of the box",
-                "Open APIs and 100+ integrations",
+                "Live, hosted and continuously updated",
+                "Customizable when your workflow is unique",
+                "Same engineering team behind every release",
               ].map((i, idx) => (
                 <li
                   key={i}
@@ -196,38 +225,16 @@ function HomePage() {
               ))}
             </ul>
             <div className="mt-8 flex gap-3">
-              <Button asChild variant="brand"><Link to="/products">Browse all products</Link></Button>
-              <Button asChild variant="outline"><Link to="/contact">Talk to sales</Link></Button>
+              <Button asChild variant="brand"><Link to="/products">Browse SaaS products <ArrowRight className="ml-1 h-4 w-4" /></Link></Button>
+              <Button asChild variant="outline"><Link to="/contact">Talk to our team</Link></Button>
             </div>
           </Reveal>
           <Reveal variant="scale" delay={250}>
             <div className="relative">
               <div className="absolute -inset-6 rounded-3xl bg-gradient-brand opacity-20 blur-3xl animate-blob-drift" />
-              <img src={productSaas} alt="Zanscode SaaS suite dashboard" loading="lazy" width={1024} height={768} className="relative rounded-2xl border border-border shadow-brand transition-transform duration-500 hover:scale-[1.02]" />
+              <img src={productSaas} alt="Zanscode SaaS products preview" loading="lazy" width={1024} height={768} className="relative rounded-2xl border border-border shadow-brand transition-transform duration-500 hover:scale-[1.02]" />
             </div>
           </Reveal>
-        </div>
-      </section>
-
-      {/* How to get started */}
-      <section className="bg-surface py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <Reveal variant="up" className="mx-auto max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-wider text-brand">Getting started</span>
-            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">From sign-up to running your business — in days</h2>
-            <p className="mt-4 text-muted-foreground">No long custom builds. Pick the product, onboard with our team, and start running.</p>
-          </Reveal>
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {journey.map((p, i) => (
-              <Reveal key={p.n} variant="up" delay={i * 180} as="div">
-                <div className="lift group h-full rounded-2xl border border-border bg-card p-6 shadow-soft hover:border-brand/40 hover:shadow-brand">
-                  <span className="text-2xl font-bold text-gradient-brand">{p.n}</span>
-                  <h3 className="mt-3 text-lg font-semibold">{p.t}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{p.d}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
         </div>
       </section>
 
