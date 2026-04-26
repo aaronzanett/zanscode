@@ -23,12 +23,12 @@ export const Route = createFileRoute("/app/settings")({
 });
 
 const tabs = [
-  { id: "general", label: "Umum", icon: Building2 },
-  { id: "localization", label: "Lokal", icon: Globe2 },
-  { id: "appearance", label: "Tampilan", icon: Palette },
-  { id: "notifications", label: "Notifikasi", icon: Bell },
-  { id: "security", label: "Keamanan", icon: ShieldCheck },
-  { id: "maintenance", label: "Pemeliharaan", icon: Wrench },
+  { id: "general", label: "General", icon: Building2 },
+  { id: "localization", label: "Localization", icon: Globe2 },
+  { id: "appearance", label: "Appearance", icon: Palette },
+  { id: "notifications", label: "Notifications", icon: Bell },
+  { id: "security", label: "Security", icon: ShieldCheck },
+  { id: "maintenance", label: "Maintenance", icon: Wrench },
 ] as const;
 
 function Settings() {
@@ -50,19 +50,19 @@ function Settings() {
   const handleSave = () => {
     setAppSettings(draft);
     setInitial(draft);
-    toast.success("Pengaturan disimpan", {
-      description: "Perubahan langsung diterapkan ke seluruh aplikasi.",
+    toast.success("Settings saved", {
+      description: "Changes are applied across the app immediately.",
     });
   };
 
   const handleReset = () => {
     setDraft(initial);
-    toast.message("Perubahan dibatalkan");
+    toast.message("Changes discarded");
   };
 
   const handleRestoreDefaults = () => {
     setDraft(DEFAULT_SETTINGS);
-    toast.message("Default dimuat", { description: "Klik Simpan untuk menerapkan." });
+    toast.message("Defaults loaded", { description: "Click Save to apply." });
   };
 
   return (
@@ -70,19 +70,18 @@ function Settings() {
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-bold sm:text-2xl">Pengaturan</h1>
+          <h1 className="text-xl font-bold sm:text-2xl">Settings</h1>
           <p className="text-xs text-muted-foreground sm:text-sm">
-            Kelola preferensi seluruh aplikasi internal.
+            Manage preferences for the entire internal app.
           </p>
         </div>
         <Button variant="ghost" size="sm" onClick={handleRestoreDefaults} className="gap-1.5">
           <RotateCcw className="h-3.5 w-3.5" />
-          Muat default
+          Load defaults
         </Button>
       </div>
 
       <Tabs value={tab} onValueChange={setTab} className="w-full">
-        {/* Scrollable tab strip */}
         <TabsList className="h-auto w-full justify-start overflow-x-auto rounded-lg bg-card p-1 shadow-soft border border-border">
           {tabs.map((t) => (
             <TabsTrigger
@@ -98,17 +97,17 @@ function Settings() {
 
         {/* General */}
         <TabsContent value="general" className="mt-4">
-          <SettingsCard title="Identitas" description="Nama yang muncul di seluruh aplikasi internal.">
-            <Field label="Nama aplikasi" hint="Muncul di navbar internal app.">
+          <SettingsCard title="Identity" description="Names that appear throughout the internal app.">
+            <Field label="App name" hint="Shown in the internal app navbar.">
               <Input value={draft.appName} onChange={(e) => update("appName", e.target.value)} />
             </Field>
-            <Field label="Nama perusahaan">
+            <Field label="Company name">
               <Input value={draft.companyName} onChange={(e) => update("companyName", e.target.value)} />
             </Field>
             <Field label="Domain">
               <Input value={draft.domain} onChange={(e) => update("domain", e.target.value)} />
             </Field>
-            <Field label="Mata uang default">
+            <Field label="Default currency">
               <Select value={draft.currency} onValueChange={(v) => update("currency", v)}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
@@ -124,8 +123,8 @@ function Settings() {
 
         {/* Localization */}
         <TabsContent value="localization" className="mt-4">
-          <SettingsCard title="Lokalisasi" description="Bahasa, zona waktu, dan format yang digunakan sistem.">
-            <Field label="Zona waktu">
+          <SettingsCard title="Localization" description="Language, time zone, and formats used by the system.">
+            <Field label="Time zone">
               <Select value={draft.timezone} onValueChange={(v) => update("timezone", v)}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
@@ -137,16 +136,16 @@ function Settings() {
                 </SelectContent>
               </Select>
             </Field>
-            <Field label="Bahasa">
+            <Field label="Language">
               <Select value={draft.language} onValueChange={(v) => update("language", v as AppSettings["language"])}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="id">Bahasa Indonesia</SelectItem>
                   <SelectItem value="en">English</SelectItem>
+                  <SelectItem value="id">Bahasa Indonesia</SelectItem>
                 </SelectContent>
               </Select>
             </Field>
-            <Field label="Format tanggal">
+            <Field label="Date format">
               <Select value={draft.dateFormat} onValueChange={(v) => update("dateFormat", v as AppSettings["dateFormat"])}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
@@ -156,12 +155,12 @@ function Settings() {
                 </SelectContent>
               </Select>
             </Field>
-            <Field label="Awal minggu">
+            <Field label="Week starts on">
               <Select value={draft.weekStart} onValueChange={(v) => update("weekStart", v as AppSettings["weekStart"])}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="monday">Senin</SelectItem>
-                  <SelectItem value="sunday">Minggu</SelectItem>
+                  <SelectItem value="monday">Monday</SelectItem>
+                  <SelectItem value="sunday">Sunday</SelectItem>
                 </SelectContent>
               </Select>
             </Field>
@@ -170,8 +169,8 @@ function Settings() {
 
         {/* Appearance */}
         <TabsContent value="appearance" className="mt-4">
-          <SettingsCard title="Tampilan" description="Tema dan kepadatan tampilan antarmuka.">
-            <Field label="Tema">
+          <SettingsCard title="Appearance" description="Theme and interface density.">
+            <Field label="Theme">
               <div className="grid grid-cols-3 gap-2">
                 {(["system", "light", "dark"] as const).map((t) => (
                   <button
@@ -184,12 +183,12 @@ function Settings() {
                         : "border-border bg-secondary/30 text-muted-foreground hover:text-foreground"
                     }`}
                   >
-                    {t === "system" ? "Sistem" : t === "light" ? "Terang" : "Gelap"}
+                    {t === "system" ? "System" : t === "light" ? "Light" : "Dark"}
                   </button>
                 ))}
               </div>
             </Field>
-            <Field label="Kepadatan">
+            <Field label="Density">
               <div className="grid grid-cols-2 gap-2">
                 {(["comfortable", "compact"] as const).map((d) => (
                   <button
@@ -202,7 +201,7 @@ function Settings() {
                         : "border-border bg-secondary/30 text-muted-foreground hover:text-foreground"
                     }`}
                   >
-                    {d === "comfortable" ? "Nyaman" : "Padat"}
+                    {d === "comfortable" ? "Comfortable" : "Compact"}
                   </button>
                 ))}
               </div>
@@ -212,26 +211,26 @@ function Settings() {
 
         {/* Notifications */}
         <TabsContent value="notifications" className="mt-4">
-          <SettingsCard title="Notifikasi" description="Kontrol bagaimana sistem mengirim pemberitahuan.">
+          <SettingsCard title="Notifications" description="Control how the system sends alerts.">
             <ToggleRow
-              label="Notifikasi email"
-              description="Kirim ringkasan dan peringatan ke email pengguna."
+              label="Email notifications"
+              description="Send summaries and alerts to the user's email."
               checked={draft.notifyEmail}
               onChange={(v) => update("notifyEmail", v)}
             />
             <ToggleRow
-              label="Notifikasi in-app"
-              description="Tampilkan lonceng notifikasi pada navbar."
+              label="In-app notifications"
+              description="Show the notification bell in the navbar."
               checked={draft.notifyInApp}
               onChange={(v) => update("notifyInApp", v)}
             />
-            <Field label="Frekuensi digest" full>
+            <Field label="Digest frequency" full>
               <Select value={draft.notifyDigest} onValueChange={(v) => update("notifyDigest", v as AppSettings["notifyDigest"])}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="off">Nonaktif</SelectItem>
-                  <SelectItem value="daily">Harian</SelectItem>
-                  <SelectItem value="weekly">Mingguan</SelectItem>
+                  <SelectItem value="off">Off</SelectItem>
+                  <SelectItem value="daily">Daily</SelectItem>
+                  <SelectItem value="weekly">Weekly</SelectItem>
                 </SelectContent>
               </Select>
             </Field>
@@ -240,20 +239,20 @@ function Settings() {
 
         {/* Security */}
         <TabsContent value="security" className="mt-4">
-          <SettingsCard title="Keamanan & Akses" description="Aturan login dan sesi untuk seluruh staf.">
+          <SettingsCard title="Security & Access" description="Login and session rules for all staff.">
             <ToggleRow
-              label="Izinkan pendaftaran mandiri"
-              description="Karyawan baru dapat membuat akun via halaman daftar."
+              label="Allow self-signup"
+              description="New employees can create an account from the signup page."
               checked={draft.allowSignup}
               onChange={(v) => update("allowSignup", v)}
             />
             <ToggleRow
-              label="Wajibkan 2FA"
-              description="Semua staf harus mengaktifkan autentikasi dua faktor."
+              label="Require 2FA"
+              description="All staff must enable two-factor authentication."
               checked={draft.twoFactorRequired}
               onChange={(v) => update("twoFactorRequired", v)}
             />
-            <Field label="Timeout sesi (menit)" full>
+            <Field label="Session timeout (minutes)" full>
               <Input
                 type="number"
                 min={5}
@@ -270,31 +269,31 @@ function Settings() {
         {/* Maintenance */}
         <TabsContent value="maintenance" className="mt-4">
           <SettingsCard
-            title="Mode Pemeliharaan"
-            description="Nonaktifkan sementara akses pengguna saat ada pekerjaan sistem."
+            title="Maintenance Mode"
+            description="Temporarily restrict access while the system is being worked on."
             accent={draft.maintenanceMode ? "warning" : undefined}
           >
             {draft.maintenanceMode && (
               <div className="sm:col-span-2 flex items-start gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-xs text-amber-700 dark:text-amber-300">
                 <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
                 <p>
-                  Mode pemeliharaan aktif. Badge akan terlihat di navbar dan akses
-                  pengguna non-admin akan dibatasi setelah disimpan.
+                  Maintenance mode is active. The badge will appear in the navbar and
+                  non-admin user access will be restricted after saving.
                 </p>
               </div>
             )}
             <ToggleRow
-              label="Aktifkan mode pemeliharaan"
-              description="Saat aktif, badge maintenance muncul di navbar."
+              label="Enable maintenance mode"
+              description="When enabled, the maintenance badge appears in the navbar."
               checked={draft.maintenanceMode}
               onChange={(v) => update("maintenanceMode", v)}
             />
-            <Field label="Pesan untuk pengguna" full>
+            <Field label="Message for users" full>
               <Textarea
                 rows={3}
                 value={draft.maintenanceMessage}
                 onChange={(e) => update("maintenanceMessage", e.target.value)}
-                placeholder="Pesan yang ditampilkan saat mode pemeliharaan aktif."
+                placeholder="Message shown when maintenance mode is active."
               />
             </Field>
           </SettingsCard>
@@ -308,13 +307,13 @@ function Settings() {
         }`}
       >
         <p className="text-xs text-muted-foreground">
-          <span className="hidden sm:inline">Anda memiliki </span>perubahan belum disimpan.
+          <span className="hidden sm:inline">You have </span>unsaved changes.
         </p>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={handleReset}>Batal</Button>
+          <Button variant="outline" size="sm" onClick={handleReset}>Cancel</Button>
           <Button variant="brand" size="sm" onClick={handleSave} className="gap-1.5">
             <Save className="h-3.5 w-3.5" />
-            Simpan
+            Save
           </Button>
         </div>
       </div>

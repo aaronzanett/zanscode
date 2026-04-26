@@ -3,7 +3,7 @@ import { Clock } from "lucide-react";
 
 const TZ = "Asia/Jakarta";
 
-const dateFmt = new Intl.DateTimeFormat("id-ID", {
+const dateFmt = new Intl.DateTimeFormat("en-GB", {
   timeZone: TZ,
   weekday: "long",
   day: "numeric",
@@ -11,7 +11,7 @@ const dateFmt = new Intl.DateTimeFormat("id-ID", {
   year: "numeric",
 });
 
-const timeFmt = new Intl.DateTimeFormat("id-ID", {
+const timeFmt = new Intl.DateTimeFormat("en-GB", {
   timeZone: TZ,
   hour: "2-digit",
   minute: "2-digit",
@@ -19,7 +19,7 @@ const timeFmt = new Intl.DateTimeFormat("id-ID", {
   hour12: false,
 });
 
-const shortDateFmt = new Intl.DateTimeFormat("id-ID", {
+const shortDateFmt = new Intl.DateTimeFormat("en-GB", {
   timeZone: TZ,
   day: "numeric",
   month: "short",
@@ -29,7 +29,6 @@ export function LiveClock() {
   const [now, setNow] = useState<Date>(() => new Date());
 
   useEffect(() => {
-    // align to next full second for smoother ticking
     const ms = 1000 - (Date.now() % 1000);
     let interval: ReturnType<typeof setInterval> | undefined;
     const timeout = setTimeout(() => {
@@ -49,8 +48,8 @@ export function LiveClock() {
   return (
     <div
       className="hidden items-center gap-2.5 rounded-lg border border-border/70 bg-secondary/40 px-3 py-1.5 text-xs sm:flex"
-      title={`${fullDate} • Waktu Indonesia Barat`}
-      aria-label={`Waktu sekarang ${time} WIB, ${fullDate}`}
+      title={`${fullDate} • Western Indonesia Time`}
+      aria-label={`Current time ${time} WIB, ${fullDate}`}
     >
       <Clock className="h-3.5 w-3.5 text-muted-foreground" />
       <div className="flex items-baseline gap-2 leading-none">
