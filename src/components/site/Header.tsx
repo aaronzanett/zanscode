@@ -54,12 +54,6 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-1 md:flex">
-          <Link
-            to="/staff/login"
-            className="rounded-full px-3 py-2 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Staff sign in
-          </Link>
           <Button asChild size="sm" variant="brand" className="group">
             <Link to="/contact">
               Start a project

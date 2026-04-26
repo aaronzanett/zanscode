@@ -295,7 +295,15 @@ function AppLayout() {
           <div className="flex items-center gap-2 sm:gap-3">
             <LiveClock />
             <NotificationsBell />
-            <Link to="/" className="hidden text-xs text-muted-foreground hover:text-foreground sm:inline">← Back to site</Link>
+            <button
+              type="button"
+              onClick={handleSignOut}
+              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-brand hover:text-foreground"
+              aria-label="Sign out"
+            >
+              <LogOut className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">Sign out</span>
+            </button>
           </div>
         </header>
         <div className="flex-1 p-4 sm:p-5 lg:p-6">

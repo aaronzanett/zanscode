@@ -10,7 +10,7 @@ const columns = [
       { to: "/products" as const, label: "Zanscode ERP" },
       { to: "/products" as const, label: "Zanscode POS" },
       { to: "/products" as const, label: "SaaS apps" },
-      { to: "/app" as const, label: "Internal app" },
+      { to: "/staff/login" as const, label: "Staff sign in" },
     ],
   },
   {
