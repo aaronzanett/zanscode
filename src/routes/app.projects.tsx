@@ -14,7 +14,7 @@ import {
 import { EmptyState, PageHeader } from "@/components/app/EmptyState";
 
 export const Route = createFileRoute("/app/projects")({
-  validateSearch: (s: Record<string, unknown>) => ({ id: typeof s.id === "string" ? s.id : undefined }),
+  validateSearch: (s: Record<string, unknown>): { id?: string } => (typeof s.id === "string" ? { id: s.id } : {}),
   component: ProjectsPage,
 });
 
