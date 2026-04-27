@@ -19,7 +19,14 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as StaffLoginRouteImport } from './routes/staff.login'
 import { Route as ApplyJobSlugRouteImport } from './routes/apply.$jobSlug'
+import { Route as AppTeamRouteImport } from './routes/app.team'
+import { Route as AppTasksRouteImport } from './routes/app.tasks'
 import { Route as AppSettingsRouteImport } from './routes/app.settings'
+import { Route as AppProjectsRouteImport } from './routes/app.projects'
+import { Route as AppProductsRouteImport } from './routes/app.products'
+import { Route as AppKnowledgeRouteImport } from './routes/app.knowledge'
+import { Route as AppFinanceRouteImport } from './routes/app.finance'
+import { Route as AppClientsRouteImport } from './routes/app.clients'
 
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
@@ -71,9 +78,44 @@ const ApplyJobSlugRoute = ApplyJobSlugRouteImport.update({
   path: '/apply/$jobSlug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppTeamRoute = AppTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTasksRoute = AppTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppSettingsRoute = AppSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProjectsRoute = AppProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProductsRoute = AppProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppKnowledgeRoute = AppKnowledgeRouteImport.update({
+  id: '/knowledge',
+  path: '/knowledge',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFinanceRoute = AppFinanceRouteImport.update({
+  id: '/finance',
+  path: '/finance',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppClientsRoute = AppClientsRouteImport.update({
+  id: '/clients',
+  path: '/clients',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -85,7 +127,14 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/products': typeof ProductsRoute
   '/services': typeof ServicesRoute
+  '/app/clients': typeof AppClientsRoute
+  '/app/finance': typeof AppFinanceRoute
+  '/app/knowledge': typeof AppKnowledgeRoute
+  '/app/products': typeof AppProductsRoute
+  '/app/projects': typeof AppProjectsRoute
   '/app/settings': typeof AppSettingsRoute
+  '/app/tasks': typeof AppTasksRoute
+  '/app/team': typeof AppTeamRoute
   '/apply/$jobSlug': typeof ApplyJobSlugRoute
   '/staff/login': typeof StaffLoginRoute
   '/app/': typeof AppIndexRoute
@@ -97,7 +146,14 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/products': typeof ProductsRoute
   '/services': typeof ServicesRoute
+  '/app/clients': typeof AppClientsRoute
+  '/app/finance': typeof AppFinanceRoute
+  '/app/knowledge': typeof AppKnowledgeRoute
+  '/app/products': typeof AppProductsRoute
+  '/app/projects': typeof AppProjectsRoute
   '/app/settings': typeof AppSettingsRoute
+  '/app/tasks': typeof AppTasksRoute
+  '/app/team': typeof AppTeamRoute
   '/apply/$jobSlug': typeof ApplyJobSlugRoute
   '/staff/login': typeof StaffLoginRoute
   '/app': typeof AppIndexRoute
@@ -111,7 +167,14 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/products': typeof ProductsRoute
   '/services': typeof ServicesRoute
+  '/app/clients': typeof AppClientsRoute
+  '/app/finance': typeof AppFinanceRoute
+  '/app/knowledge': typeof AppKnowledgeRoute
+  '/app/products': typeof AppProductsRoute
+  '/app/projects': typeof AppProjectsRoute
   '/app/settings': typeof AppSettingsRoute
+  '/app/tasks': typeof AppTasksRoute
+  '/app/team': typeof AppTeamRoute
   '/apply/$jobSlug': typeof ApplyJobSlugRoute
   '/staff/login': typeof StaffLoginRoute
   '/app/': typeof AppIndexRoute
@@ -126,7 +189,14 @@ export interface FileRouteTypes {
     | '/contact'
     | '/products'
     | '/services'
+    | '/app/clients'
+    | '/app/finance'
+    | '/app/knowledge'
+    | '/app/products'
+    | '/app/projects'
     | '/app/settings'
+    | '/app/tasks'
+    | '/app/team'
     | '/apply/$jobSlug'
     | '/staff/login'
     | '/app/'
@@ -138,7 +208,14 @@ export interface FileRouteTypes {
     | '/contact'
     | '/products'
     | '/services'
+    | '/app/clients'
+    | '/app/finance'
+    | '/app/knowledge'
+    | '/app/products'
+    | '/app/projects'
     | '/app/settings'
+    | '/app/tasks'
+    | '/app/team'
     | '/apply/$jobSlug'
     | '/staff/login'
     | '/app'
@@ -151,7 +228,14 @@ export interface FileRouteTypes {
     | '/contact'
     | '/products'
     | '/services'
+    | '/app/clients'
+    | '/app/finance'
+    | '/app/knowledge'
+    | '/app/products'
+    | '/app/projects'
     | '/app/settings'
+    | '/app/tasks'
+    | '/app/team'
     | '/apply/$jobSlug'
     | '/staff/login'
     | '/app/'
@@ -241,6 +325,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApplyJobSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/team': {
+      id: '/app/team'
+      path: '/team'
+      fullPath: '/app/team'
+      preLoaderRoute: typeof AppTeamRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/tasks': {
+      id: '/app/tasks'
+      path: '/tasks'
+      fullPath: '/app/tasks'
+      preLoaderRoute: typeof AppTasksRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/settings': {
       id: '/app/settings'
       path: '/settings'
@@ -248,16 +346,65 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/projects': {
+      id: '/app/projects'
+      path: '/projects'
+      fullPath: '/app/projects'
+      preLoaderRoute: typeof AppProjectsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/products': {
+      id: '/app/products'
+      path: '/products'
+      fullPath: '/app/products'
+      preLoaderRoute: typeof AppProductsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/knowledge': {
+      id: '/app/knowledge'
+      path: '/knowledge'
+      fullPath: '/app/knowledge'
+      preLoaderRoute: typeof AppKnowledgeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/finance': {
+      id: '/app/finance'
+      path: '/finance'
+      fullPath: '/app/finance'
+      preLoaderRoute: typeof AppFinanceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/clients': {
+      id: '/app/clients'
+      path: '/clients'
+      fullPath: '/app/clients'
+      preLoaderRoute: typeof AppClientsRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppClientsRoute: typeof AppClientsRoute
+  AppFinanceRoute: typeof AppFinanceRoute
+  AppKnowledgeRoute: typeof AppKnowledgeRoute
+  AppProductsRoute: typeof AppProductsRoute
+  AppProjectsRoute: typeof AppProjectsRoute
   AppSettingsRoute: typeof AppSettingsRoute
+  AppTasksRoute: typeof AppTasksRoute
+  AppTeamRoute: typeof AppTeamRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppClientsRoute: AppClientsRoute,
+  AppFinanceRoute: AppFinanceRoute,
+  AppKnowledgeRoute: AppKnowledgeRoute,
+  AppProductsRoute: AppProductsRoute,
+  AppProjectsRoute: AppProjectsRoute,
   AppSettingsRoute: AppSettingsRoute,
+  AppTasksRoute: AppTasksRoute,
+  AppTeamRoute: AppTeamRoute,
   AppIndexRoute: AppIndexRoute,
 }
 
