@@ -106,7 +106,7 @@ function MemberDetail({ id }: { id: string }) {
   if (!member) {
     return (
       <div className="space-y-4">
-        <Link to="/app/team" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Back</Link>
+        <Link to="/app/team" search={{}} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Back</Link>
         <EmptyState icon={UserCog} title="Member not found" description="They may have been removed." />
       </div>
     );
@@ -124,7 +124,7 @@ function MemberDetail({ id }: { id: string }) {
 
   return (
     <div className="space-y-5">
-      <Link to="/app/team" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Back to team</Link>
+      <Link to="/app/team" search={{}} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Back to team</Link>
 
       <div className="rounded-xl border border-border bg-card p-5 shadow-soft">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">

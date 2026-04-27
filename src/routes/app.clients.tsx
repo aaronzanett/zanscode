@@ -173,7 +173,7 @@ function ClientDetail({ id }: { id: string }) {
   if (!client) {
     return (
       <div className="space-y-4">
-        <Link to="/app/clients" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Back to clients</Link>
+        <Link to="/app/clients" search={{}} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Back to clients</Link>
         <EmptyState icon={Users} title="Client not found" description="It may have been deleted." />
       </div>
     );
@@ -188,7 +188,7 @@ function ClientDetail({ id }: { id: string }) {
 
   return (
     <div className="space-y-5">
-      <Link to="/app/clients" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Back to clients</Link>
+      <Link to="/app/clients" search={{}} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Back to clients</Link>
 
       <div className="rounded-xl border border-border bg-card p-5 shadow-soft">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
