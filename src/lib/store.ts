@@ -2,7 +2,7 @@
 // All modules (clients, projects, tasks, finance, team, products, docs) live here so
 // they stay interconnected without a backend. Replace with Lovable Cloud when ready.
 
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 
 // ---------- Types ----------
 
