@@ -27,7 +27,7 @@ export const Route = createFileRoute("/app")({
 type AppPath =
   | "/app" | "/app/clients" | "/app/projects" | "/app/tasks"
   | "/app/finance" | "/app/team" | "/app/products" | "/app/knowledge"
-  | "/app/users" | "/app/settings";
+  | "/app/settings";
 
 type NavItem = { to: AppPath; label: string; icon: typeof LayoutDashboard; exact?: boolean };
 type NavGroup = { label: string; items: NavItem[] };
