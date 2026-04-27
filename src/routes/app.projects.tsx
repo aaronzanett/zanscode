@@ -47,7 +47,7 @@ function ProjectsList() {
           icon={Briefcase}
           title="Add a client first"
           description="Projects must be associated with a client. Create a client to begin."
-          action={<Link to="/app/clients" search={{}}><Button variant="brand"><Plus className="h-4 w-4" /> Go to clients</Button></Link>}
+          action={<Link to="/app/clients" search={{ id: undefined }}><Button variant="brand"><Plus className="h-4 w-4" /> Go to clients</Button></Link>}
         />
       </div>
     );
@@ -216,7 +216,7 @@ function ProjectDetail({ id }: { id: string }) {
   if (!project) {
     return (
       <div className="space-y-4">
-        <Link to="/app/projects" search={{}} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Back</Link>
+        <Link to="/app/projects" search={{ id: undefined }} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Back</Link>
         <EmptyState icon={Briefcase} title="Project not found" description="It may have been deleted." />
       </div>
     );
@@ -236,7 +236,7 @@ function ProjectDetail({ id }: { id: string }) {
 
   return (
     <div className="space-y-5">
-      <Link to="/app/projects" search={{}} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Back to projects</Link>
+      <Link to="/app/projects" search={{ id: undefined }} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Back to projects</Link>
 
       <div className="rounded-xl border border-border bg-card p-5 shadow-soft">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">

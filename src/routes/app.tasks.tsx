@@ -54,7 +54,7 @@ function TasksPage() {
           icon={ListChecks}
           title="No projects yet"
           description="Tasks live inside projects. Create a project to start the kanban board."
-          action={<Link to="/app/projects" search={{}}><Button variant="brand"><Plus className="h-4 w-4" /> Go to projects</Button></Link>}
+          action={<Link to="/app/projects" search={{ id: undefined }}><Button variant="brand"><Plus className="h-4 w-4" /> Go to projects</Button></Link>}
         />
       </div>
     );

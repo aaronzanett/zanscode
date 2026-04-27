@@ -133,7 +133,7 @@ function DocDetail({ id }: { id: string }) {
   if (!doc) {
     return (
       <div className="space-y-4">
-        <Link to="/app/knowledge" search={{}} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Back</Link>
+        <Link to="/app/knowledge" search={{ id: undefined }} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Back</Link>
         <EmptyState icon={BookOpen} title="Document not found" description="It may have been deleted." />
       </div>
     );
@@ -141,7 +141,7 @@ function DocDetail({ id }: { id: string }) {
 
   return (
     <div className="space-y-5">
-      <Link to="/app/knowledge" search={{}} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Back to knowledge base</Link>
+      <Link to="/app/knowledge" search={{ id: undefined }} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Back to knowledge base</Link>
 
       <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
