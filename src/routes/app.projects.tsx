@@ -47,7 +47,7 @@ function ProjectsList() {
           icon={Briefcase}
           title="Add a client first"
           description="Projects must be associated with a client. Create a client to begin."
-          action={<Link to="/app/clients"><Button variant="brand"><Plus className="h-4 w-4" /> Go to clients</Button></Link>}
+          action={<Link to="/app/clients" search={{}}><Button variant="brand"><Plus className="h-4 w-4" /> Go to clients</Button></Link>}
         />
       </div>
     );
