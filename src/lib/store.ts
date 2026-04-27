@@ -287,7 +287,7 @@ function shallowEqual(a: unknown, b: unknown): boolean {
 }
 
 export function useStore<T>(selector: (s: Store) => T): T {
-  const cacheRef = React.useRef<{ state: Store | null; value: T }>({ state: null, value: undefined as unknown as T });
+  const cacheRef = useRef<{ state: Store | null; value: T }>({ state: null, value: undefined as unknown as T });
   const get = () => {
     if (cacheRef.current.state === state) return cacheRef.current.value;
     const next = selector(state);
