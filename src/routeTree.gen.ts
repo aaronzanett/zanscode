@@ -19,27 +19,14 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as StaffLoginRouteImport } from './routes/staff.login'
 import { Route as ApplyJobSlugRouteImport } from './routes/apply.$jobSlug'
-import { Route as AppUsersRouteImport } from './routes/app.users'
-import { Route as AppTimesheetsRouteImport } from './routes/app.timesheets'
+import { Route as AppTeamRouteImport } from './routes/app.team'
 import { Route as AppTasksRouteImport } from './routes/app.tasks'
-import { Route as AppSuppliersRouteImport } from './routes/app.suppliers'
 import { Route as AppSettingsRouteImport } from './routes/app.settings'
-import { Route as AppReportsRouteImport } from './routes/app.reports'
-import { Route as AppRecruitmentRouteImport } from './routes/app.recruitment'
-import { Route as AppPurchaseOrdersRouteImport } from './routes/app.purchase-orders'
 import { Route as AppProjectsRouteImport } from './routes/app.projects'
-import { Route as AppPipelineRouteImport } from './routes/app.pipeline'
-import { Route as AppPayrollRouteImport } from './routes/app.payroll'
-import { Route as AppLeaveRouteImport } from './routes/app.leave'
-import { Route as AppLeadsRouteImport } from './routes/app.leads'
-import { Route as AppInventoryRouteImport } from './routes/app.inventory'
+import { Route as AppProductsRouteImport } from './routes/app.products'
+import { Route as AppKnowledgeRouteImport } from './routes/app.knowledge'
 import { Route as AppFinanceRouteImport } from './routes/app.finance'
-import { Route as AppExpensesRouteImport } from './routes/app.expenses'
-import { Route as AppEmployeesRouteImport } from './routes/app.employees'
-import { Route as AppDealsRouteImport } from './routes/app.deals'
-import { Route as AppCustomersRouteImport } from './routes/app.customers'
-import { Route as AppAuditLogRouteImport } from './routes/app.audit-log'
-import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
+import { Route as AppClientsRouteImport } from './routes/app.clients'
 
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
@@ -91,14 +78,9 @@ const ApplyJobSlugRoute = ApplyJobSlugRouteImport.update({
   path: '/apply/$jobSlug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppUsersRoute = AppUsersRouteImport.update({
-  id: '/users',
-  path: '/users',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppTimesheetsRoute = AppTimesheetsRouteImport.update({
-  id: '/timesheets',
-  path: '/timesheets',
+const AppTeamRoute = AppTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
   getParentRoute: () => AppRoute,
 } as any)
 const AppTasksRoute = AppTasksRouteImport.update({
@@ -106,29 +88,9 @@ const AppTasksRoute = AppTasksRouteImport.update({
   path: '/tasks',
   getParentRoute: () => AppRoute,
 } as any)
-const AppSuppliersRoute = AppSuppliersRouteImport.update({
-  id: '/suppliers',
-  path: '/suppliers',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppSettingsRoute = AppSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppReportsRoute = AppReportsRouteImport.update({
-  id: '/reports',
-  path: '/reports',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppRecruitmentRoute = AppRecruitmentRouteImport.update({
-  id: '/recruitment',
-  path: '/recruitment',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppPurchaseOrdersRoute = AppPurchaseOrdersRouteImport.update({
-  id: '/purchase-orders',
-  path: '/purchase-orders',
   getParentRoute: () => AppRoute,
 } as any)
 const AppProjectsRoute = AppProjectsRouteImport.update({
@@ -136,29 +98,14 @@ const AppProjectsRoute = AppProjectsRouteImport.update({
   path: '/projects',
   getParentRoute: () => AppRoute,
 } as any)
-const AppPipelineRoute = AppPipelineRouteImport.update({
-  id: '/pipeline',
-  path: '/pipeline',
+const AppProductsRoute = AppProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
   getParentRoute: () => AppRoute,
 } as any)
-const AppPayrollRoute = AppPayrollRouteImport.update({
-  id: '/payroll',
-  path: '/payroll',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppLeaveRoute = AppLeaveRouteImport.update({
-  id: '/leave',
-  path: '/leave',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppLeadsRoute = AppLeadsRouteImport.update({
-  id: '/leads',
-  path: '/leads',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppInventoryRoute = AppInventoryRouteImport.update({
-  id: '/inventory',
-  path: '/inventory',
+const AppKnowledgeRoute = AppKnowledgeRouteImport.update({
+  id: '/knowledge',
+  path: '/knowledge',
   getParentRoute: () => AppRoute,
 } as any)
 const AppFinanceRoute = AppFinanceRouteImport.update({
@@ -166,34 +113,9 @@ const AppFinanceRoute = AppFinanceRouteImport.update({
   path: '/finance',
   getParentRoute: () => AppRoute,
 } as any)
-const AppExpensesRoute = AppExpensesRouteImport.update({
-  id: '/expenses',
-  path: '/expenses',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppEmployeesRoute = AppEmployeesRouteImport.update({
-  id: '/employees',
-  path: '/employees',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppDealsRoute = AppDealsRouteImport.update({
-  id: '/deals',
-  path: '/deals',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppCustomersRoute = AppCustomersRouteImport.update({
-  id: '/customers',
-  path: '/customers',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppAuditLogRoute = AppAuditLogRouteImport.update({
-  id: '/audit-log',
-  path: '/audit-log',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
-  id: '/analytics',
-  path: '/analytics',
+const AppClientsRoute = AppClientsRouteImport.update({
+  id: '/clients',
+  path: '/clients',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -205,27 +127,14 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/products': typeof ProductsRoute
   '/services': typeof ServicesRoute
-  '/app/analytics': typeof AppAnalyticsRoute
-  '/app/audit-log': typeof AppAuditLogRoute
-  '/app/customers': typeof AppCustomersRoute
-  '/app/deals': typeof AppDealsRoute
-  '/app/employees': typeof AppEmployeesRoute
-  '/app/expenses': typeof AppExpensesRoute
+  '/app/clients': typeof AppClientsRoute
   '/app/finance': typeof AppFinanceRoute
-  '/app/inventory': typeof AppInventoryRoute
-  '/app/leads': typeof AppLeadsRoute
-  '/app/leave': typeof AppLeaveRoute
-  '/app/payroll': typeof AppPayrollRoute
-  '/app/pipeline': typeof AppPipelineRoute
+  '/app/knowledge': typeof AppKnowledgeRoute
+  '/app/products': typeof AppProductsRoute
   '/app/projects': typeof AppProjectsRoute
-  '/app/purchase-orders': typeof AppPurchaseOrdersRoute
-  '/app/recruitment': typeof AppRecruitmentRoute
-  '/app/reports': typeof AppReportsRoute
   '/app/settings': typeof AppSettingsRoute
-  '/app/suppliers': typeof AppSuppliersRoute
   '/app/tasks': typeof AppTasksRoute
-  '/app/timesheets': typeof AppTimesheetsRoute
-  '/app/users': typeof AppUsersRoute
+  '/app/team': typeof AppTeamRoute
   '/apply/$jobSlug': typeof ApplyJobSlugRoute
   '/staff/login': typeof StaffLoginRoute
   '/app/': typeof AppIndexRoute
@@ -237,27 +146,14 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/products': typeof ProductsRoute
   '/services': typeof ServicesRoute
-  '/app/analytics': typeof AppAnalyticsRoute
-  '/app/audit-log': typeof AppAuditLogRoute
-  '/app/customers': typeof AppCustomersRoute
-  '/app/deals': typeof AppDealsRoute
-  '/app/employees': typeof AppEmployeesRoute
-  '/app/expenses': typeof AppExpensesRoute
+  '/app/clients': typeof AppClientsRoute
   '/app/finance': typeof AppFinanceRoute
-  '/app/inventory': typeof AppInventoryRoute
-  '/app/leads': typeof AppLeadsRoute
-  '/app/leave': typeof AppLeaveRoute
-  '/app/payroll': typeof AppPayrollRoute
-  '/app/pipeline': typeof AppPipelineRoute
+  '/app/knowledge': typeof AppKnowledgeRoute
+  '/app/products': typeof AppProductsRoute
   '/app/projects': typeof AppProjectsRoute
-  '/app/purchase-orders': typeof AppPurchaseOrdersRoute
-  '/app/recruitment': typeof AppRecruitmentRoute
-  '/app/reports': typeof AppReportsRoute
   '/app/settings': typeof AppSettingsRoute
-  '/app/suppliers': typeof AppSuppliersRoute
   '/app/tasks': typeof AppTasksRoute
-  '/app/timesheets': typeof AppTimesheetsRoute
-  '/app/users': typeof AppUsersRoute
+  '/app/team': typeof AppTeamRoute
   '/apply/$jobSlug': typeof ApplyJobSlugRoute
   '/staff/login': typeof StaffLoginRoute
   '/app': typeof AppIndexRoute
@@ -271,27 +167,14 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/products': typeof ProductsRoute
   '/services': typeof ServicesRoute
-  '/app/analytics': typeof AppAnalyticsRoute
-  '/app/audit-log': typeof AppAuditLogRoute
-  '/app/customers': typeof AppCustomersRoute
-  '/app/deals': typeof AppDealsRoute
-  '/app/employees': typeof AppEmployeesRoute
-  '/app/expenses': typeof AppExpensesRoute
+  '/app/clients': typeof AppClientsRoute
   '/app/finance': typeof AppFinanceRoute
-  '/app/inventory': typeof AppInventoryRoute
-  '/app/leads': typeof AppLeadsRoute
-  '/app/leave': typeof AppLeaveRoute
-  '/app/payroll': typeof AppPayrollRoute
-  '/app/pipeline': typeof AppPipelineRoute
+  '/app/knowledge': typeof AppKnowledgeRoute
+  '/app/products': typeof AppProductsRoute
   '/app/projects': typeof AppProjectsRoute
-  '/app/purchase-orders': typeof AppPurchaseOrdersRoute
-  '/app/recruitment': typeof AppRecruitmentRoute
-  '/app/reports': typeof AppReportsRoute
   '/app/settings': typeof AppSettingsRoute
-  '/app/suppliers': typeof AppSuppliersRoute
   '/app/tasks': typeof AppTasksRoute
-  '/app/timesheets': typeof AppTimesheetsRoute
-  '/app/users': typeof AppUsersRoute
+  '/app/team': typeof AppTeamRoute
   '/apply/$jobSlug': typeof ApplyJobSlugRoute
   '/staff/login': typeof StaffLoginRoute
   '/app/': typeof AppIndexRoute
@@ -306,27 +189,14 @@ export interface FileRouteTypes {
     | '/contact'
     | '/products'
     | '/services'
-    | '/app/analytics'
-    | '/app/audit-log'
-    | '/app/customers'
-    | '/app/deals'
-    | '/app/employees'
-    | '/app/expenses'
+    | '/app/clients'
     | '/app/finance'
-    | '/app/inventory'
-    | '/app/leads'
-    | '/app/leave'
-    | '/app/payroll'
-    | '/app/pipeline'
+    | '/app/knowledge'
+    | '/app/products'
     | '/app/projects'
-    | '/app/purchase-orders'
-    | '/app/recruitment'
-    | '/app/reports'
     | '/app/settings'
-    | '/app/suppliers'
     | '/app/tasks'
-    | '/app/timesheets'
-    | '/app/users'
+    | '/app/team'
     | '/apply/$jobSlug'
     | '/staff/login'
     | '/app/'
@@ -338,27 +208,14 @@ export interface FileRouteTypes {
     | '/contact'
     | '/products'
     | '/services'
-    | '/app/analytics'
-    | '/app/audit-log'
-    | '/app/customers'
-    | '/app/deals'
-    | '/app/employees'
-    | '/app/expenses'
+    | '/app/clients'
     | '/app/finance'
-    | '/app/inventory'
-    | '/app/leads'
-    | '/app/leave'
-    | '/app/payroll'
-    | '/app/pipeline'
+    | '/app/knowledge'
+    | '/app/products'
     | '/app/projects'
-    | '/app/purchase-orders'
-    | '/app/recruitment'
-    | '/app/reports'
     | '/app/settings'
-    | '/app/suppliers'
     | '/app/tasks'
-    | '/app/timesheets'
-    | '/app/users'
+    | '/app/team'
     | '/apply/$jobSlug'
     | '/staff/login'
     | '/app'
@@ -371,27 +228,14 @@ export interface FileRouteTypes {
     | '/contact'
     | '/products'
     | '/services'
-    | '/app/analytics'
-    | '/app/audit-log'
-    | '/app/customers'
-    | '/app/deals'
-    | '/app/employees'
-    | '/app/expenses'
+    | '/app/clients'
     | '/app/finance'
-    | '/app/inventory'
-    | '/app/leads'
-    | '/app/leave'
-    | '/app/payroll'
-    | '/app/pipeline'
+    | '/app/knowledge'
+    | '/app/products'
     | '/app/projects'
-    | '/app/purchase-orders'
-    | '/app/recruitment'
-    | '/app/reports'
     | '/app/settings'
-    | '/app/suppliers'
     | '/app/tasks'
-    | '/app/timesheets'
-    | '/app/users'
+    | '/app/team'
     | '/apply/$jobSlug'
     | '/staff/login'
     | '/app/'
@@ -481,18 +325,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApplyJobSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/app/users': {
-      id: '/app/users'
-      path: '/users'
-      fullPath: '/app/users'
-      preLoaderRoute: typeof AppUsersRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/timesheets': {
-      id: '/app/timesheets'
-      path: '/timesheets'
-      fullPath: '/app/timesheets'
-      preLoaderRoute: typeof AppTimesheetsRouteImport
+    '/app/team': {
+      id: '/app/team'
+      path: '/team'
+      fullPath: '/app/team'
+      preLoaderRoute: typeof AppTeamRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/tasks': {
@@ -502,39 +339,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTasksRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/suppliers': {
-      id: '/app/suppliers'
-      path: '/suppliers'
-      fullPath: '/app/suppliers'
-      preLoaderRoute: typeof AppSuppliersRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/app/settings': {
       id: '/app/settings'
       path: '/settings'
       fullPath: '/app/settings'
       preLoaderRoute: typeof AppSettingsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/reports': {
-      id: '/app/reports'
-      path: '/reports'
-      fullPath: '/app/reports'
-      preLoaderRoute: typeof AppReportsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/recruitment': {
-      id: '/app/recruitment'
-      path: '/recruitment'
-      fullPath: '/app/recruitment'
-      preLoaderRoute: typeof AppRecruitmentRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/purchase-orders': {
-      id: '/app/purchase-orders'
-      path: '/purchase-orders'
-      fullPath: '/app/purchase-orders'
-      preLoaderRoute: typeof AppPurchaseOrdersRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/projects': {
@@ -544,39 +353,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProjectsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/pipeline': {
-      id: '/app/pipeline'
-      path: '/pipeline'
-      fullPath: '/app/pipeline'
-      preLoaderRoute: typeof AppPipelineRouteImport
+    '/app/products': {
+      id: '/app/products'
+      path: '/products'
+      fullPath: '/app/products'
+      preLoaderRoute: typeof AppProductsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/payroll': {
-      id: '/app/payroll'
-      path: '/payroll'
-      fullPath: '/app/payroll'
-      preLoaderRoute: typeof AppPayrollRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/leave': {
-      id: '/app/leave'
-      path: '/leave'
-      fullPath: '/app/leave'
-      preLoaderRoute: typeof AppLeaveRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/leads': {
-      id: '/app/leads'
-      path: '/leads'
-      fullPath: '/app/leads'
-      preLoaderRoute: typeof AppLeadsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/inventory': {
-      id: '/app/inventory'
-      path: '/inventory'
-      fullPath: '/app/inventory'
-      preLoaderRoute: typeof AppInventoryRouteImport
+    '/app/knowledge': {
+      id: '/app/knowledge'
+      path: '/knowledge'
+      fullPath: '/app/knowledge'
+      preLoaderRoute: typeof AppKnowledgeRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/finance': {
@@ -586,98 +374,37 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppFinanceRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/expenses': {
-      id: '/app/expenses'
-      path: '/expenses'
-      fullPath: '/app/expenses'
-      preLoaderRoute: typeof AppExpensesRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/employees': {
-      id: '/app/employees'
-      path: '/employees'
-      fullPath: '/app/employees'
-      preLoaderRoute: typeof AppEmployeesRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/deals': {
-      id: '/app/deals'
-      path: '/deals'
-      fullPath: '/app/deals'
-      preLoaderRoute: typeof AppDealsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/customers': {
-      id: '/app/customers'
-      path: '/customers'
-      fullPath: '/app/customers'
-      preLoaderRoute: typeof AppCustomersRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/audit-log': {
-      id: '/app/audit-log'
-      path: '/audit-log'
-      fullPath: '/app/audit-log'
-      preLoaderRoute: typeof AppAuditLogRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/analytics': {
-      id: '/app/analytics'
-      path: '/analytics'
-      fullPath: '/app/analytics'
-      preLoaderRoute: typeof AppAnalyticsRouteImport
+    '/app/clients': {
+      id: '/app/clients'
+      path: '/clients'
+      fullPath: '/app/clients'
+      preLoaderRoute: typeof AppClientsRouteImport
       parentRoute: typeof AppRoute
     }
   }
 }
 
 interface AppRouteChildren {
-  AppAnalyticsRoute: typeof AppAnalyticsRoute
-  AppAuditLogRoute: typeof AppAuditLogRoute
-  AppCustomersRoute: typeof AppCustomersRoute
-  AppDealsRoute: typeof AppDealsRoute
-  AppEmployeesRoute: typeof AppEmployeesRoute
-  AppExpensesRoute: typeof AppExpensesRoute
+  AppClientsRoute: typeof AppClientsRoute
   AppFinanceRoute: typeof AppFinanceRoute
-  AppInventoryRoute: typeof AppInventoryRoute
-  AppLeadsRoute: typeof AppLeadsRoute
-  AppLeaveRoute: typeof AppLeaveRoute
-  AppPayrollRoute: typeof AppPayrollRoute
-  AppPipelineRoute: typeof AppPipelineRoute
+  AppKnowledgeRoute: typeof AppKnowledgeRoute
+  AppProductsRoute: typeof AppProductsRoute
   AppProjectsRoute: typeof AppProjectsRoute
-  AppPurchaseOrdersRoute: typeof AppPurchaseOrdersRoute
-  AppRecruitmentRoute: typeof AppRecruitmentRoute
-  AppReportsRoute: typeof AppReportsRoute
   AppSettingsRoute: typeof AppSettingsRoute
-  AppSuppliersRoute: typeof AppSuppliersRoute
   AppTasksRoute: typeof AppTasksRoute
-  AppTimesheetsRoute: typeof AppTimesheetsRoute
-  AppUsersRoute: typeof AppUsersRoute
+  AppTeamRoute: typeof AppTeamRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppAnalyticsRoute: AppAnalyticsRoute,
-  AppAuditLogRoute: AppAuditLogRoute,
-  AppCustomersRoute: AppCustomersRoute,
-  AppDealsRoute: AppDealsRoute,
-  AppEmployeesRoute: AppEmployeesRoute,
-  AppExpensesRoute: AppExpensesRoute,
+  AppClientsRoute: AppClientsRoute,
   AppFinanceRoute: AppFinanceRoute,
-  AppInventoryRoute: AppInventoryRoute,
-  AppLeadsRoute: AppLeadsRoute,
-  AppLeaveRoute: AppLeaveRoute,
-  AppPayrollRoute: AppPayrollRoute,
-  AppPipelineRoute: AppPipelineRoute,
+  AppKnowledgeRoute: AppKnowledgeRoute,
+  AppProductsRoute: AppProductsRoute,
   AppProjectsRoute: AppProjectsRoute,
-  AppPurchaseOrdersRoute: AppPurchaseOrdersRoute,
-  AppRecruitmentRoute: AppRecruitmentRoute,
-  AppReportsRoute: AppReportsRoute,
   AppSettingsRoute: AppSettingsRoute,
-  AppSuppliersRoute: AppSuppliersRoute,
   AppTasksRoute: AppTasksRoute,
-  AppTimesheetsRoute: AppTimesheetsRoute,
-  AppUsersRoute: AppUsersRoute,
+  AppTeamRoute: AppTeamRoute,
   AppIndexRoute: AppIndexRoute,
 }
 

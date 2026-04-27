@@ -77,9 +77,9 @@ const tasks = [
 ];
 
 const quickActions = [
-  { t: "Create invoice", to: "/app/finance" as const, i: FileText },
-  { t: "Add customer", to: "/app/customers" as const, i: UserPlus },
-  { t: "Log expense", to: "/app/expenses" as const, i: Receipt },
+  { t: "New project", to: "/app/projects" as const, i: FileText },
+  { t: "Add client", to: "/app/clients" as const, i: UserPlus },
+  { t: "Log transaction", to: "/app/finance" as const, i: Receipt },
   { t: "New task", to: "/app/tasks" as const, i: Plus },
 ];
 

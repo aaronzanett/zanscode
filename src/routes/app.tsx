@@ -1,9 +1,8 @@
 import { createFileRoute, Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
-  LayoutDashboard, Users, UserCog, Briefcase, DollarSign, Boxes, Settings, Search, Menu, X,
-  Target, Handshake, GitBranch, IdCard, Wallet, CalendarDays, UserPlus,
-  ListChecks, Clock, Receipt, BarChart3, Truck, ClipboardList, LineChart, ShieldCheck,
+  LayoutDashboard, Users, Briefcase, Settings, Search, Menu, X,
+  ListChecks, Wallet, BookOpen, Boxes, UserCog,
   ChevronDown, LogOut, Wrench,
 } from "lucide-react";
 import logo from "@/assets/zanscode-logo.png";
@@ -26,13 +25,9 @@ export const Route = createFileRoute("/app")({
 });
 
 type AppPath =
-  | "/app" | "/app/customers" | "/app/users" | "/app/settings"
-  | "/app/leads" | "/app/deals" | "/app/pipeline"
-  | "/app/employees" | "/app/payroll" | "/app/leave" | "/app/recruitment"
-  | "/app/projects" | "/app/tasks" | "/app/timesheets"
-  | "/app/finance" | "/app/expenses" | "/app/reports"
-  | "/app/inventory" | "/app/suppliers" | "/app/purchase-orders"
-  | "/app/analytics" | "/app/audit-log";
+  | "/app" | "/app/clients" | "/app/projects" | "/app/tasks"
+  | "/app/finance" | "/app/team" | "/app/products" | "/app/knowledge"
+  | "/app/settings";
 
 type NavItem = { to: AppPath; label: string; icon: typeof LayoutDashboard; exact?: boolean };
 type NavGroup = { label: string; items: NavItem[] };
@@ -42,56 +37,33 @@ const groups: NavGroup[] = [
     label: "Overview",
     items: [
       { to: "/app", label: "Dashboard", icon: LayoutDashboard, exact: true },
-      { to: "/app/analytics", label: "Analytics", icon: LineChart },
-    ],
-  },
-  {
-    label: "CRM",
-    items: [
-      { to: "/app/customers", label: "Customers", icon: Users },
-      { to: "/app/leads", label: "Leads", icon: Target },
-      { to: "/app/deals", label: "Deals", icon: Handshake },
-      { to: "/app/pipeline", label: "Pipeline", icon: GitBranch },
-    ],
-  },
-  {
-    label: "People",
-    items: [
-      { to: "/app/employees", label: "Employees", icon: IdCard },
-      { to: "/app/payroll", label: "Payroll", icon: Wallet },
-      { to: "/app/leave", label: "Leave", icon: CalendarDays },
-      { to: "/app/recruitment", label: "Recruitment", icon: UserPlus },
     ],
   },
   {
     label: "Operations",
     items: [
+      { to: "/app/clients", label: "Clients", icon: Users },
       { to: "/app/projects", label: "Projects", icon: Briefcase },
       { to: "/app/tasks", label: "Tasks", icon: ListChecks },
-      { to: "/app/timesheets", label: "Timesheets", icon: Clock },
     ],
   },
   {
-    label: "Finance",
+    label: "Business",
     items: [
-      { to: "/app/finance", label: "Invoices", icon: DollarSign },
-      { to: "/app/expenses", label: "Expenses", icon: Receipt },
-      { to: "/app/reports", label: "Reports", icon: BarChart3 },
+      { to: "/app/finance", label: "Finance", icon: Wallet },
+      { to: "/app/team", label: "Team", icon: UserCog },
+      { to: "/app/products", label: "SaaS Products", icon: Boxes },
     ],
   },
   {
-    label: "Inventory",
+    label: "Knowledge",
     items: [
-      { to: "/app/inventory", label: "Items", icon: Boxes },
-      { to: "/app/suppliers", label: "Suppliers", icon: Truck },
-      { to: "/app/purchase-orders", label: "Purchase Orders", icon: ClipboardList },
+      { to: "/app/knowledge", label: "Knowledge Base", icon: BookOpen },
     ],
   },
   {
     label: "System",
     items: [
-      { to: "/app/users", label: "Users & Roles", icon: UserCog },
-      { to: "/app/audit-log", label: "Audit Log", icon: ShieldCheck },
       { to: "/app/settings", label: "Settings", icon: Settings },
     ],
   },
