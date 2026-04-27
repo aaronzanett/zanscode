@@ -269,8 +269,35 @@ export function subscribe(fn: () => void): () => void {
   return () => listeners.delete(fn);
 }
 
+function shallowEqual(a: unknown, b: unknown): boolean {
+  if (Object.is(a, b)) return true;
+  if (Array.isArray(a) && Array.isArray(b)) {
+    if (a.length !== b.length) return false;
+    for (let i = 0; i < a.length; i++) if (!Object.is(a[i], b[i])) return false;
+    return true;
+  }
+  if (a && b && typeof a === "object" && typeof b === "object") {
+    const ak = Object.keys(a as object);
+    const bk = Object.keys(b as object);
+    if (ak.length !== bk.length) return false;
+    for (const k of ak) if (!Object.is((a as Record<string, unknown>)[k], (b as Record<string, unknown>)[k])) return false;
+    return true;
+  }
+  return false;
+}
+
 export function useStore<T>(selector: (s: Store) => T): T {
-  const get = () => selector(state);
+  const cacheRef = React.useRef<{ state: Store | null; value: T }>({ state: null, value: undefined as unknown as T });
+  const get = () => {
+    if (cacheRef.current.state === state) return cacheRef.current.value;
+    const next = selector(state);
+    if (cacheRef.current.state !== null && shallowEqual(cacheRef.current.value, next)) {
+      cacheRef.current.state = state;
+      return cacheRef.current.value;
+    }
+    cacheRef.current = { state, value: next };
+    return next;
+  };
   return useSyncExternalStore(subscribe, get, get);
 }
 
