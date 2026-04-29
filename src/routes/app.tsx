@@ -2,7 +2,7 @@ import { createFileRoute, Link, Outlet, useLocation, useNavigate } from "@tansta
 import { useEffect, useMemo, useState } from "react";
 import {
   LayoutDashboard, Users, Briefcase, Settings, Search, Menu, X,
-  ListChecks, Wallet, BookOpen, Boxes, UserCog,
+  ListChecks, Wallet, BookOpen, Boxes, UserCog, Sparkles,
   ChevronDown, LogOut, Wrench,
 } from "lucide-react";
 import logo from "@/assets/zanscode-logo.png";
