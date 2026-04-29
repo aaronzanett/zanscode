@@ -87,7 +87,7 @@ function Settings() {
             <TabsTrigger
               key={t.id}
               value={t.id}
-              className="gap-1.5 px-3 py-1.5 text-xs data-[state=active]:bg-gradient-brand data-[state=active]:text-brand-foreground data-[state=active]:shadow-sm"
+              className="gap-1.5 px-3 py-1.5 text-xs"
             >
               <t.icon className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">{t.label}</span>
