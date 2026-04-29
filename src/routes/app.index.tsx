@@ -382,9 +382,9 @@ function Dashboard() {
           <Link
             key={a.t}
             to={a.to}
-            className="group flex items-center gap-2.5 rounded-lg border border-border bg-card px-3 py-2.5 text-sm font-medium shadow-soft transition-all hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md"
+            className="group flex cursor-pointer items-center gap-2.5 rounded-lg border border-border bg-card px-3 py-2.5 text-sm font-medium shadow-soft transition-all hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md"
           >
-            <span className="flex h-7 w-7 items-center justify-center rounded-md bg-secondary text-brand transition-colors group-hover:bg-gradient-brand group-hover:text-brand-foreground">
+            <span className="flex h-7 w-7 items-center justify-center rounded-md bg-secondary text-brand transition-colors group-hover:bg-brand group-hover:text-white dark:group-hover:bg-brand-cyan dark:group-hover:text-brand">
               <a.i className="h-3.5 w-3.5" />
             </span>
             <span className="truncate">{a.t}</span>
