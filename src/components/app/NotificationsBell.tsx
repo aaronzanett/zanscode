@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Bell, CheckCheck, CircleDollarSign, UserPlus, AlertTriangle, Megaphone, FileText, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -185,9 +186,13 @@ export function NotificationsBell() {
           )}
         </div>
         <div className="border-t border-border bg-secondary/30 px-4 py-2.5 text-center">
-          <button className="text-xs font-medium text-primary hover:underline">
+          <Link
+            to="/app/notifications"
+            onClick={() => setOpen(false)}
+            className="text-xs font-medium text-primary hover:underline"
+          >
             View all notifications
-          </button>
+          </Link>
         </div>
       </PopoverContent>
     </Popover>
