@@ -2,7 +2,7 @@ import { createFileRoute, Link, Outlet, useLocation, useNavigate } from "@tansta
 import { useEffect, useMemo, useState } from "react";
 import {
   LayoutDashboard, Users, Briefcase, Settings, Search, Menu, X,
-  ListChecks, Wallet, BookOpen, Boxes, UserCog,
+  ListChecks, Wallet, BookOpen, Boxes, UserCog, Sparkles,
   ChevronDown, LogOut, Wrench,
 } from "lucide-react";
 import logo from "@/assets/zanscode-logo.png";
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/app")({
 type AppPath =
   | "/app" | "/app/clients" | "/app/projects" | "/app/tasks"
   | "/app/finance" | "/app/team" | "/app/products" | "/app/knowledge"
-  | "/app/settings";
+  | "/app/content-studio" | "/app/settings";
 
 type NavItem = { to: AppPath; label: string; icon: typeof LayoutDashboard; exact?: boolean };
 type NavGroup = { label: string; items: NavItem[] };
@@ -59,6 +59,7 @@ const groups: NavGroup[] = [
     label: "Knowledge",
     items: [
       { to: "/app/knowledge", label: "Knowledge Base", icon: BookOpen },
+      { to: "/app/content-studio", label: "Content Studio", icon: Sparkles },
     ],
   },
   {

@@ -27,6 +27,7 @@ import { Route as AppProductsRouteImport } from './routes/app.products'
 import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
 import { Route as AppKnowledgeRouteImport } from './routes/app.knowledge'
 import { Route as AppFinanceRouteImport } from './routes/app.finance'
+import { Route as AppContentStudioRouteImport } from './routes/app.content-studio'
 import { Route as AppClientsRouteImport } from './routes/app.clients'
 
 const ServicesRoute = ServicesRouteImport.update({
@@ -119,6 +120,11 @@ const AppFinanceRoute = AppFinanceRouteImport.update({
   path: '/finance',
   getParentRoute: () => AppRoute,
 } as any)
+const AppContentStudioRoute = AppContentStudioRouteImport.update({
+  id: '/content-studio',
+  path: '/content-studio',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppClientsRoute = AppClientsRouteImport.update({
   id: '/clients',
   path: '/clients',
@@ -134,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/products': typeof ProductsRoute
   '/services': typeof ServicesRoute
   '/app/clients': typeof AppClientsRoute
+  '/app/content-studio': typeof AppContentStudioRoute
   '/app/finance': typeof AppFinanceRoute
   '/app/knowledge': typeof AppKnowledgeRoute
   '/app/notifications': typeof AppNotificationsRoute
@@ -154,6 +161,7 @@ export interface FileRoutesByTo {
   '/products': typeof ProductsRoute
   '/services': typeof ServicesRoute
   '/app/clients': typeof AppClientsRoute
+  '/app/content-studio': typeof AppContentStudioRoute
   '/app/finance': typeof AppFinanceRoute
   '/app/knowledge': typeof AppKnowledgeRoute
   '/app/notifications': typeof AppNotificationsRoute
@@ -176,6 +184,7 @@ export interface FileRoutesById {
   '/products': typeof ProductsRoute
   '/services': typeof ServicesRoute
   '/app/clients': typeof AppClientsRoute
+  '/app/content-studio': typeof AppContentStudioRoute
   '/app/finance': typeof AppFinanceRoute
   '/app/knowledge': typeof AppKnowledgeRoute
   '/app/notifications': typeof AppNotificationsRoute
@@ -199,6 +208,7 @@ export interface FileRouteTypes {
     | '/products'
     | '/services'
     | '/app/clients'
+    | '/app/content-studio'
     | '/app/finance'
     | '/app/knowledge'
     | '/app/notifications'
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/products'
     | '/services'
     | '/app/clients'
+    | '/app/content-studio'
     | '/app/finance'
     | '/app/knowledge'
     | '/app/notifications'
@@ -240,6 +251,7 @@ export interface FileRouteTypes {
     | '/products'
     | '/services'
     | '/app/clients'
+    | '/app/content-studio'
     | '/app/finance'
     | '/app/knowledge'
     | '/app/notifications'
@@ -393,6 +405,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppFinanceRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/content-studio': {
+      id: '/app/content-studio'
+      path: '/content-studio'
+      fullPath: '/app/content-studio'
+      preLoaderRoute: typeof AppContentStudioRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/clients': {
       id: '/app/clients'
       path: '/clients'
@@ -405,6 +424,7 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteChildren {
   AppClientsRoute: typeof AppClientsRoute
+  AppContentStudioRoute: typeof AppContentStudioRoute
   AppFinanceRoute: typeof AppFinanceRoute
   AppKnowledgeRoute: typeof AppKnowledgeRoute
   AppNotificationsRoute: typeof AppNotificationsRoute
@@ -418,6 +438,7 @@ interface AppRouteChildren {
 
 const AppRouteChildren: AppRouteChildren = {
   AppClientsRoute: AppClientsRoute,
+  AppContentStudioRoute: AppContentStudioRoute,
   AppFinanceRoute: AppFinanceRoute,
   AppKnowledgeRoute: AppKnowledgeRoute,
   AppNotificationsRoute: AppNotificationsRoute,
