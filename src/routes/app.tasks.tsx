@@ -255,6 +255,8 @@ function TaskDrawer({ task: initialTask, onClose }: { task: Task; onClose: () =>
           </div>
         )}
 
+        <SubtasksSection task={task} />
+
         <div className="mt-5">
           <div className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Move to</div>
           <div className="mt-2 flex flex-wrap gap-1.5">
