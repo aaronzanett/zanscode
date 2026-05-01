@@ -418,6 +418,48 @@ export function deleteTask(id: string) {
   update((s) => ({ ...s, tasks: s.tasks.filter((t) => t.id !== id) }));
 }
 
+export function addSubtask(taskId: string, kind: SubtaskKind, text: string): Subtask | null {
+  const trimmed = text.trim();
+  if (!trimmed) return null;
+  const sub: Subtask = { id: uid("st-"), kind, text: trimmed, done: false, createdAt: now() };
+  update((s) => ({
+    ...s,
+    tasks: s.tasks.map((t) => (t.id === taskId ? { ...t, subtasks: [...t.subtasks, sub] } : t)),
+  }));
+  return sub;
+}
+
+export function updateSubtask(taskId: string, subtaskId: string, patch: Partial<Subtask>) {
+  update((s) => ({
+    ...s,
+    tasks: s.tasks.map((t) =>
+      t.id === taskId
+        ? { ...t, subtasks: t.subtasks.map((st) => (st.id === subtaskId ? { ...st, ...patch } : st)) }
+        : t,
+    ),
+  }));
+}
+
+export function toggleSubtask(taskId: string, subtaskId: string) {
+  update((s) => ({
+    ...s,
+    tasks: s.tasks.map((t) =>
+      t.id === taskId
+        ? { ...t, subtasks: t.subtasks.map((st) => (st.id === subtaskId ? { ...st, done: !st.done } : st)) }
+        : t,
+    ),
+  }));
+}
+
+export function deleteSubtask(taskId: string, subtaskId: string) {
+  update((s) => ({
+    ...s,
+    tasks: s.tasks.map((t) =>
+      t.id === taskId ? { ...t, subtasks: t.subtasks.filter((st) => st.id !== subtaskId) } : t,
+    ),
+  }));
+}
+
 // ---------- Mutations: Transactions ----------
 
 export function createTransaction(input: Omit<Transaction, "id" | "createdAt">): Transaction {
