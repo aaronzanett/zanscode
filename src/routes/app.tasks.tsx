@@ -1,17 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState, type DragEvent } from "react";
-import { Plus, ListChecks, Briefcase, X, Trash2, Calendar, User } from "lucide-react";
+import { Plus, ListChecks, Briefcase, X, Trash2, Calendar, User, CheckSquare, FileText, GripVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   useStore, useHydrate, createTask, updateTask, moveTask, deleteTask,
-  formatDate, relativeTime, type TaskStage, type TaskPriority, type Task,
+  addSubtask, toggleSubtask, updateSubtask, deleteSubtask,
+  formatDate, relativeTime, type TaskStage, type TaskPriority, type Task, type SubtaskKind,
 } from "@/lib/store";
 import { EmptyState, PageHeader } from "@/components/app/EmptyState";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/app/tasks")({
   validateSearch: (s: Record<string, unknown>) => ({
