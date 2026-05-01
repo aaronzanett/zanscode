@@ -224,7 +224,8 @@ function TaskDialog({ projectId, onClose, initial }: { projectId: string; onClos
   );
 }
 
-function TaskDrawer({ task, onClose }: { task: Task; onClose: () => void }) {
+function TaskDrawer({ task: initialTask, onClose }: { task: Task; onClose: () => void }) {
+  const task = useStore((s) => s.tasks.find((t) => t.id === initialTask.id)) ?? initialTask;
   const assignee = useStore((s) => s.team.find((m) => m.id === task.assigneeId));
   const project = useStore((s) => s.projects.find((p) => p.id === task.projectId));
   const [editOpen, setEditOpen] = useState(false);
