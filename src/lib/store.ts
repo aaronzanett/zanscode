@@ -43,6 +43,15 @@ export type Project = {
   activity: Activity[];
 };
 
+export type SubtaskKind = "todo" | "note";
+export type Subtask = {
+  id: string;
+  kind: SubtaskKind;
+  text: string;
+  done: boolean; // only meaningful when kind === "todo"
+  createdAt: number;
+};
+
 export type Task = {
   id: string;
   projectId: string;
@@ -54,6 +63,7 @@ export type Task = {
   dueDate: string | null;
   createdAt: number;
   updates: Activity[];
+  subtasks: Subtask[];
 };
 
 export type Transaction = {
