@@ -205,7 +205,7 @@ function seed(): Store {
     { id: uid("tk-"), projectId: "pr-northwind-crm", title: "Map legacy schemas", description: "Source-to-target mapping doc.", stage: "in-progress", assigneeId: "tm-maya", priority: "high", dueDate: isoDate(5), createdAt: now() - 86400000 * 10, updates: [] },
     { id: uid("tk-"), projectId: "pr-northwind-crm", title: "Build sync engine prototype", description: "Incremental delta sync.", stage: "todo", assigneeId: "tm-andi", priority: "high", dueDate: isoDate(20), createdAt: now() - 86400000 * 4, updates: [] },
     { id: uid("tk-"), projectId: "pr-northwind-crm", title: "User acceptance plan", description: "Define UAT scenarios with client.", stage: "backlog", assigneeId: "tm-bagus", priority: "medium", dueDate: isoDate(35), createdAt: now() - 86400000 * 1, updates: [] },
-  ].map((t) => ({ ...t, subtasks: [] as Subtask[] }));
+  ].map((t) => ({ ...t, subtasks: [] as Subtask[] })) as Task[];
 
   const transactions: Transaction[] = [
     { id: uid("tx-"), type: "income", amount: 48000000, category: "Project payment", description: "Acme — Zenith Sprint 3 invoice", date: isoDate(-12), projectId: "pr-zenith", clientId: "cl-acme", createdAt: now() - 86400000 * 12 },
