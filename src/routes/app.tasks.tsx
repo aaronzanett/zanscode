@@ -1,17 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState, type DragEvent } from "react";
-import { Plus, ListChecks, Briefcase, X, Trash2, Calendar, User } from "lucide-react";
+import { useState, type DragEvent } from "react";
+import { Plus, ListChecks, Briefcase, X, Trash2, Calendar, User, CheckSquare, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   useStore, useHydrate, createTask, updateTask, moveTask, deleteTask,
-  formatDate, relativeTime, type TaskStage, type TaskPriority, type Task,
+  addSubtask, toggleSubtask, updateSubtask, deleteSubtask,
+  formatDate, relativeTime, type TaskStage, type TaskPriority, type Task, type SubtaskKind,
 } from "@/lib/store";
 import { EmptyState, PageHeader } from "@/components/app/EmptyState";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/app/tasks")({
   validateSearch: (s: Record<string, unknown>) => ({
@@ -133,6 +136,16 @@ function TaskCard({ task, onOpen }: { task: Task; onOpen: () => void }) {
         <div className="font-medium leading-snug">{task.title}</div>
         <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-semibold uppercase ${priorityClass[task.priority]}`}>{task.priority}</span>
       </div>
+      {task.subtasks.length > 0 && (() => {
+        const todos = task.subtasks.filter((s) => s.kind === "todo");
+        const done = todos.filter((s) => s.done).length;
+        return (
+          <div className="mt-2 flex items-center gap-1.5 text-[10px] text-muted-foreground">
+            <CheckSquare className="h-3 w-3" />
+            {todos.length > 0 ? <span>{done}/{todos.length} done</span> : <span>{task.subtasks.length} notes</span>}
+          </div>
+        );
+      })()}
       <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground">
         <span className="inline-flex items-center gap-1">
           {assignee ? (
@@ -211,7 +224,8 @@ function TaskDialog({ projectId, onClose, initial }: { projectId: string; onClos
   );
 }
 
-function TaskDrawer({ task, onClose }: { task: Task; onClose: () => void }) {
+function TaskDrawer({ task: initialTask, onClose }: { task: Task; onClose: () => void }) {
+  const task = useStore((s) => s.tasks.find((t) => t.id === initialTask.id)) ?? initialTask;
   const assignee = useStore((s) => s.team.find((m) => m.id === task.assigneeId));
   const project = useStore((s) => s.projects.find((p) => p.id === task.projectId));
   const [editOpen, setEditOpen] = useState(false);
@@ -240,6 +254,8 @@ function TaskDrawer({ task, onClose }: { task: Task; onClose: () => void }) {
             <p className="mt-1 whitespace-pre-wrap text-sm text-foreground/90">{task.description}</p>
           </div>
         )}
+
+        <SubtasksSection task={task} />
 
         <div className="mt-5">
           <div className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Move to</div>
@@ -282,5 +298,147 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
       <div className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">{label}</div>
       <div className="mt-1 text-foreground">{children}</div>
     </div>
+  );
+}
+
+function SubtasksSection({ task }: { task: Task }) {
+  const [adding, setAdding] = useState<SubtaskKind | null>(null);
+  const [draft, setDraft] = useState("");
+  const todos = task.subtasks.filter((s) => s.kind === "todo");
+  const doneCount = todos.filter((s) => s.done).length;
+
+  const submit = () => {
+    if (!adding) return;
+    if (addSubtask(task.id, adding, draft)) {
+      setDraft("");
+      setAdding(null);
+    }
+  };
+
+  return (
+    <div className="mt-5">
+      <div className="flex items-center justify-between">
+        <div className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+          Subtasks {todos.length > 0 && <span className="ml-1 text-muted-foreground/70">· {doneCount}/{todos.length}</span>}
+        </div>
+        <div className="flex gap-1">
+          <button
+            type="button"
+            onClick={() => { setAdding("todo"); setDraft(""); }}
+            className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-2 py-1 text-[11px] text-muted-foreground hover:text-foreground"
+          >
+            <CheckSquare className="h-3 w-3" /> To-do
+          </button>
+          <button
+            type="button"
+            onClick={() => { setAdding("note"); setDraft(""); }}
+            className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-2 py-1 text-[11px] text-muted-foreground hover:text-foreground"
+          >
+            <FileText className="h-3 w-3" /> Note
+          </button>
+        </div>
+      </div>
+
+      {todos.length > 0 && (
+        <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-secondary">
+          <div className="h-full bg-gradient-brand transition-all" style={{ width: `${todos.length ? (doneCount / todos.length) * 100 : 0}%` }} />
+        </div>
+      )}
+
+      <ul className="mt-2 space-y-1.5">
+        {task.subtasks.length === 0 && !adding && (
+          <li className="rounded-md border border-dashed border-border px-3 py-3 text-center text-[11px] text-muted-foreground">
+            No subtasks yet. Add a to-do or note to break this task down.
+          </li>
+        )}
+        {task.subtasks.map((st) => (
+          <SubtaskRow key={st.id} taskId={task.id} subtask={st} />
+        ))}
+      </ul>
+
+      {adding && (
+        <div className="mt-2 flex items-start gap-2 rounded-md border border-border bg-background p-2">
+          {adding === "todo" ? <CheckSquare className="mt-1.5 h-3.5 w-3.5 text-muted-foreground" /> : <FileText className="mt-1.5 h-3.5 w-3.5 text-muted-foreground" />}
+          <Textarea
+            autoFocus
+            rows={adding === "note" ? 2 : 1}
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); submit(); }
+              if (e.key === "Escape") { setAdding(null); setDraft(""); }
+            }}
+            placeholder={adding === "todo" ? "What needs to be done?" : "Write a note…"}
+            className="min-h-[28px] flex-1 resize-none border-0 bg-transparent p-0 text-sm shadow-none focus-visible:ring-0"
+          />
+          <div className="flex gap-1">
+            <Button type="button" size="sm" variant="brand" className="h-7 px-2 text-xs" onClick={submit}>Add</Button>
+            <Button type="button" size="sm" variant="ghost" className="h-7 px-2 text-xs" onClick={() => { setAdding(null); setDraft(""); }}>Cancel</Button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SubtaskRow({ taskId, subtask }: { taskId: string; subtask: import("@/lib/store").Subtask }) {
+  const [editing, setEditing] = useState(false);
+  const [text, setText] = useState(subtask.text);
+
+  const save = () => {
+    const trimmed = text.trim();
+    if (trimmed && trimmed !== subtask.text) updateSubtask(taskId, subtask.id, { text: trimmed });
+    else setText(subtask.text);
+    setEditing(false);
+  };
+
+  return (
+    <li className="group flex items-start gap-2 rounded-md border border-border bg-background px-2.5 py-1.5">
+      {subtask.kind === "todo" ? (
+        <Checkbox
+          checked={subtask.done}
+          onCheckedChange={() => toggleSubtask(taskId, subtask.id)}
+          className="mt-0.5 cursor-pointer"
+        />
+      ) : (
+        <FileText className="mt-1 h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+      )}
+      <div className="flex-1 min-w-0">
+        {editing ? (
+          <Textarea
+            autoFocus
+            value={text}
+            rows={subtask.kind === "note" ? 2 : 1}
+            onChange={(e) => setText(e.target.value)}
+            onBlur={save}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); save(); }
+              if (e.key === "Escape") { setText(subtask.text); setEditing(false); }
+            }}
+            className="min-h-[24px] resize-none border-0 bg-transparent p-0 text-sm shadow-none focus-visible:ring-0"
+          />
+        ) : (
+          <button
+            type="button"
+            onClick={() => setEditing(true)}
+            className={cn(
+              "block w-full whitespace-pre-wrap break-words text-left text-sm leading-snug",
+              subtask.kind === "todo" && subtask.done && "text-muted-foreground line-through",
+              subtask.kind === "note" && "text-foreground/90",
+            )}
+          >
+            {subtask.text}
+          </button>
+        )}
+      </div>
+      <button
+        type="button"
+        onClick={() => deleteSubtask(taskId, subtask.id)}
+        className="shrink-0 rounded p-1 text-muted-foreground opacity-0 transition hover:bg-secondary hover:text-foreground group-hover:opacity-100"
+        aria-label="Delete subtask"
+      >
+        <X className="h-3 w-3" />
+      </button>
+    </li>
   );
 }

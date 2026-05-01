@@ -43,6 +43,15 @@ export type Project = {
   activity: Activity[];
 };
 
+export type SubtaskKind = "todo" | "note";
+export type Subtask = {
+  id: string;
+  kind: SubtaskKind;
+  text: string;
+  done: boolean; // only meaningful when kind === "todo"
+  createdAt: number;
+};
+
 export type Task = {
   id: string;
   projectId: string;
@@ -54,6 +63,7 @@ export type Task = {
   dueDate: string | null;
   createdAt: number;
   updates: Activity[];
+  subtasks: Subtask[];
 };
 
 export type Transaction = {
@@ -195,7 +205,7 @@ function seed(): Store {
     { id: uid("tk-"), projectId: "pr-northwind-crm", title: "Map legacy schemas", description: "Source-to-target mapping doc.", stage: "in-progress", assigneeId: "tm-maya", priority: "high", dueDate: isoDate(5), createdAt: now() - 86400000 * 10, updates: [] },
     { id: uid("tk-"), projectId: "pr-northwind-crm", title: "Build sync engine prototype", description: "Incremental delta sync.", stage: "todo", assigneeId: "tm-andi", priority: "high", dueDate: isoDate(20), createdAt: now() - 86400000 * 4, updates: [] },
     { id: uid("tk-"), projectId: "pr-northwind-crm", title: "User acceptance plan", description: "Define UAT scenarios with client.", stage: "backlog", assigneeId: "tm-bagus", priority: "medium", dueDate: isoDate(35), createdAt: now() - 86400000 * 1, updates: [] },
-  ];
+  ].map((t) => ({ ...t, subtasks: [] as Subtask[] })) as Task[];
 
   const transactions: Transaction[] = [
     { id: uid("tx-"), type: "income", amount: 48000000, category: "Project payment", description: "Acme — Zenith Sprint 3 invoice", date: isoDate(-12), projectId: "pr-zenith", clientId: "cl-acme", createdAt: now() - 86400000 * 12 },
@@ -235,7 +245,12 @@ function load(): Store {
       window.localStorage.setItem(KEY, JSON.stringify(s));
       return s;
     }
-    return JSON.parse(raw) as Store;
+    const parsed = JSON.parse(raw) as Store;
+    // Backfill subtasks for older persisted state
+    if (parsed.tasks) {
+      parsed.tasks = parsed.tasks.map((t) => ({ ...t, subtasks: t.subtasks ?? [] }));
+    }
+    return parsed;
   } catch {
     return seed();
   }
@@ -375,8 +390,8 @@ export function deleteProject(id: string) {
 
 // ---------- Mutations: Tasks ----------
 
-export function createTask(input: Omit<Task, "id" | "createdAt" | "updates">): Task {
-  const t: Task = { ...input, id: uid("tk-"), createdAt: now(), updates: [] };
+export function createTask(input: Omit<Task, "id" | "createdAt" | "updates" | "subtasks"> & { subtasks?: Subtask[] }): Task {
+  const t: Task = { ...input, id: uid("tk-"), createdAt: now(), updates: [], subtasks: input.subtasks ?? [] };
   update((s) => ({ ...s, tasks: [t, ...s.tasks] }));
   logProjectActivity(input.projectId, `Task added: ${input.title}`);
   return t;
@@ -401,6 +416,48 @@ export function moveTask(id: string, stage: TaskStage) {
 
 export function deleteTask(id: string) {
   update((s) => ({ ...s, tasks: s.tasks.filter((t) => t.id !== id) }));
+}
+
+export function addSubtask(taskId: string, kind: SubtaskKind, text: string): Subtask | null {
+  const trimmed = text.trim();
+  if (!trimmed) return null;
+  const sub: Subtask = { id: uid("st-"), kind, text: trimmed, done: false, createdAt: now() };
+  update((s) => ({
+    ...s,
+    tasks: s.tasks.map((t) => (t.id === taskId ? { ...t, subtasks: [...t.subtasks, sub] } : t)),
+  }));
+  return sub;
+}
+
+export function updateSubtask(taskId: string, subtaskId: string, patch: Partial<Subtask>) {
+  update((s) => ({
+    ...s,
+    tasks: s.tasks.map((t) =>
+      t.id === taskId
+        ? { ...t, subtasks: t.subtasks.map((st) => (st.id === subtaskId ? { ...st, ...patch } : st)) }
+        : t,
+    ),
+  }));
+}
+
+export function toggleSubtask(taskId: string, subtaskId: string) {
+  update((s) => ({
+    ...s,
+    tasks: s.tasks.map((t) =>
+      t.id === taskId
+        ? { ...t, subtasks: t.subtasks.map((st) => (st.id === subtaskId ? { ...st, done: !st.done } : st)) }
+        : t,
+    ),
+  }));
+}
+
+export function deleteSubtask(taskId: string, subtaskId: string) {
+  update((s) => ({
+    ...s,
+    tasks: s.tasks.map((t) =>
+      t.id === taskId ? { ...t, subtasks: t.subtasks.filter((st) => st.id !== subtaskId) } : t,
+    ),
+  }));
 }
 
 // ---------- Mutations: Transactions ----------
