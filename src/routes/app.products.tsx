@@ -87,6 +87,32 @@ function ProductsPage() {
                   <span className="inline-flex items-center gap-1"><TrendingDown className="h-3 w-3" /> Churn {p.churn}%</span>
                   <span>Launched {formatDate(p.launchedAt)}</span>
                 </div>
+
+                <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-border pt-3">
+                  <Button asChild size="sm" variant="brand" className="h-8">
+                    <a href={p.adminUrl} target="_blank" rel="noopener noreferrer">
+                      <LogIn className="h-3.5 w-3.5" /> Open admin login
+                    </a>
+                  </Button>
+                  {p.marketingUrl ? (
+                    <Button asChild size="sm" variant="outline" className="h-8">
+                      <a href={p.marketingUrl} target="_blank" rel="noopener noreferrer">
+                        <Globe className="h-3.5 w-3.5" /> Public site
+                      </a>
+                    </Button>
+                  ) : null}
+                  <CopyUrlButton url={p.adminUrl} />
+                  <a
+                    href={p.adminUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-auto inline-flex items-center gap-1 text-[11px] text-muted-foreground hover:text-brand"
+                    title={p.adminUrl}
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                    {(() => { try { return new URL(p.adminUrl).host; } catch { return p.adminUrl; } })()}
+                  </a>
+                </div>
               </div>
             );
           })}
@@ -97,6 +123,29 @@ function ProductsPage() {
         {edit && <ProductDialog onClose={() => setEdit(null)} initial={edit} />}
       </Dialog>
     </div>
+  );
+}
+
+function CopyUrlButton({ url }: { url: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <Button
+      size="sm"
+      variant="ghost"
+      className="h-8"
+      onClick={async () => {
+        try {
+          await navigator.clipboard.writeText(url);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1500);
+        } catch {
+          // ignore
+        }
+      }}
+    >
+      {copied ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
+      {copied ? "Copied" : "Copy URL"}
+    </Button>
   );
 }
 
