@@ -245,7 +245,12 @@ function load(): Store {
       window.localStorage.setItem(KEY, JSON.stringify(s));
       return s;
     }
-    return JSON.parse(raw) as Store;
+    const parsed = JSON.parse(raw) as Store;
+    // Backfill subtasks for older persisted state
+    if (parsed.tasks) {
+      parsed.tasks = parsed.tasks.map((t) => ({ ...t, subtasks: t.subtasks ?? [] }));
+    }
+    return parsed;
   } catch {
     return seed();
   }
