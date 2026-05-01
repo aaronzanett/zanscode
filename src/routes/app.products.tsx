@@ -230,6 +230,25 @@ function ProductDialog({ onClose, initial }: { onClose: () => void; initial?: Sa
             <div className="space-y-1.5"><Label>MRR (IDR)</Label><Input type="number" min="0" value={mrr} onChange={(e) => setMrr(e.target.value)} /></div>
             <div className="space-y-1.5"><Label>Churn (%)</Label><Input type="number" min="0" step="0.1" value={churn} onChange={(e) => setChurn(e.target.value)} /></div>
           </div>
+          <div className="space-y-1.5">
+            <Label>Admin login URL</Label>
+            <Input
+              type="url"
+              placeholder="https://admin.product.zanscode.com"
+              value={adminUrl}
+              onChange={(e) => setAdminUrl(e.target.value)}
+            />
+            <p className="text-[11px] text-muted-foreground">Where the product team signs in. Auto-generated from the name if left blank.</p>
+          </div>
+          <div className="space-y-1.5">
+            <Label>Public site URL <span className="text-muted-foreground">(optional)</span></Label>
+            <Input
+              type="url"
+              placeholder="https://product.zanscode.com"
+              value={marketingUrl}
+              onChange={(e) => setMarketingUrl(e.target.value)}
+            />
+          </div>
         </div>
         <DialogFooter className="mt-5">
           <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
