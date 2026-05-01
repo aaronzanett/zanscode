@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState, type DragEvent } from "react";
-import { Plus, ListChecks, Briefcase, X, Trash2, Calendar, User, CheckSquare, FileText, GripVertical } from "lucide-react";
+import { useState, type DragEvent } from "react";
+import { Plus, ListChecks, Briefcase, X, Trash2, Calendar, User, CheckSquare, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
