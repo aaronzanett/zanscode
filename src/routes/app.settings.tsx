@@ -82,7 +82,7 @@ function Settings() {
       </div>
 
       <Tabs value={tab} onValueChange={setTab} className="w-full">
-        <TabsList className="h-auto w-full justify-start overflow-x-auto rounded-lg bg-card p-1 shadow-soft border border-border">
+        <TabsList className="h-auto w-fit max-w-full flex-wrap justify-start gap-1 overflow-x-auto p-1">
           {tabs.map((t) => (
             <TabsTrigger
               key={t.id}
