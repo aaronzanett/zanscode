@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Plus, Boxes, Trash2, Users, TrendingDown, DollarSign } from "lucide-react";
+import { Plus, Boxes, Trash2, Users, TrendingDown, DollarSign, ExternalLink, LogIn, Globe, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -87,6 +87,32 @@ function ProductsPage() {
                   <span className="inline-flex items-center gap-1"><TrendingDown className="h-3 w-3" /> Churn {p.churn}%</span>
                   <span>Launched {formatDate(p.launchedAt)}</span>
                 </div>
+
+                <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-border pt-3">
+                  <Button asChild size="sm" variant="brand" className="h-8">
+                    <a href={p.adminUrl} target="_blank" rel="noopener noreferrer">
+                      <LogIn className="h-3.5 w-3.5" /> Open admin login
+                    </a>
+                  </Button>
+                  {p.marketingUrl ? (
+                    <Button asChild size="sm" variant="outline" className="h-8">
+                      <a href={p.marketingUrl} target="_blank" rel="noopener noreferrer">
+                        <Globe className="h-3.5 w-3.5" /> Public site
+                      </a>
+                    </Button>
+                  ) : null}
+                  <CopyUrlButton url={p.adminUrl} />
+                  <a
+                    href={p.adminUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-auto inline-flex items-center gap-1 text-[11px] text-muted-foreground hover:text-brand"
+                    title={p.adminUrl}
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                    {(() => { try { return new URL(p.adminUrl).host; } catch { return p.adminUrl; } })()}
+                  </a>
+                </div>
               </div>
             );
           })}
@@ -97,6 +123,29 @@ function ProductsPage() {
         {edit && <ProductDialog onClose={() => setEdit(null)} initial={edit} />}
       </Dialog>
     </div>
+  );
+}
+
+function CopyUrlButton({ url }: { url: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <Button
+      size="sm"
+      variant="ghost"
+      className="h-8"
+      onClick={async () => {
+        try {
+          await navigator.clipboard.writeText(url);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1500);
+        } catch {
+          // ignore
+        }
+      }}
+    >
+      {copied ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
+      {copied ? "Copied" : "Copy URL"}
+    </Button>
   );
 }
 
@@ -131,6 +180,8 @@ function ProductDialog({ onClose, initial }: { onClose: () => void; initial?: Sa
   const [mrr, setMrr] = useState(initial?.mrr?.toString() ?? "0");
   const [churn, setChurn] = useState(initial?.churn?.toString() ?? "0");
   const [launchedAt, setLaunchedAt] = useState(initial?.launchedAt ?? new Date().toISOString().slice(0, 10));
+  const [adminUrl, setAdminUrl] = useState(initial?.adminUrl ?? "");
+  const [marketingUrl, setMarketingUrl] = useState(initial?.marketingUrl ?? "");
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -142,6 +193,8 @@ function ProductDialog({ onClose, initial }: { onClose: () => void; initial?: Sa
       mrr: parseFloat(mrr) || 0,
       churn: parseFloat(churn) || 0,
       launchedAt,
+      adminUrl: adminUrl.trim() || `https://admin.${name.toLowerCase().replace(/[^a-z0-9]+/g, "")}.zanscode.com`,
+      marketingUrl: marketingUrl.trim() || undefined,
     };
     if (initial) updateProduct(initial.id, data);
     else createProduct(data);
@@ -176,6 +229,25 @@ function ProductDialog({ onClose, initial }: { onClose: () => void; initial?: Sa
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-1.5"><Label>MRR (IDR)</Label><Input type="number" min="0" value={mrr} onChange={(e) => setMrr(e.target.value)} /></div>
             <div className="space-y-1.5"><Label>Churn (%)</Label><Input type="number" min="0" step="0.1" value={churn} onChange={(e) => setChurn(e.target.value)} /></div>
+          </div>
+          <div className="space-y-1.5">
+            <Label>Admin login URL</Label>
+            <Input
+              type="url"
+              placeholder="https://admin.product.zanscode.com"
+              value={adminUrl}
+              onChange={(e) => setAdminUrl(e.target.value)}
+            />
+            <p className="text-[11px] text-muted-foreground">Where the product team signs in. Auto-generated from the name if left blank.</p>
+          </div>
+          <div className="space-y-1.5">
+            <Label>Public site URL <span className="text-muted-foreground">(optional)</span></Label>
+            <Input
+              type="url"
+              placeholder="https://product.zanscode.com"
+              value={marketingUrl}
+              onChange={(e) => setMarketingUrl(e.target.value)}
+            />
           </div>
         </div>
         <DialogFooter className="mt-5">
