@@ -97,6 +97,8 @@ export type SaaSProduct = {
   mrr: number;
   churn: number; // percent
   launchedAt: string;
+  adminUrl: string; // SaaS admin login URL
+  marketingUrl?: string; // optional public site
 };
 
 export type Doc = {
@@ -217,9 +219,9 @@ function seed(): Store {
   ];
 
   const products: SaaSProduct[] = [
-    { id: "sp-zen-pos", name: "ZenPOS", tagline: "Point-of-sale for modern retail", status: "live", totalUsers: 4820, activeUsers: 3160, mrr: 84000000, churn: 2.4, launchedAt: isoDate(-540) },
-    { id: "sp-zen-hr", name: "ZenHR", tagline: "Lightweight HRIS for SMBs", status: "live", totalUsers: 2140, activeUsers: 1580, mrr: 42000000, churn: 3.1, launchedAt: isoDate(-380) },
-    { id: "sp-zen-stock", name: "ZenStock", tagline: "Inventory & supplier ops", status: "beta", totalUsers: 320, activeUsers: 240, mrr: 6500000, churn: 4.2, launchedAt: isoDate(-90) },
+    { id: "sp-zen-pos", name: "ZenPOS", tagline: "Point-of-sale for modern retail", status: "live", totalUsers: 4820, activeUsers: 3160, mrr: 84000000, churn: 2.4, launchedAt: isoDate(-540), adminUrl: "https://admin.zenpos.zanscode.com", marketingUrl: "https://zenpos.zanscode.com" },
+    { id: "sp-zen-hr", name: "ZenHR", tagline: "Lightweight HRIS for SMBs", status: "live", totalUsers: 2140, activeUsers: 1580, mrr: 42000000, churn: 3.1, launchedAt: isoDate(-380), adminUrl: "https://admin.zenhr.zanscode.com", marketingUrl: "https://zenhr.zanscode.com" },
+    { id: "sp-zen-stock", name: "ZenStock", tagline: "Inventory & supplier ops", status: "beta", totalUsers: 320, activeUsers: 240, mrr: 6500000, churn: 4.2, launchedAt: isoDate(-90), adminUrl: "https://admin.zenstock.zanscode.com", marketingUrl: "https://zenstock.zanscode.com" },
   ];
 
   const docs: Doc[] = [
@@ -249,6 +251,15 @@ function load(): Store {
     // Backfill subtasks for older persisted state
     if (parsed.tasks) {
       parsed.tasks = parsed.tasks.map((t) => ({ ...t, subtasks: t.subtasks ?? [] }));
+    }
+    // Backfill admin URLs on products from older persisted state
+    if (parsed.products) {
+      parsed.products = parsed.products.map((p) => ({
+        ...p,
+        adminUrl:
+          p.adminUrl ??
+          `https://admin.${p.name.toLowerCase().replace(/[^a-z0-9]+/g, "")}.zanscode.com`,
+      }));
     }
     return parsed;
   } catch {
