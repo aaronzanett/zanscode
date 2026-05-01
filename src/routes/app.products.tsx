@@ -180,6 +180,8 @@ function ProductDialog({ onClose, initial }: { onClose: () => void; initial?: Sa
   const [mrr, setMrr] = useState(initial?.mrr?.toString() ?? "0");
   const [churn, setChurn] = useState(initial?.churn?.toString() ?? "0");
   const [launchedAt, setLaunchedAt] = useState(initial?.launchedAt ?? new Date().toISOString().slice(0, 10));
+  const [adminUrl, setAdminUrl] = useState(initial?.adminUrl ?? "");
+  const [marketingUrl, setMarketingUrl] = useState(initial?.marketingUrl ?? "");
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -191,6 +193,8 @@ function ProductDialog({ onClose, initial }: { onClose: () => void; initial?: Sa
       mrr: parseFloat(mrr) || 0,
       churn: parseFloat(churn) || 0,
       launchedAt,
+      adminUrl: adminUrl.trim() || `https://admin.${name.toLowerCase().replace(/[^a-z0-9]+/g, "")}.zanscode.com`,
+      marketingUrl: marketingUrl.trim() || undefined,
     };
     if (initial) updateProduct(initial.id, data);
     else createProduct(data);
