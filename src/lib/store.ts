@@ -385,8 +385,8 @@ export function deleteProject(id: string) {
 
 // ---------- Mutations: Tasks ----------
 
-export function createTask(input: Omit<Task, "id" | "createdAt" | "updates">): Task {
-  const t: Task = { ...input, id: uid("tk-"), createdAt: now(), updates: [] };
+export function createTask(input: Omit<Task, "id" | "createdAt" | "updates" | "subtasks"> & { subtasks?: Subtask[] }): Task {
+  const t: Task = { ...input, id: uid("tk-"), createdAt: now(), updates: [], subtasks: input.subtasks ?? [] };
   update((s) => ({ ...s, tasks: [t, ...s.tasks] }));
   logProjectActivity(input.projectId, `Task added: ${input.title}`);
   return t;
