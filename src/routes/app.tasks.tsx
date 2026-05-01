@@ -136,6 +136,16 @@ function TaskCard({ task, onOpen }: { task: Task; onOpen: () => void }) {
         <div className="font-medium leading-snug">{task.title}</div>
         <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-semibold uppercase ${priorityClass[task.priority]}`}>{task.priority}</span>
       </div>
+      {task.subtasks.length > 0 && (() => {
+        const todos = task.subtasks.filter((s) => s.kind === "todo");
+        const done = todos.filter((s) => s.done).length;
+        return (
+          <div className="mt-2 flex items-center gap-1.5 text-[10px] text-muted-foreground">
+            <CheckSquare className="h-3 w-3" />
+            {todos.length > 0 ? <span>{done}/{todos.length} done</span> : <span>{task.subtasks.length} notes</span>}
+          </div>
+        );
+      })()}
       <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground">
         <span className="inline-flex items-center gap-1">
           {assignee ? (
