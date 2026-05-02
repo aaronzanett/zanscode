@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { Reveal } from "@/components/site/Reveal";
-import { jobs, teams, type JobTeam } from "@/data/jobs";
+import { getPublishedJobs, teams, type JobTeam } from "@/data/jobs";
+import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/careers")({
   head: () => ({

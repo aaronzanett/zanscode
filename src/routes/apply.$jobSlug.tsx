@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { getJobBySlug, jobs } from "@/data/jobs";
+import { getJobBySlug, getPublishedJobs } from "@/data/jobs";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/apply/$jobSlug")({
@@ -176,7 +176,7 @@ function ApplyPage() {
     );
   }
 
-  const otherJobs = jobs.filter((j) => j.slug !== job.slug && j.team === job.team).slice(0, 3);
+  const otherJobs = getPublishedJobs().filter((j) => j.slug !== job.slug && j.team === job.team).slice(0, 3);
 
   return (
     <SiteLayout>
