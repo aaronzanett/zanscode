@@ -110,6 +110,105 @@ export type Doc = {
   createdAt: number;
 };
 
+// ---------- Recruitment (HR) ----------
+
+export type JobTeam = "Engineering" | "Design" | "Product" | "Operations" | "Sales" | "HR" | "Finance";
+export type JobType = "Full-time" | "Contract" | "Internship" | "Part-time";
+export type JobStatus = "draft" | "published" | "closed";
+
+export type JobPosting = {
+  id: string;
+  slug: string;
+  title: string;
+  team: JobTeam;
+  location: string;
+  type: JobType;
+  level: string;
+  summary: string;
+  description: string; // longer body for the public job page
+  status: JobStatus;
+  requisitionId: string | null;
+  hiringManagerId: string | null; // team member id
+  openings: number;
+  postedAt: number;
+};
+
+export type MPPStatus = "draft" | "submitted" | "approved" | "rejected";
+export type MPPRequest = {
+  id: string;
+  title: string;       // e.g. "Q3 Engineering hiring plan"
+  department: JobTeam;
+  headcount: number;
+  justification: string;
+  budgetIDR: number;
+  targetQuarter: string; // e.g. "2026-Q3"
+  status: MPPStatus;
+  requestedById: string | null;
+  approverId: string | null;
+  createdAt: number;
+  decidedAt: number | null;
+  notes: string;
+};
+
+export type RequisitionStatus = "open" | "on-hold" | "filled" | "cancelled";
+export type Requisition = {
+  id: string;
+  code: string;        // e.g. "REQ-2026-014"
+  title: string;
+  department: JobTeam;
+  mppId: string | null;
+  hiringManagerId: string | null;
+  openings: number;
+  filled: number;
+  priority: "low" | "medium" | "high";
+  status: RequisitionStatus;
+  targetStartDate: string; // YYYY-MM-DD
+  notes: string;
+  createdAt: number;
+};
+
+export type CandidateStage =
+  | "applied"
+  | "screening"
+  | "interview"
+  | "offer"
+  | "hired"
+  | "rejected";
+
+export type CandidateNote = { id: string; at: number; authorId: string | null; message: string };
+
+export type Candidate = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  jobId: string | null;
+  source: string; // e.g. "LinkedIn", "Referral", "Website"
+  stage: CandidateStage;
+  rating: number; // 0-5
+  resumeUrl: string;
+  appliedAt: number;
+  notes: CandidateNote[];
+};
+
+export type InterviewKind = "phone" | "technical" | "culture" | "final" | "panel";
+export type InterviewStatus = "scheduled" | "completed" | "cancelled" | "no-show";
+
+export type Interview = {
+  id: string;
+  candidateId: string;
+  jobId: string | null;
+  kind: InterviewKind;
+  scheduledAt: number; // epoch ms
+  durationMins: number;
+  location: string; // physical or "Google Meet"
+  interviewerIds: string[];
+  status: InterviewStatus;
+  feedback: string;
+  score: number; // 0-5
+  createdAt: number;
+};
+
 export type Store = {
   clients: Client[];
   projects: Project[];
@@ -118,6 +217,11 @@ export type Store = {
   team: TeamMember[];
   products: SaaSProduct[];
   docs: Doc[];
+  jobs: JobPosting[];
+  mppRequests: MPPRequest[];
+  requisitions: Requisition[];
+  candidates: Candidate[];
+  interviews: Interview[];
 };
 
 // ---------- Storage ----------
