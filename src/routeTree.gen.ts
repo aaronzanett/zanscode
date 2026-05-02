@@ -30,6 +30,7 @@ import { Route as AppKnowledgeRouteImport } from './routes/app.knowledge'
 import { Route as AppFinanceRouteImport } from './routes/app.finance'
 import { Route as AppContentStudioRouteImport } from './routes/app.content-studio'
 import { Route as AppClientsRouteImport } from './routes/app.clients'
+import { Route as AppRecruitmentIndexRouteImport } from './routes/app.recruitment.index'
 import { Route as AppRecruitmentRequisitionsRouteImport } from './routes/app.recruitment.requisitions'
 import { Route as AppRecruitmentPipelineRouteImport } from './routes/app.recruitment.pipeline'
 import { Route as AppRecruitmentMppRouteImport } from './routes/app.recruitment.mpp'
@@ -141,6 +142,11 @@ const AppClientsRoute = AppClientsRouteImport.update({
   path: '/clients',
   getParentRoute: () => AppRoute,
 } as any)
+const AppRecruitmentIndexRoute = AppRecruitmentIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRecruitmentRoute,
+} as any)
 const AppRecruitmentRequisitionsRoute =
   AppRecruitmentRequisitionsRouteImport.update({
     id: '/requisitions',
@@ -196,6 +202,7 @@ export interface FileRoutesByFullPath {
   '/app/recruitment/mpp': typeof AppRecruitmentMppRoute
   '/app/recruitment/pipeline': typeof AppRecruitmentPipelineRoute
   '/app/recruitment/requisitions': typeof AppRecruitmentRequisitionsRoute
+  '/app/recruitment/': typeof AppRecruitmentIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -211,7 +218,6 @@ export interface FileRoutesByTo {
   '/app/notifications': typeof AppNotificationsRoute
   '/app/products': typeof AppProductsRoute
   '/app/projects': typeof AppProjectsRoute
-  '/app/recruitment': typeof AppRecruitmentRouteWithChildren
   '/app/settings': typeof AppSettingsRoute
   '/app/tasks': typeof AppTasksRoute
   '/app/team': typeof AppTeamRoute
@@ -223,6 +229,7 @@ export interface FileRoutesByTo {
   '/app/recruitment/mpp': typeof AppRecruitmentMppRoute
   '/app/recruitment/pipeline': typeof AppRecruitmentPipelineRoute
   '/app/recruitment/requisitions': typeof AppRecruitmentRequisitionsRoute
+  '/app/recruitment': typeof AppRecruitmentIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -252,6 +259,7 @@ export interface FileRoutesById {
   '/app/recruitment/mpp': typeof AppRecruitmentMppRoute
   '/app/recruitment/pipeline': typeof AppRecruitmentPipelineRoute
   '/app/recruitment/requisitions': typeof AppRecruitmentRequisitionsRoute
+  '/app/recruitment/': typeof AppRecruitmentIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -282,6 +290,7 @@ export interface FileRouteTypes {
     | '/app/recruitment/mpp'
     | '/app/recruitment/pipeline'
     | '/app/recruitment/requisitions'
+    | '/app/recruitment/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -297,7 +306,6 @@ export interface FileRouteTypes {
     | '/app/notifications'
     | '/app/products'
     | '/app/projects'
-    | '/app/recruitment'
     | '/app/settings'
     | '/app/tasks'
     | '/app/team'
@@ -309,6 +317,7 @@ export interface FileRouteTypes {
     | '/app/recruitment/mpp'
     | '/app/recruitment/pipeline'
     | '/app/recruitment/requisitions'
+    | '/app/recruitment'
   id:
     | '__root__'
     | '/'
@@ -337,6 +346,7 @@ export interface FileRouteTypes {
     | '/app/recruitment/mpp'
     | '/app/recruitment/pipeline'
     | '/app/recruitment/requisitions'
+    | '/app/recruitment/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -500,6 +510,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppClientsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/recruitment/': {
+      id: '/app/recruitment/'
+      path: '/'
+      fullPath: '/app/recruitment/'
+      preLoaderRoute: typeof AppRecruitmentIndexRouteImport
+      parentRoute: typeof AppRecruitmentRoute
+    }
     '/app/recruitment/requisitions': {
       id: '/app/recruitment/requisitions'
       path: '/requisitions'
@@ -544,6 +561,7 @@ interface AppRecruitmentRouteChildren {
   AppRecruitmentMppRoute: typeof AppRecruitmentMppRoute
   AppRecruitmentPipelineRoute: typeof AppRecruitmentPipelineRoute
   AppRecruitmentRequisitionsRoute: typeof AppRecruitmentRequisitionsRoute
+  AppRecruitmentIndexRoute: typeof AppRecruitmentIndexRoute
 }
 
 const AppRecruitmentRouteChildren: AppRecruitmentRouteChildren = {
@@ -552,6 +570,7 @@ const AppRecruitmentRouteChildren: AppRecruitmentRouteChildren = {
   AppRecruitmentMppRoute: AppRecruitmentMppRoute,
   AppRecruitmentPipelineRoute: AppRecruitmentPipelineRoute,
   AppRecruitmentRequisitionsRoute: AppRecruitmentRequisitionsRoute,
+  AppRecruitmentIndexRoute: AppRecruitmentIndexRoute,
 }
 
 const AppRecruitmentRouteWithChildren = AppRecruitmentRoute._addFileChildren(
