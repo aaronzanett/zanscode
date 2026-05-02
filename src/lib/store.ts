@@ -728,3 +728,145 @@ export function projectProgress(projectId: string, store: Store): number {
   const done = tasks.filter((t) => t.stage === "done").length;
   return Math.round((done / tasks.length) * 100);
 }
+
+// ---------- Mutations: Recruitment ----------
+
+function slugify(s: string): string {
+  return s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+export function createJob(input: Omit<JobPosting, "id" | "slug" | "postedAt"> & { slug?: string }): JobPosting {
+  const baseSlug = input.slug && input.slug.trim() ? slugify(input.slug) : slugify(input.title);
+  // ensure unique slug
+  let slug = baseSlug || `job-${Date.now()}`;
+  let n = 2;
+  while (state.jobs.some((j) => j.slug === slug)) slug = `${baseSlug}-${n++}`;
+  const j: JobPosting = { ...input, slug, id: uid("job-"), postedAt: now() };
+  update((s) => ({ ...s, jobs: [j, ...s.jobs] }));
+  return j;
+}
+
+export function updateJob(id: string, patch: Partial<JobPosting>) {
+  update((s) => ({ ...s, jobs: s.jobs.map((j) => (j.id === id ? { ...j, ...patch } : j)) }));
+}
+
+export function deleteJob(id: string) {
+  update((s) => ({
+    ...s,
+    jobs: s.jobs.filter((j) => j.id !== id),
+    candidates: s.candidates.map((c) => (c.jobId === id ? { ...c, jobId: null } : c)),
+    interviews: s.interviews.map((iv) => (iv.jobId === id ? { ...iv, jobId: null } : iv)),
+  }));
+}
+
+export function createMPP(input: Omit<MPPRequest, "id" | "createdAt" | "decidedAt">): MPPRequest {
+  const m: MPPRequest = { ...input, id: uid("mpp-"), createdAt: now(), decidedAt: null };
+  update((s) => ({ ...s, mppRequests: [m, ...s.mppRequests] }));
+  return m;
+}
+
+export function updateMPP(id: string, patch: Partial<MPPRequest>) {
+  update((s) => ({
+    ...s,
+    mppRequests: s.mppRequests.map((m) => {
+      if (m.id !== id) return m;
+      const next = { ...m, ...patch };
+      if (patch.status && (patch.status === "approved" || patch.status === "rejected") && !m.decidedAt) {
+        next.decidedAt = now();
+      }
+      return next;
+    }),
+  }));
+}
+
+export function deleteMPP(id: string) {
+  update((s) => ({
+    ...s,
+    mppRequests: s.mppRequests.filter((m) => m.id !== id),
+    requisitions: s.requisitions.map((r) => (r.mppId === id ? { ...r, mppId: null } : r)),
+  }));
+}
+
+export function createRequisition(input: Omit<Requisition, "id" | "createdAt" | "code"> & { code?: string }): Requisition {
+  const code = input.code && input.code.trim() ? input.code.trim() : `REQ-${new Date().getFullYear()}-${String(state.requisitions.length + 1).padStart(3, "0")}`;
+  const r: Requisition = { ...input, code, id: uid("req-"), createdAt: now() };
+  update((s) => ({ ...s, requisitions: [r, ...s.requisitions] }));
+  return r;
+}
+
+export function updateRequisition(id: string, patch: Partial<Requisition>) {
+  update((s) => ({ ...s, requisitions: s.requisitions.map((r) => (r.id === id ? { ...r, ...patch } : r)) }));
+}
+
+export function deleteRequisition(id: string) {
+  update((s) => ({
+    ...s,
+    requisitions: s.requisitions.filter((r) => r.id !== id),
+    jobs: s.jobs.map((j) => (j.requisitionId === id ? { ...j, requisitionId: null } : j)),
+  }));
+}
+
+export function createCandidate(input: Omit<Candidate, "id" | "appliedAt" | "notes"> & { notes?: CandidateNote[] }): Candidate {
+  const c: Candidate = { ...input, id: uid("cand-"), appliedAt: now(), notes: input.notes ?? [] };
+  update((s) => ({ ...s, candidates: [c, ...s.candidates] }));
+  return c;
+}
+
+export function updateCandidate(id: string, patch: Partial<Candidate>) {
+  update((s) => ({ ...s, candidates: s.candidates.map((c) => (c.id === id ? { ...c, ...patch } : c)) }));
+}
+
+export function moveCandidate(id: string, stage: CandidateStage) {
+  update((s) => ({ ...s, candidates: s.candidates.map((c) => (c.id === id ? { ...c, stage } : c)) }));
+  // If moved to "hired", increment requisition.filled when possible
+  if (stage === "hired") {
+    const cand = state.candidates.find((c) => c.id === id);
+    const job = cand?.jobId ? state.jobs.find((j) => j.id === cand.jobId) : null;
+    if (job?.requisitionId) {
+      update((s) => ({
+        ...s,
+        requisitions: s.requisitions.map((r) =>
+          r.id === job.requisitionId
+            ? { ...r, filled: Math.min(r.openings, r.filled + 1), status: r.filled + 1 >= r.openings ? "filled" : r.status }
+            : r,
+        ),
+      }));
+    }
+  }
+}
+
+export function deleteCandidate(id: string) {
+  update((s) => ({
+    ...s,
+    candidates: s.candidates.filter((c) => c.id !== id),
+    interviews: s.interviews.filter((iv) => iv.candidateId !== id),
+  }));
+}
+
+export function addCandidateNote(candidateId: string, message: string, authorId: string | null = null) {
+  const trimmed = message.trim();
+  if (!trimmed) return;
+  const note: CandidateNote = { id: uid("n-"), at: now(), authorId, message: trimmed };
+  update((s) => ({
+    ...s,
+    candidates: s.candidates.map((c) => (c.id === candidateId ? { ...c, notes: [note, ...c.notes] } : c)),
+  }));
+}
+
+export function createInterview(input: Omit<Interview, "id" | "createdAt">): Interview {
+  const iv: Interview = { ...input, id: uid("iv-"), createdAt: now() };
+  update((s) => ({ ...s, interviews: [iv, ...s.interviews] }));
+  return iv;
+}
+
+export function updateInterview(id: string, patch: Partial<Interview>) {
+  update((s) => ({ ...s, interviews: s.interviews.map((iv) => (iv.id === id ? { ...iv, ...patch } : iv)) }));
+}
+
+export function deleteInterview(id: string) {
+  update((s) => ({ ...s, interviews: s.interviews.filter((iv) => iv.id !== id) }));
+}
+
+export function formatDateTime(ts: number): string {
+  return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }).format(new Date(ts));
+}
