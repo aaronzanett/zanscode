@@ -4,6 +4,7 @@ import {
   LayoutDashboard, Users, Briefcase, Settings, Search, Menu, X,
   ListChecks, Wallet, BookOpen, Boxes, UserCog, Sparkles,
   ChevronDown, LogOut, Wrench,
+  ClipboardList, FileText, UserSquare2, CalendarDays,
 } from "lucide-react";
 import logo from "@/assets/zanscode-logo.png";
 import { Input } from "@/components/ui/input";
@@ -27,7 +28,9 @@ export const Route = createFileRoute("/app")({
 type AppPath =
   | "/app" | "/app/clients" | "/app/projects" | "/app/tasks"
   | "/app/finance" | "/app/team" | "/app/products" | "/app/knowledge"
-  | "/app/content-studio" | "/app/settings";
+  | "/app/content-studio" | "/app/settings"
+  | "/app/recruitment" | "/app/recruitment/mpp" | "/app/recruitment/requisitions"
+  | "/app/recruitment/jobs" | "/app/recruitment/pipeline" | "/app/recruitment/interviews";
 
 type NavItem = { to: AppPath; label: string; icon: typeof LayoutDashboard; exact?: boolean };
 type NavGroup = { label: string; items: NavItem[] };
@@ -53,6 +56,17 @@ const groups: NavGroup[] = [
       { to: "/app/finance", label: "Finance", icon: Wallet },
       { to: "/app/team", label: "Team", icon: UserCog },
       { to: "/app/products", label: "SaaS Products", icon: Boxes },
+    ],
+  },
+  {
+    label: "Recruitment",
+    items: [
+      { to: "/app/recruitment", label: "Overview", icon: LayoutDashboard, exact: true },
+      { to: "/app/recruitment/mpp", label: "MPP Requests", icon: FileText },
+      { to: "/app/recruitment/requisitions", label: "Requisitions", icon: ClipboardList },
+      { to: "/app/recruitment/jobs", label: "Jobs", icon: Briefcase },
+      { to: "/app/recruitment/pipeline", label: "Candidate Pipeline", icon: UserSquare2 },
+      { to: "/app/recruitment/interviews", label: "Interviews", icon: CalendarDays },
     ],
   },
   {

@@ -22,6 +22,7 @@ import { Route as ApplyJobSlugRouteImport } from './routes/apply.$jobSlug'
 import { Route as AppTeamRouteImport } from './routes/app.team'
 import { Route as AppTasksRouteImport } from './routes/app.tasks'
 import { Route as AppSettingsRouteImport } from './routes/app.settings'
+import { Route as AppRecruitmentRouteImport } from './routes/app.recruitment'
 import { Route as AppProjectsRouteImport } from './routes/app.projects'
 import { Route as AppProductsRouteImport } from './routes/app.products'
 import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
@@ -29,6 +30,11 @@ import { Route as AppKnowledgeRouteImport } from './routes/app.knowledge'
 import { Route as AppFinanceRouteImport } from './routes/app.finance'
 import { Route as AppContentStudioRouteImport } from './routes/app.content-studio'
 import { Route as AppClientsRouteImport } from './routes/app.clients'
+import { Route as AppRecruitmentRequisitionsRouteImport } from './routes/app.recruitment.requisitions'
+import { Route as AppRecruitmentPipelineRouteImport } from './routes/app.recruitment.pipeline'
+import { Route as AppRecruitmentMppRouteImport } from './routes/app.recruitment.mpp'
+import { Route as AppRecruitmentJobsRouteImport } from './routes/app.recruitment.jobs'
+import { Route as AppRecruitmentInterviewsRouteImport } from './routes/app.recruitment.interviews'
 
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
@@ -95,6 +101,11 @@ const AppSettingsRoute = AppSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AppRoute,
 } as any)
+const AppRecruitmentRoute = AppRecruitmentRouteImport.update({
+  id: '/recruitment',
+  path: '/recruitment',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppProjectsRoute = AppProjectsRouteImport.update({
   id: '/projects',
   path: '/projects',
@@ -130,6 +141,33 @@ const AppClientsRoute = AppClientsRouteImport.update({
   path: '/clients',
   getParentRoute: () => AppRoute,
 } as any)
+const AppRecruitmentRequisitionsRoute =
+  AppRecruitmentRequisitionsRouteImport.update({
+    id: '/requisitions',
+    path: '/requisitions',
+    getParentRoute: () => AppRecruitmentRoute,
+  } as any)
+const AppRecruitmentPipelineRoute = AppRecruitmentPipelineRouteImport.update({
+  id: '/pipeline',
+  path: '/pipeline',
+  getParentRoute: () => AppRecruitmentRoute,
+} as any)
+const AppRecruitmentMppRoute = AppRecruitmentMppRouteImport.update({
+  id: '/mpp',
+  path: '/mpp',
+  getParentRoute: () => AppRecruitmentRoute,
+} as any)
+const AppRecruitmentJobsRoute = AppRecruitmentJobsRouteImport.update({
+  id: '/jobs',
+  path: '/jobs',
+  getParentRoute: () => AppRecruitmentRoute,
+} as any)
+const AppRecruitmentInterviewsRoute =
+  AppRecruitmentInterviewsRouteImport.update({
+    id: '/interviews',
+    path: '/interviews',
+    getParentRoute: () => AppRecruitmentRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -146,12 +184,18 @@ export interface FileRoutesByFullPath {
   '/app/notifications': typeof AppNotificationsRoute
   '/app/products': typeof AppProductsRoute
   '/app/projects': typeof AppProjectsRoute
+  '/app/recruitment': typeof AppRecruitmentRouteWithChildren
   '/app/settings': typeof AppSettingsRoute
   '/app/tasks': typeof AppTasksRoute
   '/app/team': typeof AppTeamRoute
   '/apply/$jobSlug': typeof ApplyJobSlugRoute
   '/staff/login': typeof StaffLoginRoute
   '/app/': typeof AppIndexRoute
+  '/app/recruitment/interviews': typeof AppRecruitmentInterviewsRoute
+  '/app/recruitment/jobs': typeof AppRecruitmentJobsRoute
+  '/app/recruitment/mpp': typeof AppRecruitmentMppRoute
+  '/app/recruitment/pipeline': typeof AppRecruitmentPipelineRoute
+  '/app/recruitment/requisitions': typeof AppRecruitmentRequisitionsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -167,12 +211,18 @@ export interface FileRoutesByTo {
   '/app/notifications': typeof AppNotificationsRoute
   '/app/products': typeof AppProductsRoute
   '/app/projects': typeof AppProjectsRoute
+  '/app/recruitment': typeof AppRecruitmentRouteWithChildren
   '/app/settings': typeof AppSettingsRoute
   '/app/tasks': typeof AppTasksRoute
   '/app/team': typeof AppTeamRoute
   '/apply/$jobSlug': typeof ApplyJobSlugRoute
   '/staff/login': typeof StaffLoginRoute
   '/app': typeof AppIndexRoute
+  '/app/recruitment/interviews': typeof AppRecruitmentInterviewsRoute
+  '/app/recruitment/jobs': typeof AppRecruitmentJobsRoute
+  '/app/recruitment/mpp': typeof AppRecruitmentMppRoute
+  '/app/recruitment/pipeline': typeof AppRecruitmentPipelineRoute
+  '/app/recruitment/requisitions': typeof AppRecruitmentRequisitionsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -190,12 +240,18 @@ export interface FileRoutesById {
   '/app/notifications': typeof AppNotificationsRoute
   '/app/products': typeof AppProductsRoute
   '/app/projects': typeof AppProjectsRoute
+  '/app/recruitment': typeof AppRecruitmentRouteWithChildren
   '/app/settings': typeof AppSettingsRoute
   '/app/tasks': typeof AppTasksRoute
   '/app/team': typeof AppTeamRoute
   '/apply/$jobSlug': typeof ApplyJobSlugRoute
   '/staff/login': typeof StaffLoginRoute
   '/app/': typeof AppIndexRoute
+  '/app/recruitment/interviews': typeof AppRecruitmentInterviewsRoute
+  '/app/recruitment/jobs': typeof AppRecruitmentJobsRoute
+  '/app/recruitment/mpp': typeof AppRecruitmentMppRoute
+  '/app/recruitment/pipeline': typeof AppRecruitmentPipelineRoute
+  '/app/recruitment/requisitions': typeof AppRecruitmentRequisitionsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -214,12 +270,18 @@ export interface FileRouteTypes {
     | '/app/notifications'
     | '/app/products'
     | '/app/projects'
+    | '/app/recruitment'
     | '/app/settings'
     | '/app/tasks'
     | '/app/team'
     | '/apply/$jobSlug'
     | '/staff/login'
     | '/app/'
+    | '/app/recruitment/interviews'
+    | '/app/recruitment/jobs'
+    | '/app/recruitment/mpp'
+    | '/app/recruitment/pipeline'
+    | '/app/recruitment/requisitions'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -235,12 +297,18 @@ export interface FileRouteTypes {
     | '/app/notifications'
     | '/app/products'
     | '/app/projects'
+    | '/app/recruitment'
     | '/app/settings'
     | '/app/tasks'
     | '/app/team'
     | '/apply/$jobSlug'
     | '/staff/login'
     | '/app'
+    | '/app/recruitment/interviews'
+    | '/app/recruitment/jobs'
+    | '/app/recruitment/mpp'
+    | '/app/recruitment/pipeline'
+    | '/app/recruitment/requisitions'
   id:
     | '__root__'
     | '/'
@@ -257,12 +325,18 @@ export interface FileRouteTypes {
     | '/app/notifications'
     | '/app/products'
     | '/app/projects'
+    | '/app/recruitment'
     | '/app/settings'
     | '/app/tasks'
     | '/app/team'
     | '/apply/$jobSlug'
     | '/staff/login'
     | '/app/'
+    | '/app/recruitment/interviews'
+    | '/app/recruitment/jobs'
+    | '/app/recruitment/mpp'
+    | '/app/recruitment/pipeline'
+    | '/app/recruitment/requisitions'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -370,6 +444,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/recruitment': {
+      id: '/app/recruitment'
+      path: '/recruitment'
+      fullPath: '/app/recruitment'
+      preLoaderRoute: typeof AppRecruitmentRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/projects': {
       id: '/app/projects'
       path: '/projects'
@@ -419,8 +500,63 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppClientsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/recruitment/requisitions': {
+      id: '/app/recruitment/requisitions'
+      path: '/requisitions'
+      fullPath: '/app/recruitment/requisitions'
+      preLoaderRoute: typeof AppRecruitmentRequisitionsRouteImport
+      parentRoute: typeof AppRecruitmentRoute
+    }
+    '/app/recruitment/pipeline': {
+      id: '/app/recruitment/pipeline'
+      path: '/pipeline'
+      fullPath: '/app/recruitment/pipeline'
+      preLoaderRoute: typeof AppRecruitmentPipelineRouteImport
+      parentRoute: typeof AppRecruitmentRoute
+    }
+    '/app/recruitment/mpp': {
+      id: '/app/recruitment/mpp'
+      path: '/mpp'
+      fullPath: '/app/recruitment/mpp'
+      preLoaderRoute: typeof AppRecruitmentMppRouteImport
+      parentRoute: typeof AppRecruitmentRoute
+    }
+    '/app/recruitment/jobs': {
+      id: '/app/recruitment/jobs'
+      path: '/jobs'
+      fullPath: '/app/recruitment/jobs'
+      preLoaderRoute: typeof AppRecruitmentJobsRouteImport
+      parentRoute: typeof AppRecruitmentRoute
+    }
+    '/app/recruitment/interviews': {
+      id: '/app/recruitment/interviews'
+      path: '/interviews'
+      fullPath: '/app/recruitment/interviews'
+      preLoaderRoute: typeof AppRecruitmentInterviewsRouteImport
+      parentRoute: typeof AppRecruitmentRoute
+    }
   }
 }
+
+interface AppRecruitmentRouteChildren {
+  AppRecruitmentInterviewsRoute: typeof AppRecruitmentInterviewsRoute
+  AppRecruitmentJobsRoute: typeof AppRecruitmentJobsRoute
+  AppRecruitmentMppRoute: typeof AppRecruitmentMppRoute
+  AppRecruitmentPipelineRoute: typeof AppRecruitmentPipelineRoute
+  AppRecruitmentRequisitionsRoute: typeof AppRecruitmentRequisitionsRoute
+}
+
+const AppRecruitmentRouteChildren: AppRecruitmentRouteChildren = {
+  AppRecruitmentInterviewsRoute: AppRecruitmentInterviewsRoute,
+  AppRecruitmentJobsRoute: AppRecruitmentJobsRoute,
+  AppRecruitmentMppRoute: AppRecruitmentMppRoute,
+  AppRecruitmentPipelineRoute: AppRecruitmentPipelineRoute,
+  AppRecruitmentRequisitionsRoute: AppRecruitmentRequisitionsRoute,
+}
+
+const AppRecruitmentRouteWithChildren = AppRecruitmentRoute._addFileChildren(
+  AppRecruitmentRouteChildren,
+)
 
 interface AppRouteChildren {
   AppClientsRoute: typeof AppClientsRoute
@@ -430,6 +566,7 @@ interface AppRouteChildren {
   AppNotificationsRoute: typeof AppNotificationsRoute
   AppProductsRoute: typeof AppProductsRoute
   AppProjectsRoute: typeof AppProjectsRoute
+  AppRecruitmentRoute: typeof AppRecruitmentRouteWithChildren
   AppSettingsRoute: typeof AppSettingsRoute
   AppTasksRoute: typeof AppTasksRoute
   AppTeamRoute: typeof AppTeamRoute
@@ -444,6 +581,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppNotificationsRoute: AppNotificationsRoute,
   AppProductsRoute: AppProductsRoute,
   AppProjectsRoute: AppProjectsRoute,
+  AppRecruitmentRoute: AppRecruitmentRouteWithChildren,
   AppSettingsRoute: AppSettingsRoute,
   AppTasksRoute: AppTasksRoute,
   AppTeamRoute: AppTeamRoute,

@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { Reveal } from "@/components/site/Reveal";
-import { jobs, teams, type JobTeam } from "@/data/jobs";
+import { teams, type JobTeam } from "@/data/jobs";
+import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/careers")({
   head: () => ({
@@ -57,6 +58,14 @@ function CareersPage() {
   const [activeType, setActiveType] = useState<"All" | "Full-time" | "Contract" | "Internship">("All");
   const [query, setQuery] = useState("");
 
+  // Reactive: published jobs come from the central store (managed in /app/recruitment).
+  const jobs = useStore((s) =>
+    s.jobs
+      .filter((j) => j.status === "published")
+      .sort((a, b) => b.postedAt - a.postedAt)
+      .map((j) => ({ slug: j.slug, title: j.title, team: j.team, location: j.location, type: j.type, level: j.level, summary: j.summary })),
+  );
+
   const filteredJobs = useMemo(() => {
     const q = query.trim().toLowerCase();
     return jobs.filter((j) => {
@@ -65,7 +74,7 @@ function CareersPage() {
       if (q && !`${j.title} ${j.location} ${j.level} ${j.summary}`.toLowerCase().includes(q)) return false;
       return true;
     });
-  }, [activeTeam, activeType, query]);
+  }, [jobs, activeTeam, activeType, query]);
 
   return (
     <SiteLayout>

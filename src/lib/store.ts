@@ -110,6 +110,105 @@ export type Doc = {
   createdAt: number;
 };
 
+// ---------- Recruitment (HR) ----------
+
+export type JobTeam = "Engineering" | "Design" | "Product" | "Operations" | "Sales" | "HR" | "Finance";
+export type JobType = "Full-time" | "Contract" | "Internship" | "Part-time";
+export type JobStatus = "draft" | "published" | "closed";
+
+export type JobPosting = {
+  id: string;
+  slug: string;
+  title: string;
+  team: JobTeam;
+  location: string;
+  type: JobType;
+  level: string;
+  summary: string;
+  description: string; // longer body for the public job page
+  status: JobStatus;
+  requisitionId: string | null;
+  hiringManagerId: string | null; // team member id
+  openings: number;
+  postedAt: number;
+};
+
+export type MPPStatus = "draft" | "submitted" | "approved" | "rejected";
+export type MPPRequest = {
+  id: string;
+  title: string;       // e.g. "Q3 Engineering hiring plan"
+  department: JobTeam;
+  headcount: number;
+  justification: string;
+  budgetIDR: number;
+  targetQuarter: string; // e.g. "2026-Q3"
+  status: MPPStatus;
+  requestedById: string | null;
+  approverId: string | null;
+  createdAt: number;
+  decidedAt: number | null;
+  notes: string;
+};
+
+export type RequisitionStatus = "open" | "on-hold" | "filled" | "cancelled";
+export type Requisition = {
+  id: string;
+  code: string;        // e.g. "REQ-2026-014"
+  title: string;
+  department: JobTeam;
+  mppId: string | null;
+  hiringManagerId: string | null;
+  openings: number;
+  filled: number;
+  priority: "low" | "medium" | "high";
+  status: RequisitionStatus;
+  targetStartDate: string; // YYYY-MM-DD
+  notes: string;
+  createdAt: number;
+};
+
+export type CandidateStage =
+  | "applied"
+  | "screening"
+  | "interview"
+  | "offer"
+  | "hired"
+  | "rejected";
+
+export type CandidateNote = { id: string; at: number; authorId: string | null; message: string };
+
+export type Candidate = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  jobId: string | null;
+  source: string; // e.g. "LinkedIn", "Referral", "Website"
+  stage: CandidateStage;
+  rating: number; // 0-5
+  resumeUrl: string;
+  appliedAt: number;
+  notes: CandidateNote[];
+};
+
+export type InterviewKind = "phone" | "technical" | "culture" | "final" | "panel";
+export type InterviewStatus = "scheduled" | "completed" | "cancelled" | "no-show";
+
+export type Interview = {
+  id: string;
+  candidateId: string;
+  jobId: string | null;
+  kind: InterviewKind;
+  scheduledAt: number; // epoch ms
+  durationMins: number;
+  location: string; // physical or "Google Meet"
+  interviewerIds: string[];
+  status: InterviewStatus;
+  feedback: string;
+  score: number; // 0-5
+  createdAt: number;
+};
+
 export type Store = {
   clients: Client[];
   projects: Project[];
@@ -118,6 +217,11 @@ export type Store = {
   team: TeamMember[];
   products: SaaSProduct[];
   docs: Doc[];
+  jobs: JobPosting[];
+  mppRequests: MPPRequest[];
+  requisitions: Requisition[];
+  candidates: Candidate[];
+  interviews: Interview[];
 };
 
 // ---------- Storage ----------
@@ -230,7 +334,55 @@ function seed(): Store {
     { id: uid("dc-"), title: "Incident Response Runbook", category: "Engineering", content: "# Incident Response\n\n1. Acknowledge in #incidents.\n2. Assign incident commander.\n3. Open status page entry.\n4. Postmortem within 5 days.", updatedAt: now() - 86400000 * 18, createdAt: now() - 86400000 * 120 },
   ];
 
-  return { clients, projects, tasks, transactions, team, products, docs };
+  // ---------- Recruitment seeds ----------
+
+  const mppRequests: MPPRequest[] = [
+    { id: "mpp-eng-q3", title: "Q3 Engineering scale-up", department: "Engineering", headcount: 4, justification: "Two new SaaS products entering GA — needs 2 senior FE, 1 platform, 1 mobile.", budgetIDR: 1_400_000_000, targetQuarter: "2026-Q3", status: "approved", requestedById: "tm-andi", approverId: "tm-maya", createdAt: now() - 86400000 * 40, decidedAt: now() - 86400000 * 30, notes: "Approved with reduced budget; defer 1 hire to Q4 if needed." },
+    { id: "mpp-design-q3", title: "Design bench expansion", department: "Design", headcount: 2, justification: "Brand + product design split across 3 SaaS lines.", budgetIDR: 520_000_000, targetQuarter: "2026-Q3", status: "submitted", requestedById: "tm-sinta", approverId: null, createdAt: now() - 86400000 * 8, decidedAt: null, notes: "Awaiting CFO review." },
+    { id: "mpp-ops-q4", title: "Customer Success regional", department: "Operations", headcount: 3, justification: "Open SEA region — Singapore + Vietnam + Philippines.", budgetIDR: 780_000_000, targetQuarter: "2026-Q4", status: "draft", requestedById: "tm-maya", approverId: null, createdAt: now() - 86400000 * 2, decidedAt: null, notes: "" },
+  ];
+
+  const requisitions: Requisition[] = [
+    { id: "req-eng-014", code: "REQ-2026-014", title: "Senior Full-Stack Engineer", department: "Engineering", mppId: "mpp-eng-q3", hiringManagerId: "tm-andi", openings: 2, filled: 0, priority: "high", status: "open", targetStartDate: isoDate(60), notes: "Replacing two attritions + one new line.", createdAt: now() - 86400000 * 28 },
+    { id: "req-eng-015", code: "REQ-2026-015", title: "Mobile Engineer (React Native)", department: "Engineering", mppId: "mpp-eng-q3", hiringManagerId: "tm-andi", openings: 1, filled: 0, priority: "medium", status: "open", targetStartDate: isoDate(75), notes: "", createdAt: now() - 86400000 * 22 },
+    { id: "req-design-008", code: "REQ-2026-008", title: "Product Designer", department: "Design", mppId: null, hiringManagerId: "tm-sinta", openings: 1, filled: 0, priority: "medium", status: "open", targetStartDate: isoDate(45), notes: "Looking for SaaS product depth.", createdAt: now() - 86400000 * 18 },
+    { id: "req-pm-003", code: "REQ-2026-003", title: "Senior Product Manager — SaaS", department: "Product", mppId: null, hiringManagerId: "tm-maya", openings: 1, filled: 1, priority: "high", status: "filled", targetStartDate: isoDate(-30), notes: "Filled by external hire.", createdAt: now() - 86400000 * 90 },
+  ];
+
+  const jobsSeed: JobPosting[] = [
+    { id: "job-fs-eng", slug: "senior-fullstack-engineer", title: "Senior Full-Stack Engineer", team: "Engineering", location: "Remote / Jakarta", type: "Full-time", level: "Senior", summary: "Lead the build of customer-facing features across our SaaS suite using TypeScript, React and Node.", description: "You'll lead end-to-end features across our SaaS suite, partnering closely with design and product. Tech: React 19, TanStack Router, Node, PostgreSQL.", status: "published", requisitionId: "req-eng-014", hiringManagerId: "tm-andi", openings: 2, postedAt: now() - 86400000 * 24 },
+    { id: "job-mob-eng", slug: "mobile-engineer", title: "Mobile Engineer (React Native)", team: "Engineering", location: "Remote / Jakarta", type: "Full-time", level: "Mid", summary: "Ship beautiful, performant native experiences for our flagship mobile apps used by thousands daily.", description: "Own mobile features end-to-end on React Native + Expo. Strong native debugging and performance instincts a plus.", status: "published", requisitionId: "req-eng-015", hiringManagerId: "tm-andi", openings: 1, postedAt: now() - 86400000 * 18 },
+    { id: "job-platform", slug: "platform-devops-engineer", title: "Platform / DevOps Engineer", team: "Engineering", location: "Remote", type: "Full-time", level: "Senior", summary: "Own our cloud infrastructure on AWS — CI/CD, observability, security and developer experience.", description: "Design and operate the platform behind every product. AWS, IaC, container workloads, CI/CD pipelines.", status: "published", requisitionId: null, hiringManagerId: "tm-andi", openings: 1, postedAt: now() - 86400000 * 12 },
+    { id: "job-eng-intern", slug: "engineering-intern", title: "Engineering Intern", team: "Engineering", location: "Jakarta", type: "Internship", level: "Junior", summary: "Six months of structured learning, real product work and a clear path to a full-time offer.", description: "Pair with senior engineers, ship real features, get weekly mentorship and a path to FTE.", status: "published", requisitionId: null, hiringManagerId: "tm-andi", openings: 2, postedAt: now() - 86400000 * 9 },
+    { id: "job-product-designer", slug: "product-designer", title: "Product Designer", team: "Design", location: "Remote / Singapore", type: "Full-time", level: "Mid", summary: "Design end-to-end experiences across our SaaS apps — from research to high-fidelity flows.", description: "Drive UX research, prototypes, and ship-ready designs across multiple SaaS products.", status: "published", requisitionId: "req-design-008", hiringManagerId: "tm-sinta", openings: 1, postedAt: now() - 86400000 * 14 },
+    { id: "job-brand", slug: "brand-marketing-designer", title: "Brand & Marketing Designer", team: "Design", location: "Remote", type: "Full-time", level: "Mid", summary: "Shape the Zanscode brand across web, ads, social and product launches.", description: "Own the visual brand system across all surfaces. Web, social, motion, print.", status: "draft", requisitionId: null, hiringManagerId: "tm-sinta", openings: 1, postedAt: now() - 86400000 * 4 },
+    { id: "job-pm-saas", slug: "senior-pm-saas", title: "Senior Product Manager — SaaS", team: "Product", location: "Remote / Jakarta", type: "Full-time", level: "Senior", summary: "Own the roadmap of a flagship SaaS product, from discovery to launch and growth.", description: "Discovery, prioritization, roadmap, launch — full ownership of one flagship SaaS line.", status: "closed", requisitionId: "req-pm-003", hiringManagerId: "tm-maya", openings: 1, postedAt: now() - 86400000 * 100 },
+    { id: "job-csm", slug: "customer-success-manager", title: "Customer Success Manager", team: "Operations", location: "Jakarta", type: "Full-time", level: "Mid", summary: "Drive adoption and retention with our enterprise customers across SEA.", description: "Build trusted relationships with enterprise customers across SEA. Drive adoption, expansion, retention.", status: "published", requisitionId: null, hiringManagerId: "tm-maya", openings: 1, postedAt: now() - 86400000 * 7 },
+    { id: "job-impl", slug: "implementation-consultant", title: "Implementation Consultant", team: "Operations", location: "Remote (APAC)", type: "Contract", level: "Mid", summary: "Lead onboarding and migrations for new customers — discovery, configuration, training, go-live.", description: "Lead end-to-end onboarding for new customers across APAC.", status: "published", requisitionId: null, hiringManagerId: "tm-maya", openings: 2, postedAt: now() - 86400000 * 5 },
+    { id: "job-ae", slug: "enterprise-ae", title: "Enterprise Account Executive", team: "Sales", location: "Singapore", type: "Full-time", level: "Senior", summary: "Build relationships and close deals with enterprise accounts across APAC.", description: "Hunter mindset. Strategic enterprise selling across APAC. Quota carrying.", status: "published", requisitionId: null, hiringManagerId: "tm-maya", openings: 1, postedAt: now() - 86400000 * 11 },
+  ];
+
+  const candidates: Candidate[] = [
+    { id: "cand-1", name: "Dimas Prakoso", email: "dimas.p@example.com", phone: "+62 812 1111 2222", jobId: "job-fs-eng", source: "LinkedIn", stage: "interview", rating: 4, resumeUrl: "", appliedAt: now() - 86400000 * 14, notes: [{ id: uid("n-"), at: now() - 86400000 * 10, authorId: "tm-andi", message: "Strong React + TS background; passed screen." }] },
+    { id: "cand-2", name: "Rina Hartono", email: "rina.h@example.com", phone: "+62 813 3333 4444", jobId: "job-fs-eng", source: "Referral", stage: "screening", rating: 4, resumeUrl: "", appliedAt: now() - 86400000 * 9, notes: [] },
+    { id: "cand-3", name: "Aldo Sugianto", email: "aldo.s@example.com", phone: "+62 815 5555 6666", jobId: "job-fs-eng", source: "Website", stage: "applied", rating: 3, resumeUrl: "", appliedAt: now() - 86400000 * 3, notes: [] },
+    { id: "cand-4", name: "Mei Lin", email: "mei.lin@example.com", phone: "+65 9123 4567", jobId: "job-product-designer", source: "Dribbble", stage: "offer", rating: 5, resumeUrl: "", appliedAt: now() - 86400000 * 21, notes: [{ id: uid("n-"), at: now() - 86400000 * 5, authorId: "tm-sinta", message: "Top of pile — extending offer." }] },
+    { id: "cand-5", name: "Bayu Pranata", email: "bayu.p@example.com", phone: "+62 811 7777 8888", jobId: "job-product-designer", source: "LinkedIn", stage: "interview", rating: 4, resumeUrl: "", appliedAt: now() - 86400000 * 12, notes: [] },
+    { id: "cand-6", name: "Citra Anjani", email: "citra.a@example.com", phone: "+62 819 9999 0000", jobId: "job-mob-eng", source: "Referral", stage: "screening", rating: 4, resumeUrl: "", appliedAt: now() - 86400000 * 6, notes: [] },
+    { id: "cand-7", name: "Hadi Santoso", email: "hadi.s@example.com", phone: "+62 817 1212 3434", jobId: "job-csm", source: "Website", stage: "hired", rating: 5, resumeUrl: "", appliedAt: now() - 86400000 * 50, notes: [{ id: uid("n-"), at: now() - 86400000 * 20, authorId: "tm-maya", message: "Started 2 weeks ago — onboarding well." }] },
+    { id: "cand-8", name: "Lina Surya", email: "lina.s@example.com", phone: "+62 818 2323 4545", jobId: "job-ae", source: "Recruiter", stage: "rejected", rating: 2, resumeUrl: "", appliedAt: now() - 86400000 * 25, notes: [{ id: uid("n-"), at: now() - 86400000 * 18, authorId: "tm-maya", message: "Not enough enterprise experience." }] },
+    { id: "cand-9", name: "Firman Hadi", email: "firman.h@example.com", phone: "+62 821 5656 7878", jobId: "job-impl", source: "LinkedIn", stage: "applied", rating: 3, resumeUrl: "", appliedAt: now() - 86400000 * 1, notes: [] },
+  ];
+
+  const interviews: Interview[] = [
+    { id: "iv-1", candidateId: "cand-1", jobId: "job-fs-eng", kind: "technical", scheduledAt: now() + 86400000 * 1, durationMins: 60, location: "Google Meet", interviewerIds: ["tm-andi", "tm-bagus"], status: "scheduled", feedback: "", score: 0, createdAt: now() - 86400000 * 5 },
+    { id: "iv-2", candidateId: "cand-4", jobId: "job-product-designer", kind: "final", scheduledAt: now() + 86400000 * 2, durationMins: 45, location: "Zanscode HQ — Jakarta", interviewerIds: ["tm-sinta", "tm-maya"], status: "scheduled", feedback: "", score: 0, createdAt: now() - 86400000 * 3 },
+    { id: "iv-3", candidateId: "cand-5", jobId: "job-product-designer", kind: "culture", scheduledAt: now() + 86400000 * 3, durationMins: 30, location: "Google Meet", interviewerIds: ["tm-maya"], status: "scheduled", feedback: "", score: 0, createdAt: now() - 86400000 * 2 },
+    { id: "iv-4", candidateId: "cand-2", jobId: "job-fs-eng", kind: "phone", scheduledAt: now() - 86400000 * 1, durationMins: 30, location: "Phone", interviewerIds: ["tm-andi"], status: "completed", feedback: "Very strong communication. Solid React fundamentals.", score: 4, createdAt: now() - 86400000 * 8 },
+    { id: "iv-5", candidateId: "cand-7", jobId: "job-csm", kind: "panel", scheduledAt: now() - 86400000 * 30, durationMins: 90, location: "Zanscode HQ — Jakarta", interviewerIds: ["tm-maya", "tm-andi"], status: "completed", feedback: "Hired.", score: 5, createdAt: now() - 86400000 * 40 },
+  ];
+
+  return { clients, projects, tasks, transactions, team, products, docs, jobs: jobsSeed, mppRequests, requisitions, candidates, interviews };
 }
 
 // ---------- Reactive store ----------
@@ -261,6 +413,13 @@ function load(): Store {
           `https://admin.${p.name.toLowerCase().replace(/[^a-z0-9]+/g, "")}.zanscode.com`,
       }));
     }
+    // Backfill recruitment collections for older persisted state
+    const seeded = seed();
+    if (!parsed.jobs) parsed.jobs = seeded.jobs;
+    if (!parsed.mppRequests) parsed.mppRequests = seeded.mppRequests;
+    if (!parsed.requisitions) parsed.requisitions = seeded.requisitions;
+    if (!parsed.candidates) parsed.candidates = seeded.candidates;
+    if (!parsed.interviews) parsed.interviews = seeded.interviews;
     return parsed;
   } catch {
     return seed();
@@ -568,4 +727,146 @@ export function projectProgress(projectId: string, store: Store): number {
   if (tasks.length === 0) return 0;
   const done = tasks.filter((t) => t.stage === "done").length;
   return Math.round((done / tasks.length) * 100);
+}
+
+// ---------- Mutations: Recruitment ----------
+
+function slugify(s: string): string {
+  return s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+export function createJob(input: Omit<JobPosting, "id" | "slug" | "postedAt"> & { slug?: string }): JobPosting {
+  const baseSlug = input.slug && input.slug.trim() ? slugify(input.slug) : slugify(input.title);
+  // ensure unique slug
+  let slug = baseSlug || `job-${Date.now()}`;
+  let n = 2;
+  while (state.jobs.some((j) => j.slug === slug)) slug = `${baseSlug}-${n++}`;
+  const j: JobPosting = { ...input, slug, id: uid("job-"), postedAt: now() };
+  update((s) => ({ ...s, jobs: [j, ...s.jobs] }));
+  return j;
+}
+
+export function updateJob(id: string, patch: Partial<JobPosting>) {
+  update((s) => ({ ...s, jobs: s.jobs.map((j) => (j.id === id ? { ...j, ...patch } : j)) }));
+}
+
+export function deleteJob(id: string) {
+  update((s) => ({
+    ...s,
+    jobs: s.jobs.filter((j) => j.id !== id),
+    candidates: s.candidates.map((c) => (c.jobId === id ? { ...c, jobId: null } : c)),
+    interviews: s.interviews.map((iv) => (iv.jobId === id ? { ...iv, jobId: null } : iv)),
+  }));
+}
+
+export function createMPP(input: Omit<MPPRequest, "id" | "createdAt" | "decidedAt">): MPPRequest {
+  const m: MPPRequest = { ...input, id: uid("mpp-"), createdAt: now(), decidedAt: null };
+  update((s) => ({ ...s, mppRequests: [m, ...s.mppRequests] }));
+  return m;
+}
+
+export function updateMPP(id: string, patch: Partial<MPPRequest>) {
+  update((s) => ({
+    ...s,
+    mppRequests: s.mppRequests.map((m) => {
+      if (m.id !== id) return m;
+      const next = { ...m, ...patch };
+      if (patch.status && (patch.status === "approved" || patch.status === "rejected") && !m.decidedAt) {
+        next.decidedAt = now();
+      }
+      return next;
+    }),
+  }));
+}
+
+export function deleteMPP(id: string) {
+  update((s) => ({
+    ...s,
+    mppRequests: s.mppRequests.filter((m) => m.id !== id),
+    requisitions: s.requisitions.map((r) => (r.mppId === id ? { ...r, mppId: null } : r)),
+  }));
+}
+
+export function createRequisition(input: Omit<Requisition, "id" | "createdAt" | "code"> & { code?: string }): Requisition {
+  const code = input.code && input.code.trim() ? input.code.trim() : `REQ-${new Date().getFullYear()}-${String(state.requisitions.length + 1).padStart(3, "0")}`;
+  const r: Requisition = { ...input, code, id: uid("req-"), createdAt: now() };
+  update((s) => ({ ...s, requisitions: [r, ...s.requisitions] }));
+  return r;
+}
+
+export function updateRequisition(id: string, patch: Partial<Requisition>) {
+  update((s) => ({ ...s, requisitions: s.requisitions.map((r) => (r.id === id ? { ...r, ...patch } : r)) }));
+}
+
+export function deleteRequisition(id: string) {
+  update((s) => ({
+    ...s,
+    requisitions: s.requisitions.filter((r) => r.id !== id),
+    jobs: s.jobs.map((j) => (j.requisitionId === id ? { ...j, requisitionId: null } : j)),
+  }));
+}
+
+export function createCandidate(input: Omit<Candidate, "id" | "appliedAt" | "notes"> & { notes?: CandidateNote[] }): Candidate {
+  const c: Candidate = { ...input, id: uid("cand-"), appliedAt: now(), notes: input.notes ?? [] };
+  update((s) => ({ ...s, candidates: [c, ...s.candidates] }));
+  return c;
+}
+
+export function updateCandidate(id: string, patch: Partial<Candidate>) {
+  update((s) => ({ ...s, candidates: s.candidates.map((c) => (c.id === id ? { ...c, ...patch } : c)) }));
+}
+
+export function moveCandidate(id: string, stage: CandidateStage) {
+  update((s) => ({ ...s, candidates: s.candidates.map((c) => (c.id === id ? { ...c, stage } : c)) }));
+  // If moved to "hired", increment requisition.filled when possible
+  if (stage === "hired") {
+    const cand = state.candidates.find((c) => c.id === id);
+    const job = cand?.jobId ? state.jobs.find((j) => j.id === cand.jobId) : null;
+    if (job?.requisitionId) {
+      update((s) => ({
+        ...s,
+        requisitions: s.requisitions.map((r) =>
+          r.id === job.requisitionId
+            ? { ...r, filled: Math.min(r.openings, r.filled + 1), status: r.filled + 1 >= r.openings ? "filled" : r.status }
+            : r,
+        ),
+      }));
+    }
+  }
+}
+
+export function deleteCandidate(id: string) {
+  update((s) => ({
+    ...s,
+    candidates: s.candidates.filter((c) => c.id !== id),
+    interviews: s.interviews.filter((iv) => iv.candidateId !== id),
+  }));
+}
+
+export function addCandidateNote(candidateId: string, message: string, authorId: string | null = null) {
+  const trimmed = message.trim();
+  if (!trimmed) return;
+  const note: CandidateNote = { id: uid("n-"), at: now(), authorId, message: trimmed };
+  update((s) => ({
+    ...s,
+    candidates: s.candidates.map((c) => (c.id === candidateId ? { ...c, notes: [note, ...c.notes] } : c)),
+  }));
+}
+
+export function createInterview(input: Omit<Interview, "id" | "createdAt">): Interview {
+  const iv: Interview = { ...input, id: uid("iv-"), createdAt: now() };
+  update((s) => ({ ...s, interviews: [iv, ...s.interviews] }));
+  return iv;
+}
+
+export function updateInterview(id: string, patch: Partial<Interview>) {
+  update((s) => ({ ...s, interviews: s.interviews.map((iv) => (iv.id === id ? { ...iv, ...patch } : iv)) }));
+}
+
+export function deleteInterview(id: string) {
+  update((s) => ({ ...s, interviews: s.interviews.filter((iv) => iv.id !== id) }));
+}
+
+export function formatDateTime(ts: number): string {
+  return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }).format(new Date(ts));
 }
