@@ -6,7 +6,7 @@ import {
 import { useStore, useHydrate, formatDateTime, type CandidateStage } from "@/lib/store";
 import { PageHeader } from "@/components/app/EmptyState";
 
-export const Route = createFileRoute("/app/recruitment")({
+export const Route = createFileRoute("/app/recruitment/")({
   head: () => ({
     meta: [
       { title: "Recruitment — Zanscode OS" },
