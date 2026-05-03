@@ -193,6 +193,7 @@ export type Candidate = {
 
 export type InterviewKind = "phone" | "technical" | "culture" | "final" | "panel";
 export type InterviewStatus = "scheduled" | "completed" | "cancelled" | "no-show";
+export type MeetingProvider = "google-meet" | "ms-teams" | "zoom" | "onsite" | "phone" | "none";
 
 export type Interview = {
   id: string;
@@ -202,6 +203,8 @@ export type Interview = {
   scheduledAt: number; // epoch ms
   durationMins: number;
   location: string; // physical or "Google Meet"
+  meetingProvider: MeetingProvider;
+  meetingUrl: string;
   interviewerIds: string[];
   status: InterviewStatus;
   feedback: string;
