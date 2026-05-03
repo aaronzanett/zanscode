@@ -47,6 +47,8 @@ const testimonials = [
 
 function HomePage() {
   const navigate = useNavigate();
+  const hero = useStore((s) => s.siteContent.hero);
+  const sections = useStore((s) => s.siteContent.sections);
 
   // Host-aware: on app.* subdomain, the root path goes straight into the staff app.
   useEffect(() => {
