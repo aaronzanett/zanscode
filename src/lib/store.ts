@@ -547,6 +547,7 @@ function load(): Store {
     if (!parsed.requisitions) parsed.requisitions = seeded.requisitions;
     if (!parsed.candidates) parsed.candidates = seeded.candidates;
     if (!parsed.interviews) parsed.interviews = seeded.interviews;
+    if (!parsed.siteContent) parsed.siteContent = seeded.siteContent;
     return parsed;
   } catch {
     return seed();
