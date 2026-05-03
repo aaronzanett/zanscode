@@ -23,15 +23,6 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const capabilities = [
-  { icon: Code2, title: "Custom business software", desc: "Tailored systems engineered around how your business actually operates — not the other way around." },
-  { icon: Workflow, title: "ERP & operations systems", desc: "Inventory, sales, finance, HR and reporting unified into one source of truth." },
-  { icon: Smartphone, title: "Web & mobile applications", desc: "Customer-facing and internal apps for web, iOS and Android — fast, modern, reliable." },
-  { icon: Cloud, title: "Cloud & DevOps", desc: "Scalable infrastructure on AWS, GCP and Azure with CI/CD, monitoring and SLAs." },
-  { icon: Plug, title: "System integration", desc: "Connect ERP, CRM, accounting, payments and 3rd-party services into one workflow." },
-  { icon: ShieldCheck, title: "Security & compliance", desc: "RBAC, audit logs, SSO and hardened infrastructure for enterprise-grade trust." },
-];
-
 const stats = [
   { v: "120+", l: "Systems delivered" },
   { v: "45", l: "Enterprise clients" },
@@ -46,13 +37,6 @@ const industries = [
   { icon: Stethoscope, name: "Healthcare" },
   { icon: GraduationCap, name: "Education" },
   { icon: Landmark, name: "Finance" },
-];
-
-const process = [
-  { icon: Search, n: "01", t: "Discover", d: "Workshops to map goals, users, workflows and constraints." },
-  { icon: PenTool, n: "02", t: "Design", d: "System architecture, UX and a measurable success plan." },
-  { icon: Hammer, n: "03", t: "Build", d: "Iterative delivery with weekly demos and tight feedback." },
-  { icon: Rocket, n: "04", t: "Scale", d: "Operate, optimize and evolve the system long-term." },
 ];
 
 const testimonials = [
