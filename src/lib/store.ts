@@ -209,6 +209,46 @@ export type Interview = {
   createdAt: number;
 };
 
+// ---------- Site content (front-page CMS) ----------
+
+export type NavLink = { id: string; label: string; to: string };
+export type FooterLink = { id: string; label: string; to: string };
+export type FooterColumn = { id: string; title: string; links: FooterLink[] };
+
+export type SiteHero = {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  primaryCta: string;
+  primaryCtaTo: string;
+  secondaryCta: string;
+  secondaryCtaTo: string;
+};
+
+export type SiteFooter = {
+  tagline: string;
+  email: string;
+  phone: string;
+  address: string;
+  columns: FooterColumn[];
+};
+
+export type SectionCard = { id: string; title: string; description: string };
+export type SiteSection = {
+  id: string;
+  title: string;
+  subtitle: string;
+  visible: boolean;
+  cards: SectionCard[];
+};
+
+export type SiteContent = {
+  nav: NavLink[];
+  hero: SiteHero;
+  footer: SiteFooter;
+  sections: SiteSection[];
+};
+
 export type Store = {
   clients: Client[];
   projects: Project[];
@@ -222,6 +262,7 @@ export type Store = {
   requisitions: Requisition[];
   candidates: Candidate[];
   interviews: Interview[];
+  siteContent: SiteContent;
 };
 
 // ---------- Storage ----------
@@ -382,7 +423,93 @@ function seed(): Store {
     { id: "iv-5", candidateId: "cand-7", jobId: "job-csm", kind: "panel", scheduledAt: now() - 86400000 * 30, durationMins: 90, location: "Zanscode HQ — Jakarta", interviewerIds: ["tm-maya", "tm-andi"], status: "completed", feedback: "Hired.", score: 5, createdAt: now() - 86400000 * 40 },
   ];
 
-  return { clients, projects, tasks, transactions, team, products, docs, jobs: jobsSeed, mppRequests, requisitions, candidates, interviews };
+  return { clients, projects, tasks, transactions, team, products, docs, jobs: jobsSeed, mppRequests, requisitions, candidates, interviews, siteContent: defaultSiteContent() };
+}
+
+export function defaultSiteContent(): SiteContent {
+  return {
+    nav: [
+      { id: "n-home", label: "Home", to: "/" },
+      { id: "n-services", label: "Services", to: "/services" },
+      { id: "n-products", label: "Products", to: "/products" },
+      { id: "n-about", label: "About", to: "/about" },
+      { id: "n-careers", label: "Careers", to: "/careers" },
+      { id: "n-contact", label: "Contact", to: "/contact" },
+    ],
+    hero: {
+      eyebrow: "Software & systems engineered for your business",
+      title: "We design and build the software your business runs on.",
+      subtitle:
+        "Zanscode partners with business owners and mid-sized companies to design, build and operate custom systems — web, mobile, cloud and ERP.",
+      primaryCta: "Start a project",
+      primaryCtaTo: "/contact",
+      secondaryCta: "Explore services",
+      secondaryCtaTo: "/services",
+    },
+    footer: {
+      tagline:
+        "Zanscode is a software company designing and building custom systems, web, mobile and cloud applications — plus a growing line of SaaS products.",
+      email: "hello@zanscode.com",
+      phone: "+1 (555) 010-0123",
+      address: "Innovation District, Jakarta, Indonesia",
+      columns: [
+        {
+          id: "fc-products",
+          title: "Products",
+          links: [
+            { id: "fl-1", label: "Solutions overview", to: "/products" },
+            { id: "fl-2", label: "Zanscode ERP", to: "/products" },
+            { id: "fl-3", label: "Zanscode POS", to: "/products" },
+            { id: "fl-4", label: "Staff sign in", to: "/staff/login" },
+          ],
+        },
+        {
+          id: "fc-company",
+          title: "Company",
+          links: [
+            { id: "fl-5", label: "About us", to: "/about" },
+            { id: "fl-6", label: "Services", to: "/services" },
+            { id: "fl-7", label: "Careers", to: "/careers" },
+            { id: "fl-8", label: "Contact", to: "/contact" },
+          ],
+        },
+        {
+          id: "fc-resources",
+          title: "Resources",
+          links: [
+            { id: "fl-9", label: "Case studies", to: "/services" },
+            { id: "fl-10", label: "Pricing", to: "/products" },
+            { id: "fl-11", label: "Support", to: "/contact" },
+          ],
+        },
+      ],
+    },
+    sections: [
+      {
+        id: "sec-capabilities",
+        title: "Custom software, end to end",
+        subtitle: "From the system architecture to the last pixel — one engineering partner.",
+        visible: true,
+        cards: [
+          { id: "c1", title: "Custom business software", description: "Tailored systems engineered around how your business actually operates." },
+          { id: "c2", title: "ERP & operations systems", description: "Inventory, sales, finance, HR and reporting in one source of truth." },
+          { id: "c3", title: "Web & mobile applications", description: "Customer-facing and internal apps for web, iOS and Android." },
+        ],
+      },
+      {
+        id: "sec-process",
+        title: "A clear path from idea to scale",
+        subtitle: "A proven engineering process that keeps everyone aligned and shipping.",
+        visible: true,
+        cards: [
+          { id: "p1", title: "Discover", description: "Workshops to map goals, users, workflows and constraints." },
+          { id: "p2", title: "Design", description: "System architecture, UX and a measurable success plan." },
+          { id: "p3", title: "Build", description: "Iterative delivery with weekly demos and tight feedback." },
+          { id: "p4", title: "Scale", description: "Operate, optimize and evolve the system long-term." },
+        ],
+      },
+    ],
+  };
 }
 
 // ---------- Reactive store ----------
@@ -420,6 +547,7 @@ function load(): Store {
     if (!parsed.requisitions) parsed.requisitions = seeded.requisitions;
     if (!parsed.candidates) parsed.candidates = seeded.candidates;
     if (!parsed.interviews) parsed.interviews = seeded.interviews;
+    if (!parsed.siteContent) parsed.siteContent = seeded.siteContent;
     return parsed;
   } catch {
     return seed();
@@ -869,4 +997,165 @@ export function deleteInterview(id: string) {
 
 export function formatDateTime(ts: number): string {
   return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }).format(new Date(ts));
+}
+
+// ---------- Mutations: Site Content ----------
+
+export function updateSiteHero(patch: Partial<SiteHero>) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, hero: { ...s.siteContent.hero, ...patch } } }));
+}
+
+export function updateSiteFooter(patch: Partial<Omit<SiteFooter, "columns">>) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, footer: { ...s.siteContent.footer, ...patch } } }));
+}
+
+export function setSiteNav(nav: NavLink[]) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, nav } }));
+}
+
+export function addNavLink(label: string, to: string) {
+  const link: NavLink = { id: uid("n-"), label: label || "Link", to: to || "/" };
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, nav: [...s.siteContent.nav, link] } }));
+}
+
+export function updateNavLink(id: string, patch: Partial<NavLink>) {
+  update((s) => ({
+    ...s,
+    siteContent: { ...s.siteContent, nav: s.siteContent.nav.map((n) => (n.id === id ? { ...n, ...patch } : n)) },
+  }));
+}
+
+export function removeNavLink(id: string) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, nav: s.siteContent.nav.filter((n) => n.id !== id) } }));
+}
+
+export function addFooterColumn() {
+  const col: FooterColumn = { id: uid("fc-"), title: "New column", links: [] };
+  update((s) => ({
+    ...s,
+    siteContent: { ...s.siteContent, footer: { ...s.siteContent.footer, columns: [...s.siteContent.footer.columns, col] } },
+  }));
+}
+
+export function updateFooterColumn(id: string, patch: Partial<Omit<FooterColumn, "links" | "id">>) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      footer: {
+        ...s.siteContent.footer,
+        columns: s.siteContent.footer.columns.map((c) => (c.id === id ? { ...c, ...patch } : c)),
+      },
+    },
+  }));
+}
+
+export function removeFooterColumn(id: string) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      footer: { ...s.siteContent.footer, columns: s.siteContent.footer.columns.filter((c) => c.id !== id) },
+    },
+  }));
+}
+
+export function addFooterLink(columnId: string) {
+  const link: FooterLink = { id: uid("fl-"), label: "New link", to: "/" };
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      footer: {
+        ...s.siteContent.footer,
+        columns: s.siteContent.footer.columns.map((c) => (c.id === columnId ? { ...c, links: [...c.links, link] } : c)),
+      },
+    },
+  }));
+}
+
+export function updateFooterLink(columnId: string, linkId: string, patch: Partial<FooterLink>) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      footer: {
+        ...s.siteContent.footer,
+        columns: s.siteContent.footer.columns.map((c) =>
+          c.id === columnId ? { ...c, links: c.links.map((l) => (l.id === linkId ? { ...l, ...patch } : l)) } : c,
+        ),
+      },
+    },
+  }));
+}
+
+export function removeFooterLink(columnId: string, linkId: string) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      footer: {
+        ...s.siteContent.footer,
+        columns: s.siteContent.footer.columns.map((c) =>
+          c.id === columnId ? { ...c, links: c.links.filter((l) => l.id !== linkId) } : c,
+        ),
+      },
+    },
+  }));
+}
+
+export function addSection() {
+  const sec: SiteSection = { id: uid("sec-"), title: "New section", subtitle: "", visible: true, cards: [] };
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, sections: [...s.siteContent.sections, sec] } }));
+}
+
+export function updateSection(id: string, patch: Partial<Omit<SiteSection, "cards" | "id">>) {
+  update((s) => ({
+    ...s,
+    siteContent: { ...s.siteContent, sections: s.siteContent.sections.map((sec) => (sec.id === id ? { ...sec, ...patch } : sec)) },
+  }));
+}
+
+export function removeSection(id: string) {
+  update((s) => ({
+    ...s,
+    siteContent: { ...s.siteContent, sections: s.siteContent.sections.filter((sec) => sec.id !== id) },
+  }));
+}
+
+export function addSectionCard(sectionId: string) {
+  const card: SectionCard = { id: uid("sc-"), title: "New card", description: "" };
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      sections: s.siteContent.sections.map((sec) =>
+        sec.id === sectionId ? { ...sec, cards: [...sec.cards, card] } : sec,
+      ),
+    },
+  }));
+}
+
+export function updateSectionCard(sectionId: string, cardId: string, patch: Partial<SectionCard>) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      sections: s.siteContent.sections.map((sec) =>
+        sec.id === sectionId ? { ...sec, cards: sec.cards.map((c) => (c.id === cardId ? { ...c, ...patch } : c)) } : sec,
+      ),
+    },
+  }));
+}
+
+export function removeSectionCard(sectionId: string, cardId: string) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      sections: s.siteContent.sections.map((sec) =>
+        sec.id === sectionId ? { ...sec, cards: sec.cards.filter((c) => c.id !== cardId) } : sec,
+      ),
+    },
+  }));
 }

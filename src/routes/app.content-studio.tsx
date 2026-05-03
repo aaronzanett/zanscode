@@ -1,17 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import {
-  Sparkles, LayoutTemplate, Megaphone, Image as ImageIcon, Star, HelpCircle,
-  Newspaper, ExternalLink, Pencil, Eye, EyeOff, Plus, GripVertical, Save,
-} from "lucide-react";
+import { Sparkles, Menu as MenuIcon, LayoutGrid, Plus, Trash2, ExternalLink, Eye, EyeOff, Layers, Save } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+import {
+  useStore, useHydrate,
+  updateSiteHero, updateSiteFooter,
+  addNavLink, updateNavLink, removeNavLink,
+  addFooterColumn, updateFooterColumn, removeFooterColumn,
+  addFooterLink, updateFooterLink, removeFooterLink,
+  addSection, updateSection, removeSection,
+  addSectionCard, updateSectionCard, removeSectionCard,
+} from "@/lib/store";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/app/content-studio")({
   head: () => ({
@@ -23,68 +26,9 @@ export const Route = createFileRoute("/app/content-studio")({
   component: ContentStudioPage,
 });
 
-type Section = {
-  id: string;
-  name: string;
-  status: "Published" | "Draft";
-  visible: boolean;
-  updated: string;
-};
-
-const SECTIONS: Section[] = [
-  { id: "hero", name: "Hero / Headline", status: "Published", visible: true, updated: "Today, 10:24" },
-  { id: "services", name: "Services Showcase", status: "Published", visible: true, updated: "Yesterday" },
-  { id: "stats", name: "Impact Stats", status: "Published", visible: true, updated: "2 days ago" },
-  { id: "testimonials", name: "Testimonials", status: "Draft", visible: false, updated: "3 days ago" },
-  { id: "cta", name: "Bottom CTA", status: "Published", visible: true, updated: "Last week" },
-];
-
-const ANNOUNCEMENTS = [
-  { id: "a1", title: "Launching new Cloud tier", placement: "Top banner", status: "Live", until: "May 5, 2026" },
-  { id: "a2", title: "Ramadan operating hours", placement: "Footer note", status: "Scheduled", until: "Apr 30, 2026" },
-];
-
-const FAQS = [
-  { id: "f1", q: "Do you work with international clients?", a: "Yes — we serve clients across Asia, Europe, and the US.", live: true },
-  { id: "f2", q: "What's the typical project timeline?", a: "Most engagements range from 4 to 12 weeks depending on scope.", live: true },
-  { id: "f3", q: "Do you offer maintenance plans?", a: "Yes, monthly retainers are available after launch.", live: false },
-];
-
-const MEDIA = [
-  { id: "m1", name: "hero-cover.jpg", size: "1.4 MB", used: "Hero" },
-  { id: "m2", name: "team-2026.jpg", size: "820 KB", used: "About" },
-  { id: "m3", name: "case-acme.png", size: "640 KB", used: "Portfolio" },
-  { id: "m4", name: "og-default.png", size: "180 KB", used: "Social share" },
-];
-
-function StatusDot({ live }: { live: boolean }) {
-  return (
-    <span
-      className={cn(
-        "inline-block h-1.5 w-1.5 rounded-full",
-        live ? "bg-emerald-500" : "bg-muted-foreground/40",
-      )}
-    />
-  );
-}
-
 function ContentStudioPage() {
-  const [sections, setSections] = useState(SECTIONS);
-  const [hero, setHero] = useState({
-    eyebrow: "Defined by excellence.",
-    title: "Software, design & systems that move your business forward.",
-    subtitle: "Zanscode partners with ambitious teams to ship products that perform — beautifully.",
-    primaryCta: "Start a project",
-    secondaryCta: "View our work",
-  });
-  const [draftDirty, setDraftDirty] = useState(false);
-
-  const toggleVisible = (id: string) => {
-    setSections((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, visible: !s.visible } : s)),
-    );
-    setDraftDirty(true);
-  };
+  useHydrate();
+  const site = useStore((s) => s.siteContent);
 
   return (
     <div className="space-y-6">
@@ -96,8 +40,7 @@ function ContentStudioPage() {
           </div>
           <h1 className="text-2xl font-semibold tracking-tight">Content Studio</h1>
           <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-            Curate everything that appears on the public Zanscode website — sections, hero copy,
-            announcements, testimonials, FAQs and media — from one place.
+            Edit the public site — navigation, hero, sections with cards, and footer. Saved locally to your browser in real time.
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -109,9 +52,9 @@ function ContentStudioPage() {
             <ExternalLink className="h-3.5 w-3.5" />
             Preview live site
           </Link>
-          <Button size="sm" disabled={!draftDirty} onClick={() => setDraftDirty(false)}>
+          <Button size="sm" onClick={() => toast.success("All changes are saved automatically")}>
             <Save className="h-3.5 w-3.5" />
-            Publish changes
+            Saved
           </Button>
         </div>
       </div>
@@ -119,10 +62,10 @@ function ContentStudioPage() {
       {/* Stat strip */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
-          { label: "Sections live", value: sections.filter((s) => s.visible).length, icon: LayoutTemplate },
-          { label: "Announcements", value: ANNOUNCEMENTS.length, icon: Megaphone },
-          { label: "FAQs", value: FAQS.length, icon: HelpCircle },
-          { label: "Media assets", value: MEDIA.length, icon: ImageIcon },
+          { label: "Nav links", value: site.nav.length, icon: MenuIcon },
+          { label: "Sections", value: site.sections.length, icon: LayoutGrid },
+          { label: "Total cards", value: site.sections.reduce((n, s) => n + s.cards.length, 0), icon: Layers },
+          { label: "Footer columns", value: site.footer.columns.length, icon: Layers },
         ].map((s) => (
           <div key={s.label} className="rounded-xl border border-border bg-card p-4">
             <div className="flex items-center justify-between">
@@ -134,63 +77,13 @@ function ContentStudioPage() {
         ))}
       </div>
 
-      <Tabs defaultValue="sections" className="space-y-4">
+      <Tabs defaultValue="hero" className="space-y-4">
         <TabsList className="flex-wrap">
-          <TabsTrigger value="sections"><LayoutTemplate className="h-3.5 w-3.5" />Sections</TabsTrigger>
-          <TabsTrigger value="hero"><Sparkles className="h-3.5 w-3.5" />Hero copy</TabsTrigger>
-          <TabsTrigger value="announcements"><Megaphone className="h-3.5 w-3.5" />Announcements</TabsTrigger>
-          <TabsTrigger value="testimonials"><Star className="h-3.5 w-3.5" />Testimonials</TabsTrigger>
-          <TabsTrigger value="faqs"><HelpCircle className="h-3.5 w-3.5" />FAQs</TabsTrigger>
-          <TabsTrigger value="media"><ImageIcon className="h-3.5 w-3.5" />Media</TabsTrigger>
+          <TabsTrigger value="hero"><Sparkles className="h-3.5 w-3.5" />Hero</TabsTrigger>
+          <TabsTrigger value="nav"><MenuIcon className="h-3.5 w-3.5" />Navigation</TabsTrigger>
+          <TabsTrigger value="sections"><LayoutGrid className="h-3.5 w-3.5" />Sections & cards</TabsTrigger>
+          <TabsTrigger value="footer"><Layers className="h-3.5 w-3.5" />Footer</TabsTrigger>
         </TabsList>
-
-        {/* Sections */}
-        <TabsContent value="sections" className="space-y-3">
-          <div className="rounded-xl border border-border bg-card">
-            <div className="flex items-center justify-between border-b border-border px-4 py-3">
-              <div>
-                <h2 className="text-sm font-semibold">Front-page sections</h2>
-                <p className="text-xs text-muted-foreground">Drag to reorder. Toggle visibility per section.</p>
-              </div>
-              <Button size="sm" variant="outline">
-                <Plus className="h-3.5 w-3.5" />
-                Add section
-              </Button>
-            </div>
-            <ul className="divide-y divide-border">
-              {sections.map((s) => (
-                <li key={s.id} className="flex items-center gap-3 px-4 py-3">
-                  <GripVertical className="h-4 w-4 text-muted-foreground/60" />
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium">{s.name}</span>
-                      <Badge variant={s.status === "Published" ? "default" : "secondary"} className="text-[10px]">
-                        {s.status}
-                      </Badge>
-                    </div>
-                    <p className="mt-0.5 text-xs text-muted-foreground">Updated {s.updated}</p>
-                  </div>
-                  <button
-                    onClick={() => toggleVisible(s.id)}
-                    className={cn(
-                      "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors",
-                      s.visible
-                        ? "text-foreground hover:bg-secondary"
-                        : "text-muted-foreground hover:bg-secondary",
-                    )}
-                  >
-                    {s.visible ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
-                    {s.visible ? "Visible" : "Hidden"}
-                  </button>
-                  <Button size="sm" variant="ghost">
-                    <Pencil className="h-3.5 w-3.5" />
-                    Edit
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </TabsContent>
 
         {/* Hero */}
         <TabsContent value="hero">
@@ -199,24 +92,32 @@ function ContentStudioPage() {
               <h2 className="text-sm font-semibold">Hero copy</h2>
               <div className="space-y-2">
                 <Label htmlFor="eyebrow">Eyebrow</Label>
-                <Input id="eyebrow" value={hero.eyebrow} onChange={(e) => { setHero({ ...hero, eyebrow: e.target.value }); setDraftDirty(true); }} />
+                <Input id="eyebrow" value={site.hero.eyebrow} onChange={(e) => updateSiteHero({ eyebrow: e.target.value })} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="title">Headline</Label>
-                <Textarea id="title" rows={2} value={hero.title} onChange={(e) => { setHero({ ...hero, title: e.target.value }); setDraftDirty(true); }} />
+                <Textarea id="title" rows={2} value={site.hero.title} onChange={(e) => updateSiteHero({ title: e.target.value })} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="subtitle">Subtitle</Label>
-                <Textarea id="subtitle" rows={3} value={hero.subtitle} onChange={(e) => { setHero({ ...hero, subtitle: e.target.value }); setDraftDirty(true); }} />
+                <Textarea id="subtitle" rows={3} value={site.hero.subtitle} onChange={(e) => updateSiteHero({ subtitle: e.target.value })} />
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="cta1">Primary CTA</Label>
-                  <Input id="cta1" value={hero.primaryCta} onChange={(e) => { setHero({ ...hero, primaryCta: e.target.value }); setDraftDirty(true); }} />
+                  <Label>Primary CTA label</Label>
+                  <Input value={site.hero.primaryCta} onChange={(e) => updateSiteHero({ primaryCta: e.target.value })} />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="cta2">Secondary CTA</Label>
-                  <Input id="cta2" value={hero.secondaryCta} onChange={(e) => { setHero({ ...hero, secondaryCta: e.target.value }); setDraftDirty(true); }} />
+                  <Label>Primary CTA link</Label>
+                  <Input value={site.hero.primaryCtaTo} onChange={(e) => updateSiteHero({ primaryCtaTo: e.target.value })} />
+                </div>
+                <div className="space-y-2">
+                  <Label>Secondary CTA label</Label>
+                  <Input value={site.hero.secondaryCta} onChange={(e) => updateSiteHero({ secondaryCta: e.target.value })} />
+                </div>
+                <div className="space-y-2">
+                  <Label>Secondary CTA link</Label>
+                  <Input value={site.hero.secondaryCtaTo} onChange={(e) => updateSiteHero({ secondaryCtaTo: e.target.value })} />
                 </div>
               </div>
             </div>
@@ -225,161 +126,189 @@ function ContentStudioPage() {
               <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Live preview</div>
               <div className="mt-4 space-y-3">
                 <span className="inline-block rounded-full border border-border bg-background px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-brand">
-                  {hero.eyebrow}
+                  {site.hero.eyebrow}
                 </span>
-                <h3 className="text-2xl font-semibold leading-tight">{hero.title}</h3>
-                <p className="text-sm text-muted-foreground">{hero.subtitle}</p>
+                <h3 className="text-2xl font-semibold leading-tight">{site.hero.title}</h3>
+                <p className="text-sm text-muted-foreground">{site.hero.subtitle}</p>
                 <div className="flex flex-wrap gap-2 pt-2">
-                  <span className="rounded-md bg-gradient-brand px-3 py-1.5 text-xs font-semibold text-brand-foreground">{hero.primaryCta}</span>
-                  <span className="rounded-md border border-border bg-background px-3 py-1.5 text-xs font-semibold">{hero.secondaryCta}</span>
+                  <span className="rounded-md bg-gradient-brand px-3 py-1.5 text-xs font-semibold text-brand-foreground">{site.hero.primaryCta}</span>
+                  <span className="rounded-md border border-border bg-background px-3 py-1.5 text-xs font-semibold">{site.hero.secondaryCta}</span>
                 </div>
               </div>
             </div>
           </div>
         </TabsContent>
 
-        {/* Announcements */}
-        <TabsContent value="announcements">
+        {/* Navigation */}
+        <TabsContent value="nav">
           <div className="rounded-xl border border-border bg-card">
             <div className="flex items-center justify-between border-b border-border px-4 py-3">
               <div>
-                <h2 className="text-sm font-semibold">Announcements & banners</h2>
-                <p className="text-xs text-muted-foreground">Promote launches, hours, or notices on the public site.</p>
+                <h2 className="text-sm font-semibold">Navbar links</h2>
+                <p className="text-xs text-muted-foreground">Control the top navigation on every public page.</p>
               </div>
-              <Button size="sm">
+              <Button size="sm" onClick={() => addNavLink("New link", "/")}>
                 <Plus className="h-3.5 w-3.5" />
-                New announcement
+                Add link
               </Button>
             </div>
             <ul className="divide-y divide-border">
-              {ANNOUNCEMENTS.map((a) => (
-                <li key={a.id} className="flex items-center gap-3 px-4 py-3">
-                  <Megaphone className="h-4 w-4 text-brand" />
-                  <div className="min-w-0 flex-1">
+              {site.nav.map((n) => (
+                <li key={n.id} className="grid gap-2 px-4 py-3 sm:grid-cols-[1fr_1fr_auto] sm:items-center">
+                  <Input placeholder="Label" value={n.label} onChange={(e) => updateNavLink(n.id, { label: e.target.value })} />
+                  <Input placeholder="/path" value={n.to} onChange={(e) => updateNavLink(n.id, { to: e.target.value })} />
+                  <Button size="sm" variant="ghost" onClick={() => removeNavLink(n.id)}>
+                    <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
+                  </Button>
+                </li>
+              ))}
+              {site.nav.length === 0 && (
+                <li className="px-4 py-6 text-center text-xs text-muted-foreground">No navigation links yet.</li>
+              )}
+            </ul>
+          </div>
+        </TabsContent>
+
+        {/* Sections + cards */}
+        <TabsContent value="sections" className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-sm font-semibold">Front-page sections</h2>
+              <p className="text-xs text-muted-foreground">Each section can hold a list of cards rendered on the home page.</p>
+            </div>
+            <Button size="sm" onClick={addSection}>
+              <Plus className="h-3.5 w-3.5" />
+              Add section
+            </Button>
+          </div>
+
+          {site.sections.length === 0 && (
+            <div className="rounded-xl border border-dashed border-border bg-card p-10 text-center text-sm text-muted-foreground">
+              No sections yet. Add your first one.
+            </div>
+          )}
+
+          {site.sections.map((sec) => (
+            <div key={sec.id} className="rounded-xl border border-border bg-card">
+              <div className="grid gap-2 border-b border-border px-4 py-3 sm:grid-cols-[1fr_1fr_auto_auto] sm:items-center">
+                <Input placeholder="Section title" value={sec.title} onChange={(e) => updateSection(sec.id, { title: e.target.value })} />
+                <Input placeholder="Subtitle (optional)" value={sec.subtitle} onChange={(e) => updateSection(sec.id, { subtitle: e.target.value })} />
+                <button
+                  onClick={() => updateSection(sec.id, { visible: !sec.visible })}
+                  className="inline-flex items-center justify-center gap-1.5 rounded-md border border-border px-2.5 py-1.5 text-xs font-medium transition-colors hover:bg-secondary"
+                  title={sec.visible ? "Hide on site" : "Show on site"}
+                >
+                  {sec.visible ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5 text-muted-foreground" />}
+                  {sec.visible ? "Visible" : "Hidden"}
+                </button>
+                <Button size="sm" variant="ghost" onClick={() => removeSection(sec.id)}>
+                  <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
+                </Button>
+              </div>
+
+              <div className="space-y-2 p-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    Cards ({sec.cards.length})
+                  </span>
+                  <Button size="sm" variant="outline" onClick={() => addSectionCard(sec.id)}>
+                    <Plus className="h-3.5 w-3.5" />
+                    Add card
+                  </Button>
+                </div>
+                {sec.cards.length === 0 ? (
+                  <p className="rounded-md border border-dashed border-border bg-background px-3 py-4 text-center text-xs text-muted-foreground">
+                    No cards. Add one to display in this section.
+                  </p>
+                ) : (
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    {sec.cards.map((card) => (
+                      <div key={card.id} className="space-y-2 rounded-lg border border-border bg-background p-3">
+                        <div className="flex items-center justify-between gap-2">
+                          <Input className="h-8" placeholder="Card title" value={card.title} onChange={(e) => updateSectionCard(sec.id, card.id, { title: e.target.value })} />
+                          <Button size="sm" variant="ghost" onClick={() => removeSectionCard(sec.id, card.id)}>
+                            <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
+                          </Button>
+                        </div>
+                        <Textarea rows={2} placeholder="Card description" value={card.description} onChange={(e) => updateSectionCard(sec.id, card.id, { description: e.target.value })} />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </TabsContent>
+
+        {/* Footer */}
+        <TabsContent value="footer" className="space-y-4">
+          <div className="grid gap-4 lg:grid-cols-2">
+            <div className="space-y-3 rounded-xl border border-border bg-card p-5">
+              <h2 className="text-sm font-semibold">Brand block</h2>
+              <div className="space-y-2">
+                <Label>Tagline</Label>
+                <Textarea rows={3} value={site.footer.tagline} onChange={(e) => updateSiteFooter({ tagline: e.target.value })} />
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label>Email</Label>
+                  <Input value={site.footer.email} onChange={(e) => updateSiteFooter({ email: e.target.value })} />
+                </div>
+                <div className="space-y-2">
+                  <Label>Phone</Label>
+                  <Input value={site.footer.phone} onChange={(e) => updateSiteFooter({ phone: e.target.value })} />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>Address</Label>
+                <Input value={site.footer.address} onChange={(e) => updateSiteFooter({ address: e.target.value })} />
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-border bg-card p-5">
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm font-semibold">Footer columns</h2>
+                <Button size="sm" onClick={addFooterColumn}>
+                  <Plus className="h-3.5 w-3.5" />
+                  Add column
+                </Button>
+              </div>
+              <div className="mt-3 space-y-3">
+                {site.footer.columns.map((col) => (
+                  <div key={col.id} className="space-y-2 rounded-lg border border-border bg-background p-3">
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium">{a.title}</span>
-                      <Badge variant={a.status === "Live" ? "default" : "secondary"} className="text-[10px]">{a.status}</Badge>
+                      <Input className="h-8 font-semibold" placeholder="Column title" value={col.title} onChange={(e) => updateFooterColumn(col.id, { title: e.target.value })} />
+                      <Button size="sm" variant="ghost" onClick={() => removeFooterColumn(col.id)}>
+                        <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
+                      </Button>
                     </div>
-                    <p className="mt-0.5 text-xs text-muted-foreground">{a.placement} · until {a.until}</p>
+                    <ul className="space-y-1.5">
+                      {col.links.map((l) => (
+                        <li key={l.id} className="grid gap-1.5 sm:grid-cols-[1fr_1fr_auto]">
+                          <Input className="h-8" placeholder="Label" value={l.label} onChange={(e) => updateFooterLink(col.id, l.id, { label: e.target.value })} />
+                          <Input className="h-8" placeholder="/path" value={l.to} onChange={(e) => updateFooterLink(col.id, l.id, { to: e.target.value })} />
+                          <Button size="sm" variant="ghost" onClick={() => removeFooterLink(col.id, l.id)}>
+                            <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
+                          </Button>
+                        </li>
+                      ))}
+                    </ul>
+                    <Button size="sm" variant="outline" className="w-full" onClick={() => addFooterLink(col.id)}>
+                      <Plus className="h-3.5 w-3.5" />
+                      Add link
+                    </Button>
                   </div>
-                  <Switch defaultChecked={a.status === "Live"} />
-                  <Button size="sm" variant="ghost"><Pencil className="h-3.5 w-3.5" /></Button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </TabsContent>
-
-        {/* Testimonials */}
-        <TabsContent value="testimonials">
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-            {[
-              { name: "Sari W.", role: "CTO, Acme Corp", quote: "Zanscode delivered ahead of schedule and the polish is unreal." },
-              { name: "Mateo R.", role: "Founder, Beta Studio", quote: "They feel like an in-house team. Communication is exceptional." },
-              { name: "Anya K.", role: "Head of Product, Nimbus", quote: "Best technical partner we've worked with in years." },
-            ].map((t) => (
-              <div key={t.name} className="rounded-xl border border-border bg-card p-4">
-                <Star className="h-4 w-4 text-amber-500" />
-                <p className="mt-2 text-sm leading-relaxed">"{t.quote}"</p>
-                <div className="mt-3 flex items-center justify-between">
-                  <div>
-                    <div className="text-sm font-medium">{t.name}</div>
-                    <div className="text-xs text-muted-foreground">{t.role}</div>
-                  </div>
-                  <Button size="sm" variant="ghost"><Pencil className="h-3.5 w-3.5" /></Button>
-                </div>
+                ))}
+                {site.footer.columns.length === 0 && (
+                  <p className="rounded-md border border-dashed border-border bg-background px-3 py-4 text-center text-xs text-muted-foreground">
+                    No footer columns yet.
+                  </p>
+                )}
               </div>
-            ))}
-            <button className="flex min-h-[140px] items-center justify-center rounded-xl border border-dashed border-border bg-card/50 text-sm font-medium text-muted-foreground transition-colors hover:border-brand hover:text-brand">
-              <Plus className="mr-1 h-4 w-4" />
-              Add testimonial
-            </button>
-          </div>
-        </TabsContent>
-
-        {/* FAQs */}
-        <TabsContent value="faqs">
-          <div className="rounded-xl border border-border bg-card">
-            <div className="flex items-center justify-between border-b border-border px-4 py-3">
-              <h2 className="text-sm font-semibold">Frequently asked questions</h2>
-              <Button size="sm"><Plus className="h-3.5 w-3.5" />Add FAQ</Button>
-            </div>
-            <ul className="divide-y divide-border">
-              {FAQS.map((f) => (
-                <li key={f.id} className="px-4 py-3">
-                  <div className="flex items-start gap-3">
-                    <div className="mt-1.5"><StatusDot live={f.live} /></div>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-medium">{f.q}</p>
-                      <p className="mt-1 text-xs text-muted-foreground">{f.a}</p>
-                    </div>
-                    <Switch defaultChecked={f.live} />
-                    <Button size="sm" variant="ghost"><Pencil className="h-3.5 w-3.5" /></Button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </TabsContent>
-
-        {/* Media */}
-        <TabsContent value="media">
-          <div className="rounded-xl border border-border bg-card">
-            <div className="flex items-center justify-between border-b border-border px-4 py-3">
-              <div>
-                <h2 className="text-sm font-semibold">Media library</h2>
-                <p className="text-xs text-muted-foreground">Images and assets used across the public site.</p>
-              </div>
-              <Button size="sm"><Plus className="h-3.5 w-3.5" />Upload</Button>
-            </div>
-            <div className="grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-4">
-              {MEDIA.map((m) => (
-                <div key={m.id} className="group overflow-hidden rounded-lg border border-border bg-background transition-colors hover:border-brand">
-                  <div className="flex aspect-video items-center justify-center bg-gradient-to-br from-secondary to-secondary/40">
-                    <ImageIcon className="h-8 w-8 text-muted-foreground/50" />
-                  </div>
-                  <div className="px-3 py-2">
-                    <p className="truncate text-xs font-medium">{m.name}</p>
-                    <p className="mt-0.5 flex items-center justify-between text-[10px] text-muted-foreground">
-                      <span>{m.size}</span>
-                      <span className="rounded-full bg-secondary px-1.5 py-0.5">{m.used}</span>
-                    </p>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </TabsContent>
       </Tabs>
-
-      {/* SEO mini panel */}
-      <div className="rounded-xl border border-border bg-card p-5">
-        <div className="flex items-center gap-2">
-          <Newspaper className="h-4 w-4 text-brand" />
-          <h2 className="text-sm font-semibold">SEO & social preview</h2>
-        </div>
-        <p className="mt-1 text-xs text-muted-foreground">Controls how the front page appears on search engines and shared links.</p>
-        <div className="mt-4 grid gap-4 lg:grid-cols-2">
-          <div className="space-y-3">
-            <div className="space-y-2">
-              <Label htmlFor="seo-title">Meta title</Label>
-              <Input id="seo-title" defaultValue="Zanscode — Defined by excellence." />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="seo-desc">Meta description</Label>
-              <Textarea id="seo-desc" rows={3} defaultValue="Software, design and systems that move ambitious teams forward." />
-            </div>
-          </div>
-          <div className="rounded-lg border border-border bg-background p-4">
-            <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Search preview</div>
-            <div className="mt-2">
-              <div className="text-xs text-emerald-700 dark:text-emerald-400">zanscode.com</div>
-              <div className="mt-0.5 text-base font-medium text-blue-700 dark:text-blue-400">Zanscode — Defined by excellence.</div>
-              <div className="mt-1 text-xs text-muted-foreground">Software, design and systems that move ambitious teams forward.</div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
