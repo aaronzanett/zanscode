@@ -902,6 +902,7 @@ export function createMPP(input: Omit<MPPRequest, "id" | "createdAt" | "decidedA
 }
 
 export function updateMPP(id: string, patch: Partial<MPPRequest>) {
+  let approvedNow: MPPRequest | null = null;
   update((s) => ({
     ...s,
     mppRequests: s.mppRequests.map((m) => {
@@ -910,9 +911,28 @@ export function updateMPP(id: string, patch: Partial<MPPRequest>) {
       if (patch.status && (patch.status === "approved" || patch.status === "rejected") && !m.decidedAt) {
         next.decidedAt = now();
       }
+      if (patch.status === "approved" && m.status !== "approved") approvedNow = next;
       return next;
     }),
   }));
+  if (approvedNow) {
+    const m = approvedNow as MPPRequest;
+    const alreadyLinked = state.requisitions.some((r) => r.mppId === m.id);
+    if (!alreadyLinked) {
+      createRequisition({
+        title: m.title,
+        department: m.department,
+        mppId: m.id,
+        hiringManagerId: m.requestedById,
+        openings: m.headcount,
+        filled: 0,
+        priority: "medium",
+        status: "open",
+        targetStartDate: new Date(Date.now() + 86400000 * 45).toISOString().slice(0, 10),
+        notes: `Auto-created from MPP "${m.title}".`,
+      });
+    }
+  }
 }
 
 export function deleteMPP(id: string) {
@@ -927,6 +947,24 @@ export function createRequisition(input: Omit<Requisition, "id" | "createdAt" | 
   const code = input.code && input.code.trim() ? input.code.trim() : `REQ-${new Date().getFullYear()}-${String(state.requisitions.length + 1).padStart(3, "0")}`;
   const r: Requisition = { ...input, code, id: uid("req-"), createdAt: now() };
   update((s) => ({ ...s, requisitions: [r, ...s.requisitions] }));
+  if (r.status === "open") {
+    const exists = state.jobs.some((j) => j.requisitionId === r.id);
+    if (!exists) {
+      createJob({
+        title: r.title,
+        team: r.department,
+        location: "Remote / Jakarta",
+        type: "Full-time",
+        level: "Mid",
+        summary: `Auto-drafted from requisition ${r.code}. Edit details before publishing.`,
+        description: r.notes || "",
+        status: "draft",
+        requisitionId: r.id,
+        hiringManagerId: r.hiringManagerId,
+        openings: r.openings,
+      });
+    }
+  }
   return r;
 }
 
