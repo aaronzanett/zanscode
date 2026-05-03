@@ -550,6 +550,11 @@ function load(): Store {
     if (!parsed.requisitions) parsed.requisitions = seeded.requisitions;
     if (!parsed.candidates) parsed.candidates = seeded.candidates;
     if (!parsed.interviews) parsed.interviews = seeded.interviews;
+    else parsed.interviews = parsed.interviews.map((iv) => ({
+      ...iv,
+      meetingProvider: iv.meetingProvider ?? (iv.location?.toLowerCase().includes("meet") ? "google-meet" : iv.location?.toLowerCase().includes("teams") ? "ms-teams" : iv.location?.toLowerCase().includes("phone") ? "phone" : "onsite"),
+      meetingUrl: iv.meetingUrl ?? "",
+    }));
     if (!parsed.siteContent) parsed.siteContent = seeded.siteContent;
     return parsed;
   } catch {
