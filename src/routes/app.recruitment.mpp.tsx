@@ -49,6 +49,10 @@ function MPPPage() {
         }
       />
 
+      <div className="rounded-lg border border-brand/30 bg-brand/5 px-4 py-2.5 text-xs text-foreground/80">
+        <span className="font-semibold text-brand">Automation:</span> Approving an MPP automatically creates an open requisition and drafts a matching job posting.
+      </div>
+
       {requests.length === 0 ? (
         <EmptyState
           icon={FileText}
