@@ -1205,3 +1205,30 @@ export function removeSectionCard(sectionId: string, cardId: string) {
     },
   }));
 }
+
+// ---------- Meeting helpers ----------
+
+export function generateMeetingLink(provider: MeetingProvider): string {
+  const code = Math.random().toString(36).slice(2, 6) + "-" + Math.random().toString(36).slice(2, 6) + "-" + Math.random().toString(36).slice(2, 5);
+  switch (provider) {
+    case "google-meet":
+      return `https://meet.google.com/${code}`;
+    case "ms-teams":
+      return `https://teams.microsoft.com/l/meetup-join/zns-${code}`;
+    case "zoom":
+      return `https://zoom.us/j/${Math.floor(Math.random() * 9_000_000_000) + 1_000_000_000}`;
+    default:
+      return "";
+  }
+}
+
+export function meetingProviderLabel(p: MeetingProvider): string {
+  switch (p) {
+    case "google-meet": return "Google Meet";
+    case "ms-teams": return "Microsoft Teams";
+    case "zoom": return "Zoom";
+    case "onsite": return "On-site";
+    case "phone": return "Phone";
+    default: return "—";
+  }
+}
