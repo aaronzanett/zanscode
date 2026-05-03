@@ -193,6 +193,7 @@ export type Candidate = {
 
 export type InterviewKind = "phone" | "technical" | "culture" | "final" | "panel";
 export type InterviewStatus = "scheduled" | "completed" | "cancelled" | "no-show";
+export type MeetingProvider = "google-meet" | "ms-teams" | "zoom" | "onsite" | "phone" | "none";
 
 export type Interview = {
   id: string;
@@ -202,6 +203,8 @@ export type Interview = {
   scheduledAt: number; // epoch ms
   durationMins: number;
   location: string; // physical or "Google Meet"
+  meetingProvider: MeetingProvider;
+  meetingUrl: string;
   interviewerIds: string[];
   status: InterviewStatus;
   feedback: string;
@@ -416,11 +419,11 @@ function seed(): Store {
   ];
 
   const interviews: Interview[] = [
-    { id: "iv-1", candidateId: "cand-1", jobId: "job-fs-eng", kind: "technical", scheduledAt: now() + 86400000 * 1, durationMins: 60, location: "Google Meet", interviewerIds: ["tm-andi", "tm-bagus"], status: "scheduled", feedback: "", score: 0, createdAt: now() - 86400000 * 5 },
-    { id: "iv-2", candidateId: "cand-4", jobId: "job-product-designer", kind: "final", scheduledAt: now() + 86400000 * 2, durationMins: 45, location: "Zanscode HQ — Jakarta", interviewerIds: ["tm-sinta", "tm-maya"], status: "scheduled", feedback: "", score: 0, createdAt: now() - 86400000 * 3 },
-    { id: "iv-3", candidateId: "cand-5", jobId: "job-product-designer", kind: "culture", scheduledAt: now() + 86400000 * 3, durationMins: 30, location: "Google Meet", interviewerIds: ["tm-maya"], status: "scheduled", feedback: "", score: 0, createdAt: now() - 86400000 * 2 },
-    { id: "iv-4", candidateId: "cand-2", jobId: "job-fs-eng", kind: "phone", scheduledAt: now() - 86400000 * 1, durationMins: 30, location: "Phone", interviewerIds: ["tm-andi"], status: "completed", feedback: "Very strong communication. Solid React fundamentals.", score: 4, createdAt: now() - 86400000 * 8 },
-    { id: "iv-5", candidateId: "cand-7", jobId: "job-csm", kind: "panel", scheduledAt: now() - 86400000 * 30, durationMins: 90, location: "Zanscode HQ — Jakarta", interviewerIds: ["tm-maya", "tm-andi"], status: "completed", feedback: "Hired.", score: 5, createdAt: now() - 86400000 * 40 },
+    { id: "iv-1", candidateId: "cand-1", jobId: "job-fs-eng", kind: "technical", scheduledAt: now() + 86400000 * 1, durationMins: 60, location: "Google Meet", meetingProvider: "google-meet", meetingUrl: "https://meet.google.com/zns-demo-001", interviewerIds: ["tm-andi", "tm-bagus"], status: "scheduled", feedback: "", score: 0, createdAt: now() - 86400000 * 5 },
+    { id: "iv-2", candidateId: "cand-4", jobId: "job-product-designer", kind: "final", scheduledAt: now() + 86400000 * 2, durationMins: 45, location: "Zanscode HQ — Jakarta", meetingProvider: "onsite", meetingUrl: "", interviewerIds: ["tm-sinta", "tm-maya"], status: "scheduled", feedback: "", score: 0, createdAt: now() - 86400000 * 3 },
+    { id: "iv-3", candidateId: "cand-5", jobId: "job-product-designer", kind: "culture", scheduledAt: now() + 86400000 * 3, durationMins: 30, location: "Microsoft Teams", meetingProvider: "ms-teams", meetingUrl: "https://teams.microsoft.com/l/meetup-join/zns-demo-002", interviewerIds: ["tm-maya"], status: "scheduled", feedback: "", score: 0, createdAt: now() - 86400000 * 2 },
+    { id: "iv-4", candidateId: "cand-2", jobId: "job-fs-eng", kind: "phone", scheduledAt: now() - 86400000 * 1, durationMins: 30, location: "Phone", meetingProvider: "phone", meetingUrl: "", interviewerIds: ["tm-andi"], status: "completed", feedback: "Very strong communication. Solid React fundamentals.", score: 4, createdAt: now() - 86400000 * 8 },
+    { id: "iv-5", candidateId: "cand-7", jobId: "job-csm", kind: "panel", scheduledAt: now() - 86400000 * 30, durationMins: 90, location: "Zanscode HQ — Jakarta", meetingProvider: "onsite", meetingUrl: "", interviewerIds: ["tm-maya", "tm-andi"], status: "completed", feedback: "Hired.", score: 5, createdAt: now() - 86400000 * 40 },
   ];
 
   return { clients, projects, tasks, transactions, team, products, docs, jobs: jobsSeed, mppRequests, requisitions, candidates, interviews, siteContent: defaultSiteContent() };
@@ -547,6 +550,11 @@ function load(): Store {
     if (!parsed.requisitions) parsed.requisitions = seeded.requisitions;
     if (!parsed.candidates) parsed.candidates = seeded.candidates;
     if (!parsed.interviews) parsed.interviews = seeded.interviews;
+    else parsed.interviews = parsed.interviews.map((iv) => ({
+      ...iv,
+      meetingProvider: iv.meetingProvider ?? (iv.location?.toLowerCase().includes("meet") ? "google-meet" : iv.location?.toLowerCase().includes("teams") ? "ms-teams" : iv.location?.toLowerCase().includes("phone") ? "phone" : "onsite"),
+      meetingUrl: iv.meetingUrl ?? "",
+    }));
     if (!parsed.siteContent) parsed.siteContent = seeded.siteContent;
     return parsed;
   } catch {
@@ -894,6 +902,7 @@ export function createMPP(input: Omit<MPPRequest, "id" | "createdAt" | "decidedA
 }
 
 export function updateMPP(id: string, patch: Partial<MPPRequest>) {
+  let approvedNow: MPPRequest | null = null;
   update((s) => ({
     ...s,
     mppRequests: s.mppRequests.map((m) => {
@@ -902,9 +911,28 @@ export function updateMPP(id: string, patch: Partial<MPPRequest>) {
       if (patch.status && (patch.status === "approved" || patch.status === "rejected") && !m.decidedAt) {
         next.decidedAt = now();
       }
+      if (patch.status === "approved" && m.status !== "approved") approvedNow = next;
       return next;
     }),
   }));
+  if (approvedNow) {
+    const m = approvedNow as MPPRequest;
+    const alreadyLinked = state.requisitions.some((r) => r.mppId === m.id);
+    if (!alreadyLinked) {
+      createRequisition({
+        title: m.title,
+        department: m.department,
+        mppId: m.id,
+        hiringManagerId: m.requestedById,
+        openings: m.headcount,
+        filled: 0,
+        priority: "medium",
+        status: "open",
+        targetStartDate: new Date(Date.now() + 86400000 * 45).toISOString().slice(0, 10),
+        notes: `Auto-created from MPP "${m.title}".`,
+      });
+    }
+  }
 }
 
 export function deleteMPP(id: string) {
@@ -919,6 +947,24 @@ export function createRequisition(input: Omit<Requisition, "id" | "createdAt" | 
   const code = input.code && input.code.trim() ? input.code.trim() : `REQ-${new Date().getFullYear()}-${String(state.requisitions.length + 1).padStart(3, "0")}`;
   const r: Requisition = { ...input, code, id: uid("req-"), createdAt: now() };
   update((s) => ({ ...s, requisitions: [r, ...s.requisitions] }));
+  if (r.status === "open") {
+    const exists = state.jobs.some((j) => j.requisitionId === r.id);
+    if (!exists) {
+      createJob({
+        title: r.title,
+        team: r.department,
+        location: "Remote / Jakarta",
+        type: "Full-time",
+        level: "Mid",
+        summary: `Auto-drafted from requisition ${r.code}. Edit details before publishing.`,
+        description: r.notes || "",
+        status: "draft",
+        requisitionId: r.id,
+        hiringManagerId: r.hiringManagerId,
+        openings: r.openings,
+      });
+    }
+  }
   return r;
 }
 
@@ -946,19 +992,26 @@ export function updateCandidate(id: string, patch: Partial<Candidate>) {
 
 export function moveCandidate(id: string, stage: CandidateStage) {
   update((s) => ({ ...s, candidates: s.candidates.map((c) => (c.id === id ? { ...c, stage } : c)) }));
-  // If moved to "hired", increment requisition.filled when possible
   if (stage === "hired") {
     const cand = state.candidates.find((c) => c.id === id);
     const job = cand?.jobId ? state.jobs.find((j) => j.id === cand.jobId) : null;
     if (job?.requisitionId) {
+      const reqId = job.requisitionId;
       update((s) => ({
         ...s,
         requisitions: s.requisitions.map((r) =>
-          r.id === job.requisitionId
+          r.id === reqId
             ? { ...r, filled: Math.min(r.openings, r.filled + 1), status: r.filled + 1 >= r.openings ? "filled" : r.status }
             : r,
         ),
       }));
+      const filledNow = state.requisitions.find((r) => r.id === reqId);
+      if (filledNow && filledNow.status === "filled") {
+        update((s) => ({
+          ...s,
+          jobs: s.jobs.map((j) => (j.requisitionId === reqId && j.status === "published" ? { ...j, status: "closed" } : j)),
+        }));
+      }
     }
   }
 }
@@ -1158,4 +1211,31 @@ export function removeSectionCard(sectionId: string, cardId: string) {
       ),
     },
   }));
+}
+
+// ---------- Meeting helpers ----------
+
+export function generateMeetingLink(provider: MeetingProvider): string {
+  const code = Math.random().toString(36).slice(2, 6) + "-" + Math.random().toString(36).slice(2, 6) + "-" + Math.random().toString(36).slice(2, 5);
+  switch (provider) {
+    case "google-meet":
+      return `https://meet.google.com/${code}`;
+    case "ms-teams":
+      return `https://teams.microsoft.com/l/meetup-join/zns-${code}`;
+    case "zoom":
+      return `https://zoom.us/j/${Math.floor(Math.random() * 9_000_000_000) + 1_000_000_000}`;
+    default:
+      return "";
+  }
+}
+
+export function meetingProviderLabel(p: MeetingProvider): string {
+  switch (p) {
+    case "google-meet": return "Google Meet";
+    case "ms-teams": return "Microsoft Teams";
+    case "zoom": return "Zoom";
+    case "onsite": return "On-site";
+    case "phone": return "Phone";
+    default: return "—";
+  }
 }
