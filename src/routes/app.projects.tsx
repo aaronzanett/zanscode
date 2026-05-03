@@ -67,17 +67,15 @@ function ProjectsList() {
         }
       />
 
-      <div className="flex flex-wrap items-center gap-1 rounded-md bg-secondary p-0.5 text-xs">
-        {(["all", "planning", "active", "on-hold", "completed"] as const).map((f) => (
-          <button
-            key={f}
-            onClick={() => setFilter(f)}
-            className={`rounded px-2.5 py-1 font-medium capitalize transition ${filter === f ? "bg-card shadow-sm text-foreground" : "text-muted-foreground hover:text-foreground"}`}
-          >
-            {f.replace("-", " ")}
-          </button>
-        ))}
-      </div>
+      <Tabs value={filter} onValueChange={(v) => setFilter(v as "all" | ProjectStatus)}>
+        <TabsList className="flex-wrap">
+          {(["all", "planning", "active", "on-hold", "completed"] as const).map((f) => (
+            <TabsTrigger key={f} value={f} className="capitalize">
+              {f.replace("-", " ")}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </Tabs>
 
       {visible.length === 0 ? (
         <EmptyState
