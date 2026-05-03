@@ -56,8 +56,8 @@ function JobsPage() {
       {jobs.length === 0 ? (
         <EmptyState icon={Briefcase} title="No jobs yet" description="Create your first job posting." />
       ) : (
-        <div className="overflow-hidden rounded-xl border border-border bg-card shadow-soft">
-          <table className="w-full text-sm">
+        <div className="overflow-x-auto rounded-xl border border-border bg-card shadow-soft">
+          <table className="w-full min-w-[720px] text-sm">
             <thead className="border-b border-border bg-surface/60 text-left text-xs uppercase tracking-wide text-muted-foreground">
               <tr>
                 <th className="px-4 py-2.5 font-semibold">Title</th>
