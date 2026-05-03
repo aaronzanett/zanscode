@@ -209,6 +209,46 @@ export type Interview = {
   createdAt: number;
 };
 
+// ---------- Site content (front-page CMS) ----------
+
+export type NavLink = { id: string; label: string; to: string };
+export type FooterLink = { id: string; label: string; to: string };
+export type FooterColumn = { id: string; title: string; links: FooterLink[] };
+
+export type SiteHero = {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  primaryCta: string;
+  primaryCtaTo: string;
+  secondaryCta: string;
+  secondaryCtaTo: string;
+};
+
+export type SiteFooter = {
+  tagline: string;
+  email: string;
+  phone: string;
+  address: string;
+  columns: FooterColumn[];
+};
+
+export type SectionCard = { id: string; title: string; description: string };
+export type SiteSection = {
+  id: string;
+  title: string;
+  subtitle: string;
+  visible: boolean;
+  cards: SectionCard[];
+};
+
+export type SiteContent = {
+  nav: NavLink[];
+  hero: SiteHero;
+  footer: SiteFooter;
+  sections: SiteSection[];
+};
+
 export type Store = {
   clients: Client[];
   projects: Project[];
@@ -222,6 +262,7 @@ export type Store = {
   requisitions: Requisition[];
   candidates: Candidate[];
   interviews: Interview[];
+  siteContent: SiteContent;
 };
 
 // ---------- Storage ----------
