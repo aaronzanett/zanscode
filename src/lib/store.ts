@@ -998,3 +998,164 @@ export function deleteInterview(id: string) {
 export function formatDateTime(ts: number): string {
   return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }).format(new Date(ts));
 }
+
+// ---------- Mutations: Site Content ----------
+
+export function updateSiteHero(patch: Partial<SiteHero>) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, hero: { ...s.siteContent.hero, ...patch } } }));
+}
+
+export function updateSiteFooter(patch: Partial<Omit<SiteFooter, "columns">>) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, footer: { ...s.siteContent.footer, ...patch } } }));
+}
+
+export function setSiteNav(nav: NavLink[]) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, nav } }));
+}
+
+export function addNavLink(label: string, to: string) {
+  const link: NavLink = { id: uid("n-"), label: label || "Link", to: to || "/" };
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, nav: [...s.siteContent.nav, link] } }));
+}
+
+export function updateNavLink(id: string, patch: Partial<NavLink>) {
+  update((s) => ({
+    ...s,
+    siteContent: { ...s.siteContent, nav: s.siteContent.nav.map((n) => (n.id === id ? { ...n, ...patch } : n)) },
+  }));
+}
+
+export function removeNavLink(id: string) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, nav: s.siteContent.nav.filter((n) => n.id !== id) } }));
+}
+
+export function addFooterColumn() {
+  const col: FooterColumn = { id: uid("fc-"), title: "New column", links: [] };
+  update((s) => ({
+    ...s,
+    siteContent: { ...s.siteContent, footer: { ...s.siteContent.footer, columns: [...s.siteContent.footer.columns, col] } },
+  }));
+}
+
+export function updateFooterColumn(id: string, patch: Partial<Omit<FooterColumn, "links" | "id">>) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      footer: {
+        ...s.siteContent.footer,
+        columns: s.siteContent.footer.columns.map((c) => (c.id === id ? { ...c, ...patch } : c)),
+      },
+    },
+  }));
+}
+
+export function removeFooterColumn(id: string) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      footer: { ...s.siteContent.footer, columns: s.siteContent.footer.columns.filter((c) => c.id !== id) },
+    },
+  }));
+}
+
+export function addFooterLink(columnId: string) {
+  const link: FooterLink = { id: uid("fl-"), label: "New link", to: "/" };
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      footer: {
+        ...s.siteContent.footer,
+        columns: s.siteContent.footer.columns.map((c) => (c.id === columnId ? { ...c, links: [...c.links, link] } : c)),
+      },
+    },
+  }));
+}
+
+export function updateFooterLink(columnId: string, linkId: string, patch: Partial<FooterLink>) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      footer: {
+        ...s.siteContent.footer,
+        columns: s.siteContent.footer.columns.map((c) =>
+          c.id === columnId ? { ...c, links: c.links.map((l) => (l.id === linkId ? { ...l, ...patch } : l)) } : c,
+        ),
+      },
+    },
+  }));
+}
+
+export function removeFooterLink(columnId: string, linkId: string) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      footer: {
+        ...s.siteContent.footer,
+        columns: s.siteContent.footer.columns.map((c) =>
+          c.id === columnId ? { ...c, links: c.links.filter((l) => l.id !== linkId) } : c,
+        ),
+      },
+    },
+  }));
+}
+
+export function addSection() {
+  const sec: SiteSection = { id: uid("sec-"), title: "New section", subtitle: "", visible: true, cards: [] };
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, sections: [...s.siteContent.sections, sec] } }));
+}
+
+export function updateSection(id: string, patch: Partial<Omit<SiteSection, "cards" | "id">>) {
+  update((s) => ({
+    ...s,
+    siteContent: { ...s.siteContent, sections: s.siteContent.sections.map((sec) => (sec.id === id ? { ...sec, ...patch } : sec)) },
+  }));
+}
+
+export function removeSection(id: string) {
+  update((s) => ({
+    ...s,
+    siteContent: { ...s.siteContent, sections: s.siteContent.sections.filter((sec) => sec.id !== id) },
+  }));
+}
+
+export function addSectionCard(sectionId: string) {
+  const card: SectionCard = { id: uid("sc-"), title: "New card", description: "" };
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      sections: s.siteContent.sections.map((sec) =>
+        sec.id === sectionId ? { ...sec, cards: [...sec.cards, card] } : sec,
+      ),
+    },
+  }));
+}
+
+export function updateSectionCard(sectionId: string, cardId: string, patch: Partial<SectionCard>) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      sections: s.siteContent.sections.map((sec) =>
+        sec.id === sectionId ? { ...sec, cards: sec.cards.map((c) => (c.id === cardId ? { ...c, ...patch } : c)) } : sec,
+      ),
+    },
+  }));
+}
+
+export function removeSectionCard(sectionId: string, cardId: string) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      sections: s.siteContent.sections.map((sec) =>
+        sec.id === sectionId ? { ...sec, cards: sec.cards.filter((c) => c.id !== cardId) } : sec,
+      ),
+    },
+  }));
+}
