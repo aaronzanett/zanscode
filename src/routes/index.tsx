@@ -107,34 +107,35 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Capabilities */}
-      <section className="bg-background py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <Reveal variant="up" className="mx-auto max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-wider text-brand">What we build</span>
-            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Custom software, end to end</h2>
-            <p className="mt-4 text-muted-foreground">
-              From the system architecture to the last pixel — one engineering partner across every layer of your business stack.
-            </p>
-          </Reveal>
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {capabilities.map((f, i) => (
-              <Reveal key={f.title} variant="up" delay={i * 140} as="div">
-                <div className="lift group h-full rounded-2xl border border-border bg-card p-6 shadow-soft hover:shadow-brand hover:border-brand/40">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                    <f.icon className="h-5 w-5" />
-                  </div>
-                  <h3 className="mt-5 text-lg font-semibold">{f.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{f.desc}</p>
-                </div>
-              </Reveal>
-            ))}
+      {/* Dynamic content sections (managed via Content Studio) */}
+      {sections.filter((sec) => sec.visible).map((sec, secIdx) => (
+        <section key={sec.id} className={secIdx % 2 === 0 ? "bg-background py-24" : "bg-surface py-24"}>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <Reveal variant="up" className="mx-auto max-w-2xl text-center">
+              <span className="text-sm font-semibold uppercase tracking-wider text-brand">
+                <LayoutGrid className="mr-1 inline h-3.5 w-3.5" /> Section
+              </span>
+              <h2 className="mt-3 text-3xl font-bold sm:text-4xl">{sec.title}</h2>
+              {sec.subtitle && <p className="mt-4 text-muted-foreground">{sec.subtitle}</p>}
+            </Reveal>
+            {sec.cards.length > 0 && (
+              <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {sec.cards.map((card, i) => (
+                  <Reveal key={card.id} variant="up" delay={i * 120} as="div">
+                    <div className="lift group h-full rounded-2xl border border-border bg-card p-6 shadow-soft hover:shadow-brand hover:border-brand/40">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground transition-transform duration-300 group-hover:scale-110">
+                        <CheckCircle2 className="h-5 w-5" />
+                      </div>
+                      <h3 className="mt-5 text-lg font-semibold">{card.title}</h3>
+                      {card.description && <p className="mt-2 text-sm text-muted-foreground">{card.description}</p>}
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            )}
           </div>
-          <Reveal variant="up" delay={300} className="mt-10 text-center">
-            <Button asChild variant="outline"><Link to="/services">See all services <ArrowRight className="ml-1 h-4 w-4" /></Link></Button>
-          </Reveal>
-        </div>
-      </section>
+        </section>
+      ))}
 
       {/* Industries */}
       <section className="bg-surface py-20">
@@ -150,33 +151,6 @@ function HomePage() {
                 <div className="lift group flex h-full flex-col items-center rounded-2xl border border-border bg-card p-6 text-center hover:shadow-soft hover:border-brand/30">
                   <i.icon className="h-7 w-7 text-brand transition-transform duration-300 group-hover:scale-110" />
                   <span className="mt-3 text-sm font-medium">{i.name}</span>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Process */}
-      <section className="bg-background py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <Reveal variant="up" className="mx-auto max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-wider text-brand">How we work</span>
-            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">A clear path from idea to scale</h2>
-            <p className="mt-4 text-muted-foreground">A proven four-step engineering process that keeps everyone aligned and shipping.</p>
-          </Reveal>
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {process.map((p, i) => (
-              <Reveal key={p.n} variant="up" delay={i * 180} as="div">
-                <div className="lift group h-full rounded-2xl border border-border bg-card p-6 shadow-soft hover:border-brand/40 hover:shadow-brand">
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground transition-transform duration-300 group-hover:scale-110">
-                      <p.icon className="h-5 w-5" />
-                    </div>
-                    <span className="text-2xl font-bold text-gradient-brand">{p.n}</span>
-                  </div>
-                  <h3 className="mt-5 text-lg font-semibold">{p.t}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{p.d}</p>
                 </div>
               </Reveal>
             ))}
