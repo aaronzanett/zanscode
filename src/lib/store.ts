@@ -992,19 +992,26 @@ export function updateCandidate(id: string, patch: Partial<Candidate>) {
 
 export function moveCandidate(id: string, stage: CandidateStage) {
   update((s) => ({ ...s, candidates: s.candidates.map((c) => (c.id === id ? { ...c, stage } : c)) }));
-  // If moved to "hired", increment requisition.filled when possible
   if (stage === "hired") {
     const cand = state.candidates.find((c) => c.id === id);
     const job = cand?.jobId ? state.jobs.find((j) => j.id === cand.jobId) : null;
     if (job?.requisitionId) {
+      const reqId = job.requisitionId;
       update((s) => ({
         ...s,
         requisitions: s.requisitions.map((r) =>
-          r.id === job.requisitionId
+          r.id === reqId
             ? { ...r, filled: Math.min(r.openings, r.filled + 1), status: r.filled + 1 >= r.openings ? "filled" : r.status }
             : r,
         ),
       }));
+      const filledNow = state.requisitions.find((r) => r.id === reqId);
+      if (filledNow && filledNow.status === "filled") {
+        update((s) => ({
+          ...s,
+          jobs: s.jobs.map((j) => (j.requisitionId === reqId && j.status === "published" ? { ...j, status: "closed" } : j)),
+        }));
+      }
     }
   }
 }
