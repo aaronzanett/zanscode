@@ -423,7 +423,93 @@ function seed(): Store {
     { id: "iv-5", candidateId: "cand-7", jobId: "job-csm", kind: "panel", scheduledAt: now() - 86400000 * 30, durationMins: 90, location: "Zanscode HQ — Jakarta", interviewerIds: ["tm-maya", "tm-andi"], status: "completed", feedback: "Hired.", score: 5, createdAt: now() - 86400000 * 40 },
   ];
 
-  return { clients, projects, tasks, transactions, team, products, docs, jobs: jobsSeed, mppRequests, requisitions, candidates, interviews };
+  return { clients, projects, tasks, transactions, team, products, docs, jobs: jobsSeed, mppRequests, requisitions, candidates, interviews, siteContent: defaultSiteContent() };
+}
+
+export function defaultSiteContent(): SiteContent {
+  return {
+    nav: [
+      { id: "n-home", label: "Home", to: "/" },
+      { id: "n-services", label: "Services", to: "/services" },
+      { id: "n-products", label: "Products", to: "/products" },
+      { id: "n-about", label: "About", to: "/about" },
+      { id: "n-careers", label: "Careers", to: "/careers" },
+      { id: "n-contact", label: "Contact", to: "/contact" },
+    ],
+    hero: {
+      eyebrow: "Software & systems engineered for your business",
+      title: "We design and build the software your business runs on.",
+      subtitle:
+        "Zanscode partners with business owners and mid-sized companies to design, build and operate custom systems — web, mobile, cloud and ERP.",
+      primaryCta: "Start a project",
+      primaryCtaTo: "/contact",
+      secondaryCta: "Explore services",
+      secondaryCtaTo: "/services",
+    },
+    footer: {
+      tagline:
+        "Zanscode is a software company designing and building custom systems, web, mobile and cloud applications — plus a growing line of SaaS products.",
+      email: "hello@zanscode.com",
+      phone: "+1 (555) 010-0123",
+      address: "Innovation District, Jakarta, Indonesia",
+      columns: [
+        {
+          id: "fc-products",
+          title: "Products",
+          links: [
+            { id: "fl-1", label: "Solutions overview", to: "/products" },
+            { id: "fl-2", label: "Zanscode ERP", to: "/products" },
+            { id: "fl-3", label: "Zanscode POS", to: "/products" },
+            { id: "fl-4", label: "Staff sign in", to: "/staff/login" },
+          ],
+        },
+        {
+          id: "fc-company",
+          title: "Company",
+          links: [
+            { id: "fl-5", label: "About us", to: "/about" },
+            { id: "fl-6", label: "Services", to: "/services" },
+            { id: "fl-7", label: "Careers", to: "/careers" },
+            { id: "fl-8", label: "Contact", to: "/contact" },
+          ],
+        },
+        {
+          id: "fc-resources",
+          title: "Resources",
+          links: [
+            { id: "fl-9", label: "Case studies", to: "/services" },
+            { id: "fl-10", label: "Pricing", to: "/products" },
+            { id: "fl-11", label: "Support", to: "/contact" },
+          ],
+        },
+      ],
+    },
+    sections: [
+      {
+        id: "sec-capabilities",
+        title: "Custom software, end to end",
+        subtitle: "From the system architecture to the last pixel — one engineering partner.",
+        visible: true,
+        cards: [
+          { id: "c1", title: "Custom business software", description: "Tailored systems engineered around how your business actually operates." },
+          { id: "c2", title: "ERP & operations systems", description: "Inventory, sales, finance, HR and reporting in one source of truth." },
+          { id: "c3", title: "Web & mobile applications", description: "Customer-facing and internal apps for web, iOS and Android." },
+        ],
+      },
+      {
+        id: "sec-process",
+        title: "A clear path from idea to scale",
+        subtitle: "A proven engineering process that keeps everyone aligned and shipping.",
+        visible: true,
+        cards: [
+          { id: "p1", title: "Discover", description: "Workshops to map goals, users, workflows and constraints." },
+          { id: "p2", title: "Design", description: "System architecture, UX and a measurable success plan." },
+          { id: "p3", title: "Build", description: "Iterative delivery with weekly demos and tight feedback." },
+          { id: "p4", title: "Scale", description: "Operate, optimize and evolve the system long-term." },
+        ],
+      },
+    ],
+  };
 }
 
 // ---------- Reactive store ----------
