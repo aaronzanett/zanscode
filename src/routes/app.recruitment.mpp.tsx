@@ -56,7 +56,7 @@ function MPPPage() {
           description="Create the first manpower planning request to start tracking hiring needs."
         />
       ) : (
-        <div className="overflow-hidden rounded-xl border border-border bg-card shadow-soft">
+        <div className="overflow-x-auto rounded-xl border border-border bg-card shadow-soft">
           <table className="w-full text-sm">
             <thead className="border-b border-border bg-surface/60 text-left text-xs uppercase tracking-wide text-muted-foreground">
               <tr>

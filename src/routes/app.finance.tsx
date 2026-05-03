@@ -67,7 +67,7 @@ function FinancePage() {
           ) : undefined}
         />
       ) : (
-        <div className="overflow-hidden rounded-xl border border-border bg-card shadow-soft">
+        <div className="overflow-x-auto rounded-xl border border-border bg-card shadow-soft">
           <table className="w-full text-sm">
             <thead className="bg-secondary/50 text-xs text-muted-foreground">
               <tr>
