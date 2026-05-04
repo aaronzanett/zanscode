@@ -1213,6 +1213,61 @@ export function removeSectionCard(sectionId: string, cardId: string) {
   }));
 }
 
+// ---------- Reorder helpers (Content Studio) ----------
+
+function moveInArray<T>(arr: T[], from: number, to: number): T[] {
+  if (from === to || from < 0 || to < 0 || from >= arr.length || to >= arr.length) return arr;
+  const next = arr.slice();
+  const [item] = next.splice(from, 1);
+  next.splice(to, 0, item);
+  return next;
+}
+
+export function reorderNav(from: number, to: number) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, nav: moveInArray(s.siteContent.nav, from, to) } }));
+}
+
+export function reorderSections(from: number, to: number) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, sections: moveInArray(s.siteContent.sections, from, to) } }));
+}
+
+export function reorderSectionCards(sectionId: string, from: number, to: number) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      sections: s.siteContent.sections.map((sec) =>
+        sec.id === sectionId ? { ...sec, cards: moveInArray(sec.cards, from, to) } : sec,
+      ),
+    },
+  }));
+}
+
+export function reorderFooterColumns(from: number, to: number) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      footer: { ...s.siteContent.footer, columns: moveInArray(s.siteContent.footer.columns, from, to) },
+    },
+  }));
+}
+
+export function reorderFooterLinks(columnId: string, from: number, to: number) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      footer: {
+        ...s.siteContent.footer,
+        columns: s.siteContent.footer.columns.map((c) =>
+          c.id === columnId ? { ...c, links: moveInArray(c.links, from, to) } : c,
+        ),
+      },
+    },
+  }));
+}
+
 // ---------- Meeting helpers ----------
 
 export function generateMeetingLink(provider: MeetingProvider): string {
