@@ -78,14 +78,82 @@ export type Transaction = {
   createdAt: number;
 };
 
+export type MemberStatus = "active" | "invited" | "suspended";
+
 export type TeamMember = {
   id: string;
   name: string;
   email: string;
-  role: string;
+  role: string;          // human-readable job title (e.g. "Engineering Lead")
+  roleId: string;        // RBAC role id (e.g. "role-admin")
   initials: string;
   joinedAt: number;
+  status: MemberStatus;
+  // Per-user permission deltas applied on top of the role.
+  grants: Permission[];
+  revokes: Permission[];
 };
+
+// ---------- RBAC ----------
+// Flat permission keys. Pattern: "<module>.<action>".
+// Keep this list aligned with PERMISSION_CATALOG below.
+export type Permission =
+  | "dashboard.view"
+  | "clients.view" | "clients.manage"
+  | "projects.view" | "projects.manage"
+  | "tasks.view" | "tasks.manage"
+  | "finance.view" | "finance.manage"
+  | "team.view" | "team.manage"
+  | "products.view" | "products.manage"
+  | "knowledge.view" | "knowledge.manage"
+  | "recruitment.view" | "recruitment.manage"
+  | "content.manage"
+  | "settings.manage"
+  | "roles.manage";
+
+export type Role = {
+  id: string;
+  name: string;
+  description: string;
+  color: string;          // tailwind text color class for badge accent
+  permissions: Permission[];
+  builtIn: boolean;       // built-in roles can be edited but not deleted
+};
+
+export const PERMISSION_CATALOG: { group: string; items: { key: Permission; label: string; hint?: string }[] }[] = [
+  { group: "Overview", items: [{ key: "dashboard.view", label: "View dashboard" }] },
+  { group: "Operations", items: [
+    { key: "clients.view", label: "View clients" },
+    { key: "clients.manage", label: "Manage clients" },
+    { key: "projects.view", label: "View projects" },
+    { key: "projects.manage", label: "Manage projects" },
+    { key: "tasks.view", label: "View tasks" },
+    { key: "tasks.manage", label: "Manage tasks" },
+  ]},
+  { group: "Business", items: [
+    { key: "finance.view", label: "View finance" },
+    { key: "finance.manage", label: "Manage finance" },
+    { key: "team.view", label: "View team" },
+    { key: "team.manage", label: "Manage team & invites" },
+    { key: "products.view", label: "View SaaS products" },
+    { key: "products.manage", label: "Manage SaaS products" },
+  ]},
+  { group: "Recruitment", items: [
+    { key: "recruitment.view", label: "View recruitment" },
+    { key: "recruitment.manage", label: "Manage recruitment" },
+  ]},
+  { group: "Knowledge & Content", items: [
+    { key: "knowledge.view", label: "View knowledge base" },
+    { key: "knowledge.manage", label: "Manage knowledge base" },
+    { key: "content.manage", label: "Edit site content" },
+  ]},
+  { group: "System", items: [
+    { key: "settings.manage", label: "Manage settings" },
+    { key: "roles.manage", label: "Manage roles & permissions" },
+  ]},
+];
+
+export const ALL_PERMISSIONS: Permission[] = PERMISSION_CATALOG.flatMap((g) => g.items.map((i) => i.key));
 
 export type SaaSProduct = {
   id: string;
