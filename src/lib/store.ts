@@ -915,15 +915,52 @@ export function deleteTransaction(id: string) {
 
 // ---------- Mutations: Team ----------
 
-export function createMember(input: Omit<TeamMember, "id" | "joinedAt" | "initials">): TeamMember {
+export function createMember(input: Omit<TeamMember, "id" | "joinedAt" | "initials" | "roleId" | "status" | "grants" | "revokes"> & Partial<Pick<TeamMember, "roleId" | "status" | "grants" | "revokes">>): TeamMember {
   const initials = input.name.split(/\s+/).slice(0, 2).map((p) => p[0]?.toUpperCase() ?? "").join("") || "ZS";
-  const m: TeamMember = { ...input, id: uid("tm-"), joinedAt: now(), initials };
+  const m: TeamMember = {
+    name: input.name,
+    email: input.email,
+    role: input.role,
+    roleId: input.roleId ?? "role-staff",
+    status: input.status ?? "invited",
+    grants: input.grants ?? [],
+    revokes: input.revokes ?? [],
+    id: uid("tm-"),
+    joinedAt: now(),
+    initials,
+  };
   update((s) => ({ ...s, team: [m, ...s.team] }));
   return m;
 }
 
 export function updateMember(id: string, patch: Partial<TeamMember>) {
   update((s) => ({ ...s, team: s.team.map((m) => (m.id === id ? { ...m, ...patch } : m)) }));
+}
+
+export function setMemberRole(id: string, roleId: string) {
+  update((s) => ({ ...s, team: s.team.map((m) => (m.id === id ? { ...m, roleId } : m)) }));
+}
+
+export function setMemberStatus(id: string, status: MemberStatus) {
+  update((s) => ({ ...s, team: s.team.map((m) => (m.id === id ? { ...m, status } : m)) }));
+}
+
+export function setMemberPermissionOverride(id: string, perm: Permission, mode: "inherit" | "grant" | "revoke") {
+  update((s) => ({
+    ...s,
+    team: s.team.map((m) => {
+      if (m.id !== id) return m;
+      const grants = m.grants.filter((p) => p !== perm);
+      const revokes = m.revokes.filter((p) => p !== perm);
+      if (mode === "grant") grants.push(perm);
+      if (mode === "revoke") revokes.push(perm);
+      return { ...m, grants, revokes };
+    }),
+  }));
+}
+
+export function clearMemberOverrides(id: string) {
+  update((s) => ({ ...s, team: s.team.map((m) => (m.id === id ? { ...m, grants: [], revokes: [] } : m)) }));
 }
 
 export function deleteMember(id: string) {
@@ -933,6 +970,42 @@ export function deleteMember(id: string) {
     projects: s.projects.map((p) => ({ ...p, memberIds: p.memberIds.filter((mid) => mid !== id) })),
     tasks: s.tasks.map((t) => (t.assigneeId === id ? { ...t, assigneeId: null } : t)),
   }));
+}
+
+// ---------- Mutations: Roles ----------
+
+export function createRole(input: Omit<Role, "id" | "builtIn">): Role {
+  const r: Role = { ...input, id: uid("role-"), builtIn: false };
+  update((s) => ({ ...s, roles: [...s.roles, r] }));
+  return r;
+}
+
+export function updateRole(id: string, patch: Partial<Omit<Role, "id" | "builtIn">>) {
+  update((s) => ({ ...s, roles: s.roles.map((r) => (r.id === id ? { ...r, ...patch } : r)) }));
+}
+
+export function deleteRole(id: string) {
+  update((s) => {
+    const role = s.roles.find((r) => r.id === id);
+    if (!role || role.builtIn) return s;
+    return {
+      ...s,
+      roles: s.roles.filter((r) => r.id !== id),
+      team: s.team.map((m) => (m.roleId === id ? { ...m, roleId: "role-staff" } : m)),
+    };
+  });
+}
+
+export function effectivePermissions(member: TeamMember, roles: Role[]): Set<Permission> {
+  const role = roles.find((r) => r.id === member.roleId);
+  const set = new Set<Permission>(role?.permissions ?? []);
+  for (const g of member.grants) set.add(g);
+  for (const r of member.revokes) set.delete(r);
+  return set;
+}
+
+export function memberHasPermission(member: TeamMember, roles: Role[], perm: Permission): boolean {
+  return effectivePermissions(member, roles).has(perm);
 }
 
 // ---------- Mutations: Products ----------
