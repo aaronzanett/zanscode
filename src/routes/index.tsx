@@ -108,34 +108,42 @@ function HomePage() {
       </section>
 
       {/* Dynamic content sections (managed via Content Studio) */}
-      {sections.filter((sec) => sec.visible).map((sec, secIdx) => (
-        <section key={sec.id} className={secIdx % 2 === 0 ? "bg-background py-24" : "bg-surface py-24"}>
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <Reveal variant="up" className="mx-auto max-w-2xl text-center">
-              <span className="text-sm font-semibold uppercase tracking-wider text-brand">
-                <LayoutGrid className="mr-1 inline h-3.5 w-3.5" /> Section
-              </span>
-              <h2 className="mt-3 text-3xl font-bold sm:text-4xl">{sec.title}</h2>
-              {sec.subtitle && <p className="mt-4 text-muted-foreground">{sec.subtitle}</p>}
-            </Reveal>
-            {sec.cards.length > 0 && (
-              <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {sec.cards.map((card, i) => (
-                  <Reveal key={card.id} variant="up" delay={i * 120} as="div">
-                    <div className="lift group h-full rounded-2xl border border-border bg-card p-6 shadow-soft hover:shadow-brand hover:border-brand/40">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground transition-transform duration-300 group-hover:scale-110">
-                        <CheckCircle2 className="h-5 w-5" />
-                      </div>
-                      <h3 className="mt-5 text-lg font-semibold">{card.title}</h3>
-                      {card.description && <p className="mt-2 text-sm text-muted-foreground">{card.description}</p>}
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
-            )}
-          </div>
-        </section>
-      ))}
+      {sections.filter((sec) => sec.visible).map((sec, secIdx) => {
+        const meta = sectionMeta(sec.id, secIdx);
+        return (
+          <section key={sec.id} className={secIdx % 2 === 0 ? "bg-background py-24" : "bg-surface py-24"}>
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <Reveal variant="up" className="mx-auto max-w-2xl text-center">
+                <span className="text-sm font-semibold uppercase tracking-wider text-brand">{meta.eyebrow}</span>
+                <h2 className="mt-3 text-3xl font-bold sm:text-4xl">{sec.title}</h2>
+                {sec.subtitle && <p className="mt-4 text-muted-foreground">{sec.subtitle}</p>}
+              </Reveal>
+              {sec.cards.length > 0 && (
+                <div className={`mt-14 grid gap-6 ${sec.cards.length >= 4 ? "sm:grid-cols-2 lg:grid-cols-4" : "sm:grid-cols-2 lg:grid-cols-3"}`}>
+                  {sec.cards.map((card, i) => {
+                    const Icon = meta.icons[i % meta.icons.length];
+                    const stepLabel = meta.numbered ? String(i + 1).padStart(2, "0") : null;
+                    return (
+                      <Reveal key={card.id} variant="up" delay={i * 120} as="div">
+                        <div className="lift group relative h-full rounded-2xl border border-border bg-card p-6 shadow-soft hover:shadow-brand hover:border-brand/40">
+                          {stepLabel && (
+                            <span className="absolute right-5 top-5 text-xs font-semibold tracking-widest text-muted-foreground/60">{stepLabel}</span>
+                          )}
+                          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-brand text-brand-foreground transition-transform duration-300 group-hover:scale-110">
+                            <Icon className="h-5 w-5" />
+                          </div>
+                          <h3 className="mt-5 text-lg font-semibold">{card.title}</h3>
+                          {card.description && <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{card.description}</p>}
+                        </div>
+                      </Reveal>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </section>
+        );
+      })}
 
       {/* Industries */}
       <section className="bg-surface py-20">
