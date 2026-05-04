@@ -534,7 +534,7 @@ function RoleDialog({ role, onClose }: { role?: Role; onClose: () => void }) {
           <div className="mt-4 grid gap-3">
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="space-y-1.5"><Label>Name</Label><Input value={name} onChange={(e) => setName(e.target.value)} /></div>
-              <div className="space-y-1.5"><Label>Members</Label><div className="rounded-md border border-border bg-secondary/30 px-3 py-2 text-sm text-muted-foreground">{role ? `${useStore.getState ? "" : ""}` : "Saved after creation"}</div></div>
+              <div className="space-y-1.5"><Label>Permissions selected</Label><div className="rounded-md border border-border bg-secondary/30 px-3 py-2 text-sm text-muted-foreground">{perms.size} of {ALL_PERMISSIONS.length}</div></div>
             </div>
             <div className="space-y-1.5"><Label>Description</Label><Textarea rows={2} value={description} onChange={(e) => setDescription(e.target.value)} /></div>
 
