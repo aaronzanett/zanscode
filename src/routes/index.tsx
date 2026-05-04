@@ -43,9 +43,23 @@ const testimonials = [
   { quote: "Zanscode rebuilt our operations system from scratch. What took 4 tools now runs in one — and our team finally trusts the data.", name: "Anita Wijaya", role: "COO, RetailCo (12 outlets)" },
   { quote: "They shipped our custom logistics platform in 14 weeks. Quality, communication and engineering were outstanding.", name: "Marcus Lee", role: "CEO, FleetIQ" },
   { quote: "A true software partner — they think with us, not just for us. The system keeps getting better quarter after quarter.", name: "Sari Pratama", role: "Owner, EduNext Group" },
-];
 
-function HomePage() {
+type SectionMeta = { eyebrow: string; numbered: boolean; icons: Array<typeof Code2> };
+
+function sectionMeta(id: string, idx: number): SectionMeta {
+  if (id === "sec-capabilities") {
+    return { eyebrow: "What we build", numbered: false, icons: [Code2, Database, Smartphone, Boxes] };
+  }
+  if (id === "sec-process") {
+    return { eyebrow: "How we work", numbered: true, icons: [Compass, PenTool, Hammer, Rocket] };
+  }
+  return {
+    eyebrow: idx === 0 ? "Highlights" : "More from Zanscode",
+    numbered: false,
+    icons: [CheckCircle2, Sparkles, Boxes, Code2],
+  };
+}
+
   const navigate = useNavigate();
   const hero = useStore((s) => s.siteContent.hero);
   const sections = useStore((s) => s.siteContent.sections);
