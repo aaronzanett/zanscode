@@ -1,20 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Sparkles, Menu as MenuIcon, LayoutGrid, Plus, Trash2, ExternalLink, Eye, EyeOff, Layers, Save } from "lucide-react";
+import { Sparkles, Menu as MenuIcon, LayoutGrid, ExternalLink, Eye, EyeOff, Layers, ArrowUp, ArrowDown, Lock, Info } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
   useStore, useHydrate,
   updateSiteHero, updateSiteFooter,
-  addNavLink, updateNavLink, removeNavLink,
-  addFooterColumn, updateFooterColumn, removeFooterColumn,
-  addFooterLink, updateFooterLink, removeFooterLink,
-  addSection, updateSection, removeSection,
-  addSectionCard, updateSectionCard, removeSectionCard,
+  updateNavLink, reorderNav,
+  updateFooterColumn, updateFooterLink, reorderFooterColumns, reorderFooterLinks,
+  updateSection, updateSectionCard, reorderSections, reorderSectionCards,
 } from "@/lib/store";
-import { toast } from "sonner";
 
 export const Route = createFileRoute("/app/content-studio")({
   head: () => ({
@@ -25,6 +21,31 @@ export const Route = createFileRoute("/app/content-studio")({
   }),
   component: ContentStudioPage,
 });
+
+function ReorderControls({ index, total, onMove }: { index: number; total: number; onMove: (from: number, to: number) => void }) {
+  return (
+    <div className="flex items-center gap-1">
+      <button
+        type="button"
+        disabled={index === 0}
+        onClick={() => onMove(index, index - 1)}
+        className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:border-brand hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"
+        aria-label="Move up"
+      >
+        <ArrowUp className="h-3.5 w-3.5" />
+      </button>
+      <button
+        type="button"
+        disabled={index === total - 1}
+        onClick={() => onMove(index, index + 1)}
+        className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:border-brand hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"
+        aria-label="Move down"
+      >
+        <ArrowDown className="h-3.5 w-3.5" />
+      </button>
+    </div>
+  );
+}
 
 function ContentStudioPage() {
   useHydrate();
@@ -40,26 +61,27 @@ function ContentStudioPage() {
           </div>
           <h1 className="text-2xl font-semibold tracking-tight">Content Studio</h1>
           <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-            Edit the public site — navigation, hero, sections with cards, and footer. Saved locally to your browser in real time.
+            Edit the copy of existing front-page blocks and reorder them. Structure is locked to keep the design consistent — changes save locally as you type.
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Link
-            to="/"
-            target="_blank"
-            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-2 text-xs font-medium transition-colors hover:border-brand hover:text-brand"
-          >
-            <ExternalLink className="h-3.5 w-3.5" />
-            Preview live site
-          </Link>
-          <Button size="sm" onClick={() => toast.success("All changes are saved automatically")}>
-            <Save className="h-3.5 w-3.5" />
-            Saved
-          </Button>
-        </div>
+        <Link
+          to="/"
+          target="_blank"
+          className="inline-flex items-center gap-1.5 self-start rounded-md border border-border bg-card px-3 py-2 text-xs font-medium transition-colors hover:border-brand hover:text-brand"
+        >
+          <ExternalLink className="h-3.5 w-3.5" />
+          Preview live site
+        </Link>
       </div>
 
-      {/* Stat strip */}
+      <div className="flex items-start gap-2 rounded-lg border border-border bg-secondary/40 px-3 py-2 text-xs text-muted-foreground">
+        <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand" />
+        <p>
+          You can <strong className="text-foreground">edit text</strong>, <strong className="text-foreground">toggle visibility</strong>, and <strong className="text-foreground">reorder</strong> items.
+          Adding or removing nav links, sections, cards and footer columns is intentionally disabled.
+        </p>
+      </div>
+
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
           { label: "Nav links", value: site.nav.length, icon: MenuIcon },
@@ -108,16 +130,8 @@ function ContentStudioPage() {
                   <Input value={site.hero.primaryCta} onChange={(e) => updateSiteHero({ primaryCta: e.target.value })} />
                 </div>
                 <div className="space-y-2">
-                  <Label>Primary CTA link</Label>
-                  <Input value={site.hero.primaryCtaTo} onChange={(e) => updateSiteHero({ primaryCtaTo: e.target.value })} />
-                </div>
-                <div className="space-y-2">
                   <Label>Secondary CTA label</Label>
                   <Input value={site.hero.secondaryCta} onChange={(e) => updateSiteHero({ secondaryCta: e.target.value })} />
-                </div>
-                <div className="space-y-2">
-                  <Label>Secondary CTA link</Label>
-                  <Input value={site.hero.secondaryCtaTo} onChange={(e) => updateSiteHero({ secondaryCtaTo: e.target.value })} />
                 </div>
               </div>
             </div>
@@ -145,54 +159,37 @@ function ContentStudioPage() {
             <div className="flex items-center justify-between border-b border-border px-4 py-3">
               <div>
                 <h2 className="text-sm font-semibold">Navbar links</h2>
-                <p className="text-xs text-muted-foreground">Control the top navigation on every public page.</p>
+                <p className="text-xs text-muted-foreground">Rename links or reorder them. Targets are locked to existing pages.</p>
               </div>
-              <Button size="sm" onClick={() => addNavLink("New link", "/")}>
-                <Plus className="h-3.5 w-3.5" />
-                Add link
-              </Button>
+              <span className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                <Lock className="h-3 w-3" />
+                Structure locked
+              </span>
             </div>
             <ul className="divide-y divide-border">
-              {site.nav.map((n) => (
-                <li key={n.id} className="grid gap-2 px-4 py-3 sm:grid-cols-[1fr_1fr_auto] sm:items-center">
+              {site.nav.map((n, i) => (
+                <li key={n.id} className="grid gap-2 px-4 py-3 sm:grid-cols-[1fr_auto_auto] sm:items-center">
                   <Input placeholder="Label" value={n.label} onChange={(e) => updateNavLink(n.id, { label: e.target.value })} />
-                  <Input placeholder="/path" value={n.to} onChange={(e) => updateNavLink(n.id, { to: e.target.value })} />
-                  <Button size="sm" variant="ghost" onClick={() => removeNavLink(n.id)}>
-                    <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
-                  </Button>
+                  <span className="text-[11px] text-muted-foreground">{n.to}</span>
+                  <ReorderControls index={i} total={site.nav.length} onMove={reorderNav} />
                 </li>
               ))}
-              {site.nav.length === 0 && (
-                <li className="px-4 py-6 text-center text-xs text-muted-foreground">No navigation links yet.</li>
-              )}
             </ul>
           </div>
         </TabsContent>
 
         {/* Sections + cards */}
         <TabsContent value="sections" className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-sm font-semibold">Front-page sections</h2>
-              <p className="text-xs text-muted-foreground">Each section can hold a list of cards rendered on the home page.</p>
-            </div>
-            <Button size="sm" onClick={addSection}>
-              <Plus className="h-3.5 w-3.5" />
-              Add section
-            </Button>
+          <div>
+            <h2 className="text-sm font-semibold">Front-page sections</h2>
+            <p className="text-xs text-muted-foreground">Edit titles, descriptions and visibility. Reorder sections and the cards inside them.</p>
           </div>
 
-          {site.sections.length === 0 && (
-            <div className="rounded-xl border border-dashed border-border bg-card p-10 text-center text-sm text-muted-foreground">
-              No sections yet. Add your first one.
-            </div>
-          )}
-
-          {site.sections.map((sec) => (
+          {site.sections.map((sec, sIdx) => (
             <div key={sec.id} className="rounded-xl border border-border bg-card">
               <div className="grid gap-2 border-b border-border px-4 py-3 sm:grid-cols-[1fr_1fr_auto_auto] sm:items-center">
                 <Input placeholder="Section title" value={sec.title} onChange={(e) => updateSection(sec.id, { title: e.target.value })} />
-                <Input placeholder="Subtitle (optional)" value={sec.subtitle} onChange={(e) => updateSection(sec.id, { subtitle: e.target.value })} />
+                <Input placeholder="Subtitle" value={sec.subtitle} onChange={(e) => updateSection(sec.id, { subtitle: e.target.value })} />
                 <button
                   onClick={() => updateSection(sec.id, { visible: !sec.visible })}
                   className="inline-flex items-center justify-center gap-1.5 rounded-md border border-border px-2.5 py-1.5 text-xs font-medium transition-colors hover:bg-secondary"
@@ -201,40 +198,24 @@ function ContentStudioPage() {
                   {sec.visible ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5 text-muted-foreground" />}
                   {sec.visible ? "Visible" : "Hidden"}
                 </button>
-                <Button size="sm" variant="ghost" onClick={() => removeSection(sec.id)}>
-                  <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
-                </Button>
+                <ReorderControls index={sIdx} total={site.sections.length} onMove={reorderSections} />
               </div>
 
               <div className="space-y-2 p-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                    Cards ({sec.cards.length})
-                  </span>
-                  <Button size="sm" variant="outline" onClick={() => addSectionCard(sec.id)}>
-                    <Plus className="h-3.5 w-3.5" />
-                    Add card
-                  </Button>
-                </div>
-                {sec.cards.length === 0 ? (
-                  <p className="rounded-md border border-dashed border-border bg-background px-3 py-4 text-center text-xs text-muted-foreground">
-                    No cards. Add one to display in this section.
-                  </p>
-                ) : (
-                  <div className="grid gap-2 sm:grid-cols-2">
-                    {sec.cards.map((card) => (
-                      <div key={card.id} className="space-y-2 rounded-lg border border-border bg-background p-3">
-                        <div className="flex items-center justify-between gap-2">
-                          <Input className="h-8" placeholder="Card title" value={card.title} onChange={(e) => updateSectionCard(sec.id, card.id, { title: e.target.value })} />
-                          <Button size="sm" variant="ghost" onClick={() => removeSectionCard(sec.id, card.id)}>
-                            <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
-                          </Button>
-                        </div>
-                        <Textarea rows={2} placeholder="Card description" value={card.description} onChange={(e) => updateSectionCard(sec.id, card.id, { description: e.target.value })} />
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  Cards ({sec.cards.length})
+                </span>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {sec.cards.map((card, cIdx) => (
+                    <div key={card.id} className="space-y-2 rounded-lg border border-border bg-background p-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <Input className="h-8" placeholder="Card title" value={card.title} onChange={(e) => updateSectionCard(sec.id, card.id, { title: e.target.value })} />
+                        <ReorderControls index={cIdx} total={sec.cards.length} onMove={(f, t) => reorderSectionCards(sec.id, f, t)} />
                       </div>
-                    ))}
-                  </div>
-                )}
+                      <Textarea rows={2} placeholder="Card description" value={card.description} onChange={(e) => updateSectionCard(sec.id, card.id, { description: e.target.value })} />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           ))}
@@ -268,42 +249,28 @@ function ContentStudioPage() {
             <div className="rounded-xl border border-border bg-card p-5">
               <div className="flex items-center justify-between">
                 <h2 className="text-sm font-semibold">Footer columns</h2>
-                <Button size="sm" onClick={addFooterColumn}>
-                  <Plus className="h-3.5 w-3.5" />
-                  Add column
-                </Button>
+                <span className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  <Lock className="h-3 w-3" />
+                  Structure locked
+                </span>
               </div>
               <div className="mt-3 space-y-3">
-                {site.footer.columns.map((col) => (
+                {site.footer.columns.map((col, colIdx) => (
                   <div key={col.id} className="space-y-2 rounded-lg border border-border bg-background p-3">
                     <div className="flex items-center gap-2">
                       <Input className="h-8 font-semibold" placeholder="Column title" value={col.title} onChange={(e) => updateFooterColumn(col.id, { title: e.target.value })} />
-                      <Button size="sm" variant="ghost" onClick={() => removeFooterColumn(col.id)}>
-                        <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
-                      </Button>
+                      <ReorderControls index={colIdx} total={site.footer.columns.length} onMove={reorderFooterColumns} />
                     </div>
                     <ul className="space-y-1.5">
-                      {col.links.map((l) => (
-                        <li key={l.id} className="grid gap-1.5 sm:grid-cols-[1fr_1fr_auto]">
+                      {col.links.map((l, lIdx) => (
+                        <li key={l.id} className="grid gap-1.5 sm:grid-cols-[1fr_auto]">
                           <Input className="h-8" placeholder="Label" value={l.label} onChange={(e) => updateFooterLink(col.id, l.id, { label: e.target.value })} />
-                          <Input className="h-8" placeholder="/path" value={l.to} onChange={(e) => updateFooterLink(col.id, l.id, { to: e.target.value })} />
-                          <Button size="sm" variant="ghost" onClick={() => removeFooterLink(col.id, l.id)}>
-                            <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
-                          </Button>
+                          <ReorderControls index={lIdx} total={col.links.length} onMove={(f, t) => reorderFooterLinks(col.id, f, t)} />
                         </li>
                       ))}
                     </ul>
-                    <Button size="sm" variant="outline" className="w-full" onClick={() => addFooterLink(col.id)}>
-                      <Plus className="h-3.5 w-3.5" />
-                      Add link
-                    </Button>
                   </div>
                 ))}
-                {site.footer.columns.length === 0 && (
-                  <p className="rounded-md border border-dashed border-border bg-background px-3 py-4 text-center text-xs text-muted-foreground">
-                    No footer columns yet.
-                  </p>
-                )}
               </div>
             </div>
           </div>
