@@ -62,6 +62,7 @@ function sectionMeta(id: string, idx: number): SectionMeta {
 }
 
 function HomePage() {
+  const navigate = useNavigate();
   const hero = useStore((s) => s.siteContent.hero);
   const sections = useStore((s) => s.siteContent.sections);
 
