@@ -358,11 +358,11 @@ function isoDate(offsetDays = 0): string {
 
 function seed(): Store {
   const team: TeamMember[] = [
-    { id: "tm-andi", name: "Andi Wibowo", email: "andi@zanscode.com", role: "Engineering Lead", initials: "AW", joinedAt: now() - 1000 * 60 * 60 * 24 * 400 },
-    { id: "tm-maya", name: "Maya Putri", email: "maya@zanscode.com", role: "Product Manager", initials: "MP", joinedAt: now() - 1000 * 60 * 60 * 24 * 320 },
-    { id: "tm-bagus", name: "Bagus Pratama", email: "bagus@zanscode.com", role: "Senior Developer", initials: "BP", joinedAt: now() - 1000 * 60 * 60 * 24 * 220 },
-    { id: "tm-sinta", name: "Sinta Lestari", email: "sinta@zanscode.com", role: "UI/UX Designer", initials: "SL", joinedAt: now() - 1000 * 60 * 60 * 24 * 180 },
-    { id: "tm-reza", name: "Reza Hakim", email: "reza@zanscode.com", role: "QA Engineer", initials: "RH", joinedAt: now() - 1000 * 60 * 60 * 24 * 90 },
+    { id: "tm-andi", name: "Andi Wibowo", email: "andi@zanscode.com", role: "Engineering Lead", roleId: "role-admin", initials: "AW", joinedAt: now() - 1000 * 60 * 60 * 24 * 400, status: "active", grants: [], revokes: [] },
+    { id: "tm-maya", name: "Maya Putri", email: "maya@zanscode.com", role: "Product Manager", roleId: "role-manager", initials: "MP", joinedAt: now() - 1000 * 60 * 60 * 24 * 320, status: "active", grants: [], revokes: [] },
+    { id: "tm-bagus", name: "Bagus Pratama", email: "bagus@zanscode.com", role: "Senior Developer", roleId: "role-staff", initials: "BP", joinedAt: now() - 1000 * 60 * 60 * 24 * 220, status: "active", grants: ["finance.view"], revokes: [] },
+    { id: "tm-sinta", name: "Sinta Lestari", email: "sinta@zanscode.com", role: "UI/UX Designer", roleId: "role-staff", initials: "SL", joinedAt: now() - 1000 * 60 * 60 * 24 * 180, status: "active", grants: [], revokes: [] },
+    { id: "tm-reza", name: "Reza Hakim", email: "reza@zanscode.com", role: "QA Engineer", roleId: "role-staff", initials: "RH", joinedAt: now() - 1000 * 60 * 60 * 24 * 90, status: "active", grants: [], revokes: [] },
   ];
 
   const clients: Client[] = [
