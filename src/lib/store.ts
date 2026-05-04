@@ -670,6 +670,16 @@ function load(): Store {
     }
     // Backfill recruitment collections for older persisted state
     const seeded = seed();
+    if (!parsed.roles) parsed.roles = seeded.roles;
+    if (parsed.team) {
+      parsed.team = parsed.team.map((m) => ({
+        ...m,
+        roleId: m.roleId ?? "role-staff",
+        status: m.status ?? "active",
+        grants: m.grants ?? [],
+        revokes: m.revokes ?? [],
+      }));
+    }
     if (!parsed.jobs) parsed.jobs = seeded.jobs;
     if (!parsed.mppRequests) parsed.mppRequests = seeded.mppRequests;
     if (!parsed.requisitions) parsed.requisitions = seeded.requisitions;
