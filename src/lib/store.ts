@@ -326,6 +326,7 @@ export type Store = {
   tasks: Task[];
   transactions: Transaction[];
   team: TeamMember[];
+  roles: Role[];
   products: SaaSProduct[];
   docs: Doc[];
   jobs: JobPosting[];
