@@ -78,14 +78,82 @@ export type Transaction = {
   createdAt: number;
 };
 
+export type MemberStatus = "active" | "invited" | "suspended";
+
 export type TeamMember = {
   id: string;
   name: string;
   email: string;
-  role: string;
+  role: string;          // human-readable job title (e.g. "Engineering Lead")
+  roleId: string;        // RBAC role id (e.g. "role-admin")
   initials: string;
   joinedAt: number;
+  status: MemberStatus;
+  // Per-user permission deltas applied on top of the role.
+  grants: Permission[];
+  revokes: Permission[];
 };
+
+// ---------- RBAC ----------
+// Flat permission keys. Pattern: "<module>.<action>".
+// Keep this list aligned with PERMISSION_CATALOG below.
+export type Permission =
+  | "dashboard.view"
+  | "clients.view" | "clients.manage"
+  | "projects.view" | "projects.manage"
+  | "tasks.view" | "tasks.manage"
+  | "finance.view" | "finance.manage"
+  | "team.view" | "team.manage"
+  | "products.view" | "products.manage"
+  | "knowledge.view" | "knowledge.manage"
+  | "recruitment.view" | "recruitment.manage"
+  | "content.manage"
+  | "settings.manage"
+  | "roles.manage";
+
+export type Role = {
+  id: string;
+  name: string;
+  description: string;
+  color: string;          // tailwind text color class for badge accent
+  permissions: Permission[];
+  builtIn: boolean;       // built-in roles can be edited but not deleted
+};
+
+export const PERMISSION_CATALOG: { group: string; items: { key: Permission; label: string; hint?: string }[] }[] = [
+  { group: "Overview", items: [{ key: "dashboard.view", label: "View dashboard" }] },
+  { group: "Operations", items: [
+    { key: "clients.view", label: "View clients" },
+    { key: "clients.manage", label: "Manage clients" },
+    { key: "projects.view", label: "View projects" },
+    { key: "projects.manage", label: "Manage projects" },
+    { key: "tasks.view", label: "View tasks" },
+    { key: "tasks.manage", label: "Manage tasks" },
+  ]},
+  { group: "Business", items: [
+    { key: "finance.view", label: "View finance" },
+    { key: "finance.manage", label: "Manage finance" },
+    { key: "team.view", label: "View team" },
+    { key: "team.manage", label: "Manage team & invites" },
+    { key: "products.view", label: "View SaaS products" },
+    { key: "products.manage", label: "Manage SaaS products" },
+  ]},
+  { group: "Recruitment", items: [
+    { key: "recruitment.view", label: "View recruitment" },
+    { key: "recruitment.manage", label: "Manage recruitment" },
+  ]},
+  { group: "Knowledge & Content", items: [
+    { key: "knowledge.view", label: "View knowledge base" },
+    { key: "knowledge.manage", label: "Manage knowledge base" },
+    { key: "content.manage", label: "Edit site content" },
+  ]},
+  { group: "System", items: [
+    { key: "settings.manage", label: "Manage settings" },
+    { key: "roles.manage", label: "Manage roles & permissions" },
+  ]},
+];
+
+export const ALL_PERMISSIONS: Permission[] = PERMISSION_CATALOG.flatMap((g) => g.items.map((i) => i.key));
 
 export type SaaSProduct = {
   id: string;
@@ -258,6 +326,7 @@ export type Store = {
   tasks: Task[];
   transactions: Transaction[];
   team: TeamMember[];
+  roles: Role[];
   products: SaaSProduct[];
   docs: Doc[];
   jobs: JobPosting[];
@@ -290,11 +359,11 @@ function isoDate(offsetDays = 0): string {
 
 function seed(): Store {
   const team: TeamMember[] = [
-    { id: "tm-andi", name: "Andi Wibowo", email: "andi@zanscode.com", role: "Engineering Lead", initials: "AW", joinedAt: now() - 1000 * 60 * 60 * 24 * 400 },
-    { id: "tm-maya", name: "Maya Putri", email: "maya@zanscode.com", role: "Product Manager", initials: "MP", joinedAt: now() - 1000 * 60 * 60 * 24 * 320 },
-    { id: "tm-bagus", name: "Bagus Pratama", email: "bagus@zanscode.com", role: "Senior Developer", initials: "BP", joinedAt: now() - 1000 * 60 * 60 * 24 * 220 },
-    { id: "tm-sinta", name: "Sinta Lestari", email: "sinta@zanscode.com", role: "UI/UX Designer", initials: "SL", joinedAt: now() - 1000 * 60 * 60 * 24 * 180 },
-    { id: "tm-reza", name: "Reza Hakim", email: "reza@zanscode.com", role: "QA Engineer", initials: "RH", joinedAt: now() - 1000 * 60 * 60 * 24 * 90 },
+    { id: "tm-andi", name: "Andi Wibowo", email: "andi@zanscode.com", role: "Engineering Lead", roleId: "role-admin", initials: "AW", joinedAt: now() - 1000 * 60 * 60 * 24 * 400, status: "active", grants: [], revokes: [] },
+    { id: "tm-maya", name: "Maya Putri", email: "maya@zanscode.com", role: "Product Manager", roleId: "role-manager", initials: "MP", joinedAt: now() - 1000 * 60 * 60 * 24 * 320, status: "active", grants: [], revokes: [] },
+    { id: "tm-bagus", name: "Bagus Pratama", email: "bagus@zanscode.com", role: "Senior Developer", roleId: "role-staff", initials: "BP", joinedAt: now() - 1000 * 60 * 60 * 24 * 220, status: "active", grants: ["finance.view"], revokes: [] },
+    { id: "tm-sinta", name: "Sinta Lestari", email: "sinta@zanscode.com", role: "UI/UX Designer", roleId: "role-staff", initials: "SL", joinedAt: now() - 1000 * 60 * 60 * 24 * 180, status: "active", grants: [], revokes: [] },
+    { id: "tm-reza", name: "Reza Hakim", email: "reza@zanscode.com", role: "QA Engineer", roleId: "role-staff", initials: "RH", joinedAt: now() - 1000 * 60 * 60 * 24 * 90, status: "active", grants: [], revokes: [] },
   ];
 
   const clients: Client[] = [
@@ -426,7 +495,63 @@ function seed(): Store {
     { id: "iv-5", candidateId: "cand-7", jobId: "job-csm", kind: "panel", scheduledAt: now() - 86400000 * 30, durationMins: 90, location: "Zanscode HQ — Jakarta", meetingProvider: "onsite", meetingUrl: "", interviewerIds: ["tm-maya", "tm-andi"], status: "completed", feedback: "Hired.", score: 5, createdAt: now() - 86400000 * 40 },
   ];
 
-  return { clients, projects, tasks, transactions, team, products, docs, jobs: jobsSeed, mppRequests, requisitions, candidates, interviews, siteContent: defaultSiteContent() };
+  return { clients, projects, tasks, transactions, team, roles: defaultRoles(), products, docs, jobs: jobsSeed, mppRequests, requisitions, candidates, interviews, siteContent: defaultSiteContent() };
+}
+
+export function defaultRoles(): Role[] {
+  return [
+    {
+      id: "role-admin",
+      name: "Administrator",
+      description: "Full access across every module, including roles & permissions.",
+      color: "text-rose-600 dark:text-rose-400",
+      builtIn: true,
+      permissions: [...ALL_PERMISSIONS],
+    },
+    {
+      id: "role-manager",
+      name: "Manager",
+      description: "Runs day-to-day operations: clients, projects, finance, recruitment.",
+      color: "text-violet-600 dark:text-violet-400",
+      builtIn: true,
+      permissions: [
+        "dashboard.view",
+        "clients.view","clients.manage",
+        "projects.view","projects.manage",
+        "tasks.view","tasks.manage",
+        "finance.view","finance.manage",
+        "team.view",
+        "products.view",
+        "knowledge.view","knowledge.manage",
+        "recruitment.view","recruitment.manage",
+        "content.manage",
+      ],
+    },
+    {
+      id: "role-staff",
+      name: "Staff",
+      description: "Default role for team members — see and contribute to assigned work.",
+      color: "text-sky-600 dark:text-sky-400",
+      builtIn: true,
+      permissions: [
+        "dashboard.view",
+        "clients.view",
+        "projects.view","projects.manage",
+        "tasks.view","tasks.manage",
+        "team.view",
+        "products.view",
+        "knowledge.view",
+      ],
+    },
+    {
+      id: "role-viewer",
+      name: "Viewer",
+      description: "Read-only access — useful for stakeholders and auditors.",
+      color: "text-slate-600 dark:text-slate-400",
+      builtIn: true,
+      permissions: ["dashboard.view","clients.view","projects.view","tasks.view","team.view","products.view","knowledge.view","recruitment.view"],
+    },
+  ];
 }
 
 export function defaultSiteContent(): SiteContent {
@@ -545,6 +670,16 @@ function load(): Store {
     }
     // Backfill recruitment collections for older persisted state
     const seeded = seed();
+    if (!parsed.roles) parsed.roles = seeded.roles;
+    if (parsed.team) {
+      parsed.team = parsed.team.map((m) => ({
+        ...m,
+        roleId: m.roleId ?? "role-staff",
+        status: m.status ?? "active",
+        grants: m.grants ?? [],
+        revokes: m.revokes ?? [],
+      }));
+    }
     if (!parsed.jobs) parsed.jobs = seeded.jobs;
     if (!parsed.mppRequests) parsed.mppRequests = seeded.mppRequests;
     if (!parsed.requisitions) parsed.requisitions = seeded.requisitions;
@@ -780,15 +915,52 @@ export function deleteTransaction(id: string) {
 
 // ---------- Mutations: Team ----------
 
-export function createMember(input: Omit<TeamMember, "id" | "joinedAt" | "initials">): TeamMember {
+export function createMember(input: Omit<TeamMember, "id" | "joinedAt" | "initials" | "roleId" | "status" | "grants" | "revokes"> & Partial<Pick<TeamMember, "roleId" | "status" | "grants" | "revokes">>): TeamMember {
   const initials = input.name.split(/\s+/).slice(0, 2).map((p) => p[0]?.toUpperCase() ?? "").join("") || "ZS";
-  const m: TeamMember = { ...input, id: uid("tm-"), joinedAt: now(), initials };
+  const m: TeamMember = {
+    name: input.name,
+    email: input.email,
+    role: input.role,
+    roleId: input.roleId ?? "role-staff",
+    status: input.status ?? "invited",
+    grants: input.grants ?? [],
+    revokes: input.revokes ?? [],
+    id: uid("tm-"),
+    joinedAt: now(),
+    initials,
+  };
   update((s) => ({ ...s, team: [m, ...s.team] }));
   return m;
 }
 
 export function updateMember(id: string, patch: Partial<TeamMember>) {
   update((s) => ({ ...s, team: s.team.map((m) => (m.id === id ? { ...m, ...patch } : m)) }));
+}
+
+export function setMemberRole(id: string, roleId: string) {
+  update((s) => ({ ...s, team: s.team.map((m) => (m.id === id ? { ...m, roleId } : m)) }));
+}
+
+export function setMemberStatus(id: string, status: MemberStatus) {
+  update((s) => ({ ...s, team: s.team.map((m) => (m.id === id ? { ...m, status } : m)) }));
+}
+
+export function setMemberPermissionOverride(id: string, perm: Permission, mode: "inherit" | "grant" | "revoke") {
+  update((s) => ({
+    ...s,
+    team: s.team.map((m) => {
+      if (m.id !== id) return m;
+      const grants = m.grants.filter((p) => p !== perm);
+      const revokes = m.revokes.filter((p) => p !== perm);
+      if (mode === "grant") grants.push(perm);
+      if (mode === "revoke") revokes.push(perm);
+      return { ...m, grants, revokes };
+    }),
+  }));
+}
+
+export function clearMemberOverrides(id: string) {
+  update((s) => ({ ...s, team: s.team.map((m) => (m.id === id ? { ...m, grants: [], revokes: [] } : m)) }));
 }
 
 export function deleteMember(id: string) {
@@ -798,6 +970,42 @@ export function deleteMember(id: string) {
     projects: s.projects.map((p) => ({ ...p, memberIds: p.memberIds.filter((mid) => mid !== id) })),
     tasks: s.tasks.map((t) => (t.assigneeId === id ? { ...t, assigneeId: null } : t)),
   }));
+}
+
+// ---------- Mutations: Roles ----------
+
+export function createRole(input: Omit<Role, "id" | "builtIn">): Role {
+  const r: Role = { ...input, id: uid("role-"), builtIn: false };
+  update((s) => ({ ...s, roles: [...s.roles, r] }));
+  return r;
+}
+
+export function updateRole(id: string, patch: Partial<Omit<Role, "id" | "builtIn">>) {
+  update((s) => ({ ...s, roles: s.roles.map((r) => (r.id === id ? { ...r, ...patch } : r)) }));
+}
+
+export function deleteRole(id: string) {
+  update((s) => {
+    const role = s.roles.find((r) => r.id === id);
+    if (!role || role.builtIn) return s;
+    return {
+      ...s,
+      roles: s.roles.filter((r) => r.id !== id),
+      team: s.team.map((m) => (m.roleId === id ? { ...m, roleId: "role-staff" } : m)),
+    };
+  });
+}
+
+export function effectivePermissions(member: TeamMember, roles: Role[]): Set<Permission> {
+  const role = roles.find((r) => r.id === member.roleId);
+  const set = new Set<Permission>(role?.permissions ?? []);
+  for (const g of member.grants) set.add(g);
+  for (const r of member.revokes) set.delete(r);
+  return set;
+}
+
+export function memberHasPermission(member: TeamMember, roles: Role[], perm: Permission): boolean {
+  return effectivePermissions(member, roles).has(perm);
 }
 
 // ---------- Mutations: Products ----------
