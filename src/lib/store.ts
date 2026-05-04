@@ -495,7 +495,63 @@ function seed(): Store {
     { id: "iv-5", candidateId: "cand-7", jobId: "job-csm", kind: "panel", scheduledAt: now() - 86400000 * 30, durationMins: 90, location: "Zanscode HQ — Jakarta", meetingProvider: "onsite", meetingUrl: "", interviewerIds: ["tm-maya", "tm-andi"], status: "completed", feedback: "Hired.", score: 5, createdAt: now() - 86400000 * 40 },
   ];
 
-  return { clients, projects, tasks, transactions, team, products, docs, jobs: jobsSeed, mppRequests, requisitions, candidates, interviews, siteContent: defaultSiteContent() };
+  return { clients, projects, tasks, transactions, team, roles: defaultRoles(), products, docs, jobs: jobsSeed, mppRequests, requisitions, candidates, interviews, siteContent: defaultSiteContent() };
+}
+
+export function defaultRoles(): Role[] {
+  return [
+    {
+      id: "role-admin",
+      name: "Administrator",
+      description: "Full access across every module, including roles & permissions.",
+      color: "text-rose-600 dark:text-rose-400",
+      builtIn: true,
+      permissions: [...ALL_PERMISSIONS],
+    },
+    {
+      id: "role-manager",
+      name: "Manager",
+      description: "Runs day-to-day operations: clients, projects, finance, recruitment.",
+      color: "text-violet-600 dark:text-violet-400",
+      builtIn: true,
+      permissions: [
+        "dashboard.view",
+        "clients.view","clients.manage",
+        "projects.view","projects.manage",
+        "tasks.view","tasks.manage",
+        "finance.view","finance.manage",
+        "team.view",
+        "products.view",
+        "knowledge.view","knowledge.manage",
+        "recruitment.view","recruitment.manage",
+        "content.manage",
+      ],
+    },
+    {
+      id: "role-staff",
+      name: "Staff",
+      description: "Default role for team members — see and contribute to assigned work.",
+      color: "text-sky-600 dark:text-sky-400",
+      builtIn: true,
+      permissions: [
+        "dashboard.view",
+        "clients.view",
+        "projects.view","projects.manage",
+        "tasks.view","tasks.manage",
+        "team.view",
+        "products.view",
+        "knowledge.view",
+      ],
+    },
+    {
+      id: "role-viewer",
+      name: "Viewer",
+      description: "Read-only access — useful for stakeholders and auditors.",
+      color: "text-slate-600 dark:text-slate-400",
+      builtIn: true,
+      permissions: ["dashboard.view","clients.view","projects.view","tasks.view","team.view","products.view","knowledge.view","recruitment.view"],
+    },
+  ];
 }
 
 export function defaultSiteContent(): SiteContent {
