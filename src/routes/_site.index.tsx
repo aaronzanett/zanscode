@@ -2,7 +2,6 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { ArrowRight, Sparkles, Building2, ShoppingBag, Truck, Stethoscope, GraduationCap, Landmark, Quote, CheckCircle2, PlayCircle, Boxes, Code2, Database, Smartphone, Compass, PenTool, Hammer, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SiteLayout } from "@/components/site/SiteLayout";
 import { Reveal } from "@/components/site/Reveal";
 import { isAppSubdomain } from "@/lib/host";
 import { isSignedIn } from "@/lib/auth";
@@ -74,7 +73,7 @@ function HomePage() {
   }, [navigate]);
 
   return (
-    <SiteLayout>
+    <>
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
@@ -267,6 +266,6 @@ function HomePage() {
           </Reveal>
         </div>
       </section>
-    </SiteLayout>
+    </>
   );
 }

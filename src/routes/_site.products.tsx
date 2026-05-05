@@ -8,7 +8,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SiteLayout } from "@/components/site/SiteLayout";
 import { Reveal } from "@/components/site/Reveal";
 
 import productApps from "@/assets/product-apps.jpg";
@@ -202,7 +201,7 @@ function ProductsPage() {
   }, [activeIndustry, query]);
 
   return (
-    <SiteLayout>
+    <>
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-soft py-20">
         <div className="absolute -right-40 top-0 h-96 w-96 rounded-full bg-brand/10 blur-3xl animate-blob-drift" aria-hidden />
@@ -466,6 +465,6 @@ function ProductsPage() {
           </div>
         </div>
       </section>
-    </SiteLayout>
+    </>
   );
 }

@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { SiteLayout } from "@/components/site/SiteLayout";
 import { FAQ } from "@/components/site/FAQ";
 import { toast } from "sonner";
 
@@ -105,7 +104,7 @@ function ContactPage() {
   }
 
   return (
-    <SiteLayout>
+    <>
       <section className="relative overflow-hidden bg-gradient-hero py-20 text-white">
         <div className="absolute inset-0 opacity-30 [background-image:radial-gradient(circle_at_20%_20%,white_1px,transparent_1px)] [background-size:32px_32px]" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -263,7 +262,7 @@ function ContactPage() {
         items={faqs}
         subtitle="Everything you need to know about working with Zanscode — services, products, SaaS, hiring and more."
       />
-    </SiteLayout>
+    </>
   );
 }
 

@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Briefcase, Users, Heart, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SiteLayout } from "@/components/site/SiteLayout";
 import { Reveal } from "@/components/site/Reveal";
 
 import aboutTeam from "@/assets/about-team.jpg";
@@ -42,7 +41,7 @@ const partners = ["AWS", "Google Cloud", "Microsoft", "Stripe", "Cloudflare", "M
 
 function AboutPage() {
   return (
-    <SiteLayout>
+    <>
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-soft py-20">
         <div className="pointer-events-none absolute -top-24 right-[-12%] h-96 w-96 rounded-full bg-brand-cyan/15 blur-3xl animate-blob-drift" aria-hidden />
@@ -182,6 +181,6 @@ function AboutPage() {
           </div>
         </Reveal>
       </section>
-    </SiteLayout>
+    </>
   );
 }

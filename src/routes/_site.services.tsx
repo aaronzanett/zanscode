@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Code2, Layout, Cloud, Wrench, Users, Headphones, ShoppingBag, Truck, Stethoscope, GraduationCap, Landmark, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SiteLayout } from "@/components/site/SiteLayout";
 import { Reveal } from "@/components/site/Reveal";
 
 
@@ -57,7 +56,7 @@ const industries = [
 
 function ServicesPage() {
   return (
-    <SiteLayout>
+    <>
       <section className="relative overflow-hidden bg-gradient-soft py-20">
         <div className="pointer-events-none absolute -top-32 right-[-10%] h-96 w-96 rounded-full bg-brand-cyan/15 blur-3xl animate-blob-drift" aria-hidden />
         <div className="pointer-events-none absolute -bottom-32 left-[-10%] h-96 w-96 rounded-full bg-brand/10 blur-3xl animate-blob-drift" style={{ animationDelay: "-11s" }} aria-hidden />
@@ -196,6 +195,6 @@ function ServicesPage() {
           </Reveal>
         </div>
       </section>
-    </SiteLayout>
+    </>
   );
 }
