@@ -4,6 +4,9 @@ import { Footer } from "@/components/site/Footer";
 
 export const Route = createFileRoute("/_site")({
   component: SiteLayoutRoute,
+  // Public pages: no full-screen "workspace loading" splash. Header/Footer
+  // stay mounted; only the inner <Outlet /> swaps when navigating.
+  pendingComponent: () => null,
 });
 
 function SiteLayoutRoute() {
