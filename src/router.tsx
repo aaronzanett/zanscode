@@ -63,9 +63,9 @@ export const getRouter = () => {
     defaultPreload: "intent",
     defaultPreloadDelay: 0,
     defaultPreloadStaleTime: 30_000,
-    defaultPendingMs: 150,
-    defaultPendingMinMs: 300,
-    defaultPendingComponent: () => <LoadingScreen />,
+    defaultPendingMs: 400,
+    defaultPendingMinMs: 0,
+    defaultPendingComponent: () => null,
     defaultErrorComponent: DefaultErrorComponent,
   });
 
