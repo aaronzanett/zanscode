@@ -68,7 +68,7 @@ function StaffLoginPage() {
         />
       </div>
 
-      <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[1.05fr_1fr]">
+      <div className="grid min-h-screen grid-cols-1 md:grid-cols-2">
         {/* Left — Form */}
         <div className="flex flex-col px-6 py-8 sm:px-10 lg:px-16">
           <div className="flex items-center justify-between">
@@ -240,67 +240,45 @@ function StaffLoginPage() {
           </p>
         </div>
 
-        {/* Right — Brand panel */}
-        <div className="relative hidden overflow-hidden lg:block">
-          <div className="absolute inset-3 overflow-hidden rounded-3xl bg-gradient-brand">
-            {/* Texture */}
-            <div
-              className="absolute inset-0 opacity-[0.08]"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-                backgroundSize: "24px 24px",
-              }}
-            />
-            <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-white/15 blur-3xl" />
-            <div className="absolute -bottom-32 -left-20 h-[28rem] w-[28rem] rounded-full bg-white/10 blur-3xl" />
+        {/* Right — Brand panel (full half, no gap) */}
+        <div className="relative hidden overflow-hidden bg-gradient-brand md:block">
+          {/* Texture */}
+          <div
+            className="absolute inset-0 opacity-[0.08]"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
+              backgroundSize: "24px 24px",
+            }}
+          />
+          <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-white/15 blur-3xl" />
+          <div className="absolute -bottom-32 -left-20 h-[28rem] w-[28rem] rounded-full bg-white/10 blur-3xl" />
 
-            {/* Floating card */}
-            <div className="absolute right-10 top-20 hidden w-64 rotate-3 rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur-xl xl:block">
-              <div className="flex items-center gap-2 text-xs font-medium text-white/90">
-                <ShieldCheck className="h-4 w-4" />
-                Secure session
-              </div>
-              <div className="mt-3 space-y-1.5">
-                <div className="h-2 w-full rounded-full bg-white/20" />
-                <div className="h-2 w-3/4 rounded-full bg-white/20" />
-                <div className="h-2 w-1/2 rounded-full bg-white/20" />
-              </div>
-              <div className="mt-3 flex items-center justify-between text-[10px] text-white/70">
-                <span>Encrypted · TLS 1.3</span>
-                <span className="font-mono">●●●●</span>
-              </div>
+          <div className="relative flex h-full flex-col justify-between p-8 text-brand-foreground sm:p-10 lg:p-12">
+            <div className="flex items-center gap-2 text-xs font-medium opacity-90">
+              <Command className="h-3.5 w-3.5" />
+              Zanscode OS · Internal
             </div>
 
-            <div className="relative flex h-full flex-col justify-between p-12 text-brand-foreground">
-              <div className="flex items-center gap-2 text-xs font-medium opacity-90">
-                <Command className="h-3.5 w-3.5" />
-                Zanscode OS · Internal
+            <div className="max-w-md">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur">
+                <span className="text-base leading-none">👋</span>
+                Hai, selamat datang kembali!
               </div>
+              <h2 className="text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl lg:text-[40px]">
+                Siap bikin hari ini<br />produktif?
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-brand-foreground/85 sm:text-[15px]">
+                Kopi sudah diseduh ☕ — masuk dan lanjutkan dari tempat kamu terakhir berhenti.
+              </p>
+            </div>
 
-              <div className="max-w-md">
-                <h2 className="text-[44px] font-bold leading-[1.05] tracking-tight">
-                  Defined by<br />excellence.
-                </h2>
-                <p className="mt-5 text-[15px] leading-relaxed text-brand-foreground/85">
-                  Satu ruang kerja terpadu untuk tim Zanscode — CRM, operasional,
-                  keuangan, dan SDM dalam satu sistem yang aman dan cepat.
-                </p>
-
-                <div className="mt-10 grid grid-cols-3 gap-3">
-                  <Stat label="Modules" value="14+" />
-                  <Stat label="Uptime" value="99.98%" />
-                  <Stat label="Region" value="WIB" />
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between text-[11px] opacity-75">
-                <span>© {new Date().getFullYear()} Zanscode</span>
-                <span className="inline-flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
-                  All systems operational
-                </span>
-              </div>
+            <div className="flex items-center justify-between text-[11px] opacity-75">
+              <span>© {new Date().getFullYear()} Zanscode</span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
+                All systems operational
+              </span>
             </div>
           </div>
         </div>
