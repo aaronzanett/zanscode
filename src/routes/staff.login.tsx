@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
-import { ArrowRight, Eye, EyeOff, Loader2, Lock, Mail, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, Eye, EyeOff, Loader2, Lock, Mail, ShieldCheck, Sparkles, Command } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,11 +25,10 @@ function StaffLoginPage() {
   const [show, setShow] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showDemo, setShowDemo] = useState(false);
 
   useEffect(() => {
-    if (isSignedIn()) {
-      navigate({ to: "/app" });
-    }
+    if (isSignedIn()) navigate({ to: "/app" });
   }, [navigate]);
 
   const handleSubmit = async (e: FormEvent) => {
@@ -53,166 +52,257 @@ function StaffLoginPage() {
   };
 
   return (
-    <div className="grid min-h-screen grid-cols-1 bg-background lg:grid-cols-2">
-      {/* Left — Form */}
-      <div className="flex flex-col justify-between px-6 py-8 sm:px-10 lg:px-16">
-        <Link to="/" className="inline-flex items-center gap-2">
-          <img src={logo} alt="Zanscode" className="h-9 w-auto" />
-        </Link>
-
-        <div className="mx-auto w-full max-w-sm py-10">
-          <div className="mb-8">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/60 px-3 py-1 text-[11px] font-medium text-muted-foreground">
-              <ShieldCheck className="h-3.5 w-3.5" />
-              Staff portal
-            </span>
-            <h1 className="mt-4 text-3xl font-bold tracking-tight">Welcome back</h1>
-            <p className="mt-1.5 text-sm text-muted-foreground">
-              Sign in to continue to Zanscode OS.
-            </p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-1.5">
-              <Label htmlFor="email">Work email</Label>
-              <div className="relative">
-                <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  id="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@zanscode.com"
-                  className="h-11 pl-9"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
-                <button
-                  type="button"
-                  className="text-xs text-muted-foreground hover:text-foreground"
-                  onClick={() => setError("Hubungi admin untuk reset kata sandi.")}
-                >
-                  Forgot?
-                </button>
-              </div>
-              <div className="relative">
-                <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  id="password"
-                  type={show ? "text" : "password"}
-                  autoComplete="current-password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="h-11 pl-9 pr-10"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShow((v) => !v)}
-                  className="absolute right-2 top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground hover:bg-secondary hover:text-foreground"
-                  aria-label={show ? "Hide password" : "Show password"}
-                >
-                  {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
-              </div>
-            </div>
-
-            {error && (
-              <div className="rounded-md border border-destructive/30 bg-destructive/5 px-3 py-2 text-xs text-destructive">
-                {error}
-              </div>
-            )}
-
-            <Button type="submit" variant="brand" className="h-11 w-full group" disabled={loading}>
-              {loading ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Signing in…
-                </>
-              ) : (
-                <>
-                  Sign in
-                  <ArrowRight className="transition-transform group-hover:translate-x-0.5" />
-                </>
-              )}
-            </Button>
-          </form>
-
-          <div className="mt-6 rounded-lg border border-dashed border-border bg-secondary/40 p-3">
-            <div className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-              <Sparkles className="h-3 w-3" />
-              Demo accounts
-            </div>
-            <ul className="mt-2 space-y-1">
-              {DEMO_HINTS.map((d) => (
-                <li key={d.email}>
-                  <button
-                    type="button"
-                    onClick={() => fillDemo(d.email, d.password)}
-                    className="flex w-full items-center justify-between gap-2 rounded px-1 py-0.5 text-left text-xs hover:bg-background"
-                  >
-                    <span className="font-mono text-foreground">{d.email}</span>
-                    <span className="text-muted-foreground">{d.role}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-2 text-[11px] text-muted-foreground">
-              Password = role + <span className="font-mono">123</span>. Mock auth — for demo only.
-            </p>
-          </div>
-        </div>
-
-        <p className="text-xs text-muted-foreground">
-          Not staff?{" "}
-          <Link to="/" className="font-medium text-foreground hover:underline">
-            Back to website
-          </Link>
-        </p>
+    <div className="relative min-h-screen overflow-hidden bg-background">
+      {/* Ambient background */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,color-mix(in_oklab,var(--brand)_18%,transparent),transparent_70%)]" />
+        <div className="absolute -left-40 top-1/3 h-[500px] w-[500px] rounded-full bg-brand/10 blur-[120px]" />
+        <div className="absolute -right-40 bottom-0 h-[500px] w-[500px] rounded-full bg-brand/10 blur-[120px]" />
+        <div
+          className="absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
+            backgroundSize: "44px 44px",
+          }}
+        />
       </div>
 
-      {/* Right — Brand panel */}
-      <div className="relative hidden overflow-hidden bg-gradient-brand lg:block">
-        <div className="absolute inset-0 opacity-20" style={{
-          backgroundImage:
-            "radial-gradient(circle at 20% 20%, white 1px, transparent 1px), radial-gradient(circle at 80% 60%, white 1px, transparent 1px)",
-          backgroundSize: "40px 40px, 60px 60px",
-        }} />
-        <div className="absolute -right-20 -top-20 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
-        <div className="absolute -bottom-24 -left-10 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
-
-        <div className="relative flex h-full flex-col justify-between p-12 text-brand-foreground">
-          <div className="flex items-center gap-2 text-sm font-medium opacity-90">
-            <ShieldCheck className="h-4 w-4" />
-            Zanscode OS · Internal
+      <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[1.05fr_1fr]">
+        {/* Left — Form */}
+        <div className="flex flex-col px-6 py-8 sm:px-10 lg:px-16">
+          <div className="flex items-center justify-between">
+            <Link to="/" className="inline-flex items-center gap-2">
+              <img src={logo} alt="Zanscode" className="h-8 w-auto" />
+            </Link>
+            <Link
+              to="/"
+              className="text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              ← Back to website
+            </Link>
           </div>
 
-          <div className="max-w-md">
-            <h2 className="text-4xl font-bold leading-tight tracking-tight">
-              Defined by excellence.
-            </h2>
-            <p className="mt-4 text-base text-brand-foreground/85">
-              Satu ruang kerja terpadu untuk tim Zanscode — CRM, operasional, keuangan,
-              dan SDM dalam satu sistem yang aman dan cepat.
-            </p>
+          <div className="flex flex-1 items-center">
+            <div className="mx-auto w-full max-w-[400px] py-12">
+              <div className="mb-8">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-card/60 px-3 py-1 text-[11px] font-medium text-muted-foreground backdrop-blur">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  </span>
+                  Staff portal · secure
+                </span>
+                <h1 className="mt-5 text-[34px] font-bold leading-tight tracking-tight">
+                  Sign in to <span className="bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">Zanscode OS</span>
+                </h1>
+                <p className="mt-2 text-[15px] text-muted-foreground">
+                  Your internal workspace, all in one place.
+                </p>
+              </div>
 
-            <div className="mt-8 grid grid-cols-3 gap-4">
-              <Stat label="Modules" value="14+" />
-              <Stat label="Uptime" value="99.98%" />
-              <Stat label="Region" value="WIB" />
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-1.5">
+                  <Label htmlFor="email" className="text-xs font-medium text-muted-foreground">
+                    Work email
+                  </Label>
+                  <div className="group relative">
+                    <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-brand" />
+                    <Input
+                      id="email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="you@zanscode.com"
+                      className="h-12 rounded-xl border-border/80 bg-card/40 pl-10 backdrop-blur transition-all focus-visible:ring-2 focus-visible:ring-brand/30"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="password" className="text-xs font-medium text-muted-foreground">
+                      Password
+                    </Label>
+                    <button
+                      type="button"
+                      className="text-[11px] font-medium text-muted-foreground transition-colors hover:text-brand"
+                      onClick={() => setError("Hubungi admin untuk reset kata sandi.")}
+                    >
+                      Forgot password?
+                    </button>
+                  </div>
+                  <div className="group relative">
+                    <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-brand" />
+                    <Input
+                      id="password"
+                      type={show ? "text" : "password"}
+                      autoComplete="current-password"
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••"
+                      className="h-12 rounded-xl border-border/80 bg-card/40 pl-10 pr-11 backdrop-blur transition-all focus-visible:ring-2 focus-visible:ring-brand/30"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShow((v) => !v)}
+                      className="absolute right-2 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                      aria-label={show ? "Hide password" : "Show password"}
+                    >
+                      {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                {error && (
+                  <div className="flex items-start gap-2 rounded-xl border border-destructive/30 bg-destructive/5 px-3.5 py-2.5 text-xs text-destructive">
+                    <span className="mt-0.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-destructive" />
+                    {error}
+                  </div>
+                )}
+
+                <Button
+                  type="submit"
+                  variant="brand"
+                  className="group h-12 w-full rounded-xl text-[15px] font-semibold shadow-lg shadow-brand/20 transition-all hover:shadow-xl hover:shadow-brand/30"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Signing in…
+                    </>
+                  ) : (
+                    <>
+                      Sign in
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                    </>
+                  )}
+                </Button>
+
+                <div className="flex items-center gap-3 py-1">
+                  <div className="h-px flex-1 bg-border" />
+                  <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                    or
+                  </span>
+                  <div className="h-px flex-1 bg-border" />
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setShowDemo((v) => !v)}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-card/30 px-4 py-2.5 text-xs font-medium text-muted-foreground transition-all hover:border-brand/40 hover:text-foreground"
+                >
+                  <Sparkles className="h-3.5 w-3.5" />
+                  {showDemo ? "Hide demo accounts" : "Use a demo account"}
+                </button>
+
+                {showDemo && (
+                  <div className="overflow-hidden rounded-xl border border-border/80 bg-card/40 backdrop-blur">
+                    <div className="border-b border-border/60 px-3.5 py-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      Tap to fill
+                    </div>
+                    <ul className="divide-y divide-border/60">
+                      {DEMO_HINTS.map((d) => (
+                        <li key={d.email}>
+                          <button
+                            type="button"
+                            onClick={() => fillDemo(d.email, d.password)}
+                            className="flex w-full items-center justify-between gap-3 px-3.5 py-2.5 text-left text-xs transition-colors hover:bg-secondary/60"
+                          >
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-brand/10 text-[10px] font-bold text-brand">
+                                {d.role[0]}
+                              </div>
+                              <div className="min-w-0">
+                                <div className="truncate font-mono text-[11px] text-foreground">{d.email}</div>
+                                <div className="text-[10px] text-muted-foreground">Password: {d.password}</div>
+                              </div>
+                            </div>
+                            <span className="shrink-0 rounded-full bg-secondary px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
+                              {d.role}
+                            </span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </form>
             </div>
           </div>
 
-          <p className="text-xs opacity-75">
-            © {new Date().getFullYear()} Zanscode. Authorized personnel only.
+          <p className="text-center text-[11px] text-muted-foreground lg:text-left">
+            Protected by Zanscode security · © {new Date().getFullYear()}
           </p>
+        </div>
+
+        {/* Right — Brand panel */}
+        <div className="relative hidden overflow-hidden lg:block">
+          <div className="absolute inset-3 overflow-hidden rounded-3xl bg-gradient-brand">
+            {/* Texture */}
+            <div
+              className="absolute inset-0 opacity-[0.08]"
+              style={{
+                backgroundImage:
+                  "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
+                backgroundSize: "24px 24px",
+              }}
+            />
+            <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-white/15 blur-3xl" />
+            <div className="absolute -bottom-32 -left-20 h-[28rem] w-[28rem] rounded-full bg-white/10 blur-3xl" />
+
+            {/* Floating card */}
+            <div className="absolute right-10 top-20 hidden w-64 rotate-3 rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur-xl xl:block">
+              <div className="flex items-center gap-2 text-xs font-medium text-white/90">
+                <ShieldCheck className="h-4 w-4" />
+                Secure session
+              </div>
+              <div className="mt-3 space-y-1.5">
+                <div className="h-2 w-full rounded-full bg-white/20" />
+                <div className="h-2 w-3/4 rounded-full bg-white/20" />
+                <div className="h-2 w-1/2 rounded-full bg-white/20" />
+              </div>
+              <div className="mt-3 flex items-center justify-between text-[10px] text-white/70">
+                <span>Encrypted · TLS 1.3</span>
+                <span className="font-mono">●●●●</span>
+              </div>
+            </div>
+
+            <div className="relative flex h-full flex-col justify-between p-12 text-brand-foreground">
+              <div className="flex items-center gap-2 text-xs font-medium opacity-90">
+                <Command className="h-3.5 w-3.5" />
+                Zanscode OS · Internal
+              </div>
+
+              <div className="max-w-md">
+                <h2 className="text-[44px] font-bold leading-[1.05] tracking-tight">
+                  Defined by<br />excellence.
+                </h2>
+                <p className="mt-5 text-[15px] leading-relaxed text-brand-foreground/85">
+                  Satu ruang kerja terpadu untuk tim Zanscode — CRM, operasional,
+                  keuangan, dan SDM dalam satu sistem yang aman dan cepat.
+                </p>
+
+                <div className="mt-10 grid grid-cols-3 gap-3">
+                  <Stat label="Modules" value="14+" />
+                  <Stat label="Uptime" value="99.98%" />
+                  <Stat label="Region" value="WIB" />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between text-[11px] opacity-75">
+                <span>© {new Date().getFullYear()} Zanscode</span>
+                <span className="inline-flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
+                  All systems operational
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -221,9 +311,9 @@ function StaffLoginPage() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-lg border border-white/15 bg-white/5 px-3 py-2 backdrop-blur-sm">
-      <div className="text-lg font-semibold">{value}</div>
-      <div className="text-[11px] uppercase tracking-wider opacity-75">{label}</div>
+    <div className="rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 backdrop-blur-sm">
+      <div className="text-xl font-semibold tracking-tight">{value}</div>
+      <div className="mt-0.5 text-[10px] uppercase tracking-wider opacity-75">{label}</div>
     </div>
   );
 }
