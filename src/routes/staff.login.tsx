@@ -287,11 +287,3 @@ function StaffLoginPage() {
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 backdrop-blur-sm">
-      <div className="text-xl font-semibold tracking-tight">{value}</div>
-      <div className="mt-0.5 text-[10px] uppercase tracking-wider opacity-75">{label}</div>
-    </div>
-  );
-}
