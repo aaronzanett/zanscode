@@ -6,7 +6,7 @@ import { Reveal } from "@/components/site/Reveal";
 
 import aboutTeam from "@/assets/about-team.jpg";
 
-export const Route = createFileRoute("/about")({
+export const Route = createFileRoute("/_site/about")({
   head: () => ({
     meta: [
       { title: "About — Zanscode" },

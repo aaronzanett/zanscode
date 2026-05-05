@@ -5,7 +5,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { Reveal } from "@/components/site/Reveal";
 
 
-export const Route = createFileRoute("/services")({
+export const Route = createFileRoute("/_site/services")({
   head: () => ({
     meta: [
       { title: "Services — Zanscode" },

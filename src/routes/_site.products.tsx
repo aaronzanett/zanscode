@@ -13,7 +13,7 @@ import { Reveal } from "@/components/site/Reveal";
 
 import productApps from "@/assets/product-apps.jpg";
 
-export const Route = createFileRoute("/products")({
+export const Route = createFileRoute("/_site/products")({
   head: () => ({
     meta: [
       { title: "Products & SaaS — Zanscode" },

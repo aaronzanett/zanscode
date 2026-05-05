@@ -9,7 +9,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { FAQ } from "@/components/site/FAQ";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/contact")({
+export const Route = createFileRoute("/_site/contact")({
   head: () => ({
     meta: [
       { title: "Contact — Zanscode" },

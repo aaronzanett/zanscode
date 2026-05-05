@@ -11,7 +11,7 @@ import { Reveal } from "@/components/site/Reveal";
 import { teams, type JobTeam } from "@/data/jobs";
 import { useStore } from "@/lib/store";
 
-export const Route = createFileRoute("/careers")({
+export const Route = createFileRoute("/_site/careers")({
   head: () => ({
     meta: [
       { title: "Careers — Join Zanscode" },
