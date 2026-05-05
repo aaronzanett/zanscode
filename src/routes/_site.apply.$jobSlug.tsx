@@ -13,7 +13,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { getJobBySlug, getPublishedJobs } from "@/data/jobs";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/apply/$jobSlug")({
+export const Route = createFileRoute("/_site/apply/$jobSlug")({
   loader: ({ params }) => {
     const job = getJobBySlug(params.jobSlug);
     if (!job) throw notFound();
