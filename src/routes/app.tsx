@@ -14,6 +14,8 @@ import { NotificationsBell } from "@/components/app/NotificationsBell";
 import { getSession, signOut, type StaffSession } from "@/lib/auth";
 import { useAppSettings } from "@/hooks/use-app-settings";
 
+import { LoadingScreen } from "@/components/app/LoadingScreen";
+
 export const Route = createFileRoute("/app")({
   head: () => ({
     meta: [
@@ -23,6 +25,9 @@ export const Route = createFileRoute("/app")({
     ],
   }),
   component: AppLayout,
+  pendingComponent: () => <LoadingScreen />,
+  pendingMs: 150,
+  pendingMinMs: 300,
 });
 
 type AppPath =

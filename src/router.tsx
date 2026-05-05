@@ -1,6 +1,6 @@
 import { createRouter, useRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
-import { LoadingScreen } from "./components/app/LoadingScreen";
+
 
 function DefaultErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   const router = useRouter();
@@ -63,9 +63,9 @@ export const getRouter = () => {
     defaultPreload: "intent",
     defaultPreloadDelay: 0,
     defaultPreloadStaleTime: 30_000,
-    defaultPendingMs: 150,
-    defaultPendingMinMs: 300,
-    defaultPendingComponent: () => <LoadingScreen />,
+    defaultPendingMs: 400,
+    defaultPendingMinMs: 0,
+    defaultPendingComponent: () => null,
     defaultErrorComponent: DefaultErrorComponent,
   });
 
