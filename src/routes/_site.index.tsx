@@ -2,7 +2,6 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { ArrowRight, Sparkles, Building2, ShoppingBag, Truck, Stethoscope, GraduationCap, Landmark, Quote, CheckCircle2, PlayCircle, Boxes, Code2, Database, Smartphone, Compass, PenTool, Hammer, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SiteLayout } from "@/components/site/SiteLayout";
 import { Reveal } from "@/components/site/Reveal";
 import { isAppSubdomain } from "@/lib/host";
 import { isSignedIn } from "@/lib/auth";
@@ -11,7 +10,7 @@ import { useStore } from "@/lib/store";
 import heroBg from "@/assets/hero-bg.jpg";
 import productSaas from "@/assets/product-saas.jpg";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_site/")({
   head: () => ({
     meta: [
       { title: "Zanscode — Custom Software & Systems for Modern Business" },
@@ -74,7 +73,7 @@ function HomePage() {
   }, [navigate]);
 
   return (
-    <SiteLayout>
+    <>
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
@@ -186,10 +185,7 @@ function HomePage() {
       <section className="bg-surface py-24">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <Reveal variant="up">
-            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand shadow-soft">
-              <Boxes className="h-3.5 w-3.5" /> Also from Zanscode
-            </span>
-            <h2 className="mt-4 text-3xl font-bold sm:text-4xl">Ready-made SaaS products, by the same team.</h2>
+            <h2 className="text-3xl font-bold sm:text-4xl">Ready-made SaaS products, by the same team.</h2>
             <p className="mt-4 text-muted-foreground">
               Beyond custom systems, we ship a growing line of SaaS products for specific industries — from POS and clinic management to school and field-service apps. If a Zanscode product already fits, you can run on it from day one.
             </p>
@@ -199,12 +195,8 @@ function HomePage() {
                 "Live, hosted and continuously updated",
                 "Customizable when your workflow is unique",
                 "Same engineering team behind every release",
-              ].map((i, idx) => (
-                <li
-                  key={i}
-                  className="flex items-center gap-2 transition-transform duration-300 hover:translate-x-1"
-                  style={{ transitionDelay: `${idx * 30}ms` }}
-                >
+              ].map((i) => (
+                <li key={i} className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 text-brand-cyan" /> {i}
                 </li>
               ))}
@@ -214,11 +206,8 @@ function HomePage() {
               <Button asChild variant="outline"><Link to="/contact">Talk to our team</Link></Button>
             </div>
           </Reveal>
-          <Reveal variant="scale" delay={250}>
-            <div className="relative">
-              <div className="absolute -inset-6 rounded-3xl bg-gradient-brand opacity-20 blur-3xl animate-blob-drift" />
-              <img src={productSaas} alt="Zanscode SaaS products preview" loading="lazy" width={1024} height={768} className="relative rounded-2xl border border-border shadow-brand transition-transform duration-500 hover:scale-[1.02]" />
-            </div>
+          <Reveal variant="scale" delay={150}>
+            <img src={productSaas} alt="Zanscode SaaS products preview" loading="lazy" width={1024} height={768} className="rounded-2xl border border-border shadow-soft" />
           </Reveal>
         </div>
       </section>
@@ -267,6 +256,6 @@ function HomePage() {
           </Reveal>
         </div>
       </section>
-    </SiteLayout>
+    </>
   );
 }

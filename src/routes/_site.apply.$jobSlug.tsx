@@ -9,11 +9,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { SiteLayout } from "@/components/site/SiteLayout";
 import { getJobBySlug, getPublishedJobs } from "@/data/jobs";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/apply/$jobSlug")({
+export const Route = createFileRoute("/_site/apply/$jobSlug")({
   loader: ({ params }) => {
     const job = getJobBySlug(params.jobSlug);
     if (!job) throw notFound();
@@ -26,7 +25,7 @@ export const Route = createFileRoute("/apply/$jobSlug")({
     ],
   }),
   notFoundComponent: () => (
-    <SiteLayout>
+    <>
       <section className="py-24">
         <div className="mx-auto max-w-2xl px-4 text-center sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold">Role not found</h1>
@@ -36,7 +35,7 @@ export const Route = createFileRoute("/apply/$jobSlug")({
           </div>
         </div>
       </section>
-    </SiteLayout>
+    </>
   ),
   component: ApplyPage,
 });
@@ -145,7 +144,7 @@ function ApplyPage() {
 
   if (done) {
     return (
-      <SiteLayout>
+      <>
         <section className="py-24">
           <div className="mx-auto max-w-2xl px-4 text-center sm:px-6 lg:px-8">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand/10 text-brand">
@@ -172,14 +171,14 @@ function ApplyPage() {
             </div>
           </div>
         </section>
-      </SiteLayout>
+      </>
     );
   }
 
   const otherJobs = getPublishedJobs().filter((j) => j.slug !== job.slug && j.team === job.team).slice(0, 3);
 
   return (
-    <SiteLayout>
+    <>
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-hero py-16 text-white">
         <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-brand-cyan/30 blur-3xl" />
@@ -407,7 +406,7 @@ function ApplyPage() {
           </div>
         </div>
       </section>
-    </SiteLayout>
+    </>
   );
 }
 

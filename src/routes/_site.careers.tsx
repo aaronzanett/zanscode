@@ -6,12 +6,11 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SiteLayout } from "@/components/site/SiteLayout";
 import { Reveal } from "@/components/site/Reveal";
 import { teams, type JobTeam } from "@/data/jobs";
 import { useStore } from "@/lib/store";
 
-export const Route = createFileRoute("/careers")({
+export const Route = createFileRoute("/_site/careers")({
   head: () => ({
     meta: [
       { title: "Careers — Join Zanscode" },
@@ -77,7 +76,7 @@ function CareersPage() {
   }, [jobs, activeTeam, activeType, query]);
 
   return (
-    <SiteLayout>
+    <>
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-hero py-24 text-white">
         <div className="absolute -right-20 -top-20 h-96 w-96 rounded-full bg-brand-cyan/30 blur-3xl animate-blob-drift" />
@@ -324,6 +323,6 @@ function CareersPage() {
           </p>
         </div>
       </section>
-    </SiteLayout>
+    </>
   );
 }
