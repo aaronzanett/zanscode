@@ -4,9 +4,11 @@ import { Footer } from "@/components/site/Footer";
 
 export const Route = createFileRoute("/_site")({
   component: SiteLayoutRoute,
-  // Public pages: no full-screen "workspace loading" splash. Header/Footer
-  // stay mounted; only the inner <Outlet /> swaps when navigating.
+  // Public pages: never show the full-screen "workspace loading" splash.
+  // Header/Footer stay mounted; the inner <Outlet /> swaps instantly.
   pendingComponent: () => null,
+  pendingMs: Number.MAX_SAFE_INTEGER,
+  pendingMinMs: 0,
 });
 
 function SiteLayoutRoute() {
