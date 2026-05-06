@@ -371,13 +371,6 @@ function ApplyPage() {
 }
 
 function findJobId(slug: string): string | null {
-  // The public job list is sourced from the store; map slug → job id.
-  const job = getPublishedJobs().find((j) => j.slug === slug);
-  if (!job) return null;
-  // The published list shape doesn't expose internal id, so look it up via the store snapshot.
-  // We import lazily to avoid a circular dep at module load.
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { getStoreSnapshot } = require("@/lib/store") as typeof import("@/lib/store");
   const found = getStoreSnapshot().jobs.find((j) => j.slug === slug);
   return found?.id ?? null;
 }
