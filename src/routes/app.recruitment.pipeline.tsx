@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Plus, UserSquare2, Star, Mail, Phone, Trash2, ChevronRight } from "lucide-react";
+import { Plus, UserSquare2, Star, Mail, Phone, Trash2, ChevronRight, MapPin, Link as LinkIcon, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -208,8 +208,43 @@ function CandidateDrawer({ id, onClose }: { id: string | null; onClose: () => vo
               <div className="space-y-1.5 text-sm">
                 {cand.email && <div className="flex items-center gap-2 text-muted-foreground"><Mail className="h-3.5 w-3.5" /> {cand.email}</div>}
                 {cand.phone && <div className="flex items-center gap-2 text-muted-foreground"><Phone className="h-3.5 w-3.5" /> {cand.phone}</div>}
+                {cand.location && <div className="flex items-center gap-2 text-muted-foreground"><MapPin className="h-3.5 w-3.5" /> {cand.location}</div>}
+                {cand.linkedin && <div className="flex items-center gap-2 text-muted-foreground"><LinkIcon className="h-3.5 w-3.5" /> <a href={cand.linkedin} target="_blank" rel="noreferrer" className="truncate text-brand hover:underline">{cand.linkedin}</a></div>}
                 <div className="text-xs text-muted-foreground">Applied {formatDate(cand.appliedAt)} · Source: {cand.source}</div>
               </div>
+
+              {(cand.lastRole || cand.lastCompany || cand.education || cand.resumeUrl) && (
+                <div className="space-y-2 rounded-lg border border-border bg-surface/60 p-3 text-sm">
+                  {(cand.lastRole || cand.lastCompany) && (
+                    <div>
+                      <div className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Most recent role</div>
+                      <div className="mt-0.5 text-foreground">{cand.lastRole || "—"}{cand.lastCompany ? ` · ${cand.lastCompany}` : ""}</div>
+                      {(cand.lastWorkFrom || cand.lastWorkTo) && (
+                        <div className="text-xs text-muted-foreground">{cand.lastWorkFrom || "?"} → {cand.lastWorkTo || "present"}</div>
+                      )}
+                    </div>
+                  )}
+                  {cand.education && (
+                    <div>
+                      <div className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Education</div>
+                      <div className="mt-0.5 text-foreground">
+                        {cand.education.type === "university" ? `${cand.education.level ?? ""} · ` : ""}{cand.education.institution}
+                      </div>
+                    </div>
+                  )}
+                  {cand.resumeUrl && (
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <FileText className="h-3.5 w-3.5" /> {cand.resumeUrl}
+                    </div>
+                  )}
+                  {cand.coverLetter && (
+                    <div>
+                      <div className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Cover letter</div>
+                      <p className="mt-1 whitespace-pre-line text-sm text-foreground">{cand.coverLetter}</p>
+                    </div>
+                  )}
+                </div>
+              )}
 
               <div>
                 <Label className="text-xs uppercase tracking-wide text-muted-foreground">Stage</Label>
