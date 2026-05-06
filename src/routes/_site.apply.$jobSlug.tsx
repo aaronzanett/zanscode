@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { getJobBySlug, getPublishedJobs } from "@/data/jobs";
-import { createCandidate } from "@/lib/store";
+import { createCandidate, getStoreSnapshot } from "@/lib/store";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_site/apply/$jobSlug")({
