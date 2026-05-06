@@ -1,15 +1,18 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { z } from "zod";
 import {
-  ArrowLeft, ArrowRight, Briefcase, Check, Clock, Mail, MapPin, Sparkles,
-  Upload, User, FileText, MessageSquare,
+  ArrowLeft, Briefcase, Check, Clock, Loader2, Mail, MapPin, Sparkles,
+  Upload,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { getJobBySlug, getPublishedJobs } from "@/data/jobs";
+import { createCandidate } from "@/lib/store";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_site/apply/$jobSlug")({
@@ -25,153 +28,133 @@ export const Route = createFileRoute("/_site/apply/$jobSlug")({
     ],
   }),
   notFoundComponent: () => (
-    <>
-      <section className="py-24">
-        <div className="mx-auto max-w-2xl px-4 text-center sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold">Role not found</h1>
-          <p className="mt-3 text-muted-foreground">This role may have closed. Browse our other open positions.</p>
-          <div className="mt-6">
-            <Button asChild variant="brand"><Link to="/careers">View all roles</Link></Button>
-          </div>
+    <section className="py-24">
+      <div className="mx-auto max-w-2xl px-4 text-center sm:px-6 lg:px-8">
+        <h1 className="text-3xl font-bold">Role not found</h1>
+        <p className="mt-3 text-muted-foreground">This role may have closed. Browse our other open positions.</p>
+        <div className="mt-6">
+          <Button asChild variant="brand"><Link to="/careers">View all roles</Link></Button>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   ),
   component: ApplyPage,
 });
 
-const applicationSchema = z.object({
+const educationLevels = ["D3", "D4", "S1", "S2", "S3", "Other"];
+
+const schema = z.object({
   fullName: z.string().trim().min(2, "Please enter your full name").max(100),
   email: z.string().trim().email("Enter a valid email").max(255),
   phone: z.string().trim().min(6, "Enter a valid phone number").max(30),
-  location: z.string().trim().min(2, "Where are you based?").max(120),
+  location: z.string().trim().min(2, "Where are you based?").max(160),
   linkedin: z.string().trim().url("Enter a valid URL").max(255).optional().or(z.literal("")),
-  yearsExperience: z.string().min(1, "Select years of experience"),
-  resumeName: z.string().min(1, "Please attach your resume"),
-  coverNote: z.string().trim().min(20, "At least 20 characters").max(1500, "Max 1500 characters"),
+  lastRole: z.string().trim().max(120).optional().or(z.literal("")),
+  lastCompany: z.string().trim().max(120).optional().or(z.literal("")),
+  lastWorkFrom: z.string().optional().or(z.literal("")),
+  lastWorkTo: z.string().optional().or(z.literal("")),
+  educationType: z.enum(["highschool", "university"]),
+  educationLevel: z.string().optional().or(z.literal("")),
+  educationInstitution: z.string().trim().min(2, "Tell us where you studied").max(160),
+  resumeName: z.string().min(1, "Please attach your CV"),
+  coverLetter: z.string().trim().max(1500).optional().or(z.literal("")),
+  agreed: z.literal(true, { errorMap: () => ({ message: "You must agree to continue" }) }),
 });
 
-type FormData = z.infer<typeof applicationSchema>;
-
-const empty: FormData = {
-  fullName: "", email: "", phone: "", location: "",
-  linkedin: "", yearsExperience: "", resumeName: "", coverNote: "",
+type FormState = {
+  fullName: string; email: string; phone: string; location: string; linkedin: string;
+  lastRole: string; lastCompany: string; lastWorkFrom: string; lastWorkTo: string;
+  educationType: "highschool" | "university";
+  educationLevel: string; educationInstitution: string;
+  resumeName: string; coverLetter: string; agreed: boolean;
 };
 
-const steps = [
-  { id: 0, label: "About you", icon: User, description: "How can we reach you?" },
-  { id: 1, label: "Experience", icon: FileText, description: "Your background and resume" },
-  { id: 2, label: "Why Zanscode", icon: MessageSquare, description: "Tell us what excites you about this role" },
-] as const;
-
-const experienceOptions = ["< 1 year", "1–3 years", "3–5 years", "5–8 years", "8+ years"];
+const empty: FormState = {
+  fullName: "", email: "", phone: "", location: "", linkedin: "",
+  lastRole: "", lastCompany: "", lastWorkFrom: "", lastWorkTo: "",
+  educationType: "university", educationLevel: "S1", educationInstitution: "",
+  resumeName: "", coverLetter: "", agreed: false,
+};
 
 function ApplyPage() {
   const { job } = Route.useLoaderData();
   const navigate = useNavigate();
 
-  const [step, setStep] = useState(0);
-  const [data, setData] = useState<FormData>(empty);
-  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
+  const [data, setData] = useState<FormState>(empty);
+  const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
+  const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
 
-  const set = <K extends keyof FormData>(k: K, v: FormData[K]) => {
+  const set = <K extends keyof FormState>(k: K, v: FormState[K]) => {
     setData((d) => ({ ...d, [k]: v }));
     setErrors((e) => ({ ...e, [k]: undefined }));
   };
 
-  const stepFields: Record<number, (keyof FormData)[]> = {
-    0: ["fullName", "email", "phone", "location"],
-    1: ["linkedin", "yearsExperience", "resumeName"],
-    2: ["coverNote"],
-  };
-
-  const canContinue = useMemo(() => {
-    const fields = stepFields[step];
-    const partial = applicationSchema.safeParse(data);
-    if (partial.success) return true;
-    // For per-step gating, check only this step's fields don't have errors and are filled
-    return fields.every((f) => {
-      const v = data[f];
-      if (f === "linkedin") return true; // optional
-      return typeof v === "string" && v.trim().length > 0;
-    });
-  }, [data, step]);
-
-  function next() {
-    if (step < steps.length - 1) {
-      // Validate current step's fields
-      const fields = stepFields[step];
-      const partial: Record<string, unknown> = {};
-      fields.forEach((f) => (partial[f] = data[f]));
-      // Build a partial schema by picking from full schema
-      const stepSchema = applicationSchema.pick(
-        Object.fromEntries(fields.map((f) => [f, true])) as Record<keyof FormData, true>,
-      );
-      const result = stepSchema.safeParse(partial);
-      if (!result.success) {
-        const next: Partial<Record<keyof FormData, string>> = {};
-        result.error.issues.forEach((iss) => {
-          const key = iss.path[0] as keyof FormData;
-          next[key] = iss.message;
-        });
-        setErrors(next);
-        return;
-      }
-      setStep((s) => s + 1);
-    } else {
-      submit();
-    }
-  }
-
-  function submit() {
-    const result = applicationSchema.safeParse(data);
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const result = schema.safeParse(data);
     if (!result.success) {
-      const next: Partial<Record<keyof FormData, string>> = {};
-      result.error.issues.forEach((iss) => {
-        const key = iss.path[0] as keyof FormData;
-        next[key] = iss.message;
-      });
+      const next: Partial<Record<keyof FormState, string>> = {};
+      result.error.issues.forEach((iss) => { next[iss.path[0] as keyof FormState] = iss.message; });
       setErrors(next);
       toast.error("Please fix the highlighted fields.");
       return;
     }
+    setSubmitting(true);
+    await new Promise((r) => setTimeout(r, 700));
+    createCandidate({
+      name: data.fullName.trim(),
+      email: data.email.trim(),
+      phone: data.phone.trim(),
+      jobId: job ? findJobId(job.slug) : null,
+      source: "Website",
+      stage: "applied",
+      rating: 0,
+      resumeUrl: data.resumeName,
+      location: data.location.trim(),
+      linkedin: data.linkedin.trim() || undefined,
+      lastRole: data.lastRole.trim() || undefined,
+      lastCompany: data.lastCompany.trim() || undefined,
+      lastWorkFrom: data.lastWorkFrom || undefined,
+      lastWorkTo: data.lastWorkTo || undefined,
+      education: {
+        type: data.educationType,
+        level: data.educationType === "university" ? data.educationLevel : undefined,
+        institution: data.educationInstitution.trim(),
+      },
+      coverLetter: data.coverLetter.trim() || undefined,
+    });
+    setSubmitting(false);
     setDone(true);
     toast.success("Application submitted — we'll be in touch within 3 business days.");
   }
 
-  const progress = (((done ? steps.length : step) + 1) / steps.length) * 100;
-
   if (done) {
     return (
-      <>
-        <section className="py-24">
-          <div className="mx-auto max-w-2xl px-4 text-center sm:px-6 lg:px-8">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand/10 text-brand">
-              <Check className="h-8 w-8" />
-            </div>
-            <h1 className="mt-6 text-3xl font-bold sm:text-4xl">
-              Thanks, {data.fullName.split(" ")[0]}!
-            </h1>
-            <p className="mt-3 text-muted-foreground">
-              Your application for <span className="font-semibold text-foreground">{job.title}</span> is in.
-              Our talent team will review and get back to you within 3 business days.
-            </p>
-            <div className="mt-8 rounded-2xl border border-border bg-card p-6 text-left shadow-soft">
-              <p className="text-sm font-semibold">What happens next?</p>
-              <ol className="mt-3 space-y-2 text-sm text-muted-foreground">
-                <li className="flex gap-2"><span className="text-foreground">1.</span> We review your application carefully.</li>
-                <li className="flex gap-2"><span className="text-foreground">2.</span> If there's a match, you'll get an intro chat invite.</li>
-                <li className="flex gap-2"><span className="text-foreground">3.</span> Two craft conversations and a final with a founder.</li>
-              </ol>
-            </div>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Button asChild variant="brand"><Link to="/careers">Browse more roles</Link></Button>
-              <Button asChild variant="outline"><Link to="/">Back to home</Link></Button>
-            </div>
+      <section className="py-24">
+        <div className="mx-auto max-w-2xl px-4 text-center sm:px-6 lg:px-8">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand/10 text-brand">
+            <Check className="h-8 w-8" />
           </div>
-        </section>
-      </>
+          <h1 className="mt-6 text-3xl font-bold sm:text-4xl">Thanks, {data.fullName.split(" ")[0]}!</h1>
+          <p className="mt-3 text-muted-foreground">
+            Your application for <span className="font-semibold text-foreground">{job.title}</span> is in.
+            Our talent team will review and get back to you within 3 business days.
+          </p>
+          <div className="mt-8 rounded-2xl border border-border bg-card p-6 text-left shadow-soft">
+            <p className="text-sm font-semibold">What happens next?</p>
+            <ol className="mt-3 space-y-2 text-sm text-muted-foreground">
+              <li className="flex gap-2"><span className="text-foreground">1.</span> We review your application carefully.</li>
+              <li className="flex gap-2"><span className="text-foreground">2.</span> If there's a match, you'll get an intro chat invite.</li>
+              <li className="flex gap-2"><span className="text-foreground">3.</span> Two craft conversations and a final with a founder.</li>
+            </ol>
+          </div>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Button asChild variant="brand"><Link to="/careers">Browse more roles</Link></Button>
+            <Button asChild variant="outline"><Link to="/">Back to home</Link></Button>
+          </div>
+        </div>
+      </section>
     );
   }
 
@@ -225,11 +208,8 @@ function ApplyPage() {
                 <ul className="mt-3 space-y-2 text-sm">
                   {otherJobs.map((j) => (
                     <li key={j.slug}>
-                      <Link
-                        to="/apply/$jobSlug"
-                        params={{ jobSlug: j.slug }}
-                        className="cursor-pointer text-muted-foreground hover:text-brand"
-                      >
+                      <Link to="/apply/$jobSlug" params={{ jobSlug: j.slug }}
+                        className="cursor-pointer text-muted-foreground hover:text-brand">
                         {j.title} →
                       </Link>
                     </li>
@@ -239,181 +219,187 @@ function ApplyPage() {
             )}
           </aside>
 
-          {/* Stepper form */}
-          <div className="rounded-2xl border border-border bg-card p-6 shadow-soft sm:p-8 lg:col-span-2">
-            <div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
-              <span>Step {step + 1} of {steps.length}</span>
-              <span>{Math.round(progress)}% complete</span>
-            </div>
-            <div className="h-1.5 w-full overflow-hidden rounded-full bg-secondary">
-              <div className="h-full rounded-full bg-brand transition-all duration-500 ease-out" style={{ width: `${progress}%` }} />
-            </div>
+          {/* Single-page form */}
+          <form
+            onSubmit={onSubmit}
+            className="space-y-8 rounded-2xl border border-border bg-card p-6 shadow-soft sm:p-8 lg:col-span-2"
+          >
+            {/* About you */}
+            <Section title="About you" hint="How can we reach you?">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field label="Full name" id="fullName" required error={errors.fullName}>
+                  <Input id="fullName" value={data.fullName} onChange={(e) => set("fullName", e.target.value)} placeholder="Jane Doe" />
+                </Field>
+                <Field label="Email" id="email" required error={errors.email}>
+                  <Input id="email" type="email" value={data.email} onChange={(e) => set("email", e.target.value)} placeholder="jane@example.com" />
+                </Field>
+                <Field label="WhatsApp / Phone" id="phone" required error={errors.phone}>
+                  <Input id="phone" type="tel" value={data.phone} onChange={(e) => set("phone", e.target.value)} placeholder="+62 812 3456 7890" />
+                </Field>
+                <Field label="Current location" id="location" required error={errors.location}>
+                  <Input id="location" value={data.location} onChange={(e) => set("location", e.target.value)} placeholder="Jakarta, Indonesia" />
+                </Field>
+                <Field label="LinkedIn (optional)" id="linkedin" error={errors.linkedin}>
+                  <Input id="linkedin" type="url" value={data.linkedin} onChange={(e) => set("linkedin", e.target.value)} placeholder="https://linkedin.com/in/yourname" />
+                </Field>
+              </div>
+            </Section>
 
-            <ol className="mt-6 grid grid-cols-3 gap-2">
-              {steps.map((s, i) => {
-                const isDone = i < step;
-                const isActive = i === step;
-                const Icon = s.icon;
-                return (
-                  <li key={s.id} className="flex flex-col items-center text-center">
-                    <button
-                      type="button"
-                      onClick={() => i < step && setStep(i)}
-                      disabled={i > step}
-                      className={`flex h-11 w-11 items-center justify-center rounded-full border transition-all ${
-                        i < step ? "cursor-pointer" : "cursor-default"
-                      } ${
-                        isActive
-                          ? "scale-105 border-brand bg-brand text-brand-foreground shadow-soft"
-                          : isDone
-                          ? "border-brand/40 bg-brand/10 text-brand"
-                          : "border-border bg-secondary text-muted-foreground"
-                      }`}
+            {/* Experience */}
+            <Section title="Most recent experience" hint="Optional — leave blank if you're starting your career.">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field label="Role / position" id="lastRole">
+                  <Input id="lastRole" value={data.lastRole} onChange={(e) => set("lastRole", e.target.value)} placeholder="Frontend Developer" />
+                </Field>
+                <Field label="Company" id="lastCompany">
+                  <Input id="lastCompany" value={data.lastCompany} onChange={(e) => set("lastCompany", e.target.value)} placeholder="PT Contoh Indonesia" />
+                </Field>
+                <Field label="From" id="lastWorkFrom">
+                  <Input id="lastWorkFrom" type="month" value={data.lastWorkFrom} onChange={(e) => set("lastWorkFrom", e.target.value)} />
+                </Field>
+                <Field label="Until" id="lastWorkTo">
+                  <Input id="lastWorkTo" type="month" value={data.lastWorkTo} onChange={(e) => set("lastWorkTo", e.target.value)} />
+                </Field>
+              </div>
+            </Section>
+
+            {/* Education */}
+            <Section title="Education" hint="Your most recent qualification.">
+              <RadioGroup
+                value={data.educationType}
+                onValueChange={(v) => set("educationType", v as "highschool" | "university")}
+                className="flex flex-wrap gap-6"
+              >
+                <div className="flex items-center gap-2">
+                  <RadioGroupItem value="highschool" id="edu-hs" />
+                  <Label htmlFor="edu-hs" className="cursor-pointer font-normal">SMA / SMK</Label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <RadioGroupItem value="university" id="edu-uni" />
+                  <Label htmlFor="edu-uni" className="cursor-pointer font-normal">Universitas / Politeknik</Label>
+                </div>
+              </RadioGroup>
+
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                {data.educationType === "university" && (
+                  <Field label="Level" id="educationLevel">
+                    <select
+                      id="educationLevel"
+                      value={data.educationLevel}
+                      onChange={(e) => set("educationLevel", e.target.value)}
+                      className="h-9 w-full cursor-pointer rounded-md border border-input bg-background px-3 text-sm"
                     >
-                      {isDone ? <Check className="h-5 w-5" /> : <Icon className="h-5 w-5" />}
-                    </button>
-                    <span className={`mt-2 text-xs font-medium ${isActive ? "text-foreground" : "text-muted-foreground"}`}>
-                      {s.label}
-                    </span>
-                  </li>
-                );
-              })}
-            </ol>
-
-            <div className="mt-8">
-              <h2 className="text-xl font-semibold">{steps[step].label}</h2>
-              <p className="mt-1 text-sm text-muted-foreground">{steps[step].description}</p>
-
-              <div className="mt-6 space-y-4">
-                {step === 0 && (
-                  <>
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <Field label="Full name" id="fullName" error={errors.fullName}>
-                        <Input id="fullName" value={data.fullName} onChange={(e) => set("fullName", e.target.value)} placeholder="Jane Doe" />
-                      </Field>
-                      <Field label="Email" id="email" error={errors.email}>
-                        <Input id="email" type="email" value={data.email} onChange={(e) => set("email", e.target.value)} placeholder="jane@example.com" />
-                      </Field>
-                    </div>
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <Field label="Phone" id="phone" error={errors.phone}>
-                        <Input id="phone" type="tel" value={data.phone} onChange={(e) => set("phone", e.target.value)} placeholder="+62 812 3456 7890" />
-                      </Field>
-                      <Field label="Location" id="location" error={errors.location}>
-                        <Input id="location" value={data.location} onChange={(e) => set("location", e.target.value)} placeholder="Jakarta, Indonesia" />
-                      </Field>
-                    </div>
-                  </>
-                )}
-
-                {step === 1 && (
-                  <>
-                    <Field label="LinkedIn URL (optional)" id="linkedin" error={errors.linkedin}>
-                      <Input id="linkedin" type="url" value={data.linkedin} onChange={(e) => set("linkedin", e.target.value)} placeholder="https://linkedin.com/in/yourname" />
-                    </Field>
-
-                    <div>
-                      <Label>Years of experience</Label>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {experienceOptions.map((opt) => {
-                          const active = data.yearsExperience === opt;
-                          return (
-                            <button
-                              key={opt}
-                              type="button"
-                              onClick={() => set("yearsExperience", opt)}
-                              className={`cursor-pointer rounded-full border px-4 py-2 text-sm font-medium transition-all ${
-                                active
-                                  ? "border-brand bg-brand text-brand-foreground shadow-soft"
-                                  : "border-border bg-card text-foreground hover:border-brand/40 hover:bg-secondary"
-                              }`}
-                            >
-                              {opt}
-                            </button>
-                          );
-                        })}
-                      </div>
-                      {errors.yearsExperience && <p className="mt-1.5 text-xs text-destructive">{errors.yearsExperience}</p>}
-                    </div>
-
-                    <Field label="Resume" id="resume" error={errors.resumeName}>
-                      <label
-                        htmlFor="resume"
-                        className="flex cursor-pointer items-center justify-between rounded-md border border-dashed border-border bg-background px-4 py-6 text-sm transition-colors hover:border-brand/40 hover:bg-secondary/50"
-                      >
-                        <span className="flex items-center gap-3">
-                          <Upload className="h-4 w-4 text-brand" />
-                          <span className={data.resumeName ? "text-foreground" : "text-muted-foreground"}>
-                            {data.resumeName || "Click to upload PDF, DOC or DOCX (max 5MB)"}
-                          </span>
-                        </span>
-                        {data.resumeName && <Check className="h-4 w-4 text-brand" />}
-                        <input
-                          id="resume"
-                          type="file"
-                          accept=".pdf,.doc,.docx"
-                          className="hidden"
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (!file) return;
-                            if (file.size > 5 * 1024 * 1024) {
-                              toast.error("Resume must be under 5MB.");
-                              return;
-                            }
-                            set("resumeName", file.name);
-                          }}
-                        />
-                      </label>
-                    </Field>
-                  </>
-                )}
-
-                {step === 2 && (
-                  <Field label="Why do you want to join Zanscode?" id="coverNote" error={errors.coverNote}>
-                    <Textarea
-                      id="coverNote"
-                      rows={8}
-                      value={data.coverNote}
-                      onChange={(e) => set("coverNote", e.target.value)}
-                      placeholder="Tell us what excites you about this role and the impact you'd love to make…"
-                    />
-                    <p className="mt-1.5 text-xs text-muted-foreground">{data.coverNote.length} / 1500 characters · minimum 20</p>
+                      {educationLevels.map((l) => <option key={l} value={l}>{l}</option>)}
+                    </select>
                   </Field>
                 )}
-              </div>
-
-              <div className="mt-8 flex items-center justify-between gap-3">
-                <Button
-                  type="button"
-                  variant="ghost"
-                  onClick={() => setStep((s) => Math.max(0, s - 1))}
-                  disabled={step === 0}
-                  className="cursor-pointer"
+                <Field
+                  label={data.educationType === "highschool" ? "School name" : "University / Politeknik"}
+                  id="educationInstitution" required error={errors.educationInstitution}
                 >
-                  <ArrowLeft className="h-4 w-4" /> Back
-                </Button>
-                <Button type="button" variant="brand" onClick={next} disabled={!canContinue} className="cursor-pointer">
-                  {step === steps.length - 1 ? "Submit application" : "Continue"}
-                  {step !== steps.length - 1 && <ArrowRight className="h-4 w-4" />}
-                </Button>
+                  <Input
+                    id="educationInstitution"
+                    value={data.educationInstitution}
+                    onChange={(e) => set("educationInstitution", e.target.value)}
+                    placeholder={data.educationType === "highschool" ? "SMK Telkom Malang" : "Universitas Indonesia"}
+                  />
+                </Field>
               </div>
+            </Section>
 
-              <p className="mt-6 text-center text-xs text-muted-foreground">
-                Prefer email?{" "}
-                <a href={`mailto:careers@zanscode.com?subject=Application: ${encodeURIComponent(job.title)}`} className="cursor-pointer font-semibold text-brand hover:underline"><Mail className="mr-1 inline h-3 w-3" />careers@zanscode.com</a>
-              </p>
+            {/* CV + cover letter */}
+            <Section title="CV & cover letter" hint="A short note helps us understand why you'd be a great fit.">
+              <Field label="Resume / CV (PDF or DOCX, max 5MB)" id="resume" required error={errors.resumeName}>
+                <label
+                  htmlFor="resume"
+                  className="flex cursor-pointer items-center justify-between rounded-md border border-dashed border-border bg-background px-4 py-6 text-sm transition-colors hover:border-brand/40 hover:bg-secondary/50"
+                >
+                  <span className="flex items-center gap-3">
+                    <Upload className="h-4 w-4 text-brand" />
+                    <span className={data.resumeName ? "text-foreground" : "text-muted-foreground"}>
+                      {data.resumeName || "Click to upload PDF, DOC or DOCX"}
+                    </span>
+                  </span>
+                  {data.resumeName && <Check className="h-4 w-4 text-brand" />}
+                  <input
+                    id="resume" type="file" accept=".pdf,.doc,.docx" className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]; if (!file) return;
+                      if (file.size > 5 * 1024 * 1024) { toast.error("Resume must be under 5MB."); return; }
+                      set("resumeName", file.name);
+                    }}
+                  />
+                </label>
+              </Field>
+
+              <Field label="Cover letter (optional)" id="coverLetter">
+                <Textarea
+                  id="coverLetter" rows={6}
+                  value={data.coverLetter}
+                  onChange={(e) => set("coverLetter", e.target.value)}
+                  placeholder="Tell us what excites you about this role and the impact you'd love to make…"
+                />
+                <p className="mt-1.5 text-xs text-muted-foreground">{data.coverLetter.length} / 1500 characters</p>
+              </Field>
+            </Section>
+
+            {/* Agreement */}
+            <div className="flex items-start gap-3 rounded-lg border border-border bg-surface/60 p-4">
+              <Checkbox id="agreed" checked={data.agreed} onCheckedChange={(v) => set("agreed", v === true)} className="mt-0.5" />
+              <label htmlFor="agreed" className="cursor-pointer text-sm text-foreground">
+                I agree to the processing of my personal data for recruitment purposes and confirm the information provided is accurate.
+                {errors.agreed && <span className="mt-1 block text-xs text-destructive">{errors.agreed}</span>}
+              </label>
             </div>
-          </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-xs text-muted-foreground">
+                Prefer email?{" "}
+                <a href={`mailto:careers@zanscode.com?subject=Application: ${encodeURIComponent(job.title)}`} className="cursor-pointer font-semibold text-brand hover:underline">
+                  <Mail className="mr-1 inline h-3 w-3" />careers@zanscode.com
+                </a>
+              </p>
+              <Button type="submit" variant="brand" size="lg" disabled={submitting} className="cursor-pointer">
+                {submitting ? <><Loader2 className="h-4 w-4 animate-spin" /> Submitting…</> : "Submit application"}
+              </Button>
+            </div>
+          </form>
         </div>
       </section>
     </>
   );
 }
 
-function Field({ label, id, error, children }: { label: string; id: string; error?: string; children: React.ReactNode }) {
+function findJobId(slug: string): string | null {
+  // The public job list is sourced from the store; map slug → job id.
+  const job = getPublishedJobs().find((j) => j.slug === slug);
+  if (!job) return null;
+  // The published list shape doesn't expose internal id, so look it up via the store snapshot.
+  // We import lazily to avoid a circular dep at module load.
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { getStoreSnapshot } = require("@/lib/store") as typeof import("@/lib/store");
+  const found = getStoreSnapshot().jobs.find((j) => j.slug === slug);
+  return found?.id ?? null;
+}
+
+function Section({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) {
   return (
     <div>
-      <Label htmlFor={id}>{label}</Label>
+      <div className="mb-4">
+        <h2 className="text-lg font-semibold">{title}</h2>
+        {hint && <p className="text-sm text-muted-foreground">{hint}</p>}
+      </div>
+      <div className="space-y-4">{children}</div>
+    </div>
+  );
+}
+
+function Field({
+  label, id, error, required, children,
+}: { label: string; id: string; error?: string; required?: boolean; children: React.ReactNode }) {
+  return (
+    <div>
+      <Label htmlFor={id}>{label}{required && <span className="ml-0.5 text-destructive">*</span>}</Label>
       <div className="mt-1.5">{children}</div>
       {error && <p className="mt-1.5 text-xs text-destructive">{error}</p>}
     </div>
