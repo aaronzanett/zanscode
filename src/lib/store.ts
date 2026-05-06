@@ -245,6 +245,12 @@ export type CandidateStage =
 
 export type CandidateNote = { id: string; at: number; authorId: string | null; message: string };
 
+export type CandidateEducation = {
+  type: "highschool" | "university";
+  level?: string;       // D3, S1, etc. when university
+  institution: string;  // School / university name
+};
+
 export type Candidate = {
   id: string;
   name: string;
@@ -254,9 +260,18 @@ export type Candidate = {
   source: string; // e.g. "LinkedIn", "Referral", "Website"
   stage: CandidateStage;
   rating: number; // 0-5
-  resumeUrl: string;
+  resumeUrl: string;     // CV filename or URL
   appliedAt: number;
   notes: CandidateNote[];
+  // Rich applicant profile (optional — populated by the public quick-apply form)
+  location?: string;
+  linkedin?: string;
+  lastRole?: string;
+  lastCompany?: string;
+  lastWorkFrom?: string; // YYYY-MM
+  lastWorkTo?: string;   // YYYY-MM or "present"
+  education?: CandidateEducation;
+  coverLetter?: string;
 };
 
 export type InterviewKind = "phone" | "technical" | "culture" | "final" | "panel";
