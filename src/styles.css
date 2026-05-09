@@ -281,6 +281,10 @@
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
 
 @layer utilities {
   .animate-gradient-sweep {
@@ -296,6 +300,7 @@
 
   .animate-float-soft { animation: float-soft 9s ease-in-out infinite; }
   .animate-blob-drift { animation: blob-drift 22s ease-in-out infinite; }
+  .animate-marquee-x { animation: marquee-x 45s linear infinite; }
 
   .text-shine {
     background: linear-gradient(
