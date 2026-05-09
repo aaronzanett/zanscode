@@ -50,6 +50,10 @@
   --brand-foreground: oklch(0.98 0.01 250);
   --brand-cyan: oklch(0.78 0.13 220);       /* bright accent */
 
+  /* Editorial neutrals — warm paper + deep ink */
+  --ink: oklch(0.18 0.04 260);
+  --cream: oklch(0.975 0.012 90);
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.18 0.04 260);
 
