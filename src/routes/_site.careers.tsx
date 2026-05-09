@@ -78,24 +78,26 @@ function CareersPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-hero py-24 text-white">
+      <section className="relative overflow-hidden bg-ink py-24 text-background lg:py-28">
         <div className="absolute -right-20 -top-20 h-96 w-96 rounded-full bg-brand-cyan/30 blur-3xl animate-blob-drift" />
         <div className="absolute -bottom-24 -left-10 h-96 w-96 rounded-full bg-brand/40 blur-3xl animate-blob-drift" style={{ animationDelay: "-12s" }} />
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <Reveal variant="fade">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold backdrop-blur">
-              <Sparkles className="h-3.5 w-3.5" /> We're hiring
+              <Sparkles className="h-3.5 w-3.5 text-brand-cyan" /> We're hiring
             </span>
           </Reveal>
-          <Reveal variant="up" delay={200}>
-            <h1 className="mt-5 text-4xl font-bold sm:text-5xl lg:text-6xl">Build technology that moves businesses forward.</h1>
+          <Reveal variant="up" delay={180}>
+            <h1 className="mt-5 font-display text-[clamp(2.5rem,6vw,5rem)] font-medium leading-[1] tracking-tight">
+              Build technology that <em className="serif-italic text-brand-cyan">moves businesses</em> forward.
+            </h1>
           </Reveal>
-          <Reveal variant="up" delay={400}>
-            <p className="mt-5 max-w-2xl text-lg text-white/80">
+          <Reveal variant="up" delay={360}>
+            <p className="mt-6 max-w-2xl text-lg text-background/75">
               Join a global team shipping products used by thousands of teams every day. Curious people, real ownership, work that matters.
             </p>
           </Reveal>
-          <Reveal variant="up" delay={600}>
+          <Reveal variant="up" delay={520}>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild size="xl" variant="brand">
                 <a href="#open-roles">View open roles <ArrowRight className="ml-1 h-4 w-4" /></a>
@@ -107,9 +109,9 @@ function CareersPage() {
           </Reveal>
           <dl className="mt-14 grid grid-cols-2 gap-6 sm:grid-cols-4">
             {stats.map((s, i) => (
-              <Reveal key={s.l} variant="up" delay={750 + i * 140} as="div">
-                <dt className="text-3xl font-bold">{s.v}</dt>
-                <dd className="mt-1 text-xs uppercase tracking-wider text-white/60">{s.l}</dd>
+              <Reveal key={s.l} variant="up" delay={650 + i * 110} as="div">
+                <dt className="font-display text-3xl font-medium">{s.v}</dt>
+                <dd className="mt-1 text-[11px] uppercase tracking-[0.18em] text-background/60">{s.l}</dd>
               </Reveal>
             ))}
           </dl>
