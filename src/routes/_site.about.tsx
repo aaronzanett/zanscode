@@ -43,25 +43,26 @@ function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-soft py-20">
+      <section className="relative overflow-hidden bg-cream py-24 lg:py-28 paper-grain">
         <div className="pointer-events-none absolute -top-24 right-[-12%] h-96 w-96 rounded-full bg-brand-cyan/15 blur-3xl animate-blob-drift" aria-hidden />
-        <div className="relative mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+        <div className="relative mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:px-10">
           <div>
             <Reveal variant="fade">
-              <span className="text-sm font-semibold uppercase tracking-wider text-brand">About</span>
+              <p className="kicker">About</p>
             </Reveal>
-            <Reveal variant="up" delay={200}>
-              <h1 className="mt-3 text-4xl font-bold sm:text-5xl">A technology partner for businesses that mean it.</h1>
+            <Reveal variant="up" delay={180}>
+              <h1 className="mt-4 font-display text-[clamp(2.5rem,5.5vw,4.5rem)] font-medium leading-[1] tracking-tight">
+                A technology partner for businesses that <em className="serif-italic text-brand">mean it.</em>
+              </h1>
             </Reveal>
-            <Reveal variant="up" delay={400}>
-              <p className="mt-4 text-lg text-muted-foreground">
-                Zanscode is a startup on a mission to help organizations operate at their best by combining
-                well-organized business systems with the latest technology — across web, mobile, desktop and cloud.
+            <Reveal variant="up" delay={360}>
+              <p className="mt-6 text-lg text-muted-foreground">
+                Zanscode is a startup on a mission to help organizations operate at their best — combining well-organized business systems with the latest technology across web, mobile, desktop and cloud.
               </p>
             </Reveal>
           </div>
-          <Reveal variant="scale" delay={300}>
-            <img src={aboutTeam} alt="The Zanscode team" loading="lazy" width={1280} height={800} className="rounded-2xl border border-border shadow-brand transition-transform duration-700 hover:scale-[1.02]" />
+          <Reveal variant="scale" delay={250}>
+            <img src={aboutTeam} alt="The Zanscode team" loading="lazy" width={1280} height={800} className="rounded-3xl border border-border shadow-card transition-transform duration-700 hover:scale-[1.02]" />
           </Reveal>
         </div>
       </section>

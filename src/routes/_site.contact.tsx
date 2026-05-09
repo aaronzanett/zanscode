@@ -105,14 +105,17 @@ function ContactPage() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-gradient-hero py-20 text-white">
-        <div className="absolute inset-0 opacity-30 [background-image:radial-gradient(circle_at_20%_20%,white_1px,transparent_1px)] [background-size:32px_32px]" />
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden bg-ink py-24 text-background lg:py-28">
+        <div className="absolute inset-0 opacity-25 [background-image:radial-gradient(circle_at_20%_20%,white_1px,transparent_1px)] [background-size:32px_32px]" />
+        <div className="pointer-events-none absolute -top-24 right-[-10%] h-96 w-96 rounded-full bg-brand-cyan/25 blur-3xl animate-blob-drift" aria-hidden />
+        <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur">
-            <Sparkles className="h-3.5 w-3.5" /> We reply within 1 business day
+            <Sparkles className="h-3.5 w-3.5 text-brand-cyan" /> We reply within 1 business day
           </div>
-          <h1 className="mt-4 text-4xl font-bold sm:text-5xl">Let's build something powerful.</h1>
-          <p className="mt-3 max-w-2xl text-lg text-white/80">
+          <h1 className="mt-5 font-display text-[clamp(2.5rem,5.5vw,4.5rem)] font-medium leading-[1] tracking-tight">
+            Let's build something <em className="serif-italic text-brand-cyan">powerful.</em>
+          </h1>
+          <p className="mt-5 max-w-2xl text-lg text-background/75">
             Walk us through your project in a few quick steps — we'll come back with a tailored plan.
           </p>
         </div>

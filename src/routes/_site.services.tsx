@@ -57,19 +57,21 @@ const industries = [
 function ServicesPage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-gradient-soft py-20">
+      <section className="relative overflow-hidden bg-cream py-24 lg:py-28 paper-grain">
         <div className="pointer-events-none absolute -top-32 right-[-10%] h-96 w-96 rounded-full bg-brand-cyan/15 blur-3xl animate-blob-drift" aria-hidden />
         <div className="pointer-events-none absolute -bottom-32 left-[-10%] h-96 w-96 rounded-full bg-brand/10 blur-3xl animate-blob-drift" style={{ animationDelay: "-11s" }} aria-hidden />
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <Reveal variant="fade">
-            <span className="text-sm font-semibold uppercase tracking-wider text-brand">Services</span>
+            <p className="kicker">Services</p>
           </Reveal>
-          <Reveal variant="up" delay={200}>
-            <h1 className="mt-3 text-4xl font-bold sm:text-5xl">From idea to launch — and beyond.</h1>
+          <Reveal variant="up" delay={180}>
+            <h1 className="mt-4 font-display text-[clamp(2.5rem,5.5vw,4.5rem)] font-medium leading-[1] tracking-tight">
+              From idea to launch — <em className="serif-italic text-brand">and beyond.</em>
+            </h1>
           </Reveal>
-          <Reveal variant="up" delay={400}>
-            <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-              We partner with companies to build, ship and operate technology that delivers real business value.
+          <Reveal variant="up" delay={360}>
+            <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
+              We partner with companies to build, ship and operate technology that delivers real business value — across web, mobile, desktop and cloud.
             </p>
           </Reveal>
         </div>
