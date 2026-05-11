@@ -128,13 +128,12 @@ function StaffLoginPage() {
                     <button
                       type="button"
                       className="text-[11px] font-medium text-muted-foreground transition-colors hover:text-brand"
-                      onClick={() => setError("Hubungi admin untuk reset kata sandi.")}
+                      onClick={() => setError("Contact your admin to reset your password.")}
                     >
                       Forgot password?
                     </button>
                   </div>
                   <div className="group relative">
-                    <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-brand" />
                     <Input
                       id="password"
                       type={show ? "text" : "password"}
@@ -143,7 +142,7 @@ function StaffLoginPage() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="h-12 rounded-xl border-border/80 bg-card/40 pl-10 pr-11 backdrop-blur transition-all focus-visible:ring-2 focus-visible:ring-brand/30"
+                      className="h-12 rounded-xl border-border/80 bg-card/40 px-4 pr-11 backdrop-blur transition-all focus-visible:ring-2 focus-visible:ring-brand/30"
                     />
                     <button
                       type="button"
