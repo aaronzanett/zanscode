@@ -34,8 +34,9 @@
   --color-brand-cyan: var(--brand-cyan);
   --color-surface: var(--surface);
   --color-surface-foreground: var(--surface-foreground);
-  --font-display: "Fraunces", "Space Grotesk", ui-serif, Georgia, serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   --color-cream: var(--cream);
   --color-ink: var(--ink);
   --color-accent: var(--accent);
