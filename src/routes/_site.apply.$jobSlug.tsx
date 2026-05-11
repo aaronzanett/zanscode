@@ -347,7 +347,11 @@ function ApplyPage() {
             <div className="flex items-start gap-3 rounded-lg border border-border bg-surface/60 p-4">
               <Checkbox id="agreed" checked={data.agreed} onCheckedChange={(v) => set("agreed", v === true)} className="mt-0.5" />
               <label htmlFor="agreed" className="cursor-pointer text-sm text-foreground">
-                I agree to the processing of my personal data for recruitment purposes and confirm the information provided is accurate.
+                I agree to the processing of my personal data for recruitment purposes, confirm the information provided is accurate, and accept the{" "}
+                <Link to="/terms" target="_blank" className="font-semibold text-brand hover:underline">
+                  Terms &amp; Conditions
+                </Link>
+                .
                 {errors.agreed && <span className="mt-1 block text-xs text-destructive">{errors.agreed}</span>}
               </label>
             </div>

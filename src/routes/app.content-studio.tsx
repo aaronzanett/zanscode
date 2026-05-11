@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Sparkles, Menu as MenuIcon, LayoutGrid, ExternalLink, Eye, EyeOff, Layers, ArrowUp, ArrowDown, Lock, Info } from "lucide-react";
+import { Sparkles, Menu as MenuIcon, LayoutGrid, ExternalLink, Eye, EyeOff, Layers, ArrowUp, ArrowDown, Lock, Info, ScrollText, Plus, Trash2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,6 +10,7 @@ import {
   updateNavLink, reorderNav,
   updateFooterColumn, updateFooterLink, reorderFooterColumns, reorderFooterLinks,
   updateSection, updateSectionCard, reorderSections, reorderSectionCards,
+  updateLegalTerms, updateLegalSection, addLegalSection, removeLegalSection, reorderLegalSections,
 } from "@/lib/store";
 
 export const Route = createFileRoute("/app/content-studio")({
@@ -105,6 +106,7 @@ function ContentStudioPage() {
           <TabsTrigger value="nav"><MenuIcon className="h-3.5 w-3.5" />Navigation</TabsTrigger>
           <TabsTrigger value="sections"><LayoutGrid className="h-3.5 w-3.5" />Sections & cards</TabsTrigger>
           <TabsTrigger value="footer"><Layers className="h-3.5 w-3.5" />Footer</TabsTrigger>
+          <TabsTrigger value="legal"><ScrollText className="h-3.5 w-3.5" />Legal</TabsTrigger>
         </TabsList>
 
         {/* Hero */}
@@ -273,6 +275,92 @@ function ContentStudioPage() {
                 ))}
               </div>
             </div>
+          </div>
+        </TabsContent>
+        {/* Legal */}
+        <TabsContent value="legal" className="space-y-4">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h2 className="text-sm font-semibold">Terms &amp; Conditions</h2>
+              <p className="text-xs text-muted-foreground">
+                This content is published at <Link to="/terms" target="_blank" className="font-medium text-brand hover:underline">/terms</Link> and linked from every agreement checkbox on the site.
+              </p>
+            </div>
+            <Link
+              to="/terms"
+              target="_blank"
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-border bg-card px-3 py-2 text-xs font-medium transition-colors hover:border-brand hover:text-brand"
+            >
+              <ExternalLink className="h-3.5 w-3.5" /> View public page
+            </Link>
+          </div>
+
+          <div className="space-y-3 rounded-xl border border-border bg-card p-5">
+            <h3 className="text-sm font-semibold">Document header</h3>
+            <div className="space-y-2">
+              <Label>Title</Label>
+              <Input value={site.legal.terms.title} onChange={(e) => updateLegalTerms({ title: e.target.value })} />
+            </div>
+            <div className="space-y-2">
+              <Label>Intro</Label>
+              <Textarea rows={3} value={site.legal.terms.intro} onChange={(e) => updateLegalTerms({ intro: e.target.value })} />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Last updated:{" "}
+              <span className="font-medium text-foreground">
+                {new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }).format(new Date(site.legal.terms.updatedAt))}
+              </span>
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-border bg-card">
+            <div className="flex items-center justify-between border-b border-border px-4 py-3">
+              <div>
+                <h3 className="text-sm font-semibold">Sections</h3>
+                <p className="text-xs text-muted-foreground">Each section becomes a numbered block on the public Terms page.</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => addLegalSection()}
+                className="inline-flex items-center gap-1.5 rounded-md bg-gradient-brand px-3 py-1.5 text-xs font-semibold text-brand-foreground shadow-sm transition-opacity hover:opacity-90"
+              >
+                <Plus className="h-3.5 w-3.5" /> Add section
+              </button>
+            </div>
+            <ul className="divide-y divide-border">
+              {site.legal.terms.sections.map((sec, i) => (
+                <li key={sec.id} className="space-y-2 p-4">
+                  <div className="flex items-center gap-2">
+                    <Input
+                      className="font-semibold"
+                      placeholder="Section heading"
+                      value={sec.heading}
+                      onChange={(e) => updateLegalSection(sec.id, { heading: e.target.value })}
+                    />
+                    <ReorderControls index={i} total={site.legal.terms.sections.length} onMove={reorderLegalSections} />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (confirm(`Delete "${sec.heading}"?`)) removeLegalSection(sec.id);
+                      }}
+                      className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:border-destructive hover:text-destructive"
+                      aria-label="Delete section"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                  <Textarea
+                    rows={4}
+                    placeholder="Section body — use blank lines to separate paragraphs."
+                    value={sec.body}
+                    onChange={(e) => updateLegalSection(sec.id, { body: e.target.value })}
+                  />
+                </li>
+              ))}
+              {site.legal.terms.sections.length === 0 && (
+                <li className="px-4 py-8 text-center text-xs text-muted-foreground">No sections yet — add one to get started.</li>
+              )}
+            </ul>
           </div>
         </TabsContent>
       </Tabs>
