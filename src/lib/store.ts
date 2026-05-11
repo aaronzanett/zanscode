@@ -328,11 +328,23 @@ export type SiteSection = {
   cards: SectionCard[];
 };
 
+export type LegalSection = { id: string; heading: string; body: string };
+export type LegalDoc = {
+  title: string;
+  intro: string;
+  updatedAt: number;
+  sections: LegalSection[];
+};
+export type SiteLegal = {
+  terms: LegalDoc;
+};
+
 export type SiteContent = {
   nav: NavLink[];
   hero: SiteHero;
   footer: SiteFooter;
   sections: SiteSection[];
+  legal: SiteLegal;
 };
 
 export type Store = {
