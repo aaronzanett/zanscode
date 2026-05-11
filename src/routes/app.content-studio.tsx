@@ -106,6 +106,7 @@ function ContentStudioPage() {
           <TabsTrigger value="nav"><MenuIcon className="h-3.5 w-3.5" />Navigation</TabsTrigger>
           <TabsTrigger value="sections"><LayoutGrid className="h-3.5 w-3.5" />Sections & cards</TabsTrigger>
           <TabsTrigger value="footer"><Layers className="h-3.5 w-3.5" />Footer</TabsTrigger>
+          <TabsTrigger value="legal"><ScrollText className="h-3.5 w-3.5" />Legal</TabsTrigger>
         </TabsList>
 
         {/* Hero */}
