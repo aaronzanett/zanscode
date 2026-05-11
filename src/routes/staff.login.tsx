@@ -107,7 +107,6 @@ function StaffLoginPage() {
                     Work email
                   </Label>
                   <div className="group relative">
-                    <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-brand" />
                     <Input
                       id="email"
                       type="email"
@@ -116,7 +115,7 @@ function StaffLoginPage() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="you@zanscode.com"
-                      className="h-12 rounded-xl border-border/80 bg-card/40 pl-10 backdrop-blur transition-all focus-visible:ring-2 focus-visible:ring-brand/30"
+                      className="h-12 rounded-xl border-border/80 bg-card/40 px-4 backdrop-blur transition-all focus-visible:ring-2 focus-visible:ring-brand/30"
                     />
                   </div>
                 </div>
