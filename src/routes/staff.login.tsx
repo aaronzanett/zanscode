@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
-import { ArrowRight, Eye, EyeOff, Loader2, Lock, Mail, Sparkles, Command } from "lucide-react";
+import { ArrowRight, Eye, EyeOff, Loader2, Sparkles, Command } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -107,7 +107,6 @@ function StaffLoginPage() {
                     Work email
                   </Label>
                   <div className="group relative">
-                    <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-brand" />
                     <Input
                       id="email"
                       type="email"
@@ -116,7 +115,7 @@ function StaffLoginPage() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="you@zanscode.com"
-                      className="h-12 rounded-xl border-border/80 bg-card/40 pl-10 backdrop-blur transition-all focus-visible:ring-2 focus-visible:ring-brand/30"
+                      className="h-12 rounded-xl border-border/80 bg-card/40 px-4 backdrop-blur transition-all focus-visible:ring-2 focus-visible:ring-brand/30"
                     />
                   </div>
                 </div>
@@ -129,13 +128,12 @@ function StaffLoginPage() {
                     <button
                       type="button"
                       className="text-[11px] font-medium text-muted-foreground transition-colors hover:text-brand"
-                      onClick={() => setError("Hubungi admin untuk reset kata sandi.")}
+                      onClick={() => setError("Contact your admin to reset your password.")}
                     >
                       Forgot password?
                     </button>
                   </div>
                   <div className="group relative">
-                    <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-brand" />
                     <Input
                       id="password"
                       type={show ? "text" : "password"}
@@ -144,7 +142,7 @@ function StaffLoginPage() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="h-12 rounded-xl border-border/80 bg-card/40 pl-10 pr-11 backdrop-blur transition-all focus-visible:ring-2 focus-visible:ring-brand/30"
+                      className="h-12 rounded-xl border-border/80 bg-card/40 px-4 pr-11 backdrop-blur transition-all focus-visible:ring-2 focus-visible:ring-brand/30"
                     />
                     <button
                       type="button"
@@ -263,13 +261,13 @@ function StaffLoginPage() {
             <div className="max-w-md">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur">
                 <span className="text-base leading-none">👋</span>
-                Hai, selamat datang kembali!
+                Hey there, welcome back!
               </div>
               <h2 className="text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl lg:text-[40px]">
-                Siap bikin hari ini<br />produktif?
+                Ready to make today<br />a productive one?
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-brand-foreground/85 sm:text-[15px]">
-                Kopi sudah diseduh ☕ — masuk dan lanjutkan dari tempat kamu terakhir berhenti.
+                The coffee's brewing ☕ — sign in and pick up right where you left off.
               </p>
             </div>
 
