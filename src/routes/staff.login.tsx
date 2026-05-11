@@ -261,13 +261,13 @@ function StaffLoginPage() {
             <div className="max-w-md">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur">
                 <span className="text-base leading-none">👋</span>
-                Hai, selamat datang kembali!
+                Hey there, welcome back!
               </div>
               <h2 className="text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl lg:text-[40px]">
-                Siap bikin hari ini<br />produktif?
+                Ready to make today<br />a productive one?
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-brand-foreground/85 sm:text-[15px]">
-                Kopi sudah diseduh ☕ — masuk dan lanjutkan dari tempat kamu terakhir berhenti.
+                The coffee's brewing ☕ — sign in and pick up right where you left off.
               </p>
             </div>
 
