@@ -664,6 +664,61 @@ export function defaultSiteContent(): SiteContent {
         ],
       },
     ],
+    legal: {
+      terms: {
+        title: "Terms & Conditions",
+        intro:
+          "Welcome to Zanscode. By accessing our website, applying for a role, or using our products and services, you agree to the terms below. Please read them carefully.",
+        updatedAt: now(),
+        sections: [
+          {
+            id: "lt-acceptance",
+            heading: "1. Acceptance of terms",
+            body: "By using zanscode.com or any Zanscode service you confirm that you have read, understood and agree to be bound by these Terms. If you do not agree, please do not use our services.",
+          },
+          {
+            id: "lt-services",
+            heading: "2. Our services",
+            body: "Zanscode provides custom software engineering, SaaS products, and recruitment services. Specific scope, deliverables and SLAs for engagements are governed by separate written agreements signed with the client.",
+          },
+          {
+            id: "lt-applicants",
+            heading: "3. Recruitment & applicant data",
+            body: "When you apply for a role through this site, you consent to Zanscode collecting, storing and processing the personal data you submit (name, contact details, CV, work history, education) for the sole purpose of evaluating your application. Data is retained for up to 24 months and may be shared with hiring managers and authorised recruiters.",
+          },
+          {
+            id: "lt-privacy",
+            heading: "4. Privacy & data protection",
+            body: "We handle personal data in line with applicable data protection laws including UU PDP (Indonesia) and GDPR where relevant. You may request access, correction, or deletion of your data at any time by contacting privacy@zanscode.com.",
+          },
+          {
+            id: "lt-ip",
+            heading: "5. Intellectual property",
+            body: "All content on this site — text, graphics, logos, code samples and SaaS product UI — is owned by or licensed to Zanscode and protected by copyright. You may not reproduce, distribute, or create derivative works without prior written permission.",
+          },
+          {
+            id: "lt-conduct",
+            heading: "6. Acceptable use",
+            body: "You agree not to misuse our services: no unlawful activity, no attempts to disrupt or compromise security, no scraping at scale without consent, and no submission of false or misleading information in applications.",
+          },
+          {
+            id: "lt-liability",
+            heading: "7. Limitation of liability",
+            body: "To the maximum extent permitted by law, Zanscode shall not be liable for any indirect, incidental, special, consequential or punitive damages arising from your use of the site or services.",
+          },
+          {
+            id: "lt-changes",
+            heading: "8. Changes to these terms",
+            body: "We may update these Terms from time to time. The 'Last updated' date below reflects the most recent revision. Continued use of the site after changes constitutes acceptance of the revised Terms.",
+          },
+          {
+            id: "lt-contact",
+            heading: "9. Contact us",
+            body: "Questions about these Terms? Reach us at legal@zanscode.com or through the contact page.",
+          },
+        ],
+      },
+    },
   };
 }
 
