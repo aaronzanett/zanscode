@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Mail, MapPin, Phone, User, Building2, Target, MessageSquare, Check, ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
+import { Mail, MapPin, Phone, User, Building2, Target, MessageSquare, Check, ArrowLeft, ArrowRight, Sparkles, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
