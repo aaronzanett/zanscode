@@ -25,6 +25,7 @@ import { Route as AppKnowledgeRouteImport } from './routes/app.knowledge'
 import { Route as AppFinanceRouteImport } from './routes/app.finance'
 import { Route as AppContentStudioRouteImport } from './routes/app.content-studio'
 import { Route as AppClientsRouteImport } from './routes/app.clients'
+import { Route as SiteTermsRouteImport } from './routes/_site.terms'
 import { Route as SiteServicesRouteImport } from './routes/_site.services'
 import { Route as SiteProductsRouteImport } from './routes/_site.products'
 import { Route as SiteContactRouteImport } from './routes/_site.contact'
@@ -117,6 +118,11 @@ const AppClientsRoute = AppClientsRouteImport.update({
   path: '/clients',
   getParentRoute: () => AppRoute,
 } as any)
+const SiteTermsRoute = SiteTermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => SiteRoute,
+} as any)
 const SiteServicesRoute = SiteServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -188,6 +194,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof SiteContactRoute
   '/products': typeof SiteProductsRoute
   '/services': typeof SiteServicesRoute
+  '/terms': typeof SiteTermsRoute
   '/app/clients': typeof AppClientsRoute
   '/app/content-studio': typeof AppContentStudioRoute
   '/app/finance': typeof AppFinanceRoute
@@ -215,6 +222,7 @@ export interface FileRoutesByTo {
   '/contact': typeof SiteContactRoute
   '/products': typeof SiteProductsRoute
   '/services': typeof SiteServicesRoute
+  '/terms': typeof SiteTermsRoute
   '/app/clients': typeof AppClientsRoute
   '/app/content-studio': typeof AppContentStudioRoute
   '/app/finance': typeof AppFinanceRoute
@@ -245,6 +253,7 @@ export interface FileRoutesById {
   '/_site/contact': typeof SiteContactRoute
   '/_site/products': typeof SiteProductsRoute
   '/_site/services': typeof SiteServicesRoute
+  '/_site/terms': typeof SiteTermsRoute
   '/app/clients': typeof AppClientsRoute
   '/app/content-studio': typeof AppContentStudioRoute
   '/app/finance': typeof AppFinanceRoute
@@ -277,6 +286,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/products'
     | '/services'
+    | '/terms'
     | '/app/clients'
     | '/app/content-studio'
     | '/app/finance'
@@ -304,6 +314,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/products'
     | '/services'
+    | '/terms'
     | '/app/clients'
     | '/app/content-studio'
     | '/app/finance'
@@ -333,6 +344,7 @@ export interface FileRouteTypes {
     | '/_site/contact'
     | '/_site/products'
     | '/_site/services'
+    | '/_site/terms'
     | '/app/clients'
     | '/app/content-studio'
     | '/app/finance'
@@ -476,6 +488,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppClientsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_site/terms': {
+      id: '/_site/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof SiteTermsRouteImport
+      parentRoute: typeof SiteRoute
+    }
     '/_site/services': {
       id: '/_site/services'
       path: '/services'
@@ -569,6 +588,7 @@ interface SiteRouteChildren {
   SiteContactRoute: typeof SiteContactRoute
   SiteProductsRoute: typeof SiteProductsRoute
   SiteServicesRoute: typeof SiteServicesRoute
+  SiteTermsRoute: typeof SiteTermsRoute
   SiteIndexRoute: typeof SiteIndexRoute
   SiteApplyJobSlugRoute: typeof SiteApplyJobSlugRoute
 }
@@ -579,6 +599,7 @@ const SiteRouteChildren: SiteRouteChildren = {
   SiteContactRoute: SiteContactRoute,
   SiteProductsRoute: SiteProductsRoute,
   SiteServicesRoute: SiteServicesRoute,
+  SiteTermsRoute: SiteTermsRoute,
   SiteIndexRoute: SiteIndexRoute,
   SiteApplyJobSlugRoute: SiteApplyJobSlugRoute,
 }
