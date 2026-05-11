@@ -83,8 +83,12 @@ function CareersPage() {
         <div className="absolute -bottom-24 -left-10 h-96 w-96 rounded-full bg-brand/40 blur-3xl animate-blob-drift" style={{ animationDelay: "-12s" }} />
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <Reveal variant="fade">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold backdrop-blur">
-              <Sparkles className="h-3.5 w-3.5 text-brand-cyan" /> We're hiring
+            <span className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 py-1 pl-2 pr-4 text-xs font-semibold backdrop-blur">
+              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-brand-cyan/20 text-brand-cyan">
+                <Megaphone className="h-3 w-3" />
+              </span>
+              <span className="h-3 w-px bg-white/20" aria-hidden />
+              <span>We're hiring</span>
             </span>
           </Reveal>
           <Reveal variant="up" delay={180}>
