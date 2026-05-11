@@ -78,9 +78,9 @@ export function Footer() {
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-5 text-xs text-muted-foreground sm:flex-row sm:px-6 lg:px-8">
           <p>© {new Date().getFullYear()} Zanscode, Inc. All rights reserved.</p>
           <div className="flex items-center gap-5">
-            <Link to="/about" className="hover:text-foreground">Privacy</Link>
-            <Link to="/about" className="hover:text-foreground">Terms</Link>
-            <Link to="/about" className="hover:text-foreground">Security</Link>
+            <Link to="/terms" className="hover:text-foreground">Privacy</Link>
+            <Link to="/terms" className="hover:text-foreground">Terms</Link>
+            <Link to="/terms" className="hover:text-foreground">Security</Link>
             <Link to="/contact" className="hover:text-foreground">Cookies</Link>
           </div>
         </div>
