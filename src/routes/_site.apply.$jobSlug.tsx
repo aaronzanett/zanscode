@@ -3,7 +3,7 @@ import { useState } from "react";
 import { z } from "zod";
 import {
   ArrowLeft, Briefcase, Check, Clock, Loader2, Mail, MapPin, Sparkles,
-  Upload,
+  Upload, Send,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
