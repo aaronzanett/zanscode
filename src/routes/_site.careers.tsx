@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import {
   ArrowRight, MapPin, Briefcase, Clock, Heart, Rocket, GraduationCap,
-  Globe2, Coffee, Laptop, Users, Sparkles, Mail, Search,
+  Globe2, Coffee, Laptop, Users, Sparkles, Mail, Search, Megaphone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
