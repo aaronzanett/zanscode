@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Sparkles, Menu as MenuIcon, LayoutGrid, ExternalLink, Eye, EyeOff, Layers, ArrowUp, ArrowDown, Lock, Info } from "lucide-react";
+import { Sparkles, Menu as MenuIcon, LayoutGrid, ExternalLink, Eye, EyeOff, Layers, ArrowUp, ArrowDown, Lock, Info, ScrollText, Plus, Trash2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,6 +10,7 @@ import {
   updateNavLink, reorderNav,
   updateFooterColumn, updateFooterLink, reorderFooterColumns, reorderFooterLinks,
   updateSection, updateSectionCard, reorderSections, reorderSectionCards,
+  updateLegalTerms, updateLegalSection, addLegalSection, removeLegalSection, reorderLegalSections,
 } from "@/lib/store";
 
 export const Route = createFileRoute("/app/content-studio")({
