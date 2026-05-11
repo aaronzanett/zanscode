@@ -109,8 +109,12 @@ function ContactPage() {
         <div className="absolute inset-0 opacity-25 [background-image:radial-gradient(circle_at_20%_20%,white_1px,transparent_1px)] [background-size:32px_32px]" />
         <div className="pointer-events-none absolute -top-24 right-[-10%] h-96 w-96 rounded-full bg-brand-cyan/25 blur-3xl animate-blob-drift" aria-hidden />
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur">
-            <Sparkles className="h-3.5 w-3.5 text-brand-cyan" /> We reply within 1 business day
+          <div className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 py-1 pl-2 pr-4 text-xs font-medium backdrop-blur">
+            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-brand-cyan/20 text-brand-cyan">
+              <Zap className="h-3 w-3" />
+            </span>
+            <span className="h-3 w-px bg-white/20" aria-hidden />
+            <span>We reply within 1 business day</span>
           </div>
           <h1 className="mt-5 font-display text-[clamp(2.5rem,5.5vw,4.5rem)] font-medium leading-[1] tracking-tight">
             Let's build something <em className="serif-italic text-brand-cyan">powerful.</em>
