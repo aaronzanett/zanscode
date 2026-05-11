@@ -372,8 +372,12 @@ function ProductsPage() {
             <div className="absolute -bottom-24 -left-10 h-72 w-72 rounded-full bg-brand/40 blur-3xl" />
             <div className="relative grid gap-10 lg:grid-cols-5">
               <div className="lg:col-span-3">
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold backdrop-blur">
-                  <Sparkles className="h-3.5 w-3.5" /> Featured platform
+                <span className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 py-1 pl-2 pr-4 text-xs font-semibold backdrop-blur">
+                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-brand-cyan/25 text-brand-cyan">
+                    <Award className="h-3 w-3" />
+                  </span>
+                  <span className="h-3 w-px bg-white/20" aria-hidden />
+                  <span>Featured platform</span>
                 </span>
                 <h2 className="mt-5 text-3xl font-bold sm:text-4xl">{featuredOS.name}</h2>
                 <p className="mt-2 text-lg text-white/80">{featuredOS.tagline}</p>
