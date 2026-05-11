@@ -175,9 +175,11 @@
     background-color: color-mix(in oklab, var(--foreground) 45%, transparent);
   }
   ::-webkit-scrollbar-corner { background: transparent; }
-  h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; font-weight: 500; }
-  .font-display { font-family: var(--font-display); letter-spacing: -0.022em; font-feature-settings: "ss01"; }
-  .serif-italic { font-family: var(--font-display); font-style: italic; font-weight: 500; }
+  h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.025em; font-weight: 600; }
+  .font-display { font-family: var(--font-display); letter-spacing: -0.028em; font-weight: 600; }
+  /* Kept for back-compat — now a modern, non-italic gradient emphasis */
+  .serif-italic { font-family: var(--font-display); font-style: normal; font-weight: 600; letter-spacing: -0.03em; }
+  .font-mono { font-family: var(--font-mono); }
 
   /* Global pointer cursor for any interactive element */
   button:not(:disabled),
