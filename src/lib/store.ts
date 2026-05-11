@@ -773,6 +773,7 @@ function load(): Store {
       meetingUrl: iv.meetingUrl ?? "",
     }));
     if (!parsed.siteContent) parsed.siteContent = seeded.siteContent;
+    else if (!parsed.siteContent.legal) parsed.siteContent.legal = seeded.siteContent.legal;
     return parsed;
   } catch {
     return seed();
