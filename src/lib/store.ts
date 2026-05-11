@@ -1353,6 +1353,89 @@ export function updateSiteFooter(patch: Partial<Omit<SiteFooter, "columns">>) {
   update((s) => ({ ...s, siteContent: { ...s.siteContent, footer: { ...s.siteContent.footer, ...patch } } }));
 }
 
+// Legal docs (terms & conditions)
+export function updateLegalTerms(patch: Partial<Omit<LegalDoc, "sections">>) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      legal: {
+        ...s.siteContent.legal,
+        terms: { ...s.siteContent.legal.terms, ...patch, updatedAt: Date.now() },
+      },
+    },
+  }));
+}
+
+export function updateLegalSection(id: string, patch: Partial<LegalSection>) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      legal: {
+        ...s.siteContent.legal,
+        terms: {
+          ...s.siteContent.legal.terms,
+          updatedAt: Date.now(),
+          sections: s.siteContent.legal.terms.sections.map((sec) => (sec.id === id ? { ...sec, ...patch } : sec)),
+        },
+      },
+    },
+  }));
+}
+
+export function addLegalSection() {
+  const sec: LegalSection = { id: uid("ls-"), heading: "New section", body: "" };
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      legal: {
+        ...s.siteContent.legal,
+        terms: {
+          ...s.siteContent.legal.terms,
+          updatedAt: Date.now(),
+          sections: [...s.siteContent.legal.terms.sections, sec],
+        },
+      },
+    },
+  }));
+}
+
+export function removeLegalSection(id: string) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      legal: {
+        ...s.siteContent.legal,
+        terms: {
+          ...s.siteContent.legal.terms,
+          updatedAt: Date.now(),
+          sections: s.siteContent.legal.terms.sections.filter((sec) => sec.id !== id),
+        },
+      },
+    },
+  }));
+}
+
+export function reorderLegalSections(from: number, to: number) {
+  update((s) => ({
+    ...s,
+    siteContent: {
+      ...s.siteContent,
+      legal: {
+        ...s.siteContent.legal,
+        terms: {
+          ...s.siteContent.legal.terms,
+          updatedAt: Date.now(),
+          sections: moveInArray(s.siteContent.legal.terms.sections, from, to),
+        },
+      },
+    },
+  }));
+}
+
 export function setSiteNav(nav: NavLink[]) {
   update((s) => ({ ...s, siteContent: { ...s.siteContent, nav } }));
 }
