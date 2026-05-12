@@ -3,8 +3,8 @@ import { useMemo, useState } from "react";
 import {
   Scissors, GraduationCap, UtensilsCrossed, ShoppingBag, Stethoscope, Dumbbell,
   Hotel, Car, Building2, Sparkles as SparklesIcon, Wrench, Truck,
-  ExternalLink, ArrowRight, Check, Star, Search, Zap, ShieldCheck,
-  Globe2, Smartphone, Plug, BarChart3, Sparkles, Award,
+  ArrowRight, Check, Star, Search, Zap, ShieldCheck,
+  Globe2, Smartphone, Plug, BarChart3, Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
