@@ -67,17 +67,21 @@ export function Footer() {
       <div className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-5 text-xs text-muted-foreground sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-3.5 w-3.5" /> SOC 2 Type II</span>
-            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-3.5 w-3.5" /> ISO 27001</span>
-            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-3.5 w-3.5" /> GDPR Ready</span>
-            <span className="inline-flex items-center gap-1.5"><Globe className="h-3.5 w-3.5" /> Global delivery</span>
+            {footer.badges.map((b) => (
+              <span key={b.id} className="inline-flex items-center gap-1.5">
+                <ShieldCheck className="h-3.5 w-3.5" /> {b.label}
+              </span>
+            ))}
           </div>
           <div className="flex items-center gap-2">
-            {socials.map((s) => (
-              <a key={s.label} href={s.href} aria-label={s.label} className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-brand hover:text-foreground">
-                <s.icon className="h-4 w-4" />
-              </a>
-            ))}
+            {footer.socials.map((s) => {
+              const Icon = socialIcons[s.name];
+              return (
+                <a key={s.id} href={s.href || "#"} aria-label={socialLabels[s.name]} className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-brand hover:text-foreground">
+                  <Icon className="h-4 w-4" />
+                </a>
+              );
+            })}
           </div>
         </div>
       </div>
