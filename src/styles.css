@@ -54,10 +54,10 @@
   --ink: oklch(0.2 0.04 250);                /* near-black navy ink */
   --cream: oklch(0.975 0.012 240);           /* cool off-white paper */
 
-  --background: oklch(0.99 0.006 240);       /* crisp light */
+  --background: oklch(1 0 0);                /* pure white */
   --foreground: oklch(0.2 0.04 250);
 
-  --surface: oklch(0.965 0.014 235);         /* soft blue-tinted surface */
+  --surface: oklch(0.985 0.002 250);         /* near-white neutral page */
   --surface-foreground: oklch(0.2 0.04 250);
 
   --card: oklch(1 0 0);
