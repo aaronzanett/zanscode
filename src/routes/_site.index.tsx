@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/Reveal";
+import { ClosingCTA } from "@/components/site/ClosingCTA";
 import { isAppSubdomain } from "@/lib/host";
 import { isSignedIn } from "@/lib/auth";
 import { useStore } from "@/lib/store";
