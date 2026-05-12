@@ -339,12 +339,51 @@ export type SiteLegal = {
   terms: LegalDoc;
 };
 
+// Homepage editorial blocks
+export type Stat = { id: string; value: string; label: string };
+export type Logo = { id: string; name: string };
+export type IconName = "shopping-bag" | "truck" | "building" | "stethoscope" | "graduation-cap" | "landmark" | "rocket" | "boxes";
+export type Industry = { id: string; name: string; icon: IconName };
+export type Testimonial = { id: string; quote: string; name: string; role: string };
+export type Bullet = { id: string; text: string };
+export type FooterBadge = { id: string; label: string };
+export type SocialName = "linkedin" | "twitter" | "github" | "youtube";
+export type SocialLink = { id: string; name: SocialName; href: string };
+
+export type SiteHome = {
+  trustedHeadline: string;
+  trusted: Logo[];
+  stats: Stat[];
+  industriesEyebrow: string;
+  industriesTitle: string;
+  industriesSubtitle: string;
+  industries: Industry[];
+  pullQuote: string;
+  pullQuoteName: string;
+  pullQuoteRole: string;
+  saasEyebrow: string;
+  saasTitle: string;
+  saasSubtitle: string;
+  saasBullets: Bullet[];
+  saasPrimaryCta: string;
+  saasPrimaryCtaTo: string;
+  saasSecondaryCta: string;
+  saasSecondaryCtaTo: string;
+  testimonialsEyebrow: string;
+  testimonialsTitle: string;
+  testimonials: Testimonial[];
+  closingTitle: string;
+  closingHighlight: string; // italicised tail
+  closingDescription: string;
+};
+
 export type SiteContent = {
   nav: NavLink[];
   hero: SiteHero;
   footer: SiteFooter;
   sections: SiteSection[];
   legal: SiteLegal;
+  home: SiteHome;
 };
 
 export type Store = {
