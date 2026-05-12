@@ -310,26 +310,12 @@ function CareersPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20">
-        <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold sm:text-4xl">Ready to build with us?</h2>
-          <p className="mt-3 text-muted-foreground">We can't wait to hear from you.</p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Button asChild size="lg" variant="brand">
-              <a href="#open-roles">See open roles</a>
-            </Button>
-            <Button asChild size="lg" variant="outline">
-              <a href="mailto:careers@zanscode.com">
-                <Mail className="mr-1 h-4 w-4" /> careers@zanscode.com
-              </a>
-            </Button>
-          </div>
-          <p className="mt-6 text-xs text-muted-foreground">
-            <Link to="/about" className="hover:text-foreground">Learn more about Zanscode →</Link>
-          </p>
-        </div>
-      </section>
+      <ClosingCTA
+        title={<>Ready to <em className="serif-italic text-brand-cyan">build with us?</em></>}
+        description="We can't wait to hear from you. Browse open roles, or reach out to our talent team directly."
+        primary={{ label: "See open roles", to: "/careers", icon: "arrow-up-right" }}
+        secondary={{ label: "Learn about Zanscode", to: "/about", icon: "arrow-right" }}
+      />
     </>
   );
 }
