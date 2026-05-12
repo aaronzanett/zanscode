@@ -56,6 +56,11 @@ function HomePage() {
   const navigate = useNavigate();
   const hero = useStore((s) => s.siteContent.hero);
   const sections = useStore((s) => s.siteContent.sections);
+  const home = useStore((s) => s.siteContent.home);
+  const stats = home.stats;
+  const trusted = home.trusted;
+  const industries = home.industries.map((i) => ({ name: i.name, icon: industryIconMap[i.icon] ?? Boxes }));
+  const testimonials = home.testimonials;
 
   useEffect(() => {
     if (isAppSubdomain()) {
