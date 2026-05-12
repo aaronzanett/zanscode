@@ -128,6 +128,7 @@ function ContentStudioPage() {
           <TabsTrigger value="hero"><Sparkles className="h-3.5 w-3.5" />Hero</TabsTrigger>
           <TabsTrigger value="nav"><MenuIcon className="h-3.5 w-3.5" />Navigation</TabsTrigger>
           <TabsTrigger value="sections"><LayoutGrid className="h-3.5 w-3.5" />Sections & cards</TabsTrigger>
+          <TabsTrigger value="home"><HomeIcon className="h-3.5 w-3.5" />Home blocks</TabsTrigger>
           <TabsTrigger value="footer"><Layers className="h-3.5 w-3.5" />Footer</TabsTrigger>
           <TabsTrigger value="legal"><ScrollText className="h-3.5 w-3.5" />Legal</TabsTrigger>
         </TabsList>
