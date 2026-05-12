@@ -317,6 +317,8 @@ export type SiteFooter = {
   phone: string;
   address: string;
   columns: FooterColumn[];
+  badges: FooterBadge[];
+  socials: SocialLink[];
 };
 
 export type SectionCard = { id: string; title: string; description: string };
