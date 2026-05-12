@@ -679,6 +679,18 @@ export function defaultSiteContent(): SiteContent {
           ],
         },
       ],
+      badges: [
+        { id: "fb-1", label: "SOC 2 Type II" },
+        { id: "fb-2", label: "ISO 27001" },
+        { id: "fb-3", label: "GDPR Ready" },
+        { id: "fb-4", label: "Global delivery" },
+      ],
+      socials: [
+        { id: "so-1", name: "linkedin", href: "#" },
+        { id: "so-2", name: "twitter", href: "#" },
+        { id: "so-3", name: "github", href: "#" },
+        { id: "so-4", name: "youtube", href: "#" },
+      ],
     },
     sections: [
       {
