@@ -185,13 +185,13 @@ function HomePage() {
       {/* MARQUEE — trusted by */}
       <section className="border-y border-border bg-background py-10 overflow-hidden">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-          <p className="kicker text-center">Trusted by teams across the region</p>
+          <p className="kicker text-center">{home.trustedHeadline}</p>
         </div>
         <div className="mt-6 flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
           <div className="flex shrink-0 animate-marquee-x gap-14 pr-14">
-            {[...trusted, ...trusted].map((name, i) => (
+            {[...trusted, ...trusted].map((logo, i) => (
               <span key={i} className="whitespace-nowrap font-display text-2xl font-medium text-muted-foreground/60">
-                {name}
+                {logo.name}
               </span>
             ))}
           </div>
