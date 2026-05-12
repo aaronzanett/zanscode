@@ -186,18 +186,12 @@ function ServicesPage() {
           </div>
         </div>
       </section>
-      {/* CTA */}
-      <section className="bg-surface py-20">
-        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <Reveal variant="up">
-            <h2 className="text-3xl font-bold sm:text-4xl">Have a project in mind?</h2>
-            <p className="mt-3 text-muted-foreground">Tell us what you're building — we'll propose the right team and plan.</p>
-            <div className="mt-8">
-              <Button asChild variant="brand" size="lg"><Link to="/contact">Discuss your project</Link></Button>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      <ClosingCTA
+        title={<>Have a project <em className="serif-italic text-brand-cyan">in mind?</em></>}
+        description="Tell us what you're building — we'll propose the right team, architecture and timeline to ship it."
+        primary={{ label: "Discuss your project", to: "/contact", icon: "arrow-up-right" }}
+        secondary={{ label: "Browse products", to: "/products", icon: "arrow-right" }}
+      />
     </>
   );
 }
