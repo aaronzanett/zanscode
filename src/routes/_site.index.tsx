@@ -369,6 +369,5 @@ function HomePage() {
         description={home.closingDescription}
       />
     </>
-    </>
   );
 }
