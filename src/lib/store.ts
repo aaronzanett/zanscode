@@ -1754,7 +1754,92 @@ export function reorderFooterLinks(columnId: string, from: number, to: number) {
   }));
 }
 
-// ---------- Meeting helpers ----------
+// ---------- Mutations: Home blocks & Footer extras ----------
+
+function patchHome(patch: Partial<SiteHome>) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, home: { ...s.siteContent.home, ...patch } } }));
+}
+
+export function updateSiteHome(patch: Partial<SiteHome>) {
+  patchHome(patch);
+}
+
+// Generic list helpers (typed per field)
+type HomeListField =
+  | "trusted" | "stats" | "industries" | "testimonials" | "saasBullets";
+
+function listOf(s: Store, field: HomeListField): unknown[] {
+  return s.siteContent.home[field] as unknown as unknown[];
+}
+
+function setList(field: HomeListField, next: unknown[]) {
+  update((s) => ({
+    ...s,
+    siteContent: { ...s.siteContent, home: { ...s.siteContent.home, [field]: next } },
+  }));
+}
+
+export function addHomeItem(field: HomeListField) {
+  update((s) => {
+    const items = listOf(s, field).slice();
+    let item: unknown;
+    switch (field) {
+      case "trusted": item = { id: uid("lg-"), name: "New brand" }; break;
+      case "stats": item = { id: uid("st-"), value: "0", label: "New stat" }; break;
+      case "industries": item = { id: uid("in-"), name: "New industry", icon: "boxes" }; break;
+      case "testimonials": item = { id: uid("ts-"), quote: "", name: "", role: "" }; break;
+      case "saasBullets": item = { id: uid("sb-"), text: "New benefit" }; break;
+    }
+    items.push(item);
+    return { ...s, siteContent: { ...s.siteContent, home: { ...s.siteContent.home, [field]: items } } };
+  });
+}
+
+export function updateHomeItem(field: HomeListField, id: string, patch: Record<string, unknown>) {
+  update((s) => {
+    const items = listOf(s, field).map((it: unknown) => {
+      const obj = it as { id: string };
+      return obj.id === id ? { ...obj, ...patch } : obj;
+    });
+    return { ...s, siteContent: { ...s.siteContent, home: { ...s.siteContent.home, [field]: items } } };
+  });
+}
+
+export function removeHomeItem(field: HomeListField, id: string) {
+  update((s) => {
+    const items = listOf(s, field).filter((it: unknown) => (it as { id: string }).id !== id);
+    return { ...s, siteContent: { ...s.siteContent, home: { ...s.siteContent.home, [field]: items } } };
+  });
+}
+
+export function reorderHomeItems(field: HomeListField, from: number, to: number) {
+  update((s) => {
+    const next = moveInArray(listOf(s, field), from, to);
+    return { ...s, siteContent: { ...s.siteContent, home: { ...s.siteContent.home, [field]: next } } };
+  });
+}
+
+// Footer badges
+export function addFooterBadge() {
+  const item: FooterBadge = { id: uid("fb-"), label: "New badge" };
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, footer: { ...s.siteContent.footer, badges: [...s.siteContent.footer.badges, item] } } }));
+}
+export function updateFooterBadge(id: string, patch: Partial<FooterBadge>) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, footer: { ...s.siteContent.footer, badges: s.siteContent.footer.badges.map((b) => (b.id === id ? { ...b, ...patch } : b)) } } }));
+}
+export function removeFooterBadge(id: string) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, footer: { ...s.siteContent.footer, badges: s.siteContent.footer.badges.filter((b) => b.id !== id) } } }));
+}
+export function reorderFooterBadges(from: number, to: number) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, footer: { ...s.siteContent.footer, badges: moveInArray(s.siteContent.footer.badges, from, to) } } }));
+}
+
+// Footer socials
+export function updateFooterSocial(id: string, patch: Partial<SocialLink>) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, footer: { ...s.siteContent.footer, socials: s.siteContent.footer.socials.map((b) => (b.id === id ? { ...b, ...patch } : b)) } } }));
+}
+
+
 
 export function generateMeetingLink(provider: MeetingProvider): string {
   const code = Math.random().toString(36).slice(2, 6) + "-" + Math.random().toString(36).slice(2, 6) + "-" + Math.random().toString(36).slice(2, 5);
