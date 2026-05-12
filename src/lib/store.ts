@@ -880,7 +880,12 @@ function load(): Store {
       meetingUrl: iv.meetingUrl ?? "",
     }));
     if (!parsed.siteContent) parsed.siteContent = seeded.siteContent;
-    else if (!parsed.siteContent.legal) parsed.siteContent.legal = seeded.siteContent.legal;
+    else {
+      if (!parsed.siteContent.legal) parsed.siteContent.legal = seeded.siteContent.legal;
+      if (!parsed.siteContent.home) parsed.siteContent.home = seeded.siteContent.home;
+      if (!parsed.siteContent.footer.badges) parsed.siteContent.footer.badges = seeded.siteContent.footer.badges;
+      if (!parsed.siteContent.footer.socials) parsed.siteContent.footer.socials = seeded.siteContent.footer.socials;
+    }
     return parsed;
   } catch {
     return seed();
