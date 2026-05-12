@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Reveal } from "@/components/site/Reveal";
+import { ClosingCTA } from "@/components/site/ClosingCTA";
 
 import productApps from "@/assets/product-apps.jpg";
 
