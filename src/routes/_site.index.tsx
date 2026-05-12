@@ -121,9 +121,9 @@ function HomePage() {
 
               <dl className="mt-14 grid grid-cols-2 gap-6 sm:grid-cols-4">
                 {stats.map((s, i) => (
-                  <Reveal key={s.l} variant="up" delay={650 + i * 110} as="div">
-                    <dt className="font-display text-3xl font-medium text-foreground">{s.v}</dt>
-                    <dd className="mt-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{s.l}</dd>
+                  <Reveal key={s.id} variant="up" delay={650 + i * 110} as="div">
+                    <dt className="font-display text-3xl font-medium text-foreground">{s.value}</dt>
+                    <dd className="mt-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{s.label}</dd>
                   </Reveal>
                 ))}
               </dl>
