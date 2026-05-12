@@ -151,18 +151,6 @@ const industryApps: SaasApp[] = [
 
 
 
-const featuredOS = {
-  name: "Zanscode OS",
-  tagline: "The all-in-one operating platform",
-  desc: "Run sales, operations, finance, HR and analytics on one connected platform — with a single source of truth and a single bill.",
-  url: "https://os.zanscode.com",
-  highlights: [
-    "Includes 8+ Zanscode apps",
-    "Single sign-on across every module",
-    "Unified data, automations & dashboards",
-    "Open API and 100+ integrations",
-  ],
-};
 
 const stats = [
   { v: "25+", l: "SaaS apps" },
