@@ -380,32 +380,10 @@ function HomePage() {
         </div>
       </section>
 
-      {/* CLOSING CTA — dark editorial */}
-      <section className="bg-ink py-24 text-background lg:py-32">
-        <div className="mx-auto max-w-5xl px-5 text-center sm:px-8 lg:px-10">
-          <Reveal variant="up">
-            <Sparkles className="mx-auto h-6 w-6 text-brand-cyan" />
-            <h2 className="mt-6 font-display text-5xl font-medium leading-[1.05] sm:text-6xl lg:text-7xl">
-              Have a system in mind?<br />
-              Let's <em className="serif-italic text-brand-cyan">build it.</em>
-            </h2>
-            <p className="mx-auto mt-7 max-w-xl text-base text-background/70">
-              Tell us what you're trying to solve — we'll propose the architecture, team and timeline to get it shipped.
-            </p>
-            <div className="mt-10 flex flex-wrap justify-center gap-3">
-              <Button asChild size="xl" variant="hero" className="group">
-                <Link to="/contact">
-                  Start a project
-                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </Link>
-              </Button>
-              <Button asChild size="xl" variant="ghost" className="text-background hover:bg-background/10 hover:text-background">
-                <Link to="/services">Explore services <ArrowRight className="ml-1 h-4 w-4" /></Link>
-              </Button>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      <ClosingCTA
+        title={<>Have a system in mind?<br />Let's <em className="serif-italic text-brand-cyan">build it.</em></>}
+        description="Tell us what you're trying to solve — we'll propose the architecture, team and timeline to get it shipped."
+      />
     </>
   );
 }
