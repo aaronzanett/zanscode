@@ -163,26 +163,12 @@ function AboutPage() {
           </div>
         </div>
       </section>
-      {/* Careers CTA */}
-      <section className="relative overflow-hidden bg-gradient-hero py-20 text-white">
-        <div className="pointer-events-none absolute -top-24 left-[-10%] h-96 w-96 rounded-full bg-brand-cyan/20 blur-3xl animate-blob-drift" aria-hidden />
-        <div className="pointer-events-none absolute -bottom-24 right-[-10%] h-96 w-96 rounded-full bg-white/10 blur-3xl animate-blob-drift" style={{ animationDelay: "-13s" }} aria-hidden />
-        <Reveal variant="up" className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-          <Briefcase className="mx-auto h-10 w-10 text-brand-cyan" />
-          <h2 className="mt-4 text-3xl font-bold sm:text-4xl">Build the future with us</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-white/80">
-            We're growing across engineering, design and product. If you care about craft and impact, we'd love to talk.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Button asChild size="lg" variant="brand">
-              <Link to="/contact">Join the team <ArrowRight className="ml-1 h-4 w-4" /></Link>
-            </Button>
-            <Button asChild size="lg" variant="hero">
-              <Link to="/contact">Partner with us</Link>
-            </Button>
-          </div>
-        </Reveal>
-      </section>
+      <ClosingCTA
+        title={<>Build the future <em className="serif-italic text-brand-cyan">with us.</em></>}
+        description="We're growing across engineering, design and product. If you care about craft and impact, we'd love to talk."
+        primary={{ label: "Join the team", to: "/careers", icon: "arrow-up-right" }}
+        secondary={{ label: "Partner with us", to: "/contact", icon: "arrow-right" }}
+      />
     </>
   );
 }
