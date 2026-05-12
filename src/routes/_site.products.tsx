@@ -3,12 +3,13 @@ import { useMemo, useState } from "react";
 import {
   Scissors, GraduationCap, UtensilsCrossed, ShoppingBag, Stethoscope, Dumbbell,
   Hotel, Car, Building2, Sparkles as SparklesIcon, Wrench, Truck,
-  ExternalLink, ArrowRight, Check, Star, Search, Zap, ShieldCheck,
-  Globe2, Smartphone, Plug, BarChart3, Sparkles, Award,
+  ArrowRight, Check, Star, Search, Zap, ShieldCheck,
+  Globe2, Smartphone, Plug, BarChart3,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Reveal } from "@/components/site/Reveal";
+import { ClosingCTA } from "@/components/site/ClosingCTA";
 
 import productApps from "@/assets/product-apps.jpg";
 
@@ -150,18 +151,6 @@ const industryApps: SaasApp[] = [
 
 
 
-const featuredOS = {
-  name: "Zanscode OS",
-  tagline: "The all-in-one operating platform",
-  desc: "Run sales, operations, finance, HR and analytics on one connected platform — with a single source of truth and a single bill.",
-  url: "https://os.zanscode.com",
-  highlights: [
-    "Includes 8+ Zanscode apps",
-    "Single sign-on across every module",
-    "Unified data, automations & dashboards",
-    "Open API and 100+ integrations",
-  ],
-};
 
 const stats = [
   { v: "25+", l: "SaaS apps" },
@@ -224,11 +213,7 @@ function ProductsPage() {
           <Reveal variant="up" delay={520}>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild variant="brand" size="lg"><Link to="/contact">Find your app</Link></Button>
-              <Button asChild variant="outline" size="lg">
-                <a href={featuredOS.url} target="_blank" rel="noopener noreferrer">
-                  Explore Zanscode OS <ExternalLink className="ml-1 h-4 w-4" />
-                </a>
-              </Button>
+              <Button asChild variant="outline" size="lg"><Link to="/services">Explore custom builds</Link></Button>
             </div>
           </Reveal>
           <dl className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-4">
@@ -364,50 +349,6 @@ function ProductsPage() {
         </div>
       </section>
 
-      {/* Featured — Zanscode OS */}
-      <section className="bg-surface py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-hero p-8 text-white shadow-brand sm:p-12">
-            <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-brand-cyan/30 blur-3xl" />
-            <div className="absolute -bottom-24 -left-10 h-72 w-72 rounded-full bg-brand/40 blur-3xl" />
-            <div className="relative grid gap-10 lg:grid-cols-5">
-              <div className="lg:col-span-3">
-                <span className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 py-1 pl-2 pr-4 text-xs font-semibold backdrop-blur">
-                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-brand-cyan/25 text-brand-cyan">
-                    <Award className="h-3 w-3" />
-                  </span>
-                  <span className="h-3 w-px bg-white/20" aria-hidden />
-                  <span>Featured platform</span>
-                </span>
-                <h2 className="mt-5 text-3xl font-bold sm:text-4xl">{featuredOS.name}</h2>
-                <p className="mt-2 text-lg text-white/80">{featuredOS.tagline}</p>
-                <p className="mt-4 max-w-xl text-white/70">{featuredOS.desc}</p>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Button asChild size="lg" variant="brand">
-                    <a href={featuredOS.url} target="_blank" rel="noopener noreferrer">
-                      Visit Zanscode OS <ExternalLink className="ml-1 h-4 w-4" />
-                    </a>
-                  </Button>
-                  <Button asChild size="lg" variant="hero">
-                    <Link to="/contact">Talk to sales</Link>
-                  </Button>
-                </div>
-              </div>
-              <ul className="space-y-3 rounded-2xl border border-white/15 bg-white/5 p-6 backdrop-blur lg:col-span-2">
-                {featuredOS.highlights.map((h) => (
-                  <li key={h} className="flex items-start gap-3 text-sm text-white/90">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-cyan" />
-                    <span>{h}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-
       {/* Testimonials */}
       <section className="bg-surface py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -453,21 +394,12 @@ function ProductsPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="pb-24 pt-4">
-        <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-          <div className="rounded-3xl border border-border bg-gradient-soft p-10 shadow-soft sm:p-14">
-            <h2 className="text-3xl font-bold sm:text-4xl">Don't see your industry?</h2>
-            <p className="mt-3 text-muted-foreground">
-              We're always shipping new SaaS. Tell us what you run — we'll point you at the closest fit, or build it.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Button asChild variant="brand" size="lg"><Link to="/contact">Request a demo</Link></Button>
-              <Button asChild variant="outline" size="lg"><Link to="/services">Explore custom builds</Link></Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ClosingCTA
+        title={<>Don't see your <em className="serif-italic text-brand-cyan">industry?</em></>}
+        description="We're always shipping new SaaS. Tell us what you run — we'll point you at the closest fit, or build it."
+        primary={{ label: "Request a demo", to: "/contact", icon: "arrow-up-right" }}
+        secondary={{ label: "Explore custom builds", to: "/services", icon: "arrow-right" }}
+      />
     </>
   );
 }

@@ -14,7 +14,7 @@ export function Footer() {
   const footer = useStore((s) => s.siteContent.footer);
 
   return (
-    <footer className="border-t border-border bg-surface">
+    <footer className="border-t border-border bg-background">
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:px-8">
         <div className="lg:col-span-4">
           <Link to="/" className="inline-flex items-center">
