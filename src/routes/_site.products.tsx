@@ -365,50 +365,6 @@ function ProductsPage() {
         </div>
       </section>
 
-      {/* Featured — Zanscode OS */}
-      <section className="bg-surface py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-hero p-8 text-white shadow-brand sm:p-12">
-            <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-brand-cyan/30 blur-3xl" />
-            <div className="absolute -bottom-24 -left-10 h-72 w-72 rounded-full bg-brand/40 blur-3xl" />
-            <div className="relative grid gap-10 lg:grid-cols-5">
-              <div className="lg:col-span-3">
-                <span className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 py-1 pl-2 pr-4 text-xs font-semibold backdrop-blur">
-                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-brand-cyan/25 text-brand-cyan">
-                    <Award className="h-3 w-3" />
-                  </span>
-                  <span className="h-3 w-px bg-white/20" aria-hidden />
-                  <span>Featured platform</span>
-                </span>
-                <h2 className="mt-5 text-3xl font-bold sm:text-4xl">{featuredOS.name}</h2>
-                <p className="mt-2 text-lg text-white/80">{featuredOS.tagline}</p>
-                <p className="mt-4 max-w-xl text-white/70">{featuredOS.desc}</p>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Button asChild size="lg" variant="brand">
-                    <a href={featuredOS.url} target="_blank" rel="noopener noreferrer">
-                      Visit Zanscode OS <ExternalLink className="ml-1 h-4 w-4" />
-                    </a>
-                  </Button>
-                  <Button asChild size="lg" variant="hero">
-                    <Link to="/contact">Talk to sales</Link>
-                  </Button>
-                </div>
-              </div>
-              <ul className="space-y-3 rounded-2xl border border-white/15 bg-white/5 p-6 backdrop-blur lg:col-span-2">
-                {featuredOS.highlights.map((h) => (
-                  <li key={h} className="flex items-start gap-3 text-sm text-white/90">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-cyan" />
-                    <span>{h}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-
       {/* Testimonials */}
       <section className="bg-surface py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
