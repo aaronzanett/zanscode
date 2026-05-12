@@ -225,11 +225,7 @@ function ProductsPage() {
           <Reveal variant="up" delay={520}>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild variant="brand" size="lg"><Link to="/contact">Find your app</Link></Button>
-              <Button asChild variant="outline" size="lg">
-                <a href={featuredOS.url} target="_blank" rel="noopener noreferrer">
-                  Explore Zanscode OS <ExternalLink className="ml-1 h-4 w-4" />
-                </a>
-              </Button>
+              <Button asChild variant="outline" size="lg"><Link to="/services">Explore custom builds</Link></Button>
             </div>
           </Reveal>
           <dl className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-4">
