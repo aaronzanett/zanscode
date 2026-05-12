@@ -7,6 +7,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Reveal } from "@/components/site/Reveal";
+import { ClosingCTA } from "@/components/site/ClosingCTA";
 import { teams, type JobTeam } from "@/data/jobs";
 import { useStore } from "@/lib/store";
 
