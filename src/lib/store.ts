@@ -317,6 +317,8 @@ export type SiteFooter = {
   phone: string;
   address: string;
   columns: FooterColumn[];
+  badges: FooterBadge[];
+  socials: SocialLink[];
 };
 
 export type SectionCard = { id: string; title: string; description: string };
@@ -339,12 +341,51 @@ export type SiteLegal = {
   terms: LegalDoc;
 };
 
+// Homepage editorial blocks
+export type Stat = { id: string; value: string; label: string };
+export type Logo = { id: string; name: string };
+export type IconName = "shopping-bag" | "truck" | "building" | "stethoscope" | "graduation-cap" | "landmark" | "rocket" | "boxes";
+export type Industry = { id: string; name: string; icon: IconName };
+export type Testimonial = { id: string; quote: string; name: string; role: string };
+export type Bullet = { id: string; text: string };
+export type FooterBadge = { id: string; label: string };
+export type SocialName = "linkedin" | "twitter" | "github" | "youtube";
+export type SocialLink = { id: string; name: SocialName; href: string };
+
+export type SiteHome = {
+  trustedHeadline: string;
+  trusted: Logo[];
+  stats: Stat[];
+  industriesEyebrow: string;
+  industriesTitle: string;
+  industriesSubtitle: string;
+  industries: Industry[];
+  pullQuote: string;
+  pullQuoteName: string;
+  pullQuoteRole: string;
+  saasEyebrow: string;
+  saasTitle: string;
+  saasSubtitle: string;
+  saasBullets: Bullet[];
+  saasPrimaryCta: string;
+  saasPrimaryCtaTo: string;
+  saasSecondaryCta: string;
+  saasSecondaryCtaTo: string;
+  testimonialsEyebrow: string;
+  testimonialsTitle: string;
+  testimonials: Testimonial[];
+  closingTitle: string;
+  closingHighlight: string; // italicised tail
+  closingDescription: string;
+};
+
 export type SiteContent = {
   nav: NavLink[];
   hero: SiteHero;
   footer: SiteFooter;
   sections: SiteSection[];
   legal: SiteLegal;
+  home: SiteHome;
 };
 
 export type Store = {
@@ -638,6 +679,18 @@ export function defaultSiteContent(): SiteContent {
           ],
         },
       ],
+      badges: [
+        { id: "fb-1", label: "SOC 2 Type II" },
+        { id: "fb-2", label: "ISO 27001" },
+        { id: "fb-3", label: "GDPR Ready" },
+        { id: "fb-4", label: "Global delivery" },
+      ],
+      socials: [
+        { id: "so-1", name: "linkedin", href: "#" },
+        { id: "so-2", name: "twitter", href: "#" },
+        { id: "so-3", name: "github", href: "#" },
+        { id: "so-4", name: "youtube", href: "#" },
+      ],
     },
     sections: [
       {
@@ -719,6 +772,60 @@ export function defaultSiteContent(): SiteContent {
         ],
       },
     },
+    home: {
+      trustedHeadline: "Trusted by teams across the region",
+      trusted: [
+        "MediFarma Group", "FleetIQ", "EduNext", "RetailCo", "NusaStay",
+        "GoodHealth", "Klipper", "Cendekia Academy", "BlueRoute", "VitaCare",
+      ].map((name, i) => ({ id: `lg-${i + 1}`, name })),
+      stats: [
+        { id: "st-1", value: "120+", label: "Systems delivered" },
+        { id: "st-2", value: "45", label: "Enterprise clients" },
+        { id: "st-3", value: "11", label: "Industries served" },
+        { id: "st-4", value: "99.98%", label: "Platform uptime" },
+      ],
+      industriesEyebrow: "Industries",
+      industriesTitle: "Trusted across industries",
+      industriesSubtitle:
+        "From single-location owners to multi-branch mid-sized companies — Zanscode adapts to how your industry actually operates.",
+      industries: [
+        { id: "in-1", name: "Retail & F&B", icon: "shopping-bag" },
+        { id: "in-2", name: "Logistics", icon: "truck" },
+        { id: "in-3", name: "Real Estate", icon: "building" },
+        { id: "in-4", name: "Healthcare", icon: "stethoscope" },
+        { id: "in-5", name: "Education", icon: "graduation-cap" },
+        { id: "in-6", name: "Finance", icon: "landmark" },
+      ],
+      pullQuote:
+        "Zanscode doesn't just write code — they design how the business runs.",
+      pullQuoteName: "Anita Wijaya",
+      pullQuoteRole: "COO, RetailCo (12 outlets)",
+      saasEyebrow: "Ready-made SaaS",
+      saasTitle: "Run on a Zanscode product, from day one.",
+      saasSubtitle:
+        "Beyond custom systems, we ship a growing line of SaaS products for specific industries — from POS and clinic management to school and field-service apps.",
+      saasBullets: [
+        { id: "sb-1", text: "25+ industry-ready SaaS products" },
+        { id: "sb-2", text: "Live, hosted and continuously updated" },
+        { id: "sb-3", text: "Customizable when your workflow is unique" },
+        { id: "sb-4", text: "Same engineering team behind every release" },
+      ],
+      saasPrimaryCta: "Browse SaaS products",
+      saasPrimaryCtaTo: "/products",
+      saasSecondaryCta: "Talk to our team",
+      saasSecondaryCtaTo: "/contact",
+      testimonialsEyebrow: "Customer stories",
+      testimonialsTitle: "Loved by owners and operators.",
+      testimonials: [
+        { id: "ts-1", quote: "Zanscode rebuilt our operations from scratch. Four tools became one — and our team finally trusts the data.", name: "Anita Wijaya", role: "COO, RetailCo" },
+        { id: "ts-2", quote: "They shipped our logistics platform in 14 weeks. Quality, communication, engineering — outstanding.", name: "Marcus Lee", role: "CEO, FleetIQ" },
+        { id: "ts-3", quote: "A true software partner — they think with us, not just for us. The system keeps getting better quarter after quarter.", name: "Sari Pratama", role: "Owner, EduNext Group" },
+      ],
+      closingTitle: "Have a system in mind?",
+      closingHighlight: "Let's build it.",
+      closingDescription:
+        "Tell us what you're trying to solve — we'll propose the architecture, team and timeline to get it shipped.",
+    },
   };
 }
 
@@ -773,7 +880,12 @@ function load(): Store {
       meetingUrl: iv.meetingUrl ?? "",
     }));
     if (!parsed.siteContent) parsed.siteContent = seeded.siteContent;
-    else if (!parsed.siteContent.legal) parsed.siteContent.legal = seeded.siteContent.legal;
+    else {
+      if (!parsed.siteContent.legal) parsed.siteContent.legal = seeded.siteContent.legal;
+      if (!parsed.siteContent.home) parsed.siteContent.home = seeded.siteContent.home;
+      if (!parsed.siteContent.footer.badges) parsed.siteContent.footer.badges = seeded.siteContent.footer.badges;
+      if (!parsed.siteContent.footer.socials) parsed.siteContent.footer.socials = seeded.siteContent.footer.socials;
+    }
     return parsed;
   } catch {
     return seed();
@@ -1642,7 +1754,92 @@ export function reorderFooterLinks(columnId: string, from: number, to: number) {
   }));
 }
 
-// ---------- Meeting helpers ----------
+// ---------- Mutations: Home blocks & Footer extras ----------
+
+function patchHome(patch: Partial<SiteHome>) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, home: { ...s.siteContent.home, ...patch } } }));
+}
+
+export function updateSiteHome(patch: Partial<SiteHome>) {
+  patchHome(patch);
+}
+
+// Generic list helpers (typed per field)
+type HomeListField =
+  | "trusted" | "stats" | "industries" | "testimonials" | "saasBullets";
+
+function listOf(s: Store, field: HomeListField): unknown[] {
+  return s.siteContent.home[field] as unknown as unknown[];
+}
+
+function setList(field: HomeListField, next: unknown[]) {
+  update((s) => ({
+    ...s,
+    siteContent: { ...s.siteContent, home: { ...s.siteContent.home, [field]: next } },
+  }));
+}
+
+export function addHomeItem(field: HomeListField) {
+  update((s) => {
+    const items = listOf(s, field).slice();
+    let item: unknown;
+    switch (field) {
+      case "trusted": item = { id: uid("lg-"), name: "New brand" }; break;
+      case "stats": item = { id: uid("st-"), value: "0", label: "New stat" }; break;
+      case "industries": item = { id: uid("in-"), name: "New industry", icon: "boxes" }; break;
+      case "testimonials": item = { id: uid("ts-"), quote: "", name: "", role: "" }; break;
+      case "saasBullets": item = { id: uid("sb-"), text: "New benefit" }; break;
+    }
+    items.push(item);
+    return { ...s, siteContent: { ...s.siteContent, home: { ...s.siteContent.home, [field]: items } } };
+  });
+}
+
+export function updateHomeItem(field: HomeListField, id: string, patch: Record<string, unknown>) {
+  update((s) => {
+    const items = listOf(s, field).map((it: unknown) => {
+      const obj = it as { id: string };
+      return obj.id === id ? { ...obj, ...patch } : obj;
+    });
+    return { ...s, siteContent: { ...s.siteContent, home: { ...s.siteContent.home, [field]: items } } };
+  });
+}
+
+export function removeHomeItem(field: HomeListField, id: string) {
+  update((s) => {
+    const items = listOf(s, field).filter((it: unknown) => (it as { id: string }).id !== id);
+    return { ...s, siteContent: { ...s.siteContent, home: { ...s.siteContent.home, [field]: items } } };
+  });
+}
+
+export function reorderHomeItems(field: HomeListField, from: number, to: number) {
+  update((s) => {
+    const next = moveInArray(listOf(s, field), from, to);
+    return { ...s, siteContent: { ...s.siteContent, home: { ...s.siteContent.home, [field]: next } } };
+  });
+}
+
+// Footer badges
+export function addFooterBadge() {
+  const item: FooterBadge = { id: uid("fb-"), label: "New badge" };
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, footer: { ...s.siteContent.footer, badges: [...s.siteContent.footer.badges, item] } } }));
+}
+export function updateFooterBadge(id: string, patch: Partial<FooterBadge>) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, footer: { ...s.siteContent.footer, badges: s.siteContent.footer.badges.map((b) => (b.id === id ? { ...b, ...patch } : b)) } } }));
+}
+export function removeFooterBadge(id: string) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, footer: { ...s.siteContent.footer, badges: s.siteContent.footer.badges.filter((b) => b.id !== id) } } }));
+}
+export function reorderFooterBadges(from: number, to: number) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, footer: { ...s.siteContent.footer, badges: moveInArray(s.siteContent.footer.badges, from, to) } } }));
+}
+
+// Footer socials
+export function updateFooterSocial(id: string, patch: Partial<SocialLink>) {
+  update((s) => ({ ...s, siteContent: { ...s.siteContent, footer: { ...s.siteContent.footer, socials: s.siteContent.footer.socials.map((b) => (b.id === id ? { ...b, ...patch } : b)) } } }));
+}
+
+
 
 export function generateMeetingLink(provider: MeetingProvider): string {
   const code = Math.random().toString(36).slice(2, 6) + "-" + Math.random().toString(36).slice(2, 6) + "-" + Math.random().toString(36).slice(2, 5);

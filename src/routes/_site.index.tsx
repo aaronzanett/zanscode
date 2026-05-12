@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import {
-  ArrowUpRight, ArrowRight, Sparkles, Quote, Check,
+  ArrowUpRight, Sparkles, Quote, Check,
   Code2, Database, Smartphone, Boxes, Compass, PenTool, Hammer, Rocket,
   ShoppingBag, Truck, Building2, Stethoscope, GraduationCap, Landmark,
   TrendingUp, Clock, ShieldCheck,
@@ -12,6 +12,7 @@ import { ClosingCTA } from "@/components/site/ClosingCTA";
 import { isAppSubdomain } from "@/lib/host";
 import { isSignedIn } from "@/lib/auth";
 import { useStore } from "@/lib/store";
+import type { IconName } from "@/lib/store";
 
 import heroBg from "@/assets/hero-bg.jpg";
 import productSaas from "@/assets/product-saas.jpg";
@@ -28,32 +29,16 @@ export const Route = createFileRoute("/_site/")({
   component: HomePage,
 });
 
-const stats = [
-  { v: "120+", l: "Systems delivered" },
-  { v: "45", l: "Enterprise clients" },
-  { v: "11", l: "Industries served" },
-  { v: "99.98%", l: "Platform uptime" },
-];
-
-const trusted = [
-  "MediFarma Group", "FleetIQ", "EduNext", "RetailCo", "NusaStay",
-  "GoodHealth", "Klipper", "Cendekia Academy", "BlueRoute", "VitaCare",
-];
-
-const industries = [
-  { icon: ShoppingBag, name: "Retail & F&B" },
-  { icon: Truck, name: "Logistics" },
-  { icon: Building2, name: "Real Estate" },
-  { icon: Stethoscope, name: "Healthcare" },
-  { icon: GraduationCap, name: "Education" },
-  { icon: Landmark, name: "Finance" },
-];
-
-const testimonials = [
-  { quote: "Zanscode rebuilt our operations from scratch. Four tools became one — and our team finally trusts the data.", name: "Anita Wijaya", role: "COO, RetailCo" },
-  { quote: "They shipped our logistics platform in 14 weeks. Quality, communication, engineering — outstanding.", name: "Marcus Lee", role: "CEO, FleetIQ" },
-  { quote: "A true software partner — they think with us, not just for us. The system keeps getting better quarter after quarter.", name: "Sari Pratama", role: "Owner, EduNext Group" },
-];
+const industryIconMap: Record<IconName, typeof Code2> = {
+  "shopping-bag": ShoppingBag,
+  "truck": Truck,
+  "building": Building2,
+  "stethoscope": Stethoscope,
+  "graduation-cap": GraduationCap,
+  "landmark": Landmark,
+  "rocket": Rocket,
+  "boxes": Boxes,
+};
 
 type SectionMeta = { eyebrow: string; numbered: boolean; icons: Array<typeof Code2> };
 
@@ -71,6 +56,11 @@ function HomePage() {
   const navigate = useNavigate();
   const hero = useStore((s) => s.siteContent.hero);
   const sections = useStore((s) => s.siteContent.sections);
+  const home = useStore((s) => s.siteContent.home);
+  const stats = home.stats;
+  const trusted = home.trusted;
+  const industries = home.industries.map((i) => ({ name: i.name, icon: industryIconMap[i.icon] ?? Boxes }));
+  const testimonials = home.testimonials;
 
   useEffect(() => {
     if (isAppSubdomain()) {
@@ -131,9 +121,9 @@ function HomePage() {
 
               <dl className="mt-14 grid grid-cols-2 gap-6 sm:grid-cols-4">
                 {stats.map((s, i) => (
-                  <Reveal key={s.l} variant="up" delay={650 + i * 110} as="div">
-                    <dt className="font-display text-3xl font-medium text-foreground">{s.v}</dt>
-                    <dd className="mt-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{s.l}</dd>
+                  <Reveal key={s.id} variant="up" delay={650 + i * 110} as="div">
+                    <dt className="font-display text-3xl font-medium text-foreground">{s.value}</dt>
+                    <dd className="mt-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{s.label}</dd>
                   </Reveal>
                 ))}
               </dl>
@@ -195,13 +185,13 @@ function HomePage() {
       {/* MARQUEE — trusted by */}
       <section className="border-y border-border bg-background py-10 overflow-hidden">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-          <p className="kicker text-center">Trusted by teams across the region</p>
+          <p className="kicker text-center">{home.trustedHeadline}</p>
         </div>
         <div className="mt-6 flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
           <div className="flex shrink-0 animate-marquee-x gap-14 pr-14">
-            {[...trusted, ...trusted].map((name, i) => (
+            {[...trusted, ...trusted].map((logo, i) => (
               <span key={i} className="whitespace-nowrap font-display text-2xl font-medium text-muted-foreground/60">
-                {name}
+                {logo.name}
               </span>
             ))}
           </div>
@@ -263,13 +253,12 @@ function HomePage() {
       <section className="bg-background py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <Reveal variant="up" className="mx-auto max-w-2xl text-center">
-            <p className="kicker">Industries</p>
+            <p className="kicker">{home.industriesEyebrow}</p>
             <h2 className="mt-4 font-display text-4xl font-medium leading-[1.05] sm:text-5xl">
-              Trusted across <em className="serif-italic text-brand">industries</em>
+              {home.industriesTitle.split(" ").slice(0, -1).join(" ")}{" "}
+              <em className="serif-italic text-brand">{home.industriesTitle.split(" ").slice(-1)[0]}</em>
             </h2>
-            <p className="mt-4 text-muted-foreground">
-              From single-location owners to multi-branch mid-sized companies — Zanscode adapts to how your industry actually operates.
-            </p>
+            <p className="mt-4 text-muted-foreground">{home.industriesSubtitle}</p>
           </Reveal>
           <div className="mt-12 grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
             {industries.map((i, idx) => (
@@ -290,14 +279,13 @@ function HomePage() {
           <Reveal variant="up">
             <Quote className="mx-auto h-8 w-8 text-brand" />
             <blockquote className="mt-8 font-display text-3xl font-medium leading-[1.2] text-foreground sm:text-4xl lg:text-5xl">
-              "Zanscode doesn't just write code — they design{" "}
-              <em className="serif-italic text-brand">how the business runs.</em>"
+              "{home.pullQuote}"
             </blockquote>
             <figcaption className="mt-10 flex items-center justify-center gap-4">
               <div className="h-12 w-12 rounded-full bg-gradient-brand" />
               <div className="text-left">
-                <div className="text-sm font-medium text-foreground">Anita Wijaya</div>
-                <div className="text-sm text-muted-foreground">COO, RetailCo (12 outlets)</div>
+                <div className="text-sm font-medium text-foreground">{home.pullQuoteName}</div>
+                <div className="text-sm text-muted-foreground">{home.pullQuoteRole}</div>
               </div>
             </figcaption>
           </Reveal>
@@ -308,34 +296,28 @@ function HomePage() {
       <section className="bg-background py-24 lg:py-32">
         <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-12 lg:px-10">
           <Reveal variant="up" className="lg:col-span-5">
-            <p className="kicker">Ready-made SaaS</p>
+            <p className="kicker">{home.saasEyebrow}</p>
             <h2 className="mt-4 font-display text-4xl font-medium leading-[1.05] sm:text-5xl lg:text-6xl">
-              Run on a Zanscode product, <em className="serif-italic text-brand">from day one.</em>
+              {home.saasTitle.split(" ").slice(0, -2).join(" ")}{" "}
+              <em className="serif-italic text-brand">{home.saasTitle.split(" ").slice(-2).join(" ")}</em>
             </h2>
-            <p className="mt-6 text-lg text-muted-foreground">
-              Beyond custom systems, we ship a growing line of SaaS products for specific industries — from POS and clinic management to school and field-service apps.
-            </p>
+            <p className="mt-6 text-lg text-muted-foreground">{home.saasSubtitle}</p>
             <ul className="mt-8 space-y-4 text-sm">
-              {[
-                "25+ industry-ready SaaS products",
-                "Live, hosted and continuously updated",
-                "Customizable when your workflow is unique",
-                "Same engineering team behind every release",
-              ].map((i) => (
-                <li key={i} className="flex items-start gap-3 border-b border-border pb-4 last:border-0">
+              {home.saasBullets.map((b) => (
+                <li key={b.id} className="flex items-start gap-3 border-b border-border pb-4 last:border-0">
                   <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
-                  <span className="text-foreground">{i}</span>
+                  <span className="text-foreground">{b.text}</span>
                 </li>
               ))}
             </ul>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild variant="brand" className="group">
-                <Link to="/products">
-                  Browse SaaS products
+                <Link to={home.saasPrimaryCtaTo}>
+                  {home.saasPrimaryCta}
                   <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Link>
               </Button>
-              <Button asChild variant="outline"><Link to="/contact">Talk to our team</Link></Button>
+              <Button asChild variant="outline"><Link to={home.saasSecondaryCtaTo}>{home.saasSecondaryCta}</Link></Button>
             </div>
           </Reveal>
 
@@ -354,14 +336,15 @@ function HomePage() {
       <section className="bg-cream py-24 paper-grain">
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <Reveal variant="up" className="mx-auto max-w-2xl text-center">
-            <p className="kicker">Customer stories</p>
+            <p className="kicker">{home.testimonialsEyebrow}</p>
             <h2 className="mt-4 font-display text-4xl font-medium leading-[1.05] sm:text-5xl">
-              Loved by owners and <em className="serif-italic text-brand">operators.</em>
+              {home.testimonialsTitle.split(" ").slice(0, -1).join(" ")}{" "}
+              <em className="serif-italic text-brand">{home.testimonialsTitle.split(" ").slice(-1)[0]}</em>
             </h2>
           </Reveal>
           <div className="mt-14 grid gap-5 lg:grid-cols-3">
             {testimonials.map((t, i) => (
-              <Reveal key={t.name} variant="up" delay={i * 180} as="div">
+              <Reveal key={t.id} variant="up" delay={i * 180} as="div">
                 <figure className="card-hover flex h-full flex-col rounded-3xl border border-border bg-background p-7 shadow-soft hover:border-brand/40 hover:shadow-brand">
                   <Quote className="h-6 w-6 text-brand" />
                   <blockquote className="mt-4 flex-1 font-display text-lg leading-relaxed text-foreground">
@@ -382,8 +365,8 @@ function HomePage() {
       </section>
 
       <ClosingCTA
-        title={<>Have a system in mind?<br />Let's <em className="serif-italic text-brand-cyan">build it.</em></>}
-        description="Tell us what you're trying to solve — we'll propose the architecture, team and timeline to get it shipped."
+        title={<>{home.closingTitle}<br />{home.closingHighlight && (<><em className="serif-italic text-brand-cyan">{home.closingHighlight}</em></>)}</>}
+        description={home.closingDescription}
       />
     </>
   );
