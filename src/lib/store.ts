@@ -772,6 +772,60 @@ export function defaultSiteContent(): SiteContent {
         ],
       },
     },
+    home: {
+      trustedHeadline: "Trusted by teams across the region",
+      trusted: [
+        "MediFarma Group", "FleetIQ", "EduNext", "RetailCo", "NusaStay",
+        "GoodHealth", "Klipper", "Cendekia Academy", "BlueRoute", "VitaCare",
+      ].map((name, i) => ({ id: `lg-${i + 1}`, name })),
+      stats: [
+        { id: "st-1", value: "120+", label: "Systems delivered" },
+        { id: "st-2", value: "45", label: "Enterprise clients" },
+        { id: "st-3", value: "11", label: "Industries served" },
+        { id: "st-4", value: "99.98%", label: "Platform uptime" },
+      ],
+      industriesEyebrow: "Industries",
+      industriesTitle: "Trusted across industries",
+      industriesSubtitle:
+        "From single-location owners to multi-branch mid-sized companies — Zanscode adapts to how your industry actually operates.",
+      industries: [
+        { id: "in-1", name: "Retail & F&B", icon: "shopping-bag" },
+        { id: "in-2", name: "Logistics", icon: "truck" },
+        { id: "in-3", name: "Real Estate", icon: "building" },
+        { id: "in-4", name: "Healthcare", icon: "stethoscope" },
+        { id: "in-5", name: "Education", icon: "graduation-cap" },
+        { id: "in-6", name: "Finance", icon: "landmark" },
+      ],
+      pullQuote:
+        "Zanscode doesn't just write code — they design how the business runs.",
+      pullQuoteName: "Anita Wijaya",
+      pullQuoteRole: "COO, RetailCo (12 outlets)",
+      saasEyebrow: "Ready-made SaaS",
+      saasTitle: "Run on a Zanscode product, from day one.",
+      saasSubtitle:
+        "Beyond custom systems, we ship a growing line of SaaS products for specific industries — from POS and clinic management to school and field-service apps.",
+      saasBullets: [
+        { id: "sb-1", text: "25+ industry-ready SaaS products" },
+        { id: "sb-2", text: "Live, hosted and continuously updated" },
+        { id: "sb-3", text: "Customizable when your workflow is unique" },
+        { id: "sb-4", text: "Same engineering team behind every release" },
+      ],
+      saasPrimaryCta: "Browse SaaS products",
+      saasPrimaryCtaTo: "/products",
+      saasSecondaryCta: "Talk to our team",
+      saasSecondaryCtaTo: "/contact",
+      testimonialsEyebrow: "Customer stories",
+      testimonialsTitle: "Loved by owners and operators.",
+      testimonials: [
+        { id: "ts-1", quote: "Zanscode rebuilt our operations from scratch. Four tools became one — and our team finally trusts the data.", name: "Anita Wijaya", role: "COO, RetailCo" },
+        { id: "ts-2", quote: "They shipped our logistics platform in 14 weeks. Quality, communication, engineering — outstanding.", name: "Marcus Lee", role: "CEO, FleetIQ" },
+        { id: "ts-3", quote: "A true software partner — they think with us, not just for us. The system keeps getting better quarter after quarter.", name: "Sari Pratama", role: "Owner, EduNext Group" },
+      ],
+      closingTitle: "Have a system in mind?",
+      closingHighlight: "Let's build it.",
+      closingDescription:
+        "Tell us what you're trying to solve — we'll propose the architecture, team and timeline to get it shipped.",
+    },
   };
 }
 
