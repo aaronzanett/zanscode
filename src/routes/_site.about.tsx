@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Briefcase, Users, Heart, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/Reveal";
+import { ClosingCTA } from "@/components/site/ClosingCTA";
 
 import aboutTeam from "@/assets/about-team.jpg";
 
