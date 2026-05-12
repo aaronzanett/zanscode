@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import {
-  ArrowUpRight, ArrowRight, Sparkles, Quote, Check,
+  ArrowUpRight, Sparkles, Quote, Check,
   Code2, Database, Smartphone, Boxes, Compass, PenTool, Hammer, Rocket,
   ShoppingBag, Truck, Building2, Stethoscope, GraduationCap, Landmark,
   TrendingUp, Clock, ShieldCheck,
@@ -12,6 +12,7 @@ import { ClosingCTA } from "@/components/site/ClosingCTA";
 import { isAppSubdomain } from "@/lib/host";
 import { isSignedIn } from "@/lib/auth";
 import { useStore } from "@/lib/store";
+import type { IconName } from "@/lib/store";
 
 import heroBg from "@/assets/hero-bg.jpg";
 import productSaas from "@/assets/product-saas.jpg";
@@ -28,32 +29,16 @@ export const Route = createFileRoute("/_site/")({
   component: HomePage,
 });
 
-const stats = [
-  { v: "120+", l: "Systems delivered" },
-  { v: "45", l: "Enterprise clients" },
-  { v: "11", l: "Industries served" },
-  { v: "99.98%", l: "Platform uptime" },
-];
-
-const trusted = [
-  "MediFarma Group", "FleetIQ", "EduNext", "RetailCo", "NusaStay",
-  "GoodHealth", "Klipper", "Cendekia Academy", "BlueRoute", "VitaCare",
-];
-
-const industries = [
-  { icon: ShoppingBag, name: "Retail & F&B" },
-  { icon: Truck, name: "Logistics" },
-  { icon: Building2, name: "Real Estate" },
-  { icon: Stethoscope, name: "Healthcare" },
-  { icon: GraduationCap, name: "Education" },
-  { icon: Landmark, name: "Finance" },
-];
-
-const testimonials = [
-  { quote: "Zanscode rebuilt our operations from scratch. Four tools became one — and our team finally trusts the data.", name: "Anita Wijaya", role: "COO, RetailCo" },
-  { quote: "They shipped our logistics platform in 14 weeks. Quality, communication, engineering — outstanding.", name: "Marcus Lee", role: "CEO, FleetIQ" },
-  { quote: "A true software partner — they think with us, not just for us. The system keeps getting better quarter after quarter.", name: "Sari Pratama", role: "Owner, EduNext Group" },
-];
+const industryIconMap: Record<IconName, typeof Code2> = {
+  "shopping-bag": ShoppingBag,
+  "truck": Truck,
+  "building": Building2,
+  "stethoscope": Stethoscope,
+  "graduation-cap": GraduationCap,
+  "landmark": Landmark,
+  "rocket": Rocket,
+  "boxes": Boxes,
+};
 
 type SectionMeta = { eyebrow: string; numbered: boolean; icons: Array<typeof Code2> };
 
