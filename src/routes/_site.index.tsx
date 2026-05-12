@@ -253,13 +253,12 @@ function HomePage() {
       <section className="bg-background py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <Reveal variant="up" className="mx-auto max-w-2xl text-center">
-            <p className="kicker">Industries</p>
+            <p className="kicker">{home.industriesEyebrow}</p>
             <h2 className="mt-4 font-display text-4xl font-medium leading-[1.05] sm:text-5xl">
-              Trusted across <em className="serif-italic text-brand">industries</em>
+              {home.industriesTitle.split(" ").slice(0, -1).join(" ")}{" "}
+              <em className="serif-italic text-brand">{home.industriesTitle.split(" ").slice(-1)[0]}</em>
             </h2>
-            <p className="mt-4 text-muted-foreground">
-              From single-location owners to multi-branch mid-sized companies — Zanscode adapts to how your industry actually operates.
-            </p>
+            <p className="mt-4 text-muted-foreground">{home.industriesSubtitle}</p>
           </Reveal>
           <div className="mt-12 grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
             {industries.map((i, idx) => (
@@ -280,14 +279,13 @@ function HomePage() {
           <Reveal variant="up">
             <Quote className="mx-auto h-8 w-8 text-brand" />
             <blockquote className="mt-8 font-display text-3xl font-medium leading-[1.2] text-foreground sm:text-4xl lg:text-5xl">
-              "Zanscode doesn't just write code — they design{" "}
-              <em className="serif-italic text-brand">how the business runs.</em>"
+              "{home.pullQuote}"
             </blockquote>
             <figcaption className="mt-10 flex items-center justify-center gap-4">
               <div className="h-12 w-12 rounded-full bg-gradient-brand" />
               <div className="text-left">
-                <div className="text-sm font-medium text-foreground">Anita Wijaya</div>
-                <div className="text-sm text-muted-foreground">COO, RetailCo (12 outlets)</div>
+                <div className="text-sm font-medium text-foreground">{home.pullQuoteName}</div>
+                <div className="text-sm text-muted-foreground">{home.pullQuoteRole}</div>
               </div>
             </figcaption>
           </Reveal>
@@ -298,34 +296,28 @@ function HomePage() {
       <section className="bg-background py-24 lg:py-32">
         <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-12 lg:px-10">
           <Reveal variant="up" className="lg:col-span-5">
-            <p className="kicker">Ready-made SaaS</p>
+            <p className="kicker">{home.saasEyebrow}</p>
             <h2 className="mt-4 font-display text-4xl font-medium leading-[1.05] sm:text-5xl lg:text-6xl">
-              Run on a Zanscode product, <em className="serif-italic text-brand">from day one.</em>
+              {home.saasTitle.split(" ").slice(0, -2).join(" ")}{" "}
+              <em className="serif-italic text-brand">{home.saasTitle.split(" ").slice(-2).join(" ")}</em>
             </h2>
-            <p className="mt-6 text-lg text-muted-foreground">
-              Beyond custom systems, we ship a growing line of SaaS products for specific industries — from POS and clinic management to school and field-service apps.
-            </p>
+            <p className="mt-6 text-lg text-muted-foreground">{home.saasSubtitle}</p>
             <ul className="mt-8 space-y-4 text-sm">
-              {[
-                "25+ industry-ready SaaS products",
-                "Live, hosted and continuously updated",
-                "Customizable when your workflow is unique",
-                "Same engineering team behind every release",
-              ].map((i) => (
-                <li key={i} className="flex items-start gap-3 border-b border-border pb-4 last:border-0">
+              {home.saasBullets.map((b) => (
+                <li key={b.id} className="flex items-start gap-3 border-b border-border pb-4 last:border-0">
                   <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
-                  <span className="text-foreground">{i}</span>
+                  <span className="text-foreground">{b.text}</span>
                 </li>
               ))}
             </ul>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild variant="brand" className="group">
-                <Link to="/products">
-                  Browse SaaS products
+                <Link to={home.saasPrimaryCtaTo}>
+                  {home.saasPrimaryCta}
                   <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Link>
               </Button>
-              <Button asChild variant="outline"><Link to="/contact">Talk to our team</Link></Button>
+              <Button asChild variant="outline"><Link to={home.saasSecondaryCtaTo}>{home.saasSecondaryCta}</Link></Button>
             </div>
           </Reveal>
 
@@ -344,14 +336,15 @@ function HomePage() {
       <section className="bg-cream py-24 paper-grain">
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <Reveal variant="up" className="mx-auto max-w-2xl text-center">
-            <p className="kicker">Customer stories</p>
+            <p className="kicker">{home.testimonialsEyebrow}</p>
             <h2 className="mt-4 font-display text-4xl font-medium leading-[1.05] sm:text-5xl">
-              Loved by owners and <em className="serif-italic text-brand">operators.</em>
+              {home.testimonialsTitle.split(" ").slice(0, -1).join(" ")}{" "}
+              <em className="serif-italic text-brand">{home.testimonialsTitle.split(" ").slice(-1)[0]}</em>
             </h2>
           </Reveal>
           <div className="mt-14 grid gap-5 lg:grid-cols-3">
             {testimonials.map((t, i) => (
-              <Reveal key={t.name} variant="up" delay={i * 180} as="div">
+              <Reveal key={t.id} variant="up" delay={i * 180} as="div">
                 <figure className="card-hover flex h-full flex-col rounded-3xl border border-border bg-background p-7 shadow-soft hover:border-brand/40 hover:shadow-brand">
                   <Quote className="h-6 w-6 text-brand" />
                   <blockquote className="mt-4 flex-1 font-display text-lg leading-relaxed text-foreground">
@@ -372,9 +365,10 @@ function HomePage() {
       </section>
 
       <ClosingCTA
-        title={<>Have a system in mind?<br />Let's <em className="serif-italic text-brand-cyan">build it.</em></>}
-        description="Tell us what you're trying to solve — we'll propose the architecture, team and timeline to get it shipped."
+        title={<>{home.closingTitle}<br />{home.closingHighlight && (<><em className="serif-italic text-brand-cyan">{home.closingHighlight}</em></>)}</>}
+        description={home.closingDescription}
       />
+    </>
     </>
   );
 }
