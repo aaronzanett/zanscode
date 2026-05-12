@@ -1,14 +1,22 @@
 import { Link } from "@tanstack/react-router";
-import { Mail, MapPin, Phone, Linkedin, Twitter, Github, Youtube, ShieldCheck, Globe } from "lucide-react";
+import { Mail, MapPin, Phone, Linkedin, Twitter, Github, Youtube, ShieldCheck } from "lucide-react";
 import logo from "@/assets/zanscode-logo.png";
 import { useStore } from "@/lib/store";
+import type { SocialName } from "@/lib/store";
 
-const socials = [
-  { icon: Linkedin, label: "LinkedIn", href: "#" },
-  { icon: Twitter, label: "Twitter", href: "#" },
-  { icon: Github, label: "GitHub", href: "#" },
-  { icon: Youtube, label: "YouTube", href: "#" },
-];
+const socialIcons: Record<SocialName, typeof Linkedin> = {
+  linkedin: Linkedin,
+  twitter: Twitter,
+  github: Github,
+  youtube: Youtube,
+};
+
+const socialLabels: Record<SocialName, string> = {
+  linkedin: "LinkedIn",
+  twitter: "Twitter",
+  github: "GitHub",
+  youtube: "YouTube",
+};
 
 export function Footer() {
   const footer = useStore((s) => s.siteContent.footer);
