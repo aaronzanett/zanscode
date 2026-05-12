@@ -454,21 +454,12 @@ function ProductsPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="pb-24 pt-4">
-        <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-          <div className="rounded-3xl border border-border bg-gradient-soft p-10 shadow-soft sm:p-14">
-            <h2 className="text-3xl font-bold sm:text-4xl">Don't see your industry?</h2>
-            <p className="mt-3 text-muted-foreground">
-              We're always shipping new SaaS. Tell us what you run — we'll point you at the closest fit, or build it.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Button asChild variant="brand" size="lg"><Link to="/contact">Request a demo</Link></Button>
-              <Button asChild variant="outline" size="lg"><Link to="/services">Explore custom builds</Link></Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ClosingCTA
+        title={<>Don't see your <em className="serif-italic text-brand-cyan">industry?</em></>}
+        description="We're always shipping new SaaS. Tell us what you run — we'll point you at the closest fit, or build it."
+        primary={{ label: "Request a demo", to: "/contact", icon: "arrow-up-right" }}
+        secondary={{ label: "Explore custom builds", to: "/services", icon: "arrow-right" }}
+      />
     </>
   );
 }
