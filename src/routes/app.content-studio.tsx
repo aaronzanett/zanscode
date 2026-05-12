@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Sparkles, Menu as MenuIcon, LayoutGrid, ExternalLink, Eye, EyeOff, Layers, ArrowUp, ArrowDown, Lock, Info, ScrollText, Plus, Trash2 } from "lucide-react";
+import { Sparkles, Menu as MenuIcon, LayoutGrid, ExternalLink, Eye, EyeOff, Layers, ArrowUp, ArrowDown, Lock, Info, ScrollText, Plus, Trash2, Home as HomeIcon, BadgeCheck, Quote as QuoteIcon, Megaphone } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,7 +11,30 @@ import {
   updateFooterColumn, updateFooterLink, reorderFooterColumns, reorderFooterLinks,
   updateSection, updateSectionCard, reorderSections, reorderSectionCards,
   updateLegalTerms, updateLegalSection, addLegalSection, removeLegalSection, reorderLegalSections,
+  updateSiteHome,
+  addHomeItem, updateHomeItem, removeHomeItem, reorderHomeItems,
+  addFooterBadge, updateFooterBadge, removeFooterBadge, reorderFooterBadges,
+  updateFooterSocial,
 } from "@/lib/store";
+import type { IconName, SocialName } from "@/lib/store";
+
+const INDUSTRY_ICONS: { value: IconName; label: string }[] = [
+  { value: "shopping-bag", label: "Shopping bag" },
+  { value: "truck", label: "Truck" },
+  { value: "building", label: "Building" },
+  { value: "stethoscope", label: "Stethoscope" },
+  { value: "graduation-cap", label: "Graduation cap" },
+  { value: "landmark", label: "Landmark" },
+  { value: "rocket", label: "Rocket" },
+  { value: "boxes", label: "Boxes" },
+];
+
+const SOCIAL_LABELS: Record<SocialName, string> = {
+  linkedin: "LinkedIn",
+  twitter: "Twitter",
+  github: "GitHub",
+  youtube: "YouTube",
+};
 
 export const Route = createFileRoute("/app/content-studio")({
   head: () => ({
