@@ -162,7 +162,7 @@ function HomePage() {
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">
                         <TrendingUp className="h-3.5 w-3.5 text-brand" /> Operational lift
                       </div>
-                      <div className="mt-1 font-display text-3xl font-medium text-gradient-brand">+38%</div>
+                      <div className="mt-1 font-display text-3xl font-medium text-brand">+38%</div>
                       <div className="mt-0.5 text-[11px] text-muted-foreground">avg. across deployments</div>
                     </div>
                   </div>
