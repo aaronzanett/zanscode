@@ -369,11 +369,8 @@ function HomePage() {
 
           <Reveal variant="scale" delay={200} className="lg:col-span-7">
             <div className="relative">
-              <div className="pointer-events-none absolute -inset-8 rounded-[3rem] bg-gradient-brand opacity-20 blur-3xl" />
-              <div className="pointer-events-none absolute -top-6 -left-6 h-24 w-24 rounded-2xl bg-brand-cyan/30 blur-2xl" />
               <div className="relative overflow-hidden rounded-3xl border border-border bg-background shadow-card">
                 <img src={productSaas} alt="Zanscode SaaS preview" loading="lazy" width={1280} height={960} className="w-full object-cover transition-transform duration-[1200ms] hover:scale-[1.03]" />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-ink/20 via-transparent to-transparent" />
               </div>
               {/* floating chip */}
               <div className="absolute -bottom-5 left-6 right-6 hidden rounded-2xl border border-border bg-background/95 p-4 shadow-card backdrop-blur sm:left-12 sm:right-12 sm:flex sm:items-center sm:gap-4">
