@@ -252,9 +252,7 @@ function HomePage() {
                       <Reveal key={card.id} variant="up" delay={i * 110} as="div">
                         <div className="card-hover group relative h-full overflow-hidden rounded-3xl border border-border bg-card p-7 shadow-soft hover:border-brand/40 hover:shadow-brand">
                           {/* top accent strip */}
-                          <div className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gradient-brand transition-transform duration-500 group-hover:scale-x-100" />
-                          {/* subtle hover wash */}
-                          <div className="pointer-events-none absolute -inset-px rounded-3xl bg-gradient-to-br from-brand/0 via-transparent to-brand-cyan/0 opacity-0 transition-opacity duration-500 group-hover:from-brand/[0.04] group-hover:to-brand-cyan/[0.06] group-hover:opacity-100" aria-hidden />
+                          <div className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-brand transition-transform duration-500 group-hover:scale-x-100" />
                           {stepLabel && (
                             <span className="absolute right-5 top-5 font-display text-sm tracking-[0.2em] text-muted-foreground/40 transition-colors group-hover:text-brand">{stepLabel}</span>
                           )}
