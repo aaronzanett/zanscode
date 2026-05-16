@@ -147,8 +147,6 @@ function HomePage() {
             <div className="relative lg:col-span-5">
               <Reveal variant="scale" delay={250}>
                 <div className="relative">
-                  {/* glow ring behind image */}
-                  <div className="pointer-events-none absolute -inset-6 rounded-[2.5rem] bg-gradient-brand opacity-25 blur-2xl" />
                   <div className="relative overflow-hidden rounded-3xl border border-border bg-background shadow-card">
                     <img
                       src={heroBg}
@@ -157,7 +155,6 @@ function HomePage() {
                       width={1280}
                       height={1600}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-tr from-brand/40 via-transparent to-brand-cyan/20 mix-blend-multiply" />
                   </div>
 
                   <div className="absolute -left-5 top-10 hidden animate-float-soft sm:block">
