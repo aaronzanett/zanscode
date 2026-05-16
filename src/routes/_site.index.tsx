@@ -336,7 +336,6 @@ function HomePage() {
 
       {/* SAAS PRODUCTS — split with image */}
       <section className="relative bg-background py-24 lg:py-32 overflow-hidden">
-        <div className="pointer-events-none absolute -top-32 right-[-15%] h-[34rem] w-[34rem] rounded-full bg-brand/10 blur-3xl" aria-hidden />
         <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-12 lg:px-10">
           <Reveal variant="up" className="lg:col-span-5">
             <p className="kicker">{home.saasEyebrow}</p>
