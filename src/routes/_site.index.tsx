@@ -52,18 +52,16 @@ function sectionMeta(id: string, idx: number): SectionMeta {
   return { eyebrow: idx === 0 ? "Highlights" : "More from Zanscode", numbered: false, icons: [Check, Sparkles, Boxes, Code2] };
 }
 
-// Rotating icon tile color palette — keeps cards from feeling monotone
+// Solid accent rotation — matches the testimonial accent lines for consistency
 const iconTiles = [
-  "bg-ink text-background",
   "bg-brand text-background",
   "bg-brand-cyan text-ink",
-  "bg-gradient-brand text-background",
+  "bg-ink text-background",
 ];
 const industryTiles = [
-  { wrap: "bg-cream", icon: "bg-brand/10 text-brand", ring: "hover:border-brand/50" },
-  { wrap: "bg-accent/40", icon: "bg-brand-cyan/20 text-brand", ring: "hover:border-brand-cyan/60" },
-  { wrap: "bg-background", icon: "bg-ink text-background", ring: "hover:border-ink/40" },
-  { wrap: "bg-gradient-soft", icon: "bg-brand text-background", ring: "hover:border-brand/50" },
+  { wrap: "bg-cream", icon: "bg-brand text-background", ring: "hover:border-brand/50" },
+  { wrap: "bg-background", icon: "bg-brand-cyan text-ink", ring: "hover:border-brand-cyan/60" },
+  { wrap: "bg-cream", icon: "bg-ink text-background", ring: "hover:border-ink/40" },
 ];
 
 function HomePage() {
