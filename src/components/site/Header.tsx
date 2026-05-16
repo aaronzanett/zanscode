@@ -136,14 +136,14 @@ export function Header() {
         <nav className="hidden md:flex">
           <div
             ref={listRef}
-            className="relative flex items-center gap-0.5 rounded-full border border-border/60 bg-secondary/30 p-1 backdrop-blur"
+            className="relative flex items-center gap-0.5 rounded-full border border-border/60 bg-secondary/30 p-1"
             onMouseLeave={() => setHoverIdx(null)}
           >
             {/* Sliding pill indicator */}
             <span
               aria-hidden="true"
               className={cn(
-                "pointer-events-none absolute top-1 bottom-1 rounded-full bg-gradient-to-r from-brand to-brand-cyan shadow-soft transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
+                "pointer-events-none absolute top-1 bottom-1 rounded-full bg-brand shadow-soft transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
                 indicator.visible ? "opacity-100" : "opacity-0",
               )}
               style={{
