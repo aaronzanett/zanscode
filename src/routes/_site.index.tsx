@@ -349,7 +349,7 @@ function HomePage() {
             <ul className="mt-8 space-y-3 text-sm">
               {home.saasBullets.map((b) => (
                 <li key={b.id} className="group flex items-start gap-3 rounded-xl border border-transparent p-3 transition-colors hover:border-border hover:bg-cream">
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-brand text-background shadow-soft">
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand text-background shadow-soft">
                     <Check className="h-3 w-3" />
                   </span>
                   <span className="text-foreground">{b.text}</span>
