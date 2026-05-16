@@ -179,7 +179,7 @@ function HomePage() {
 
                   <div className="absolute -bottom-5 left-4 right-4 rounded-2xl border border-border bg-background p-4 shadow-card sm:left-10 sm:right-10">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-brand text-background">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand text-background">
                         <ShieldCheck className="h-5 w-5" />
                       </div>
                       <div className="flex-1">
