@@ -84,9 +84,6 @@ function HomePage() {
     <>
       {/* HERO — editorial, with floating stat cards */}
       <section className="relative overflow-hidden bg-cream pt-12 pb-24 sm:pt-16 lg:pt-24 lg:pb-32 paper-grain">
-        <div className="pointer-events-none absolute -top-32 right-[-10%] h-[32rem] w-[32rem] rounded-full bg-brand-cyan/30 blur-3xl animate-blob-drift" aria-hidden />
-        <div className="pointer-events-none absolute -bottom-40 left-[-10%] h-[34rem] w-[34rem] rounded-full bg-brand/25 blur-3xl animate-blob-drift" style={{ animationDelay: "-9s" }} aria-hidden />
-        <div className="pointer-events-none absolute top-1/3 left-1/2 h-[18rem] w-[18rem] -translate-x-1/2 rounded-full bg-accent/50 blur-3xl animate-blob-drift" style={{ animationDelay: "-14s" }} aria-hidden />
 
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
