@@ -152,7 +152,6 @@ export function Header() {
               }}
             />
             {nav.map((n, i) => {
-              const isActive = i === activeIdx;
               const isTarget = i === targetIdx;
               return (
                 <Link
@@ -170,17 +169,7 @@ export function Header() {
                   )}
                   activeOptions={{ exact: n.to === "/" }}
                 >
-                  <span className="flex items-center gap-1.5">
-                    {n.label}
-                    {isActive && (
-                      <span
-                        className={cn(
-                          "h-1 w-1 rounded-full bg-white/90 transition-opacity duration-300",
-                          isTarget ? "opacity-100" : "opacity-0",
-                        )}
-                      />
-                    )}
-                  </span>
+                  {n.label}
                 </Link>
               );
             })}
