@@ -399,7 +399,7 @@ function HomePage() {
           </Reveal>
           <div className="mt-14 grid gap-5 lg:grid-cols-3">
             {testimonials.map((t, i) => {
-              const accents = ["bg-gradient-brand", "bg-brand-cyan", "bg-ink"];
+              const accents = ["bg-brand", "bg-brand-cyan", "bg-ink"];
               const accent = accents[i % accents.length];
               return (
                 <Reveal key={t.id} variant="up" delay={i * 180} as="div">
