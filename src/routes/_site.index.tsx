@@ -223,9 +223,6 @@ function HomePage() {
         const onCream = secIdx % 2 === 1;
         return (
           <section key={sec.id} className={`relative ${onCream ? "bg-cream paper-grain" : "bg-background"} py-24 lg:py-32`}>
-            {!onCream && (
-              <div className="pointer-events-none absolute top-1/2 right-[-10%] h-[24rem] w-[24rem] -translate-y-1/2 rounded-full bg-brand-cyan/10 blur-3xl" aria-hidden />
-            )}
             <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
               <div className="grid gap-10 lg:grid-cols-12">
                 <Reveal variant="up" className="lg:col-span-5">
