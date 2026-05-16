@@ -123,7 +123,7 @@ export function Header() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70">
+    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2 shrink-0 group" onClick={() => setOpen(false)}>
           <img
@@ -136,14 +136,14 @@ export function Header() {
         <nav className="hidden md:flex">
           <div
             ref={listRef}
-            className="relative flex items-center gap-0.5 rounded-full border border-border/60 bg-secondary/30 p-1 backdrop-blur"
+            className="relative flex items-center gap-0.5 rounded-full border border-border/60 bg-secondary/30 p-1"
             onMouseLeave={() => setHoverIdx(null)}
           >
             {/* Sliding pill indicator */}
             <span
               aria-hidden="true"
               className={cn(
-                "pointer-events-none absolute top-1 bottom-1 rounded-full bg-gradient-to-r from-brand to-brand-cyan shadow-soft transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
+                "pointer-events-none absolute top-1 bottom-1 rounded-full bg-brand shadow-soft transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
                 indicator.visible ? "opacity-100" : "opacity-0",
               )}
               style={{
@@ -152,7 +152,6 @@ export function Header() {
               }}
             />
             {nav.map((n, i) => {
-              const isActive = i === activeIdx;
               const isTarget = i === targetIdx;
               return (
                 <Link
@@ -170,17 +169,7 @@ export function Header() {
                   )}
                   activeOptions={{ exact: n.to === "/" }}
                 >
-                  <span className="flex items-center gap-1.5">
-                    {n.label}
-                    {isActive && (
-                      <span
-                        className={cn(
-                          "h-1 w-1 rounded-full bg-white/90 transition-opacity duration-300",
-                          isTarget ? "opacity-100" : "opacity-0",
-                        )}
-                      />
-                    )}
-                  </span>
+                  {n.label}
                 </Link>
               );
             })}

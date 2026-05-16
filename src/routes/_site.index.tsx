@@ -52,18 +52,16 @@ function sectionMeta(id: string, idx: number): SectionMeta {
   return { eyebrow: idx === 0 ? "Highlights" : "More from Zanscode", numbered: false, icons: [Check, Sparkles, Boxes, Code2] };
 }
 
-// Rotating icon tile color palette — keeps cards from feeling monotone
+// Solid accent rotation — matches the testimonial accent lines for consistency
 const iconTiles = [
-  "bg-ink text-background",
   "bg-brand text-background",
   "bg-brand-cyan text-ink",
-  "bg-gradient-brand text-background",
+  "bg-ink text-background",
 ];
 const industryTiles = [
-  { wrap: "bg-cream", icon: "bg-brand/10 text-brand", ring: "hover:border-brand/50" },
-  { wrap: "bg-accent/40", icon: "bg-brand-cyan/20 text-brand", ring: "hover:border-brand-cyan/60" },
-  { wrap: "bg-background", icon: "bg-ink text-background", ring: "hover:border-ink/40" },
-  { wrap: "bg-gradient-soft", icon: "bg-brand text-background", ring: "hover:border-brand/50" },
+  { wrap: "bg-cream", icon: "bg-brand text-background", ring: "hover:border-brand/50" },
+  { wrap: "bg-background", icon: "bg-brand-cyan text-ink", ring: "hover:border-brand-cyan/60" },
+  { wrap: "bg-cream", icon: "bg-ink text-background", ring: "hover:border-ink/40" },
 ];
 
 function HomePage() {
@@ -86,9 +84,6 @@ function HomePage() {
     <>
       {/* HERO — editorial, with floating stat cards */}
       <section className="relative overflow-hidden bg-cream pt-12 pb-24 sm:pt-16 lg:pt-24 lg:pb-32 paper-grain">
-        <div className="pointer-events-none absolute -top-32 right-[-10%] h-[32rem] w-[32rem] rounded-full bg-brand-cyan/30 blur-3xl animate-blob-drift" aria-hidden />
-        <div className="pointer-events-none absolute -bottom-40 left-[-10%] h-[34rem] w-[34rem] rounded-full bg-brand/25 blur-3xl animate-blob-drift" style={{ animationDelay: "-9s" }} aria-hidden />
-        <div className="pointer-events-none absolute top-1/3 left-1/2 h-[18rem] w-[18rem] -translate-x-1/2 rounded-full bg-accent/50 blur-3xl animate-blob-drift" style={{ animationDelay: "-14s" }} aria-hidden />
 
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
@@ -142,7 +137,7 @@ function HomePage() {
                         {s.value}
                       </dt>
                       <dd className="mt-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{s.label}</dd>
-                      <div className="mt-3 h-px w-8 bg-gradient-brand opacity-60 transition-all duration-500 group-hover:w-20 group-hover:opacity-100" />
+                      <div className="mt-3 h-px w-8 bg-brand opacity-60 transition-all duration-500 group-hover:w-20 group-hover:opacity-100" />
                     </div>
                   </Reveal>
                 ))}
@@ -152,8 +147,6 @@ function HomePage() {
             <div className="relative lg:col-span-5">
               <Reveal variant="scale" delay={250}>
                 <div className="relative">
-                  {/* glow ring behind image */}
-                  <div className="pointer-events-none absolute -inset-6 rounded-[2.5rem] bg-gradient-brand opacity-25 blur-2xl" />
                   <div className="relative overflow-hidden rounded-3xl border border-border bg-background shadow-card">
                     <img
                       src={heroBg}
@@ -162,7 +155,6 @@ function HomePage() {
                       width={1280}
                       height={1600}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-tr from-brand/40 via-transparent to-brand-cyan/20 mix-blend-multiply" />
                   </div>
 
                   <div className="absolute -left-5 top-10 hidden animate-float-soft sm:block">
@@ -170,7 +162,7 @@ function HomePage() {
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">
                         <TrendingUp className="h-3.5 w-3.5 text-brand" /> Operational lift
                       </div>
-                      <div className="mt-1 font-display text-3xl font-medium text-gradient-brand">+38%</div>
+                      <div className="mt-1 font-display text-3xl font-medium text-brand">+38%</div>
                       <div className="mt-0.5 text-[11px] text-muted-foreground">avg. across deployments</div>
                     </div>
                   </div>
@@ -187,7 +179,7 @@ function HomePage() {
 
                   <div className="absolute -bottom-5 left-4 right-4 rounded-2xl border border-border bg-background p-4 shadow-card sm:left-10 sm:right-10">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-brand text-background">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand text-background">
                         <ShieldCheck className="h-5 w-5" />
                       </div>
                       <div className="flex-1">
@@ -231,9 +223,6 @@ function HomePage() {
         const onCream = secIdx % 2 === 1;
         return (
           <section key={sec.id} className={`relative ${onCream ? "bg-cream paper-grain" : "bg-background"} py-24 lg:py-32`}>
-            {!onCream && (
-              <div className="pointer-events-none absolute top-1/2 right-[-10%] h-[24rem] w-[24rem] -translate-y-1/2 rounded-full bg-brand-cyan/10 blur-3xl" aria-hidden />
-            )}
             <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
               <div className="grid gap-10 lg:grid-cols-12">
                 <Reveal variant="up" className="lg:col-span-5">
@@ -260,9 +249,7 @@ function HomePage() {
                       <Reveal key={card.id} variant="up" delay={i * 110} as="div">
                         <div className="card-hover group relative h-full overflow-hidden rounded-3xl border border-border bg-card p-7 shadow-soft hover:border-brand/40 hover:shadow-brand">
                           {/* top accent strip */}
-                          <div className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gradient-brand transition-transform duration-500 group-hover:scale-x-100" />
-                          {/* subtle hover wash */}
-                          <div className="pointer-events-none absolute -inset-px rounded-3xl bg-gradient-to-br from-brand/0 via-transparent to-brand-cyan/0 opacity-0 transition-opacity duration-500 group-hover:from-brand/[0.04] group-hover:to-brand-cyan/[0.06] group-hover:opacity-100" aria-hidden />
+                          <div className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-brand transition-transform duration-500 group-hover:scale-x-100" />
                           {stepLabel && (
                             <span className="absolute right-5 top-5 font-display text-sm tracking-[0.2em] text-muted-foreground/40 transition-colors group-hover:text-brand">{stepLabel}</span>
                           )}
@@ -286,7 +273,6 @@ function HomePage() {
 
       {/* INDUSTRIES — colorful varied tiles */}
       <section className="relative bg-background py-24 overflow-hidden">
-        <div className="pointer-events-none absolute -top-20 left-1/2 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-brand/8 blur-3xl" aria-hidden />
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <Reveal variant="up" className="mx-auto max-w-2xl text-center">
             <p className="kicker">{home.industriesEyebrow}</p>
@@ -347,7 +333,6 @@ function HomePage() {
 
       {/* SAAS PRODUCTS — split with image */}
       <section className="relative bg-background py-24 lg:py-32 overflow-hidden">
-        <div className="pointer-events-none absolute -top-32 right-[-15%] h-[34rem] w-[34rem] rounded-full bg-brand/10 blur-3xl" aria-hidden />
         <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-12 lg:px-10">
           <Reveal variant="up" className="lg:col-span-5">
             <p className="kicker">{home.saasEyebrow}</p>
@@ -359,7 +344,7 @@ function HomePage() {
             <ul className="mt-8 space-y-3 text-sm">
               {home.saasBullets.map((b) => (
                 <li key={b.id} className="group flex items-start gap-3 rounded-xl border border-transparent p-3 transition-colors hover:border-border hover:bg-cream">
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-brand text-background shadow-soft">
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand text-background shadow-soft">
                     <Check className="h-3 w-3" />
                   </span>
                   <span className="text-foreground">{b.text}</span>
@@ -379,15 +364,12 @@ function HomePage() {
 
           <Reveal variant="scale" delay={200} className="lg:col-span-7">
             <div className="relative">
-              <div className="pointer-events-none absolute -inset-8 rounded-[3rem] bg-gradient-brand opacity-20 blur-3xl" />
-              <div className="pointer-events-none absolute -top-6 -left-6 h-24 w-24 rounded-2xl bg-brand-cyan/30 blur-2xl" />
               <div className="relative overflow-hidden rounded-3xl border border-border bg-background shadow-card">
                 <img src={productSaas} alt="Zanscode SaaS preview" loading="lazy" width={1280} height={960} className="w-full object-cover transition-transform duration-[1200ms] hover:scale-[1.03]" />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-ink/20 via-transparent to-transparent" />
               </div>
               {/* floating chip */}
               <div className="absolute -bottom-5 left-6 right-6 hidden rounded-2xl border border-border bg-background/95 p-4 shadow-card backdrop-blur sm:left-12 sm:right-12 sm:flex sm:items-center sm:gap-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-brand text-background">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand text-background">
                   <Sparkles className="h-5 w-5" />
                 </div>
                 <div className="flex-1">
@@ -412,7 +394,7 @@ function HomePage() {
           </Reveal>
           <div className="mt-14 grid gap-5 lg:grid-cols-3">
             {testimonials.map((t, i) => {
-              const accents = ["bg-gradient-brand", "bg-brand-cyan", "bg-ink"];
+              const accents = ["bg-brand", "bg-brand-cyan", "bg-ink"];
               const accent = accents[i % accents.length];
               return (
                 <Reveal key={t.id} variant="up" delay={i * 180} as="div">
