@@ -276,7 +276,6 @@ function HomePage() {
 
       {/* INDUSTRIES — colorful varied tiles */}
       <section className="relative bg-background py-24 overflow-hidden">
-        <div className="pointer-events-none absolute -top-20 left-1/2 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-brand/8 blur-3xl" aria-hidden />
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <Reveal variant="up" className="mx-auto max-w-2xl text-center">
             <p className="kicker">{home.industriesEyebrow}</p>
