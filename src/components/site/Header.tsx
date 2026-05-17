@@ -265,7 +265,6 @@ export function Header() {
             </Button>
             <Button asChild size="lg" variant="brand" className="w-full group rounded-full">
               <Link to="/contact" onClick={() => setOpen(false)}>
-                <Sparkles className="transition-transform duration-500 group-hover:rotate-12" />
                 Get started
                 <ArrowRight className="transition-transform group-hover:translate-x-0.5" />
               </Link>
