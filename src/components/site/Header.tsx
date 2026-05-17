@@ -104,11 +104,9 @@ export function Header() {
       const el = itemRefs.current[targetIdx];
       const parent = listRef.current;
       if (!el || !parent) return;
-      const elRect = el.getBoundingClientRect();
-      const parentRect = parent.getBoundingClientRect();
       setIndicator({
-        left: Math.round(elRect.left - parentRect.left),
-        width: Math.round(elRect.width),
+        left: el.offsetLeft,
+        width: el.offsetWidth,
         visible: true,
       });
     };
