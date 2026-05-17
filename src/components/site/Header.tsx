@@ -171,7 +171,7 @@ export function Header() {
                   onFocus={() => setHoverIdx(i)}
                   onBlur={() => setHoverIdx(null)}
                   className={cn(
-                    "relative z-10 rounded-full px-5 py-1.5 text-sm font-medium leading-none transition-colors duration-300",
+                    "relative z-10 inline-flex items-center justify-center rounded-full px-5 py-1.5 text-sm font-medium leading-none transition-colors duration-300",
                     isTarget ? "text-white" : "text-muted-foreground hover:text-foreground",
                   )}
                   activeOptions={{ exact: n.to === "/" }}
