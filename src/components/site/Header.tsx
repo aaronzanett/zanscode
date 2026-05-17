@@ -194,7 +194,6 @@ export function Header() {
           </Button>
           <Button asChild size="sm" variant="brand" className="group rounded-full shadow-soft">
             <Link to="/contact">
-              <Sparkles className="transition-transform duration-500 group-hover:rotate-12" />
               Get started
               <ArrowRight className="transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
