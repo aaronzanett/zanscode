@@ -94,8 +94,8 @@ function HomePage() {
           <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
             <div className="lg:col-span-7 lg:pt-6">
               <Reveal variant="fade">
-                  <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 py-1.5 pl-3 pr-4 text-xs font-medium text-foreground backdrop-blur shadow-soft">
-                    <Sparkles className="h-3.5 w-3.5 text-brand" />
+                  <span className="inline-flex items-center gap-2.5 rounded-full border border-border bg-background/70 py-1.5 pl-3 pr-4 text-xs font-medium text-foreground backdrop-blur shadow-soft">
+                    <span className="h-1.5 w-1.5 rounded-full bg-brand" aria-hidden />
                     <span>{hero.eyebrow}</span>
                   </span>
               </Reveal>

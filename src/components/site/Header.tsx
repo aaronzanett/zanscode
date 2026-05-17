@@ -1,6 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Menu, X, ArrowRight, Globe, LogIn, Sparkles, Check } from "lucide-react";
+import { Menu, X, ArrowRight, Globe, LogIn, Check } from "lucide-react";
 import logo from "@/assets/zanscode-logo.png";
 import { Button } from "@/components/ui/button";
 import {
@@ -104,11 +104,9 @@ export function Header() {
       const el = itemRefs.current[targetIdx];
       const parent = listRef.current;
       if (!el || !parent) return;
-      const elRect = el.getBoundingClientRect();
-      const parentRect = parent.getBoundingClientRect();
       setIndicator({
-        left: Math.round(elRect.left - parentRect.left),
-        width: Math.round(elRect.width),
+        left: el.offsetLeft,
+        width: el.offsetWidth,
         visible: true,
       });
     };
@@ -196,7 +194,6 @@ export function Header() {
           </Button>
           <Button asChild size="sm" variant="brand" className="group rounded-full shadow-soft">
             <Link to="/contact">
-              <Sparkles className="transition-transform duration-500 group-hover:rotate-12" />
               Get started
               <ArrowRight className="transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
@@ -268,7 +265,6 @@ export function Header() {
             </Button>
             <Button asChild size="lg" variant="brand" className="w-full group rounded-full">
               <Link to="/contact" onClick={() => setOpen(false)}>
-                <Sparkles className="transition-transform duration-500 group-hover:rotate-12" />
                 Get started
                 <ArrowRight className="transition-transform group-hover:translate-x-0.5" />
               </Link>
