@@ -154,7 +154,7 @@ export function Header() {
                 indicator.visible ? "opacity-100" : "opacity-0",
               )}
               style={{
-                transform: `translateX(${indicator.left}px)`,
+                transform: `translateX(${indicator.left - 4}px)`,
                 width: indicator.width,
               }}
             />
