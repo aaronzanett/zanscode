@@ -100,16 +100,25 @@ export function Header() {
       setIndicator((p) => ({ ...p, visible: false }));
       return;
     }
-    const el = itemRefs.current[targetIdx];
-    const parent = listRef.current;
-    if (!el || !parent) return;
-    const elRect = el.getBoundingClientRect();
-    const parentRect = parent.getBoundingClientRect();
-    setIndicator({
-      left: elRect.left - parentRect.left,
-      width: elRect.width,
-      visible: true,
-    });
+    const measure = () => {
+      const el = itemRefs.current[targetIdx];
+      const parent = listRef.current;
+      if (!el || !parent) return;
+      const elRect = el.getBoundingClientRect();
+      const parentRect = parent.getBoundingClientRect();
+      setIndicator({
+        left: Math.round(elRect.left - parentRect.left),
+        width: Math.round(elRect.width),
+        visible: true,
+      });
+    };
+    measure();
+    const raf = requestAnimationFrame(measure);
+    window.addEventListener("resize", measure);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", measure);
+    };
   }, [targetIdx, nav, pathname]);
 
   useEffect(() => {
