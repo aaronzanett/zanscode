@@ -52,16 +52,21 @@ function sectionMeta(id: string, idx: number): SectionMeta {
   return { eyebrow: idx === 0 ? "Highlights" : "More from Zanscode", numbered: false, icons: [Check, Sparkles, Boxes, Code2] };
 }
 
-// Solid accent rotation — matches the testimonial accent lines for consistency
-const iconTiles = [
+// Per-section tile palettes
+// "What we build" — unified dark blue (brand) for every icon
+const capabilityTile = "bg-brand text-background";
+// "How we work" — bright, pleasing color rotation, one per step
+const processTiles = [
+  { tile: "bg-emerald-500 text-white", border: "hover:border-emerald-500/50", step: "text-emerald-600" },
+  { tile: "bg-amber-400 text-ink", border: "hover:border-amber-400/60", step: "text-amber-600" },
+  { tile: "bg-sky-500 text-white", border: "hover:border-sky-500/50", step: "text-sky-600" },
+  { tile: "bg-rose-500 text-white", border: "hover:border-rose-500/50", step: "text-rose-600" },
+];
+// Fallback (other dynamic sections) — solid brand accent rotation
+const fallbackTiles = [
   "bg-brand text-background",
   "bg-brand-cyan text-ink",
   "bg-ink text-background",
-];
-const industryTiles = [
-  { wrap: "bg-cream", icon: "bg-brand text-background", ring: "hover:border-brand/50" },
-  { wrap: "bg-background", icon: "bg-brand-cyan text-ink", ring: "hover:border-brand-cyan/60" },
-  { wrap: "bg-cream", icon: "bg-ink text-background", ring: "hover:border-ink/40" },
 ];
 
 function HomePage() {
