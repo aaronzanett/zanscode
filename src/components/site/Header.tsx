@@ -1,6 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Menu, X, ArrowRight, Globe, LogIn, Sparkles, Check } from "lucide-react";
+import { Menu, X, ArrowRight, Globe, LogIn, Check } from "lucide-react";
 import logo from "@/assets/zanscode-logo.png";
 import { Button } from "@/components/ui/button";
 import {
