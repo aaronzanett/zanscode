@@ -244,14 +244,26 @@ function HomePage() {
                   {sec.cards.map((card, i) => {
                     const Icon = meta.icons[i % meta.icons.length];
                     const stepLabel = meta.numbered ? String(i + 1).padStart(2, "0") : null;
-                    const tile = iconTiles[i % iconTiles.length];
+                    let tile = capabilityTile;
+                    let accentBorder = "hover:border-brand/40";
+                    let stepColor = "group-hover:text-brand";
+                    let stripColor = "bg-brand";
+                    if (sec.id === "sec-process") {
+                      const p = processTiles[i % processTiles.length];
+                      tile = p.tile;
+                      accentBorder = p.border;
+                      stepColor = p.step;
+                      stripColor = p.tile.split(" ")[0]; // bg-...
+                    } else if (sec.id !== "sec-capabilities") {
+                      tile = fallbackTiles[i % fallbackTiles.length];
+                    }
                     return (
                       <Reveal key={card.id} variant="up" delay={i * 110} as="div">
-                        <div className="card-hover group relative h-full overflow-hidden rounded-3xl border border-border bg-card p-7 shadow-soft hover:border-brand/40 hover:shadow-brand">
+                        <div className={`card-hover group relative h-full overflow-hidden rounded-3xl border border-border bg-card p-7 shadow-soft ${accentBorder} hover:shadow-brand`}>
                           {/* top accent strip */}
-                          <div className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-brand transition-transform duration-500 group-hover:scale-x-100" />
+                          <div className={`absolute inset-x-0 top-0 h-1 origin-left scale-x-0 ${stripColor} transition-transform duration-500 group-hover:scale-x-100`} />
                           {stepLabel && (
-                            <span className="absolute right-5 top-5 font-display text-sm tracking-[0.2em] text-muted-foreground/40 transition-colors group-hover:text-brand">{stepLabel}</span>
+                            <span className={`absolute right-5 top-5 font-display text-sm tracking-[0.2em] text-muted-foreground/40 transition-colors ${stepColor}`}>{stepLabel}</span>
                           )}
                           <div className={`relative flex h-12 w-12 items-center justify-center rounded-2xl ${tile} transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-soft`}>
                             <Icon className="h-5 w-5" />
