@@ -145,7 +145,7 @@ export function Header() {
         <nav className="hidden md:flex">
           <div
             ref={listRef}
-            className="relative flex items-center gap-0.5 rounded-full border border-border/60 bg-secondary/30 p-1"
+            className="relative flex items-center rounded-full border border-border/60 bg-secondary/30 p-1"
             onMouseLeave={() => setHoverIdx(null)}
           >
             {/* Sliding pill indicator */}
@@ -173,7 +173,7 @@ export function Header() {
                   onFocus={() => setHoverIdx(i)}
                   onBlur={() => setHoverIdx(null)}
                   className={cn(
-                    "relative z-10 rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-300",
+                    "relative z-10 rounded-full px-5 py-1.5 text-sm font-medium leading-none transition-colors duration-300",
                     isTarget ? "text-white" : "text-muted-foreground hover:text-foreground",
                   )}
                   activeOptions={{ exact: n.to === "/" }}
