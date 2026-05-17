@@ -400,35 +400,31 @@ function HomePage() {
             </h2>
           </Reveal>
           <div className="mt-14 grid gap-5 lg:grid-cols-3">
-            {testimonials.map((t, i) => {
-              const accents = ["bg-brand", "bg-brand-cyan", "bg-ink"];
-              const accent = accents[i % accents.length];
-              return (
-                <Reveal key={t.id} variant="up" delay={i * 180} as="div">
-                  <figure className="card-hover group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-background p-7 shadow-soft hover:border-brand/40 hover:shadow-brand">
-                    <div className={`absolute inset-x-0 top-0 h-1 ${accent}`} />
-                    <div className="flex items-center justify-between">
-                      <Quote className="h-7 w-7 text-brand" />
-                      <div className="flex gap-0.5 text-brand-cyan">
-                        {Array.from({ length: 5 }).map((_, idx) => (
-                          <Star key={idx} className="h-3.5 w-3.5 fill-current" />
-                        ))}
-                      </div>
+            {testimonials.map((t, i) => (
+              <Reveal key={t.id} variant="up" delay={i * 180} as="div">
+                <figure className="card-hover group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-background p-7 shadow-soft hover:border-brand/40 hover:shadow-brand">
+                  <div className="absolute inset-x-0 top-0 h-1 bg-brand" />
+                  <div className="flex items-center justify-between">
+                    <Quote className="h-7 w-7 text-brand" />
+                    <div className="flex gap-0.5 text-brand">
+                      {Array.from({ length: 5 }).map((_, idx) => (
+                        <Star key={idx} className="h-3.5 w-3.5 fill-current" />
+                      ))}
                     </div>
-                    <blockquote className="mt-5 flex-1 font-display text-lg leading-relaxed text-foreground">
-                      "{t.quote}"
-                    </blockquote>
-                    <figcaption className="mt-6 flex items-center gap-3 border-t border-border pt-5 text-sm">
-                      <div className={`h-10 w-10 rounded-full ${accent} ring-2 ring-background`} />
-                      <div>
-                        <div className="font-medium text-foreground">{t.name}</div>
-                        <div className="text-muted-foreground">{t.role}</div>
-                      </div>
-                    </figcaption>
-                  </figure>
-                </Reveal>
-              );
-            })}
+                  </div>
+                  <blockquote className="mt-5 flex-1 font-display text-lg leading-relaxed text-foreground">
+                    "{t.quote}"
+                  </blockquote>
+                  <figcaption className="mt-6 flex items-center gap-3 border-t border-border pt-5 text-sm">
+                    <div className="h-10 w-10 rounded-full bg-brand ring-2 ring-background" />
+                    <div>
+                      <div className="font-medium text-foreground">{t.name}</div>
+                      <div className="text-muted-foreground">{t.role}</div>
+                    </div>
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
