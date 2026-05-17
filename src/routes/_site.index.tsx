@@ -294,20 +294,15 @@ function HomePage() {
             </h2>
             <p className="mt-4 text-muted-foreground">{home.industriesSubtitle}</p>
           </Reveal>
-          <div className="mt-12 grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            {industries.map((i, idx) => {
-              const tile = industryTiles[idx % industryTiles.length];
-              return (
-                <Reveal key={i.name} variant="scale" delay={idx * 90} as="div">
-                  <div className={`card-hover group flex h-full flex-col items-center rounded-2xl border border-border ${tile.wrap} p-6 text-center ${tile.ring} hover:shadow-soft`}>
-                    <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${tile.icon} transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3`}>
-                      <i.icon className="h-5 w-5" />
-                    </div>
-                    <span className="mt-4 text-sm font-medium">{i.name}</span>
-                  </div>
-                </Reveal>
-              );
-            })}
+          <div className="mt-10 grid gap-4 sm:grid-cols-3 lg:grid-cols-6">
+            {industries.map((i, idx) => (
+              <Reveal key={i.name} variant="scale" delay={idx * 100} as="div">
+                <div className="lift group flex h-full flex-col items-center rounded-2xl border border-border bg-card p-6 text-center hover:border-brand/30 hover:shadow-soft">
+                  <i.icon className="h-7 w-7 text-brand transition-transform duration-500 group-hover:scale-110" />
+                  <span className="mt-3 text-sm font-medium">{i.name}</span>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
