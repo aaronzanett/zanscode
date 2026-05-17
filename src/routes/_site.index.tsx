@@ -52,16 +52,21 @@ function sectionMeta(id: string, idx: number): SectionMeta {
   return { eyebrow: idx === 0 ? "Highlights" : "More from Zanscode", numbered: false, icons: [Check, Sparkles, Boxes, Code2] };
 }
 
-// Solid accent rotation — matches the testimonial accent lines for consistency
-const iconTiles = [
+// Per-section tile palettes
+// "What we build" — unified dark blue (brand) for every icon
+const capabilityTile = "bg-brand text-background";
+// "How we work" — bright, pleasing color rotation, one per step
+const processTiles = [
+  { tile: "bg-emerald-500 text-white", border: "hover:border-emerald-500/50", step: "text-emerald-600" },
+  { tile: "bg-amber-400 text-ink", border: "hover:border-amber-400/60", step: "text-amber-600" },
+  { tile: "bg-sky-500 text-white", border: "hover:border-sky-500/50", step: "text-sky-600" },
+  { tile: "bg-rose-500 text-white", border: "hover:border-rose-500/50", step: "text-rose-600" },
+];
+// Fallback (other dynamic sections) — solid brand accent rotation
+const fallbackTiles = [
   "bg-brand text-background",
   "bg-brand-cyan text-ink",
   "bg-ink text-background",
-];
-const industryTiles = [
-  { wrap: "bg-cream", icon: "bg-brand text-background", ring: "hover:border-brand/50" },
-  { wrap: "bg-background", icon: "bg-brand-cyan text-ink", ring: "hover:border-brand-cyan/60" },
-  { wrap: "bg-cream", icon: "bg-ink text-background", ring: "hover:border-ink/40" },
 ];
 
 function HomePage() {
@@ -89,13 +94,8 @@ function HomePage() {
           <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
             <div className="lg:col-span-7 lg:pt-6">
               <Reveal variant="fade">
-                  <span className="inline-flex items-center gap-2.5 rounded-full border border-border bg-background/70 py-1.5 pl-2.5 pr-4 text-xs font-medium text-foreground backdrop-blur shadow-soft">
-                    <span className="relative flex h-1.5 w-1.5">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-cyan opacity-70" />
-                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand-cyan" />
-                    </span>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-brand">Live</span>
-                    <span className="h-3 w-px bg-border" aria-hidden />
+                  <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 py-1.5 pl-3 pr-4 text-xs font-medium text-foreground backdrop-blur shadow-soft">
+                    <Sparkles className="h-3.5 w-3.5 text-brand" />
                     <span>{hero.eyebrow}</span>
                   </span>
               </Reveal>
@@ -244,14 +244,26 @@ function HomePage() {
                   {sec.cards.map((card, i) => {
                     const Icon = meta.icons[i % meta.icons.length];
                     const stepLabel = meta.numbered ? String(i + 1).padStart(2, "0") : null;
-                    const tile = iconTiles[i % iconTiles.length];
+                    let tile = capabilityTile;
+                    let accentBorder = "hover:border-brand/40";
+                    let stepColor = "group-hover:text-brand";
+                    let stripColor = "bg-brand";
+                    if (sec.id === "sec-process") {
+                      const p = processTiles[i % processTiles.length];
+                      tile = p.tile;
+                      accentBorder = p.border;
+                      stepColor = p.step;
+                      stripColor = p.tile.split(" ")[0]; // bg-...
+                    } else if (sec.id !== "sec-capabilities") {
+                      tile = fallbackTiles[i % fallbackTiles.length];
+                    }
                     return (
                       <Reveal key={card.id} variant="up" delay={i * 110} as="div">
-                        <div className="card-hover group relative h-full overflow-hidden rounded-3xl border border-border bg-card p-7 shadow-soft hover:border-brand/40 hover:shadow-brand">
+                        <div className={`card-hover group relative h-full overflow-hidden rounded-3xl border border-border bg-card p-7 shadow-soft ${accentBorder} hover:shadow-brand`}>
                           {/* top accent strip */}
-                          <div className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-brand transition-transform duration-500 group-hover:scale-x-100" />
+                          <div className={`absolute inset-x-0 top-0 h-1 origin-left scale-x-0 ${stripColor} transition-transform duration-500 group-hover:scale-x-100`} />
                           {stepLabel && (
-                            <span className="absolute right-5 top-5 font-display text-sm tracking-[0.2em] text-muted-foreground/40 transition-colors group-hover:text-brand">{stepLabel}</span>
+                            <span className={`absolute right-5 top-5 font-display text-sm tracking-[0.2em] text-muted-foreground/40 transition-colors ${stepColor}`}>{stepLabel}</span>
                           )}
                           <div className={`relative flex h-12 w-12 items-center justify-center rounded-2xl ${tile} transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-soft`}>
                             <Icon className="h-5 w-5" />
@@ -282,20 +294,15 @@ function HomePage() {
             </h2>
             <p className="mt-4 text-muted-foreground">{home.industriesSubtitle}</p>
           </Reveal>
-          <div className="mt-12 grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            {industries.map((i, idx) => {
-              const tile = industryTiles[idx % industryTiles.length];
-              return (
-                <Reveal key={i.name} variant="scale" delay={idx * 90} as="div">
-                  <div className={`card-hover group flex h-full flex-col items-center rounded-2xl border border-border ${tile.wrap} p-6 text-center ${tile.ring} hover:shadow-soft`}>
-                    <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${tile.icon} transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3`}>
-                      <i.icon className="h-5 w-5" />
-                    </div>
-                    <span className="mt-4 text-sm font-medium">{i.name}</span>
-                  </div>
-                </Reveal>
-              );
-            })}
+          <div className="mt-10 grid gap-4 sm:grid-cols-3 lg:grid-cols-6">
+            {industries.map((i, idx) => (
+              <Reveal key={i.name} variant="scale" delay={idx * 100} as="div">
+                <div className="lift group flex h-full flex-col items-center rounded-2xl border border-border bg-card p-6 text-center hover:border-brand/30 hover:shadow-soft">
+                  <i.icon className="h-7 w-7 text-brand transition-transform duration-500 group-hover:scale-110" />
+                  <span className="mt-3 text-sm font-medium">{i.name}</span>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
@@ -393,35 +400,31 @@ function HomePage() {
             </h2>
           </Reveal>
           <div className="mt-14 grid gap-5 lg:grid-cols-3">
-            {testimonials.map((t, i) => {
-              const accents = ["bg-brand", "bg-brand-cyan", "bg-ink"];
-              const accent = accents[i % accents.length];
-              return (
-                <Reveal key={t.id} variant="up" delay={i * 180} as="div">
-                  <figure className="card-hover group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-background p-7 shadow-soft hover:border-brand/40 hover:shadow-brand">
-                    <div className={`absolute inset-x-0 top-0 h-1 ${accent}`} />
-                    <div className="flex items-center justify-between">
-                      <Quote className="h-7 w-7 text-brand" />
-                      <div className="flex gap-0.5 text-brand-cyan">
-                        {Array.from({ length: 5 }).map((_, idx) => (
-                          <Star key={idx} className="h-3.5 w-3.5 fill-current" />
-                        ))}
-                      </div>
+            {testimonials.map((t, i) => (
+              <Reveal key={t.id} variant="up" delay={i * 180} as="div">
+                <figure className="card-hover group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-background p-7 shadow-soft hover:border-brand/40 hover:shadow-brand">
+                  <div className="absolute inset-x-0 top-0 h-1 bg-brand" />
+                  <div className="flex items-center justify-between">
+                    <Quote className="h-7 w-7 text-brand" />
+                    <div className="flex gap-0.5 text-brand">
+                      {Array.from({ length: 5 }).map((_, idx) => (
+                        <Star key={idx} className="h-3.5 w-3.5 fill-current" />
+                      ))}
                     </div>
-                    <blockquote className="mt-5 flex-1 font-display text-lg leading-relaxed text-foreground">
-                      "{t.quote}"
-                    </blockquote>
-                    <figcaption className="mt-6 flex items-center gap-3 border-t border-border pt-5 text-sm">
-                      <div className={`h-10 w-10 rounded-full ${accent} ring-2 ring-background`} />
-                      <div>
-                        <div className="font-medium text-foreground">{t.name}</div>
-                        <div className="text-muted-foreground">{t.role}</div>
-                      </div>
-                    </figcaption>
-                  </figure>
-                </Reveal>
-              );
-            })}
+                  </div>
+                  <blockquote className="mt-5 flex-1 font-display text-lg leading-relaxed text-foreground">
+                    "{t.quote}"
+                  </blockquote>
+                  <figcaption className="mt-6 flex items-center gap-3 border-t border-border pt-5 text-sm">
+                    <div className="h-10 w-10 rounded-full bg-brand ring-2 ring-background" />
+                    <div>
+                      <div className="font-medium text-foreground">{t.name}</div>
+                      <div className="text-muted-foreground">{t.role}</div>
+                    </div>
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
