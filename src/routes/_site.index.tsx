@@ -87,21 +87,47 @@ function HomePage() {
 
   return (
     <>
-      {/* HERO — editorial, with floating stat cards */}
-      <section className="relative overflow-hidden bg-cream pt-12 pb-24 sm:pt-16 lg:pt-24 lg:pb-32 paper-grain">
+      {/* HERO — editorial, monochrome canvas with subtle grid + soft glow */}
+      <section className="relative overflow-hidden bg-background pt-10 pb-16 sm:pt-14 lg:pt-20 lg:pb-24">
+        {/* Subtle grid pattern */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.35] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_75%)]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, color-mix(in oklab, var(--foreground) 7%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklab, var(--foreground) 7%, transparent) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+          }}
+        />
+        {/* Soft brand glow */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-32 right-[-10%] h-[520px] w-[520px] rounded-full blur-3xl opacity-50"
+          style={{ background: "radial-gradient(circle, color-mix(in oklab, var(--brand) 22%, transparent), transparent 70%)" }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-40 left-[-10%] h-[460px] w-[460px] rounded-full blur-3xl opacity-40"
+          style={{ background: "radial-gradient(circle, color-mix(in oklab, var(--brand) 14%, transparent), transparent 70%)" }}
+        />
+        {/* Top hairline */}
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-          <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
-            <div className="lg:col-span-7 lg:pt-6">
+          <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-10">
+            <div className="lg:col-span-7">
               <Reveal variant="fade">
-                  <span className="inline-flex items-center gap-2.5 rounded-full border border-border bg-background/70 py-1.5 pl-3 pr-4 text-xs font-medium text-foreground backdrop-blur shadow-soft">
-                    <span className="h-1.5 w-1.5 rounded-full bg-brand" aria-hidden />
-                    <span>{hero.eyebrow}</span>
+                <span className="inline-flex items-center gap-2.5 rounded-full border border-border bg-background/80 py-1.5 pl-3 pr-4 text-xs font-medium text-foreground backdrop-blur shadow-soft">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-60" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand" />
                   </span>
+                  <span>{hero.eyebrow}</span>
+                </span>
               </Reveal>
 
-              <Reveal variant="up" delay={150}>
-                <h1 className="mt-8 font-display text-[clamp(2.75rem,6vw,5.25rem)] font-medium leading-[0.98] tracking-tight text-foreground">
+              <Reveal variant="up" delay={120}>
+                <h1 className="mt-6 font-display text-[clamp(2.25rem,5vw,4.5rem)] font-medium leading-[1.02] tracking-tight text-foreground">
                   {hero.title.split(" ").slice(0, -2).join(" ")}{" "}
                   <em className="serif-italic text-gradient-brand animate-gradient-sweep">
                     {hero.title.split(" ").slice(-2).join(" ")}
@@ -109,14 +135,14 @@ function HomePage() {
                 </h1>
               </Reveal>
 
-              <Reveal variant="up" delay={300}>
-                <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted-foreground">
+              <Reveal variant="up" delay={240}>
+                <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground lg:text-lg">
                   {hero.subtitle}
                 </p>
               </Reveal>
 
-              <Reveal variant="up" delay={450}>
-                <div className="mt-10 flex flex-wrap items-center gap-3">
+              <Reveal variant="up" delay={360}>
+                <div className="mt-8 flex flex-wrap items-center gap-3">
                   <Button asChild size="xl" variant="brand" className="group shadow-brand">
                     <Link to={hero.primaryCtaTo as string}>
                       {hero.primaryCta}
@@ -129,15 +155,15 @@ function HomePage() {
                 </div>
               </Reveal>
 
-              <dl className="mt-14 grid grid-cols-2 gap-6 sm:grid-cols-4">
+              <dl className="mt-10 grid grid-cols-2 gap-5 border-t border-border pt-6 sm:grid-cols-4 lg:mt-12">
                 {stats.map((s, i) => (
-                  <Reveal key={s.id} variant="up" delay={650 + i * 110} as="div">
+                  <Reveal key={s.id} variant="up" delay={500 + i * 90} as="div">
                     <div className="group">
-                      <dt className="font-display text-3xl font-medium text-foreground transition-colors group-hover:text-brand">
+                      <dt className="font-display text-2xl font-medium text-foreground transition-colors group-hover:text-brand lg:text-3xl">
                         {s.value}
                       </dt>
                       <dd className="mt-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{s.label}</dd>
-                      <div className="mt-3 h-px w-8 bg-brand opacity-60 transition-all duration-500 group-hover:w-20 group-hover:opacity-100" />
+                      <div className="mt-2.5 h-px w-8 bg-brand opacity-60 transition-all duration-500 group-hover:w-20 group-hover:opacity-100" />
                     </div>
                   </Reveal>
                 ))}
@@ -145,42 +171,48 @@ function HomePage() {
             </div>
 
             <div className="relative lg:col-span-5">
-              <Reveal variant="scale" delay={250}>
+              <Reveal variant="scale" delay={200}>
                 <div className="relative">
+                  {/* Decorative frame */}
+                  <div aria-hidden className="absolute -inset-3 rounded-[2rem] border border-border/70" />
+                  <div aria-hidden className="absolute -inset-6 rounded-[2.5rem] border border-border/40 hidden lg:block" />
+
                   <div className="relative overflow-hidden rounded-3xl border border-border bg-background shadow-card">
                     <img
                       src={heroBg}
                       alt="Zanscode in motion"
-                      className="aspect-[4/5] w-full object-cover transition-transform duration-[1400ms] hover:scale-105"
+                      className="aspect-[4/5] w-full object-cover transition-transform duration-[1400ms] hover:scale-105 lg:aspect-[5/6]"
                       width={1280}
                       height={1600}
                     />
+                    {/* Subtle inner gradient for depth */}
+                    <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/30 via-transparent to-transparent" />
                   </div>
 
-                  <div className="absolute -left-5 top-10 hidden animate-float-soft sm:block">
-                    <div className="rounded-2xl border border-border bg-background p-4 shadow-card">
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <div className="absolute -left-3 top-8 hidden animate-float-soft sm:block lg:-left-5">
+                    <div className="rounded-2xl border border-border bg-background/95 p-3.5 shadow-card backdrop-blur">
+                      <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
                         <TrendingUp className="h-3.5 w-3.5 text-brand" /> Operational lift
                       </div>
-                      <div className="mt-1 font-display text-3xl font-medium text-brand">+38%</div>
-                      <div className="mt-0.5 text-[11px] text-muted-foreground">avg. across deployments</div>
+                      <div className="mt-1 font-display text-2xl font-medium text-brand">+38%</div>
+                      <div className="mt-0.5 text-[10px] text-muted-foreground">avg. across deployments</div>
                     </div>
                   </div>
 
-                  <div className="absolute -right-4 bottom-20 hidden animate-float-soft sm:block" style={{ animationDelay: "-4s" }}>
-                    <div className="rounded-2xl border border-border bg-ink p-4 text-background shadow-brand">
-                      <div className="flex items-center gap-2 text-xs text-background/70">
+                  <div className="absolute -right-3 bottom-24 hidden animate-float-soft sm:block lg:-right-4" style={{ animationDelay: "-4s" }}>
+                    <div className="rounded-2xl border border-border bg-ink p-3.5 text-background shadow-brand">
+                      <div className="flex items-center gap-2 text-[11px] text-background/70">
                         <Clock className="h-3.5 w-3.5 text-brand-cyan" /> Time to first ship
                       </div>
-                      <div className="mt-1 font-display text-3xl font-medium text-background">14 wks</div>
-                      <div className="mt-0.5 text-[11px] text-background/60">discovery to launch</div>
+                      <div className="mt-1 font-display text-2xl font-medium text-background">14 wks</div>
+                      <div className="mt-0.5 text-[10px] text-background/60">discovery to launch</div>
                     </div>
                   </div>
 
-                  <div className="absolute -bottom-5 left-4 right-4 rounded-2xl border border-border bg-background p-4 shadow-card sm:left-10 sm:right-10">
+                  <div className="absolute -bottom-5 left-4 right-4 rounded-2xl border border-border bg-background/95 p-3.5 shadow-card backdrop-blur sm:left-8 sm:right-8">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand text-background">
-                        <ShieldCheck className="h-5 w-5" />
+                      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand text-background">
+                        <ShieldCheck className="h-4 w-4" />
                       </div>
                       <div className="flex-1">
                         <div className="text-sm font-medium text-foreground">SOC 2 · ISO 27001</div>
