@@ -371,26 +371,26 @@ function HomePage() {
       </section>
 
       {/* SAAS PRODUCTS — split with image */}
-      <section className="relative bg-background py-16 lg:py-20 overflow-hidden">
-        <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-5 sm:px-8 lg:grid-cols-12 lg:gap-12 lg:px-10">
-          <Reveal variant="up" className="lg:col-span-6">
+      <section className="relative bg-background py-24 lg:py-32 overflow-hidden">
+        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:gap-20 lg:px-10">
+          <Reveal variant="up">
             <p className="kicker">{home.saasEyebrow}</p>
-            <h2 className="mt-3 font-display text-3xl font-medium leading-[1.05] sm:text-4xl lg:text-5xl">
+            <h2 className="mt-4 font-display text-4xl font-medium leading-[1.05] sm:text-5xl">
               {home.saasTitle.split(" ").slice(0, -2).join(" ")}{" "}
               <em className="serif-italic text-gradient-brand">{home.saasTitle.split(" ").slice(-2).join(" ")}</em>
             </h2>
-            <p className="mt-4 text-base text-muted-foreground">{home.saasSubtitle}</p>
-            <ul className="mt-6 grid gap-2 text-sm sm:grid-cols-2">
+            <p className="mt-5 text-lg leading-relaxed text-muted-foreground">{home.saasSubtitle}</p>
+            <ul className="mt-8 space-y-3 text-[15px]">
               {home.saasBullets.map((b) => (
-                <li key={b.id} className="flex items-start gap-2.5">
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand text-background">
-                    <Check className="h-3 w-3" />
+                <li key={b.id} className="flex items-start gap-3">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand text-background">
+                    <Check className="h-3.5 w-3.5" />
                   </span>
                   <span className="text-foreground">{b.text}</span>
                 </li>
               ))}
             </ul>
-            <div className="mt-7 flex flex-wrap gap-3">
+            <div className="mt-10 flex flex-wrap gap-3">
               <Button asChild variant="brand" className="group shadow-brand">
                 <Link to={home.saasPrimaryCtaTo}>
                   {home.saasPrimaryCta}
@@ -401,14 +401,14 @@ function HomePage() {
             </div>
           </Reveal>
 
-          <Reveal variant="scale" delay={200} className="lg:col-span-6">
+          <Reveal variant="scale" delay={200}>
             <div className="relative">
-              <div className="relative overflow-hidden rounded-2xl border border-border bg-background shadow-card">
-                <img src={productSaas} alt="Zanscode SaaS preview" loading="lazy" width={1280} height={800} className="aspect-[16/10] w-full object-cover transition-transform duration-[1200ms] hover:scale-[1.03]" />
+              <div className="relative overflow-hidden rounded-3xl border border-border bg-background shadow-card">
+                <img src={productSaas} alt="Zanscode SaaS preview" loading="lazy" width={1280} height={900} className="aspect-[4/3] w-full object-cover transition-transform duration-[1200ms] hover:scale-[1.03]" />
               </div>
               {/* floating chip */}
-              <div className="absolute -bottom-4 left-4 right-4 hidden rounded-xl border border-border bg-background/95 p-3 shadow-card backdrop-blur sm:left-8 sm:right-8 sm:flex sm:items-center sm:gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand text-background">
+              <div className="absolute -bottom-5 left-6 right-6 hidden rounded-2xl border border-border bg-background/95 p-4 shadow-card backdrop-blur sm:flex sm:items-center sm:gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand text-background">
                   <Sparkles className="h-4 w-4" />
                 </div>
                 <div className="flex-1">
