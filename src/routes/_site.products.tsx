@@ -192,7 +192,7 @@ function ProductsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-cream py-24 lg:py-28 paper-grain">
+      <section className="relative overflow-hidden bg-aurora py-24 lg:py-28">
         <div className="absolute -right-40 top-0 h-96 w-96 rounded-full bg-brand/10 blur-3xl animate-blob-drift" aria-hidden />
         <div className="absolute -left-32 bottom-0 h-80 w-80 rounded-full bg-brand-cyan/15 blur-3xl animate-blob-drift" style={{ animationDelay: "-14s" }} aria-hidden />
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
