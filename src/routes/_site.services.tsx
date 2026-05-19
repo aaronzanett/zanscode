@@ -58,7 +58,7 @@ const industries = [
 function ServicesPage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-aurora py-24 lg:py-28">
+      <section className="relative overflow-hidden bg-cream py-24 lg:py-28 paper-grain">
         <div className="pointer-events-none absolute -top-32 right-[-10%] h-96 w-96 rounded-full bg-brand-cyan/15 blur-3xl animate-blob-drift" aria-hidden />
         <div className="pointer-events-none absolute -bottom-32 left-[-10%] h-96 w-96 rounded-full bg-brand/10 blur-3xl animate-blob-drift" style={{ animationDelay: "-11s" }} aria-hidden />
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">

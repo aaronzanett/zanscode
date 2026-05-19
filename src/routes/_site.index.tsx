@@ -254,7 +254,7 @@ function HomePage() {
         const meta = sectionMeta(sec.id, secIdx);
         const onCream = secIdx % 2 === 1;
         return (
-          <section key={sec.id} className={`relative ${onCream ? "bg-aurora" : "bg-background"} py-24 lg:py-32`}>
+          <section key={sec.id} className={`relative ${onCream ? "bg-cream paper-grain" : "bg-background"} py-24 lg:py-32`}>
             <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
               <div className="grid gap-10 lg:grid-cols-12">
                 <Reveal variant="up" className="lg:col-span-5">
@@ -422,7 +422,7 @@ function HomePage() {
       </section>
 
       {/* TESTIMONIALS — colorful card accents */}
-      <section className="relative bg-aurora py-24">
+      <section className="relative bg-cream py-24 paper-grain">
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <Reveal variant="up" className="mx-auto max-w-2xl text-center">
             <p className="kicker">{home.testimonialsEyebrow}</p>
