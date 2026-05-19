@@ -40,7 +40,7 @@ function useLanguage(): [Lang, (l: Lang) => void] {
 function LanguageSwitcher({ className }: { className?: string }) {
   const [lang, setLang] = useLanguage();
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <button
           type="button"
