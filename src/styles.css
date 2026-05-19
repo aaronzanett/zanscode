@@ -248,6 +248,34 @@
     -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 35%, transparent 90%);
   }
 
+  /* Aurora mesh + dots — unified premium background for light sections.
+     Layered: cream base, soft cyan aurora top-left, soft brand glow bottom-right,
+     refined 24px dot micro-grid on top, all masked into the section edges. */
+  .bg-aurora { position: relative; background-color: var(--cream); isolation: isolate; }
+  .bg-aurora::before {
+    content: "";
+    position: absolute; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      radial-gradient(ellipse 60% 55% at 0% 0%, color-mix(in oklab, var(--brand-cyan) 22%, transparent) 0%, transparent 60%),
+      radial-gradient(ellipse 55% 50% at 100% 100%, color-mix(in oklab, var(--brand) 16%, transparent) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 35% at 85% 15%, color-mix(in oklab, var(--brand-cyan) 14%, transparent) 0%, transparent 70%);
+    filter: blur(2px);
+  }
+  .bg-aurora::after {
+    content: "";
+    position: absolute; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.55;
+    background-image: radial-gradient(color-mix(in oklab, var(--foreground) 9%, transparent) 1px, transparent 1px);
+    background-size: 24px 24px;
+    mask-image: radial-gradient(ellipse 80% 75% at 50% 50%, black 30%, transparent 90%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 75% at 50% 50%, black 30%, transparent 90%);
+  }
+  .bg-aurora > * { position: relative; z-index: 1; }
+
   .card-hover {
     transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1),
                 box-shadow 450ms cubic-bezier(0.22, 1, 0.36, 1),

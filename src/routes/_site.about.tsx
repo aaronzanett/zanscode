@@ -44,7 +44,7 @@ function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-cream py-24 lg:py-28 paper-grain">
+      <section className="relative overflow-hidden bg-aurora py-24 lg:py-28">
         <div className="pointer-events-none absolute -top-24 right-[-12%] h-96 w-96 rounded-full bg-brand-cyan/15 blur-3xl animate-blob-drift" aria-hidden />
         <div className="relative mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:px-10">
           <div>
