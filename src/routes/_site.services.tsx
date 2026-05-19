@@ -58,23 +58,48 @@ const industries = [
 function ServicesPage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-cream py-24 lg:py-28 paper-grain">
-        <div className="pointer-events-none absolute -top-32 right-[-10%] h-96 w-96 rounded-full bg-brand-cyan/15 blur-3xl animate-blob-drift" aria-hidden />
-        <div className="pointer-events-none absolute -bottom-32 left-[-10%] h-96 w-96 rounded-full bg-brand/10 blur-3xl animate-blob-drift" style={{ animationDelay: "-11s" }} aria-hidden />
-        <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-          <Reveal variant="fade">
-            <p className="kicker">Services</p>
-          </Reveal>
-          <Reveal variant="up" delay={180}>
-            <h1 className="mt-4 font-display text-[clamp(2.5rem,5.5vw,4.5rem)] font-medium leading-[1] tracking-tight">
-              From idea to launch — <em className="serif-italic text-brand">and beyond.</em>
-            </h1>
-          </Reveal>
-          <Reveal variant="up" delay={360}>
-            <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
-              We partner with companies to build, ship and operate technology that delivers real business value — across web, mobile, desktop and cloud.
-            </p>
-          </Reveal>
+      {/* Hero — solid ink, editorial split with capability chips */}
+      <section className="relative overflow-hidden bg-ink py-24 text-background lg:py-28">
+        <div className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-px bg-background/10 lg:block" aria-hidden />
+        <div className="relative mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-12 lg:gap-16 lg:px-10">
+          <div className="lg:col-span-7">
+            <Reveal variant="fade">
+              <span className="inline-flex items-center gap-2 rounded-full border border-background/20 bg-background/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-cyan">
+                <span className="h-1.5 w-1.5 rounded-full bg-brand-cyan" aria-hidden />
+                Services
+              </span>
+            </Reveal>
+            <Reveal variant="up" delay={180}>
+              <h1 className="mt-5 font-display text-[clamp(2.5rem,5.5vw,4.75rem)] font-medium leading-[1] tracking-tight">
+                From idea to launch — <em className="serif-italic text-brand-cyan">and beyond.</em>
+              </h1>
+            </Reveal>
+            <Reveal variant="up" delay={360}>
+              <p className="mt-6 max-w-xl text-lg text-background/75">
+                We partner with companies to build, ship and operate technology that delivers real business value — across web, mobile, desktop and cloud.
+              </p>
+            </Reveal>
+            <Reveal variant="up" delay={520}>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button asChild variant="brand" size="lg"><Link to="/contact">Start a project</Link></Button>
+                <Button asChild variant="hero" size="lg"><Link to="/products">See our products</Link></Button>
+              </div>
+            </Reveal>
+          </div>
+          <div className="lg:col-span-5 lg:pt-2">
+            <Reveal variant="up" delay={300}>
+              <div className="grid grid-cols-2 gap-3">
+                {services.slice(0, 6).map((s) => (
+                  <div key={s.title} className="flex items-center gap-2.5 rounded-xl border border-background/15 bg-background/[0.04] px-3 py-2.5">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-cyan/15 text-brand-cyan">
+                      <s.icon className="h-4 w-4" />
+                    </span>
+                    <span className="truncate text-sm font-medium text-background">{s.title}</span>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 

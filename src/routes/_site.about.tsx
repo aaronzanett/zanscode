@@ -43,27 +43,38 @@ const partners = ["AWS", "Google Cloud", "Microsoft", "Stripe", "Cloudflare", "M
 function AboutPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-cream py-24 lg:py-28 paper-grain">
-        <div className="pointer-events-none absolute -top-24 right-[-12%] h-96 w-96 rounded-full bg-brand-cyan/15 blur-3xl animate-blob-drift" aria-hidden />
-        <div className="relative mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:px-10">
-          <div>
+      {/* Hero — solid ink, portrait split with framed team image */}
+      <section className="relative overflow-hidden bg-ink py-24 text-background lg:py-28">
+        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-12 lg:gap-16 lg:px-10">
+          <div className="lg:col-span-7">
             <Reveal variant="fade">
-              <p className="kicker">About</p>
+              <span className="inline-flex items-center gap-2 rounded-full border border-background/20 bg-background/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-cyan">
+                <span className="h-1.5 w-1.5 rounded-full bg-brand-cyan" aria-hidden />
+                About Zanscode
+              </span>
             </Reveal>
             <Reveal variant="up" delay={180}>
-              <h1 className="mt-4 font-display text-[clamp(2.5rem,5.5vw,4.5rem)] font-medium leading-[1] tracking-tight">
-                A technology partner for businesses that <em className="serif-italic text-brand">mean it.</em>
+              <h1 className="mt-5 font-display text-[clamp(2.5rem,5.5vw,4.75rem)] font-medium leading-[1] tracking-tight">
+                A technology partner for businesses that <em className="serif-italic text-brand-cyan">mean it.</em>
               </h1>
             </Reveal>
             <Reveal variant="up" delay={360}>
-              <p className="mt-6 text-lg text-muted-foreground">
+              <p className="mt-6 max-w-xl text-lg text-background/75">
                 Zanscode is a startup on a mission to help organizations operate at their best — combining well-organized business systems with the latest technology across web, mobile, desktop and cloud.
               </p>
             </Reveal>
+            <Reveal variant="up" delay={520}>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button asChild variant="brand" size="lg"><Link to="/contact">Work with us</Link></Button>
+                <Button asChild variant="hero" size="lg"><Link to="/careers">Join the team</Link></Button>
+              </div>
+            </Reveal>
           </div>
-          <Reveal variant="scale" delay={250}>
-            <img src={aboutTeam} alt="The Zanscode team" loading="lazy" width={1280} height={800} className="rounded-3xl border border-border shadow-card transition-transform duration-700 hover:scale-[1.02]" />
+          <Reveal variant="scale" delay={250} className="lg:col-span-5">
+            <div className="relative">
+              <div className="absolute -inset-3 rounded-3xl border border-background/15" aria-hidden />
+              <img src={aboutTeam} alt="The Zanscode team" loading="lazy" width={1280} height={1280} className="relative aspect-square w-full rounded-2xl object-cover ring-1 ring-background/15 transition-transform duration-700 hover:scale-[1.02]" />
+            </div>
           </Reveal>
         </div>
       </section>

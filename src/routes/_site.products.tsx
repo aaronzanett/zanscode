@@ -191,36 +191,40 @@ function ProductsPage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-cream py-24 lg:py-28 paper-grain">
-        <div className="absolute -right-40 top-0 h-96 w-96 rounded-full bg-brand/10 blur-3xl animate-blob-drift" aria-hidden />
-        <div className="absolute -left-32 bottom-0 h-80 w-80 rounded-full bg-brand-cyan/15 blur-3xl animate-blob-drift" style={{ animationDelay: "-14s" }} aria-hidden />
-        <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+      {/* Hero — solid ink with bold stat band */}
+      <section className="relative overflow-hidden bg-ink text-background">
+        <div className="relative mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:px-10 lg:py-28">
           <Reveal variant="fade">
-            <p className="kicker">SaaS for every business</p>
+            <span className="inline-flex items-center gap-2 rounded-full border border-background/20 bg-background/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-cyan">
+              <span className="h-1.5 w-1.5 rounded-full bg-brand-cyan" aria-hidden />
+              SaaS for every business
+            </span>
           </Reveal>
           <Reveal variant="up" delay={180}>
-            <h1 className="mt-4 max-w-4xl font-display text-[clamp(2.5rem,6vw,5rem)] font-medium leading-[1] tracking-tight">
+            <h1 className="mt-5 max-w-4xl font-display text-[clamp(2.5rem,6vw,5rem)] font-medium leading-[1] tracking-tight">
               SaaS isn't just for tech.<br />
-              <em className="serif-italic text-brand">It's for your business.</em>
+              <em className="serif-italic text-brand-cyan">It's for your business.</em>
             </h1>
           </Reveal>
           <Reveal variant="up" delay={360}>
-            <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
+            <p className="mt-6 max-w-2xl text-lg text-background/75">
               From barbershops to schools, restaurants to clinics — Zanscode builds focused SaaS apps for the way your industry actually works. Pick one, or run your whole company on the suite.
             </p>
           </Reveal>
           <Reveal variant="up" delay={520}>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild variant="brand" size="lg"><Link to="/contact">Find your app</Link></Button>
-              <Button asChild variant="outline" size="lg"><Link to="/services">Explore custom builds</Link></Button>
+              <Button asChild variant="hero" size="lg"><Link to="/services">Explore custom builds</Link></Button>
             </div>
           </Reveal>
-          <dl className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-4">
+        </div>
+        {/* Solid stat band */}
+        <div className="relative border-t border-background/10 bg-background/[0.03]">
+          <dl className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-background/10 px-5 sm:px-8 sm:grid-cols-4 lg:px-10">
             {stats.map((s, i) => (
-              <Reveal key={s.l} variant="up" delay={650 + i * 110} as="div" className="rounded-2xl border border-border bg-background/70 p-4 backdrop-blur">
-                <dt className="font-display text-3xl font-medium text-foreground">{s.v}</dt>
-                <dd className="mt-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{s.l}</dd>
+              <Reveal key={s.l} variant="up" delay={120 + i * 90} as="div" className="px-2 py-6 first:pl-0 last:pr-0 sm:px-6">
+                <dt className="font-display text-3xl font-medium text-background sm:text-4xl">{s.v}</dt>
+                <dd className="mt-1 text-[11px] uppercase tracking-[0.18em] text-background/60">{s.l}</dd>
               </Reveal>
             ))}
           </dl>
