@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Code2, Layout, Cloud, Wrench, Users, Headphones, ShoppingBag, Truck, Stethoscope, GraduationCap, Landmark, Building2 } from "lucide-react";
+import { Code2, Layout, Cloud, Wrench, Users, Headphones, ShoppingBag, Truck, Stethoscope, GraduationCap, Landmark, Building2, Hammer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/Reveal";
 import { ClosingCTA } from "@/components/site/ClosingCTA";
