@@ -15,7 +15,6 @@ import { useStore } from "@/lib/store";
 import type { IconName } from "@/lib/store";
 
 import heroBg from "@/assets/hero-bg.jpg";
-import productSaas from "@/assets/product-saas.jpg";
 
 export const Route = createFileRoute("/_site/")({
   head: () => ({
@@ -402,19 +401,42 @@ function HomePage() {
           </Reveal>
 
           <Reveal variant="scale" delay={200}>
-            <div className="relative">
-              <div className="relative overflow-hidden rounded-3xl border border-border bg-background shadow-card">
-                <img src={productSaas} alt="Zanscode SaaS preview" loading="lazy" width={1280} height={900} className="aspect-[4/3] w-full object-cover transition-transform duration-[1200ms] hover:scale-[1.03]" />
+            <div className="relative grid gap-4 sm:grid-cols-2">
+              <div className="rounded-2xl border border-border bg-card p-6 shadow-soft transition-all hover:-translate-y-1 hover:border-brand/40 hover:shadow-brand">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-background">
+                  <Sparkles className="h-5 w-5" />
+                </div>
+                <h3 className="mt-4 font-display text-lg font-medium">Launch in days</h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                  Spin up a working tenant in under a week — no infra to manage, no integrations to wrangle.
+                </p>
               </div>
-              {/* floating chip */}
-              <div className="absolute -bottom-5 left-6 right-6 hidden rounded-2xl border border-border bg-background/95 p-4 shadow-card backdrop-blur sm:flex sm:items-center sm:gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand text-background">
-                  <Sparkles className="h-4 w-4" />
+              <div className="rounded-2xl border border-border bg-ink p-6 text-background shadow-card transition-all hover:-translate-y-1 sm:translate-y-6">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-cyan/20 text-brand-cyan">
+                  <ShieldCheck className="h-5 w-5" />
                 </div>
-                <div className="flex-1">
-                  <div className="text-sm font-medium">Built for scale</div>
-                  <div className="text-xs text-muted-foreground">Multi-tenant, audit-ready, SSO included</div>
+                <h3 className="mt-4 font-display text-lg font-medium">Enterprise-ready</h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-background/70">
+                  SSO, role-based access, audit logs and full data export — included from day one.
+                </p>
+              </div>
+              <div className="rounded-2xl border border-border bg-card p-6 shadow-soft transition-all hover:-translate-y-1 hover:border-brand/40 hover:shadow-brand">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-background">
+                  <TrendingUp className="h-5 w-5" />
                 </div>
+                <h3 className="mt-4 font-display text-lg font-medium">Built to scale</h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                  Multi-tenant architecture proven from single teams to 10,000+ seat deployments.
+                </p>
+              </div>
+              <div className="rounded-2xl border border-border bg-card p-6 shadow-soft transition-all hover:-translate-y-1 hover:border-brand/40 hover:shadow-brand sm:translate-y-6">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-background">
+                  <Boxes className="h-5 w-5" />
+                </div>
+                <h3 className="mt-4 font-display text-lg font-medium">Modular by design</h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                  Start with one module, add more as you grow. Pay only for what your team actually uses.
+                </p>
               </div>
             </div>
           </Reveal>

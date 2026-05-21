@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Briefcase, Users, Heart, ArrowRight } from "lucide-react";
+import { Briefcase, Users, Heart, ArrowRight, Compass } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/Reveal";
 import { ClosingCTA } from "@/components/site/ClosingCTA";
@@ -48,9 +48,12 @@ function AboutPage() {
         <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-12 lg:gap-16 lg:px-10">
           <div className="lg:col-span-7">
             <Reveal variant="fade">
-              <span className="inline-flex items-center gap-2 rounded-full border border-background/20 bg-background/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-cyan">
-                <span className="h-1.5 w-1.5 rounded-full bg-brand-cyan" aria-hidden />
-                About Zanscode
+              <span className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 py-1 pl-2 pr-4 text-xs font-semibold backdrop-blur">
+                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-brand-cyan/20 text-brand-cyan">
+                  <Compass className="h-3 w-3" />
+                </span>
+                <span className="h-3 w-px bg-white/20" aria-hidden />
+                <span>About Zanscode</span>
               </span>
             </Reveal>
             <Reveal variant="up" delay={180}>
