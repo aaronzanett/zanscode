@@ -136,11 +136,11 @@ export function Header() {
           <img
             src={logo}
             alt="Zanscode"
-            className="h-10 w-auto md:h-11 transition-transform duration-300 group-hover:scale-[1.03]"
+            className="h-10 w-auto lg:h-11 transition-transform duration-300 group-hover:scale-[1.03]"
           />
         </Link>
 
-        <nav className="hidden md:flex">
+        <nav className="hidden lg:flex">
           <div
             ref={listRef}
             className="relative flex items-center rounded-full border border-border/60 bg-secondary/30 p-1"
@@ -183,7 +183,7 @@ export function Header() {
           </div>
         </nav>
 
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center gap-1 lg:flex">
           <LanguageSwitcher />
           <span className="mx-1 h-5 w-px bg-border" aria-hidden="true" />
           <Button asChild size="sm" variant="ghost" className="group rounded-full text-muted-foreground hover:text-foreground">
@@ -200,7 +200,7 @@ export function Header() {
           </Button>
         </div>
 
-        <div className="flex items-center gap-1 md:hidden">
+        <div className="flex items-center gap-1 lg:hidden">
           <LanguageSwitcher />
           <button
             className={cn(
@@ -219,7 +219,7 @@ export function Header() {
 
       <div
         className={cn(
-          "fixed inset-x-0 top-16 bottom-0 z-40 bg-background/60 backdrop-blur-sm transition-opacity duration-300 md:hidden",
+          "fixed inset-x-0 top-16 bottom-0 z-40 bg-background/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden",
           open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
         )}
         onClick={() => setOpen(false)}
@@ -228,7 +228,7 @@ export function Header() {
 
       <div
         className={cn(
-          "fixed inset-x-0 top-16 z-40 origin-top border-b border-border bg-background shadow-lg transition-all duration-300 ease-out md:hidden",
+          "fixed inset-x-0 top-16 z-40 origin-top border-b border-border bg-background shadow-lg transition-all duration-300 ease-out lg:hidden",
           open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-3 opacity-0",
         )}
       >
