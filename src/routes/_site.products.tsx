@@ -195,9 +195,12 @@ function ProductsPage() {
       <section className="relative overflow-hidden bg-ink text-background">
         <div className="relative mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:px-10 lg:py-28">
           <Reveal variant="fade">
-            <span className="inline-flex items-center gap-2 rounded-full border border-background/20 bg-background/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-cyan">
-              <span className="h-1.5 w-1.5 rounded-full bg-brand-cyan" aria-hidden />
-              SaaS for every business
+            <span className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 py-1 pl-2 pr-4 text-xs font-semibold backdrop-blur">
+              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-brand-cyan/20 text-brand-cyan">
+                <Boxes className="h-3 w-3" />
+              </span>
+              <span className="h-3 w-px bg-white/20" aria-hidden />
+              <span>SaaS for every business</span>
             </span>
           </Reveal>
           <Reveal variant="up" delay={180}>
