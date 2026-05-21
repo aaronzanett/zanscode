@@ -15,7 +15,6 @@ import { useStore } from "@/lib/store";
 import type { IconName } from "@/lib/store";
 
 import heroBg from "@/assets/hero-bg.jpg";
-import productSaas from "@/assets/product-saas.jpg";
 
 export const Route = createFileRoute("/_site/")({
   head: () => ({
