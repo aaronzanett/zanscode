@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
-import { ArrowRight, Eye, EyeOff, Loader2, Sparkles, Command } from "lucide-react";
+import { ArrowRight, Eye, EyeOff, Loader2, KeyRound, ShieldCheck, Zap, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -52,23 +52,8 @@ function StaffLoginPage() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-background">
-      {/* Ambient background */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,color-mix(in_oklab,var(--brand)_18%,transparent),transparent_70%)]" />
-        <div className="absolute -left-40 top-1/3 h-[500px] w-[500px] rounded-full bg-brand/10 blur-[120px]" />
-        <div className="absolute -right-40 bottom-0 h-[500px] w-[500px] rounded-full bg-brand/10 blur-[120px]" />
-        <div
-          className="absolute inset-0 opacity-[0.025]"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
-            backgroundSize: "44px 44px",
-          }}
-        />
-      </div>
-
-      <div className="grid min-h-screen grid-cols-1 md:grid-cols-2">
+    <div className="min-h-screen bg-background">
+      <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[1fr_1.05fr]">
         {/* Left — Form */}
         <div className="flex flex-col px-6 py-8 sm:px-10 lg:px-16">
           <div className="flex items-center justify-between">
@@ -77,52 +62,48 @@ function StaffLoginPage() {
             </Link>
             <Link
               to="/"
-              className="text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="group inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
-              ← Back to website
+              <ArrowRight className="h-3.5 w-3.5 rotate-180 transition-transform group-hover:-translate-x-0.5" />
+              Back to website
             </Link>
           </div>
 
           <div className="flex flex-1 items-center">
-            <div className="mx-auto w-full max-w-[400px] py-12">
-              <div className="mb-8">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-card/60 px-3 py-1 text-[11px] font-medium text-muted-foreground backdrop-blur">
-                  <span className="relative flex h-1.5 w-1.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                  </span>
-                  Staff portal · secure
+            <div className="mx-auto w-full max-w-[420px] py-12">
+              <div className="mb-9">
+                <span className="kicker inline-flex items-center gap-2">
+                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand" />
+                  Staff portal
                 </span>
-                <h1 className="mt-5 text-[34px] font-bold leading-tight tracking-tight">
-                  Sign in to <span className="bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">Zanscode OS</span>
+                <h1 className="mt-4 font-display text-[40px] leading-[1.05] tracking-tight text-foreground sm:text-[44px]">
+                  Welcome back to <span className="text-brand">Zanscode OS</span>.
                 </h1>
-                <p className="mt-2 text-[15px] text-muted-foreground">
-                  Your internal workspace, all in one place.
+                <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+                  Your internal workspace for projects, clients, recruitment and content — all in one calm place.
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="space-y-1.5">
-                  <Label htmlFor="email" className="text-xs font-medium text-muted-foreground">
+                  <Label htmlFor="email" className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                     Work email
                   </Label>
-                  <div className="group relative">
-                    <Input
-                      id="email"
-                      type="email"
-                      autoComplete="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="you@zanscode.com"
-                      className="h-12 rounded-xl border-border/80 bg-card/40 px-4 backdrop-blur transition-all focus-visible:ring-2 focus-visible:ring-brand/30"
-                    />
-                  </div>
+                  <Input
+                    id="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@zanscode.com"
+                    className="h-12 rounded-xl border-border bg-card px-4 text-[15px] shadow-none transition-all focus-visible:border-brand focus-visible:ring-4 focus-visible:ring-brand/15"
+                  />
                 </div>
 
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="password" className="text-xs font-medium text-muted-foreground">
+                    <Label htmlFor="password" className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                       Password
                     </Label>
                     <button
@@ -133,7 +114,7 @@ function StaffLoginPage() {
                       Forgot password?
                     </button>
                   </div>
-                  <div className="group relative">
+                  <div className="relative">
                     <Input
                       id="password"
                       type={show ? "text" : "password"}
@@ -142,7 +123,7 @@ function StaffLoginPage() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="h-12 rounded-xl border-border/80 bg-card/40 px-4 pr-11 backdrop-blur transition-all focus-visible:ring-2 focus-visible:ring-brand/30"
+                      className="h-12 rounded-xl border-border bg-card px-4 pr-11 text-[15px] shadow-none transition-all focus-visible:border-brand focus-visible:ring-4 focus-visible:ring-brand/15"
                     />
                     <button
                       type="button"
@@ -157,7 +138,7 @@ function StaffLoginPage() {
 
                 {error && (
                   <div className="flex items-start gap-2 rounded-xl border border-destructive/30 bg-destructive/5 px-3.5 py-2.5 text-xs text-destructive">
-                    <span className="mt-0.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-destructive" />
+                    <span className="mt-1 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-destructive" />
                     {error}
                   </div>
                 )}
@@ -165,7 +146,7 @@ function StaffLoginPage() {
                 <Button
                   type="submit"
                   variant="brand"
-                  className="group h-12 w-full rounded-xl text-[15px] font-semibold shadow-lg shadow-brand/20 transition-all hover:shadow-xl hover:shadow-brand/30"
+                  className="group h-12 w-full rounded-xl text-[15px] font-semibold shadow-brand transition-all hover:shadow-glow"
                   disabled={loading}
                 >
                   {loading ? (
@@ -175,15 +156,15 @@ function StaffLoginPage() {
                     </>
                   ) : (
                     <>
-                      Sign in
+                      Sign in to workspace
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                     </>
                   )}
                 </Button>
 
-                <div className="flex items-center gap-3 py-1">
+                <div className="flex items-center gap-3 pt-1">
                   <div className="h-px flex-1 bg-border" />
-                  <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                     or
                   </span>
                   <div className="h-px flex-1 bg-border" />
@@ -192,18 +173,18 @@ function StaffLoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowDemo((v) => !v)}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-card/30 px-4 py-2.5 text-xs font-medium text-muted-foreground transition-all hover:border-brand/40 hover:text-foreground"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-transparent px-4 py-2.5 text-xs font-medium text-muted-foreground transition-all hover:border-brand/40 hover:bg-secondary hover:text-foreground"
                 >
-                  <Sparkles className="h-3.5 w-3.5" />
+                  <KeyRound className="h-3.5 w-3.5" />
                   {showDemo ? "Hide demo accounts" : "Use a demo account"}
                 </button>
 
                 {showDemo && (
-                  <div className="overflow-hidden rounded-xl border border-border/80 bg-card/40 backdrop-blur">
-                    <div className="border-b border-border/60 px-3.5 py-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  <div className="overflow-hidden rounded-xl border border-border bg-card">
+                    <div className="border-b border-border px-3.5 py-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                       Tap to fill
                     </div>
-                    <ul className="divide-y divide-border/60">
+                    <ul className="divide-y divide-border">
                       {DEMO_HINTS.map((d) => (
                         <li key={d.email}>
                           <button
@@ -211,7 +192,7 @@ function StaffLoginPage() {
                             onClick={() => fillDemo(d.email, d.password)}
                             className="flex w-full items-center justify-between gap-3 px-3.5 py-2.5 text-left text-xs transition-colors hover:bg-secondary/60"
                           >
-                            <div className="flex items-center gap-2.5 min-w-0">
+                            <div className="flex min-w-0 items-center gap-2.5">
                               <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-brand/10 text-[10px] font-bold text-brand">
                                 {d.role[0]}
                               </div>
@@ -238,45 +219,65 @@ function StaffLoginPage() {
           </p>
         </div>
 
-        {/* Right — Brand panel (full half, no gap) */}
-        <div className="relative hidden overflow-hidden bg-gradient-brand md:block">
-          {/* Texture */}
+        {/* Right — Editorial ink panel */}
+        <div className="relative hidden overflow-hidden bg-ink text-white lg:block">
+          {/* Subtle dot texture */}
           <div
-            className="absolute inset-0 opacity-[0.08]"
+            className="absolute inset-0 opacity-[0.06]"
             style={{
-              backgroundImage:
-                "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-              backgroundSize: "24px 24px",
+              backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
+              backgroundSize: "28px 28px",
             }}
           />
-          <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-white/15 blur-3xl" />
-          <div className="absolute -bottom-32 -left-20 h-[28rem] w-[28rem] rounded-full bg-white/10 blur-3xl" />
+          {/* Single soft brand glow — no rainbow gradient */}
+          <div className="pointer-events-none absolute -right-32 top-1/4 h-[28rem] w-[28rem] rounded-full bg-brand/30 blur-[140px]" />
+          <div className="pointer-events-none absolute -left-24 bottom-0 h-[22rem] w-[22rem] rounded-full bg-brand-cyan/20 blur-[120px]" />
 
-          <div className="relative flex h-full flex-col justify-between p-8 text-brand-foreground sm:p-10 lg:p-12">
-            <div className="flex items-center gap-2 text-xs font-medium opacity-90">
-              <Command className="h-3.5 w-3.5" />
-              Zanscode OS · Internal
-            </div>
-
-            <div className="max-w-md">
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur">
-                <span className="text-base leading-none">👋</span>
-                Hey there, welcome back!
-              </div>
-              <h2 className="text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl lg:text-[40px]">
-                Ready to make today<br />a productive one?
-              </h2>
-              <p className="mt-4 text-sm leading-relaxed text-brand-foreground/85 sm:text-[15px]">
-                The coffee's brewing ☕ — sign in and pick up right where you left off.
-              </p>
-            </div>
-
-            <div className="flex items-center justify-between text-[11px] opacity-75">
-              <span>© {new Date().getFullYear()} Zanscode</span>
-              <span className="inline-flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
+          <div className="relative flex h-full flex-col justify-between p-10 lg:p-14">
+            {/* Top — system status chip */}
+            <div className="flex items-center justify-between">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[11px] font-medium text-white/85 backdrop-blur">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                </span>
                 All systems operational
               </span>
+              <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-white/50">
+                v2.4
+              </span>
+            </div>
+
+            {/* Middle — editorial pitch */}
+            <div className="max-w-lg">
+              <span className="kicker text-brand-cyan">Internal workspace</span>
+              <h2 className="mt-4 font-display text-[40px] leading-[1.05] tracking-tight sm:text-[48px]">
+                One calm place to ship what matters.
+              </h2>
+              <p className="mt-5 max-w-md text-[15px] leading-relaxed text-white/70">
+                Manage projects, clients, hiring pipelines and homepage content from a single workspace built around how your team actually works.
+              </p>
+
+              {/* Feature row — solid, editorial */}
+              <div className="mt-10 grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+                {[
+                  { icon: Zap, label: "Fast", sub: "Sub-second nav" },
+                  { icon: ShieldCheck, label: "Secure", sub: "Role-based access" },
+                  { icon: Users, label: "Shared", sub: "Built for teams" },
+                ].map(({ icon: Icon, label, sub }) => (
+                  <div key={label} className="bg-ink/40 px-4 py-5 backdrop-blur">
+                    <Icon className="h-4 w-4 text-brand-cyan" />
+                    <div className="mt-3 text-sm font-semibold">{label}</div>
+                    <div className="mt-0.5 text-[11px] text-white/55">{sub}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Bottom — quiet footer */}
+            <div className="flex items-center justify-between text-[11px] text-white/45">
+              <span>© {new Date().getFullYear()} Zanscode</span>
+              <span className="font-mono tracking-[0.16em] uppercase">Defined by excellence</span>
             </div>
           </div>
         </div>
@@ -284,4 +285,3 @@ function StaffLoginPage() {
     </div>
   );
 }
-
