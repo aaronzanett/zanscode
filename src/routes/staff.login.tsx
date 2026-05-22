@@ -72,15 +72,12 @@ function StaffLoginPage() {
           <div className="flex flex-1 items-center">
             <div className="mx-auto w-full max-w-[420px] py-12">
               <div className="mb-9">
-                <span className="kicker inline-flex items-center gap-2">
-                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand" />
-                  Staff portal
-                </span>
+                <span className="kicker">Staff portal</span>
                 <h1 className="mt-4 font-display text-[40px] leading-[1.05] tracking-tight text-foreground sm:text-[44px]">
                   Welcome back to <span className="text-brand">Zanscode OS</span>.
                 </h1>
                 <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
-                  Your internal workspace for projects, clients, recruitment and content — all in one calm place.
+                  Projects, clients, recruitment, and site content — all in one place.
                 </p>
               </div>
 
@@ -248,22 +245,22 @@ function StaffLoginPage() {
               </span>
             </div>
 
-            {/* Middle — editorial pitch */}
+            {/* Middle — staff info */}
             <div className="max-w-lg">
               <span className="kicker text-brand-cyan">Internal workspace</span>
               <h2 className="mt-4 font-display text-[40px] leading-[1.05] tracking-tight sm:text-[48px]">
-                One calm place to ship what matters.
+                Everything in one place.
               </h2>
               <p className="mt-5 max-w-md text-[15px] leading-relaxed text-white/70">
-                Manage projects, clients, hiring pipelines and homepage content from a single workspace built around how your team actually works.
+                Projects, clients, recruitment, and site content — all from one dashboard. Need help? Contact your manager or IT.
               </p>
 
-              {/* Feature row — solid, editorial */}
+              {/* Feature row — functional, not persuasive */}
               <div className="mt-10 grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/5">
                 {[
-                  { icon: Zap, label: "Fast", sub: "Sub-second nav" },
-                  { icon: ShieldCheck, label: "Secure", sub: "Role-based access" },
-                  { icon: Users, label: "Shared", sub: "Built for teams" },
+                  { icon: Zap, label: "Projects", sub: "Active & pipeline" },
+                  { icon: ShieldCheck, label: "Access", sub: "Role-based permissions" },
+                  { icon: Users, label: "Team", sub: "Shared workspace" },
                 ].map(({ icon: Icon, label, sub }) => (
                   <div key={label} className="bg-ink/40 px-4 py-5 backdrop-blur">
                     <Icon className="h-4 w-4 text-brand-cyan" />
