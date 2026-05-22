@@ -72,15 +72,12 @@ function StaffLoginPage() {
           <div className="flex flex-1 items-center">
             <div className="mx-auto w-full max-w-[420px] py-12">
               <div className="mb-9">
-                <span className="kicker inline-flex items-center gap-2">
-                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand" />
-                  Staff portal
-                </span>
+                <span className="kicker">Staff portal</span>
                 <h1 className="mt-4 font-display text-[40px] leading-[1.05] tracking-tight text-foreground sm:text-[44px]">
                   Welcome back to <span className="text-brand">Zanscode OS</span>.
                 </h1>
                 <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
-                  Your internal workspace for projects, clients, recruitment and content — all in one calm place.
+                  Projects, clients, recruitment, and site content — all in one place.
                 </p>
               </div>
 
