@@ -235,27 +235,30 @@ export function Header() {
       >
         <nav className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
           <ul className="space-y-1">
-            {nav.map((n, i) => (
-              <li
-                key={n.id}
-                className={cn("transform transition-all duration-300", open ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0")}
-                style={{ transitionDelay: open ? `${80 + i * 40}ms` : "0ms" }}
-              >
-                <Link
-                  to={n.to as string}
-                  onClick={() => setOpen(false)}
-                  className="flex items-center justify-between rounded-lg px-4 py-3 text-base font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-                  activeProps={{
-                    className:
-                      "flex items-center justify-between rounded-lg px-4 py-3 text-base font-semibold text-foreground bg-secondary",
-                  }}
-                  activeOptions={{ exact: n.to === "/" }}
+            {nav.map((n, i) => {
+              const isActive = i === activeIdx;
+              return (
+                <li
+                  key={n.id}
+                  className={cn("transform transition-all duration-300", open ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0")}
+                  style={{ transitionDelay: open ? `${80 + i * 40}ms` : "0ms" }}
                 >
-                  <span>{n.label}</span>
-                  <ArrowRight className="h-4 w-4 opacity-40" />
-                </Link>
-              </li>
-            ))}
+                  <Link
+                    to={n.to as string}
+                    onClick={() => setOpen(false)}
+                    className={cn(
+                      "flex items-center justify-between rounded-lg px-4 py-3 text-base font-medium transition-colors",
+                      isActive
+                        ? "bg-secondary font-semibold text-foreground"
+                        : "text-muted-foreground hover:bg-secondary hover:text-foreground",
+                    )}
+                  >
+                    <span>{n.label}</span>
+                    <ArrowRight className="h-4 w-4 opacity-40" />
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
           <div className="mt-4 grid gap-2">
             <Button asChild size="lg" variant="outline" className="w-full group rounded-full">
