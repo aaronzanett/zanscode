@@ -2,8 +2,8 @@ import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-ro
 import { useState } from "react";
 import { z } from "zod";
 import {
-  ArrowLeft, Briefcase, Check, Clock, Loader2, Mail, MapPin, Sparkles,
-  Upload, Send,
+  ArrowLeft, Briefcase, Check, Clock, Loader2, Mail, MapPin,
+  Upload, Send, FileText, ListChecks, Sparkles as SparklesIcon, Gift,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
