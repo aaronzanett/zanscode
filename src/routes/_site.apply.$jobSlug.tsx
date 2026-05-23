@@ -168,20 +168,22 @@ function ApplyPage() {
         <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-brand-cyan/30 blur-3xl" />
         <div className="absolute -bottom-24 -left-10 h-72 w-72 rounded-full bg-brand/40 blur-3xl" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <button
-            type="button"
-            onClick={() => navigate({ to: "/careers" })}
-            className="inline-flex cursor-pointer items-center gap-1 text-sm text-white/70 transition-colors hover:text-white"
-          >
-            <ArrowLeft className="h-4 w-4" /> All roles
-          </button>
-          <span className="mt-8 ml-2 flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 py-1 pl-2 pr-4 text-xs font-semibold backdrop-blur">
-            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-brand-cyan/20 text-brand-cyan">
-              <Send className="h-3 w-3" />
+          <div className="flex flex-wrap items-center gap-4">
+            <button
+              type="button"
+              onClick={() => navigate({ to: "/careers" })}
+              className="inline-flex cursor-pointer items-center gap-1 text-sm text-white/70 transition-colors hover:text-white"
+            >
+              <ArrowLeft className="h-4 w-4" /> All roles
+            </button>
+            <span className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 py-1 pl-2 pr-4 text-xs font-semibold backdrop-blur">
+              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-brand-cyan/20 text-brand-cyan">
+                <Send className="h-3 w-3" />
+              </span>
+              <span className="h-3 w-px bg-white/20" aria-hidden />
+              <span>Quick apply</span>
             </span>
-            <span className="h-3 w-px bg-white/20" aria-hidden />
-            <span>Quick apply</span>
-          </span>
+          </div>
           <h1 className="mt-5 text-3xl font-bold sm:text-4xl lg:text-5xl">{job.title}</h1>
           <p className="mt-3 max-w-2xl text-white/80">{job.summary}</p>
           <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/80">
