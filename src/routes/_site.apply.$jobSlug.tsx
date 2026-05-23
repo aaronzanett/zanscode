@@ -195,15 +195,34 @@ function ApplyPage() {
       <section className="py-16">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
           {/* Sidebar */}
-          <aside className="space-y-4 lg:col-span-1">
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-soft">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">About this role</h3>
-              <p className="mt-3 text-sm text-muted-foreground">{job.summary}</p>
-              <ul className="mt-5 space-y-3 text-sm">
-                <li className="flex items-start gap-3"><Briefcase className="mt-0.5 h-4 w-4 text-brand" /> <span>{job.team} · {job.level}</span></li>
-                <li className="flex items-start gap-3"><MapPin className="mt-0.5 h-4 w-4 text-brand" /> <span>{job.location}</span></li>
-                <li className="flex items-start gap-3"><Clock className="mt-0.5 h-4 w-4 text-brand" /> <span>{job.type}</span></li>
-              </ul>
+          <aside className="space-y-4 lg:col-span-1 lg:sticky lg:top-24 lg:self-start">
+            <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-soft">
+              <div className="border-b border-border bg-surface/60 px-6 py-4">
+                <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">About this role</h3>
+              </div>
+              <div className="space-y-6 p-6">
+                <ul className="grid gap-3 text-sm">
+                  <li className="flex items-start gap-3"><Briefcase className="mt-0.5 h-4 w-4 shrink-0 text-brand" /> <span><span className="text-muted-foreground">Team · </span>{job.team} · {job.level}</span></li>
+                  <li className="flex items-start gap-3"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand" /> <span><span className="text-muted-foreground">Location · </span>{job.location}</span></li>
+                  <li className="flex items-start gap-3"><Clock className="mt-0.5 h-4 w-4 shrink-0 text-brand" /> <span><span className="text-muted-foreground">Type · </span>{job.type}</span></li>
+                </ul>
+
+                <SidebarBlock icon={FileText} title="Overview">
+                  <p className="text-sm leading-relaxed text-muted-foreground">{details.overview}</p>
+                </SidebarBlock>
+
+                <SidebarBlock icon={ListChecks} title="Responsibilities">
+                  <BulletList items={details.responsibilities} />
+                </SidebarBlock>
+
+                <SidebarBlock icon={SparklesIcon} title="What we're looking for">
+                  <BulletList items={details.requirements} />
+                </SidebarBlock>
+
+                <SidebarBlock icon={Gift} title="What we offer">
+                  <BulletList items={details.perks} />
+                </SidebarBlock>
+              </div>
             </div>
 
             {otherJobs.length > 0 && (
