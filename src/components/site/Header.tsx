@@ -51,7 +51,7 @@ function LanguageSwitcher({ className }: { className?: string }) {
           aria-label="Change language"
         >
           <Globe className="h-4 w-4 transition-transform duration-300 group-hover:rotate-12" />
-          <span className="font-semibold tracking-wide">{LANG_LABELS[lang].short}</span>
+          <span className="inline-block w-5 text-center font-semibold tracking-wide tabular-nums">{LANG_LABELS[lang].short}</span>
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-[180px]">
