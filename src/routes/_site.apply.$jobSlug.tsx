@@ -159,6 +159,7 @@ function ApplyPage() {
   }
 
   const otherJobs = getPublishedJobs().filter((j) => j.slug !== job.slug && j.team === job.team).slice(0, 3);
+  const details = buildRoleDetails(job);
 
   return (
     <>
