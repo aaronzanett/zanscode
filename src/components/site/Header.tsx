@@ -91,6 +91,7 @@ export function Header() {
 
   const activeIdx = nav.findIndex((n) => {
     if (n.to === "/") return pathname === "/";
+    if (n.to === "/careers" && pathname.startsWith("/apply/")) return true;
     return pathname === n.to || pathname.startsWith(n.to + "/");
   });
   const targetIdx = hoverIdx ?? (activeIdx >= 0 ? activeIdx : null);
