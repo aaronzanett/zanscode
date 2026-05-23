@@ -426,3 +426,155 @@ function Field({
     </div>
   );
 }
+
+function SidebarBlock({
+  icon: Icon, title, children,
+}: { icon: React.ComponentType<{ className?: string }>; title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <div className="mb-2 flex items-center gap-2">
+        <Icon className="h-4 w-4 text-brand" />
+        <h4 className="text-sm font-semibold text-foreground">{title}</h4>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function BulletList({ items }: { items: string[] }) {
+  return (
+    <ul className="space-y-2 text-sm text-muted-foreground">
+      {items.map((it) => (
+        <li key={it} className="flex gap-2 leading-relaxed">
+          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
+          <span>{it}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+type RoleDetails = {
+  overview: string;
+  responsibilities: string[];
+  requirements: string[];
+  perks: string[];
+};
+
+function buildRoleDetails(job: { slug: string; title: string; team: string; level: string; type: string; summary: string }): RoleDetails {
+  const stored = getStoreSnapshot().jobs.find((j) => j.slug === job.slug);
+  const overview = stored?.description?.trim() || job.summary;
+
+  const teamResponsibilities: Record<string, string[]> = {
+    Engineering: [
+      "Design, build and ship features end-to-end with the product team.",
+      "Write clean, well-tested code and review pull requests from peers.",
+      "Improve performance, reliability and developer experience over time.",
+      "Collaborate with design to translate flows into polished UI.",
+    ],
+    Design: [
+      "Own the end-to-end design process — research, flows, prototypes, hand-off.",
+      "Partner with engineering and product to ship high-quality experiences.",
+      "Contribute to and evolve our shared design system.",
+      "Use data and user feedback to refine and iterate on your work.",
+    ],
+    Product: [
+      "Own the roadmap and outcomes for your area of the product.",
+      "Run discovery with customers and translate insights into bets.",
+      "Write clear PRDs and partner closely with design and engineering.",
+      "Measure launches and iterate based on impact, not output.",
+    ],
+    Operations: [
+      "Own onboarding, adoption and ongoing success for assigned customers.",
+      "Coordinate cross-functionally to remove blockers for the team.",
+      "Build playbooks that scale repeatable operational excellence.",
+      "Surface customer signals back to product and engineering.",
+    ],
+    Sales: [
+      "Own the full sales cycle from prospecting through close.",
+      "Build strategic relationships with key accounts across the region.",
+      "Partner with marketing and product to shape go-to-market plays.",
+      "Forecast accurately and keep the pipeline clean in our CRM.",
+    ],
+    HR: [
+      "Own end-to-end recruitment for your assigned teams.",
+      "Partner with hiring managers on role design and interview loops.",
+      "Champion candidate experience at every touchpoint.",
+      "Use data to improve speed, quality and diversity of hiring.",
+    ],
+    Finance: [
+      "Own monthly close, reporting and key financial controls.",
+      "Partner with team leads on budgets, forecasts and reviews.",
+      "Build dashboards that make financial health easy to see.",
+      "Keep us compliant across local tax and regulatory requirements.",
+    ],
+  };
+
+  const teamRequirements: Record<string, string[]> = {
+    Engineering: [
+      "Strong fundamentals in TypeScript and modern web stacks.",
+      "Experience shipping production software end-to-end.",
+      "Care for code quality, testing and clear technical communication.",
+      "Comfort working async across time zones.",
+    ],
+    Design: [
+      "A portfolio that shows real shipped product work.",
+      "Strong systems thinking and an eye for craft.",
+      "Fluency in Figma and modern prototyping tools.",
+      "Comfort collaborating directly with engineering and product.",
+    ],
+    Product: [
+      "Track record of shipping impactful B2B or SaaS products.",
+      "Strong discovery, writing and prioritization skills.",
+      "Data fluency — comfortable in SQL or analytics tools.",
+      "Excellent communication across technical and non-technical audiences.",
+    ],
+    Operations: [
+      "Experience supporting customers or running internal operations.",
+      "Sharp written and verbal communication.",
+      "Bias for documentation and repeatable processes.",
+      "Calm, organized and customer-obsessed under pressure.",
+    ],
+    Sales: [
+      "Proven quota attainment in B2B SaaS, ideally enterprise.",
+      "Strong discovery and value-based selling skills.",
+      "Comfort navigating complex, multi-stakeholder deals.",
+      "Disciplined CRM hygiene and forecasting habits.",
+    ],
+    HR: [
+      "Experience in full-cycle technical or commercial recruiting.",
+      "Strong sourcing skills and a quality-first mindset.",
+      "Excellent stakeholder and candidate communication.",
+      "Comfort using data to drive hiring decisions.",
+    ],
+    Finance: [
+      "Solid accounting or FP&A foundation.",
+      "Comfort with spreadsheets, BI tools and finance systems.",
+      "High attention to detail and ownership of outcomes.",
+      "Strong communication with non-finance partners.",
+    ],
+  };
+
+  const intern = job.type === "Internship" || /intern/i.test(job.title);
+  const baseReq = teamRequirements[job.team] ?? teamRequirements.Engineering;
+  const requirements = intern
+    ? [
+        "Currently studying or a recent graduate in a related field.",
+        "Eagerness to learn, ask questions and take ownership.",
+        "Solid fundamentals in your craft — coursework or projects welcome.",
+        "Available for a six-month structured program in Jakarta.",
+      ]
+    : baseReq;
+
+  const responsibilities = teamResponsibilities[job.team] ?? teamResponsibilities.Engineering;
+
+  const perks = [
+    "Competitive salary and meaningful equity for full-time hires.",
+    "Remote-friendly with hubs in Jakarta and Singapore.",
+    "Learning budget for courses, books and conferences.",
+    "Comprehensive health coverage and generous time off.",
+  ];
+
+  return { overview, responsibilities, requirements, perks };
+}
+
