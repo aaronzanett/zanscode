@@ -175,7 +175,7 @@ function ApplyPage() {
           >
             <ArrowLeft className="h-4 w-4" /> All roles
           </button>
-          <span className="mt-8 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 py-1 pl-2 pr-4 text-xs font-semibold backdrop-blur">
+          <span className="mt-8 ml-2 flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 py-1 pl-2 pr-4 text-xs font-semibold backdrop-blur">
             <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-brand-cyan/20 text-brand-cyan">
               <Send className="h-3 w-3" />
             </span>
