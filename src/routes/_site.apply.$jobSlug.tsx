@@ -2,8 +2,8 @@ import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-ro
 import { useState } from "react";
 import { z } from "zod";
 import {
-  ArrowLeft, Briefcase, Check, Clock, Loader2, Mail, MapPin, Sparkles,
-  Upload, Send,
+  ArrowLeft, Briefcase, Check, Clock, Loader2, Mail, MapPin,
+  Upload, Send, FileText, ListChecks, Sparkles as SparklesIcon, Gift,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -159,6 +159,7 @@ function ApplyPage() {
   }
 
   const otherJobs = getPublishedJobs().filter((j) => j.slug !== job.slug && j.team === job.team).slice(0, 3);
+  const details = buildRoleDetails(job);
 
   return (
     <>
@@ -174,14 +175,14 @@ function ApplyPage() {
           >
             <ArrowLeft className="h-4 w-4" /> All roles
           </button>
-          <span className="mt-4 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 py-1 pl-2 pr-4 text-xs font-semibold backdrop-blur">
+          <span className="mt-8 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 py-1 pl-2 pr-4 text-xs font-semibold backdrop-blur">
             <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-brand-cyan/20 text-brand-cyan">
               <Send className="h-3 w-3" />
             </span>
             <span className="h-3 w-px bg-white/20" aria-hidden />
             <span>Quick apply</span>
           </span>
-          <h1 className="mt-3 text-3xl font-bold sm:text-4xl lg:text-5xl">{job.title}</h1>
+          <h1 className="mt-5 text-3xl font-bold sm:text-4xl lg:text-5xl">{job.title}</h1>
           <p className="mt-3 max-w-2xl text-white/80">{job.summary}</p>
           <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/80">
             <span className="inline-flex items-center gap-1"><Briefcase className="h-4 w-4" /> {job.team}</span>
@@ -195,15 +196,34 @@ function ApplyPage() {
       <section className="py-16">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
           {/* Sidebar */}
-          <aside className="space-y-4 lg:col-span-1">
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-soft">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">About this role</h3>
-              <p className="mt-3 text-sm text-muted-foreground">{job.summary}</p>
-              <ul className="mt-5 space-y-3 text-sm">
-                <li className="flex items-start gap-3"><Briefcase className="mt-0.5 h-4 w-4 text-brand" /> <span>{job.team} · {job.level}</span></li>
-                <li className="flex items-start gap-3"><MapPin className="mt-0.5 h-4 w-4 text-brand" /> <span>{job.location}</span></li>
-                <li className="flex items-start gap-3"><Clock className="mt-0.5 h-4 w-4 text-brand" /> <span>{job.type}</span></li>
-              </ul>
+          <aside className="space-y-4 lg:col-span-1 lg:sticky lg:top-24 lg:self-start">
+            <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-soft">
+              <div className="border-b border-border bg-surface/60 px-6 py-4">
+                <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">About this role</h3>
+              </div>
+              <div className="space-y-6 p-6">
+                <ul className="grid gap-3 text-sm">
+                  <li className="flex items-start gap-3"><Briefcase className="mt-0.5 h-4 w-4 shrink-0 text-brand" /> <span><span className="text-muted-foreground">Team · </span>{job.team} · {job.level}</span></li>
+                  <li className="flex items-start gap-3"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand" /> <span><span className="text-muted-foreground">Location · </span>{job.location}</span></li>
+                  <li className="flex items-start gap-3"><Clock className="mt-0.5 h-4 w-4 shrink-0 text-brand" /> <span><span className="text-muted-foreground">Type · </span>{job.type}</span></li>
+                </ul>
+
+                <SidebarBlock icon={FileText} title="Overview">
+                  <p className="text-sm leading-relaxed text-muted-foreground">{details.overview}</p>
+                </SidebarBlock>
+
+                <SidebarBlock icon={ListChecks} title="Responsibilities">
+                  <BulletList items={details.responsibilities} />
+                </SidebarBlock>
+
+                <SidebarBlock icon={SparklesIcon} title="What we're looking for">
+                  <BulletList items={details.requirements} />
+                </SidebarBlock>
+
+                <SidebarBlock icon={Gift} title="What we offer">
+                  <BulletList items={details.perks} />
+                </SidebarBlock>
+              </div>
             </div>
 
             {otherJobs.length > 0 && (
@@ -406,3 +426,155 @@ function Field({
     </div>
   );
 }
+
+function SidebarBlock({
+  icon: Icon, title, children,
+}: { icon: React.ComponentType<{ className?: string }>; title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <div className="mb-2 flex items-center gap-2">
+        <Icon className="h-4 w-4 text-brand" />
+        <h4 className="text-sm font-semibold text-foreground">{title}</h4>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function BulletList({ items }: { items: string[] }) {
+  return (
+    <ul className="space-y-2 text-sm text-muted-foreground">
+      {items.map((it) => (
+        <li key={it} className="flex gap-2 leading-relaxed">
+          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
+          <span>{it}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+type RoleDetails = {
+  overview: string;
+  responsibilities: string[];
+  requirements: string[];
+  perks: string[];
+};
+
+function buildRoleDetails(job: { slug: string; title: string; team: string; level: string; type: string; summary: string }): RoleDetails {
+  const stored = getStoreSnapshot().jobs.find((j) => j.slug === job.slug);
+  const overview = stored?.description?.trim() || job.summary;
+
+  const teamResponsibilities: Record<string, string[]> = {
+    Engineering: [
+      "Design, build and ship features end-to-end with the product team.",
+      "Write clean, well-tested code and review pull requests from peers.",
+      "Improve performance, reliability and developer experience over time.",
+      "Collaborate with design to translate flows into polished UI.",
+    ],
+    Design: [
+      "Own the end-to-end design process — research, flows, prototypes, hand-off.",
+      "Partner with engineering and product to ship high-quality experiences.",
+      "Contribute to and evolve our shared design system.",
+      "Use data and user feedback to refine and iterate on your work.",
+    ],
+    Product: [
+      "Own the roadmap and outcomes for your area of the product.",
+      "Run discovery with customers and translate insights into bets.",
+      "Write clear PRDs and partner closely with design and engineering.",
+      "Measure launches and iterate based on impact, not output.",
+    ],
+    Operations: [
+      "Own onboarding, adoption and ongoing success for assigned customers.",
+      "Coordinate cross-functionally to remove blockers for the team.",
+      "Build playbooks that scale repeatable operational excellence.",
+      "Surface customer signals back to product and engineering.",
+    ],
+    Sales: [
+      "Own the full sales cycle from prospecting through close.",
+      "Build strategic relationships with key accounts across the region.",
+      "Partner with marketing and product to shape go-to-market plays.",
+      "Forecast accurately and keep the pipeline clean in our CRM.",
+    ],
+    HR: [
+      "Own end-to-end recruitment for your assigned teams.",
+      "Partner with hiring managers on role design and interview loops.",
+      "Champion candidate experience at every touchpoint.",
+      "Use data to improve speed, quality and diversity of hiring.",
+    ],
+    Finance: [
+      "Own monthly close, reporting and key financial controls.",
+      "Partner with team leads on budgets, forecasts and reviews.",
+      "Build dashboards that make financial health easy to see.",
+      "Keep us compliant across local tax and regulatory requirements.",
+    ],
+  };
+
+  const teamRequirements: Record<string, string[]> = {
+    Engineering: [
+      "Strong fundamentals in TypeScript and modern web stacks.",
+      "Experience shipping production software end-to-end.",
+      "Care for code quality, testing and clear technical communication.",
+      "Comfort working async across time zones.",
+    ],
+    Design: [
+      "A portfolio that shows real shipped product work.",
+      "Strong systems thinking and an eye for craft.",
+      "Fluency in Figma and modern prototyping tools.",
+      "Comfort collaborating directly with engineering and product.",
+    ],
+    Product: [
+      "Track record of shipping impactful B2B or SaaS products.",
+      "Strong discovery, writing and prioritization skills.",
+      "Data fluency — comfortable in SQL or analytics tools.",
+      "Excellent communication across technical and non-technical audiences.",
+    ],
+    Operations: [
+      "Experience supporting customers or running internal operations.",
+      "Sharp written and verbal communication.",
+      "Bias for documentation and repeatable processes.",
+      "Calm, organized and customer-obsessed under pressure.",
+    ],
+    Sales: [
+      "Proven quota attainment in B2B SaaS, ideally enterprise.",
+      "Strong discovery and value-based selling skills.",
+      "Comfort navigating complex, multi-stakeholder deals.",
+      "Disciplined CRM hygiene and forecasting habits.",
+    ],
+    HR: [
+      "Experience in full-cycle technical or commercial recruiting.",
+      "Strong sourcing skills and a quality-first mindset.",
+      "Excellent stakeholder and candidate communication.",
+      "Comfort using data to drive hiring decisions.",
+    ],
+    Finance: [
+      "Solid accounting or FP&A foundation.",
+      "Comfort with spreadsheets, BI tools and finance systems.",
+      "High attention to detail and ownership of outcomes.",
+      "Strong communication with non-finance partners.",
+    ],
+  };
+
+  const intern = job.type === "Internship" || /intern/i.test(job.title);
+  const baseReq = teamRequirements[job.team] ?? teamRequirements.Engineering;
+  const requirements = intern
+    ? [
+        "Currently studying or a recent graduate in a related field.",
+        "Eagerness to learn, ask questions and take ownership.",
+        "Solid fundamentals in your craft — coursework or projects welcome.",
+        "Available for a six-month structured program in Jakarta.",
+      ]
+    : baseReq;
+
+  const responsibilities = teamResponsibilities[job.team] ?? teamResponsibilities.Engineering;
+
+  const perks = [
+    "Competitive salary and meaningful equity for full-time hires.",
+    "Remote-friendly with hubs in Jakarta and Singapore.",
+    "Learning budget for courses, books and conferences.",
+    "Comprehensive health coverage and generous time off.",
+  ];
+
+  return { overview, responsibilities, requirements, perks };
+}
+
