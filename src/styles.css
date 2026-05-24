@@ -144,6 +144,8 @@
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
     transition: scrollbar-color 400ms ease;
+    /* Reserve scrollbar space so modals/dropdowns don't cause layout shift */
+    scrollbar-gutter: stable;
   }
   /* Neutralize Radix RemoveScroll body padding to prevent a right-side gap
      when dropdowns/menus open. */
