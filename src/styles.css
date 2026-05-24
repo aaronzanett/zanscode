@@ -370,6 +370,32 @@
     background-color: color-mix(in oklab, var(--foreground) 40%, transparent);
   }
   .scrollbar-thin::-webkit-scrollbar-corner { background: transparent; }
+
+  /* Contact form: welcoming, easy-to-fill fields */
+  .contact-input {
+    height: 2.875rem;
+    border-radius: 0.75rem;
+    background-color: color-mix(in oklab, var(--surface) 70%, white);
+    border: 1px solid var(--border);
+    padding-inline: 0.875rem;
+    font-size: 0.95rem;
+    box-shadow: 0 1px 0 color-mix(in oklab, var(--foreground) 4%, transparent);
+    transition: border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
+  }
+  textarea.contact-input { height: auto; padding-block: 0.75rem; line-height: 1.55; }
+  .contact-input::placeholder { color: color-mix(in oklab, var(--muted-foreground) 80%, transparent); }
+  .contact-input:hover {
+    border-color: color-mix(in oklab, var(--brand) 35%, var(--border));
+    background-color: white;
+  }
+  .contact-input:focus-visible {
+    outline: none;
+    border-color: var(--brand);
+    background-color: white;
+    box-shadow:
+      0 0 0 4px color-mix(in oklab, var(--brand) 15%, transparent),
+      0 4px 16px -8px color-mix(in oklab, var(--brand) 35%, transparent);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
