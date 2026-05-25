@@ -179,12 +179,12 @@ export function Header() {
           <Button asChild size="sm" variant="ghost" className="group rounded-full text-muted-foreground hover:text-foreground">
             <Link to="/staff/login">
               <LogIn className="transition-transform duration-300 group-hover:-translate-x-0.5" />
-              Sign in
+              {lang === "id" ? idHeader.signIn : "Sign in"}
             </Link>
           </Button>
           <Button asChild size="sm" variant="brand" className="group rounded-full shadow-soft">
             <Link to="/contact">
-              Get started
+              {lang === "id" ? idHeader.getStarted : "Get started"}
               <ArrowRight className="transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
           </Button>
@@ -253,12 +253,12 @@ export function Header() {
             <Button asChild size="lg" variant="outline" className="w-full group rounded-full">
               <Link to="/staff/login" onClick={() => setOpen(false)}>
                 <LogIn className="transition-transform duration-300 group-hover:-translate-x-0.5" />
-                Sign in
+                {lang === "id" ? idHeader.signIn : "Sign in"}
               </Link>
             </Button>
             <Button asChild size="lg" variant="brand" className="w-full group rounded-full">
               <Link to="/contact" onClick={() => setOpen(false)}>
-                Get started
+                {lang === "id" ? idHeader.getStarted : "Get started"}
                 <ArrowRight className="transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>
