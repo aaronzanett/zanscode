@@ -78,7 +78,7 @@ export function Header() {
     { left: 0, width: 0, visible: false },
   );
 
-  const activeIdx = nav.findIndex((n) => {
+  const activeIdx = navItems.findIndex((n) => {
     if (n.to === "/") return pathname === "/";
     if (n.to === "/careers" && pathname.startsWith("/apply/")) return true;
     return pathname === n.to || pathname.startsWith(n.to + "/");
@@ -148,7 +148,7 @@ export function Header() {
                 width: indicator.width,
               }}
             />
-            {nav.map((n, i) => {
+            {navItems.map((n, i) => {
               const isTarget = i === targetIdx;
               return (
                 <Link
@@ -224,7 +224,7 @@ export function Header() {
       >
         <nav className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
           <ul className="space-y-1">
-            {nav.map((n, i) => {
+            {navItems.map((n, i) => {
               const isActive = i === activeIdx;
               return (
                 <li
