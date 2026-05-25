@@ -13,6 +13,8 @@ import { isAppSubdomain } from "@/lib/host";
 import { isSignedIn } from "@/lib/auth";
 import { useStore } from "@/lib/store";
 import type { IconName } from "@/lib/store";
+import { useLang } from "@/lib/i18n";
+import { idHero, idHeroBadges, idStatsLabels, idSections, idHome } from "@/lib/i18n-home";
 
 import heroBg from "@/assets/hero-bg.jpg";
 
