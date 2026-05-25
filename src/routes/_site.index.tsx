@@ -297,6 +297,7 @@ function HomePage() {
       {/* DYNAMIC SECTIONS — editorial split header + colored cards */}
       {sections.filter((sec) => sec.visible).map((sec, secIdx) => {
         const meta = sectionMeta(sec.id, secIdx);
+        const eyebrowText = isID && idSections[sec.id]?.eyebrow ? idSections[sec.id]!.eyebrow! : meta.eyebrow;
         const onCream = secIdx % 2 === 1;
         return (
           <section key={sec.id} className={`relative ${onCream ? "bg-cream" : "bg-background"} py-24 lg:py-32`}>
