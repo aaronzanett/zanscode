@@ -237,20 +237,20 @@ function HomePage() {
                   <div className="absolute -left-3 top-8 hidden animate-float-soft sm:block lg:-left-5">
                     <div className="rounded-2xl border border-border bg-background/95 p-3.5 shadow-card backdrop-blur">
                       <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
-                        <TrendingUp className="h-3.5 w-3.5 text-brand" /> Operational lift
+                        <TrendingUp className="h-3.5 w-3.5 text-brand" /> {isID ? idHeroBadges.operationalLift : "Operational lift"}
                       </div>
                       <div className="mt-1 font-display text-2xl font-medium text-brand">+38%</div>
-                      <div className="mt-0.5 text-[10px] text-muted-foreground">avg. across deployments</div>
+                      <div className="mt-0.5 text-[10px] text-muted-foreground">{isID ? idHeroBadges.operationalLiftSub : "avg. across deployments"}</div>
                     </div>
                   </div>
 
                   <div className="absolute -right-3 bottom-24 hidden animate-float-soft sm:block lg:-right-4" style={{ animationDelay: "-4s" }}>
                     <div className="rounded-2xl border border-border bg-ink p-3.5 text-background shadow-brand">
                       <div className="flex items-center gap-2 text-[11px] text-background/70">
-                        <Clock className="h-3.5 w-3.5 text-brand-cyan" /> Time to first ship
+                        <Clock className="h-3.5 w-3.5 text-brand-cyan" /> {isID ? idHeroBadges.timeToShip : "Time to first ship"}
                       </div>
                       <div className="mt-1 font-display text-2xl font-medium text-background">14 wks</div>
-                      <div className="mt-0.5 text-[10px] text-background/60">discovery to launch</div>
+                      <div className="mt-0.5 text-[10px] text-background/60">{isID ? idHeroBadges.timeToShipSub : "discovery to launch"}</div>
                     </div>
                   </div>
 
@@ -261,7 +261,7 @@ function HomePage() {
                       </div>
                       <div className="flex-1">
                         <div className="text-sm font-medium text-foreground">SOC 2 · ISO 27001</div>
-                        <div className="text-xs text-muted-foreground">Security baked into every build</div>
+                        <div className="text-xs text-muted-foreground">{isID ? idHeroBadges.security : "Security baked into every build"}</div>
                       </div>
                       <Check className="h-4 w-4 text-brand" />
                     </div>
