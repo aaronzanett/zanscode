@@ -11,30 +11,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { useStore } from "@/lib/store";
+import { useLang, setLang as setAppLang, type Lang } from "@/lib/i18n";
+import { idNavLabels, idHeader } from "@/lib/i18n-home";
 
-type Lang = "en" | "id";
-const LANG_KEY = "zanscode.lang";
 const LANG_LABELS: Record<Lang, { short: string; name: string }> = {
   en: { short: "EN", name: "English" },
   id: { short: "ID", name: "Bahasa Indonesia" },
 };
 
 function useLanguage(): [Lang, (l: Lang) => void] {
-  const [lang, setLang] = useState<Lang>("en");
-  useEffect(() => {
-    try {
-      const v = window.localStorage.getItem(LANG_KEY) as Lang | null;
-      if (v === "en" || v === "id") setLang(v);
-    } catch {}
-  }, []);
-  const update = (l: Lang) => {
-    setLang(l);
-    try {
-      window.localStorage.setItem(LANG_KEY, l);
-      document.documentElement.lang = l;
-    } catch {}
-  };
-  return [lang, update];
+  const lang = useLang();
+  return [lang, setAppLang];
 }
 
 function LanguageSwitcher({ className }: { className?: string }) {
@@ -78,6 +65,8 @@ function LanguageSwitcher({ className }: { className?: string }) {
 export function Header() {
   const [open, setOpen] = useState(false);
   const nav = useStore((s) => s.siteContent.nav);
+  const [lang] = useLanguage();
+  const navItems = nav.map((n) => ({ ...n, label: lang === "id" ? idNavLabels[n.to] ?? n.label : n.label }));
   const location = useLocation();
   const pathname = location.pathname;
 
@@ -89,7 +78,7 @@ export function Header() {
     { left: 0, width: 0, visible: false },
   );
 
-  const activeIdx = nav.findIndex((n) => {
+  const activeIdx = navItems.findIndex((n) => {
     if (n.to === "/") return pathname === "/";
     if (n.to === "/careers" && pathname.startsWith("/apply/")) return true;
     return pathname === n.to || pathname.startsWith(n.to + "/");
@@ -159,7 +148,7 @@ export function Header() {
                 width: indicator.width,
               }}
             />
-            {nav.map((n, i) => {
+            {navItems.map((n, i) => {
               const isTarget = i === targetIdx;
               return (
                 <Link
@@ -190,12 +179,12 @@ export function Header() {
           <Button asChild size="sm" variant="ghost" className="group rounded-full text-muted-foreground hover:text-foreground">
             <Link to="/staff/login">
               <LogIn className="transition-transform duration-300 group-hover:-translate-x-0.5" />
-              Sign in
+              {lang === "id" ? idHeader.signIn : "Sign in"}
             </Link>
           </Button>
           <Button asChild size="sm" variant="brand" className="group rounded-full shadow-soft">
             <Link to="/contact">
-              Get started
+              {lang === "id" ? idHeader.getStarted : "Get started"}
               <ArrowRight className="transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
           </Button>
@@ -235,7 +224,7 @@ export function Header() {
       >
         <nav className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
           <ul className="space-y-1">
-            {nav.map((n, i) => {
+            {navItems.map((n, i) => {
               const isActive = i === activeIdx;
               return (
                 <li
@@ -264,12 +253,12 @@ export function Header() {
             <Button asChild size="lg" variant="outline" className="w-full group rounded-full">
               <Link to="/staff/login" onClick={() => setOpen(false)}>
                 <LogIn className="transition-transform duration-300 group-hover:-translate-x-0.5" />
-                Sign in
+                {lang === "id" ? idHeader.signIn : "Sign in"}
               </Link>
             </Button>
             <Button asChild size="lg" variant="brand" className="w-full group rounded-full">
               <Link to="/contact" onClick={() => setOpen(false)}>
-                Get started
+                {lang === "id" ? idHeader.getStarted : "Get started"}
                 <ArrowRight className="transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>

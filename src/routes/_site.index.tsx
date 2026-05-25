@@ -13,6 +13,8 @@ import { isAppSubdomain } from "@/lib/host";
 import { isSignedIn } from "@/lib/auth";
 import { useStore } from "@/lib/store";
 import type { IconName } from "@/lib/store";
+import { useLang } from "@/lib/i18n";
+import { idHero, idHeroBadges, idStatsLabels, idSections, idHome } from "@/lib/i18n-home";
 
 import heroBg from "@/assets/hero-bg.jpg";
 
@@ -70,9 +72,53 @@ const fallbackTiles = [
 
 function HomePage() {
   const navigate = useNavigate();
-  const hero = useStore((s) => s.siteContent.hero);
-  const sections = useStore((s) => s.siteContent.sections);
-  const home = useStore((s) => s.siteContent.home);
+  const lang = useLang();
+  const isID = lang === "id";
+  const heroRaw = useStore((s) => s.siteContent.hero);
+  const sectionsRaw = useStore((s) => s.siteContent.sections);
+  const homeRaw = useStore((s) => s.siteContent.home);
+
+  const hero = isID ? { ...heroRaw, ...idHero } : heroRaw;
+  const sections = isID
+    ? sectionsRaw.map((sec) => {
+        const tr = idSections[sec.id];
+        if (!tr) return sec;
+        return {
+          ...sec,
+          title: tr.title,
+          subtitle: tr.subtitle,
+          cards: sec.cards.map((c) => {
+            const ct = tr.cards[c.id];
+            return ct ? { ...c, title: ct.title, description: ct.description } : c;
+          }),
+        };
+      })
+    : sectionsRaw;
+  const home = isID
+    ? {
+        ...homeRaw,
+        trustedHeadline: idHome.trustedHeadline,
+        industriesEyebrow: idHome.industriesEyebrow,
+        industriesTitle: idHome.industriesTitle,
+        industriesSubtitle: idHome.industriesSubtitle,
+        pullQuote: idHome.pullQuote,
+        pullQuoteRole: idHome.pullQuoteRole,
+        saasEyebrow: idHome.saasEyebrow,
+        saasTitle: idHome.saasTitle,
+        saasSubtitle: idHome.saasSubtitle,
+        saasBullets: homeRaw.saasBullets.map((b, i) => ({ ...b, text: idHome.saasBullets[i] ?? b.text })),
+        saasPrimaryCta: idHome.saasPrimaryCta,
+        saasSecondaryCta: idHome.saasSecondaryCta,
+        testimonialsEyebrow: idHome.testimonialsEyebrow,
+        testimonialsTitle: idHome.testimonialsTitle,
+        testimonials: homeRaw.testimonials.map((t, i) => ({ ...t, quote: idHome.testimonials[i] ?? t.quote })),
+        closingTitle: idHome.closingTitle,
+        closingHighlight: idHome.closingHighlight,
+        closingDescription: idHome.closingDescription,
+        stats: homeRaw.stats.map((s) => ({ ...s, label: idStatsLabels[s.label] ?? s.label })),
+        industries: homeRaw.industries.map((i) => ({ ...i, name: idHome.industryNames[i.name] ?? i.name })),
+      }
+    : homeRaw;
   const stats = home.stats;
   const trusted = home.trusted;
   const industries = home.industries.map((i) => ({ name: i.name, icon: industryIconMap[i.icon] ?? Boxes }));
@@ -191,20 +237,20 @@ function HomePage() {
                   <div className="absolute -left-3 top-8 hidden animate-float-soft sm:block lg:-left-5">
                     <div className="rounded-2xl border border-border bg-background/95 p-3.5 shadow-card backdrop-blur">
                       <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
-                        <TrendingUp className="h-3.5 w-3.5 text-brand" /> Operational lift
+                        <TrendingUp className="h-3.5 w-3.5 text-brand" /> {isID ? idHeroBadges.operationalLift : "Operational lift"}
                       </div>
                       <div className="mt-1 font-display text-2xl font-medium text-brand">+38%</div>
-                      <div className="mt-0.5 text-[10px] text-muted-foreground">avg. across deployments</div>
+                      <div className="mt-0.5 text-[10px] text-muted-foreground">{isID ? idHeroBadges.operationalLiftSub : "avg. across deployments"}</div>
                     </div>
                   </div>
 
                   <div className="absolute -right-3 bottom-24 hidden animate-float-soft sm:block lg:-right-4" style={{ animationDelay: "-4s" }}>
                     <div className="rounded-2xl border border-border bg-ink p-3.5 text-background shadow-brand">
                       <div className="flex items-center gap-2 text-[11px] text-background/70">
-                        <Clock className="h-3.5 w-3.5 text-brand-cyan" /> Time to first ship
+                        <Clock className="h-3.5 w-3.5 text-brand-cyan" /> {isID ? idHeroBadges.timeToShip : "Time to first ship"}
                       </div>
                       <div className="mt-1 font-display text-2xl font-medium text-background">14 wks</div>
-                      <div className="mt-0.5 text-[10px] text-background/60">discovery to launch</div>
+                      <div className="mt-0.5 text-[10px] text-background/60">{isID ? idHeroBadges.timeToShipSub : "discovery to launch"}</div>
                     </div>
                   </div>
 
@@ -215,7 +261,7 @@ function HomePage() {
                       </div>
                       <div className="flex-1">
                         <div className="text-sm font-medium text-foreground">SOC 2 · ISO 27001</div>
-                        <div className="text-xs text-muted-foreground">Security baked into every build</div>
+                        <div className="text-xs text-muted-foreground">{isID ? idHeroBadges.security : "Security baked into every build"}</div>
                       </div>
                       <Check className="h-4 w-4 text-brand" />
                     </div>
@@ -251,13 +297,14 @@ function HomePage() {
       {/* DYNAMIC SECTIONS — editorial split header + colored cards */}
       {sections.filter((sec) => sec.visible).map((sec, secIdx) => {
         const meta = sectionMeta(sec.id, secIdx);
+        const eyebrowText = isID && idSections[sec.id]?.eyebrow ? idSections[sec.id]!.eyebrow! : meta.eyebrow;
         const onCream = secIdx % 2 === 1;
         return (
           <section key={sec.id} className={`relative ${onCream ? "bg-cream" : "bg-background"} py-24 lg:py-32`}>
             <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
               <div className="grid gap-10 lg:grid-cols-12">
                 <Reveal variant="up" className="lg:col-span-5">
-                  <p className="kicker">{meta.eyebrow}</p>
+                  <p className="kicker">{eyebrowText}</p>
                   <h2 className="mt-4 font-display text-4xl font-medium leading-[1.05] text-foreground sm:text-5xl lg:text-6xl">
                     {sec.title.split(" ").slice(0, -1).join(" ")}{" "}
                     <em className="serif-italic text-gradient-brand">{sec.title.split(" ").slice(-1)[0]}</em>
@@ -406,36 +453,36 @@ function HomePage() {
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-background">
                   <Sparkles className="h-5 w-5" />
                 </div>
-                <h3 className="mt-4 font-display text-lg font-medium">Launch in days</h3>
+                <h3 className="mt-4 font-display text-lg font-medium">{isID ? idHome.saasCards.launch.title : "Launch in days"}</h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                  Spin up a working tenant in under a week — no infra to manage, no integrations to wrangle.
+                  {isID ? idHome.saasCards.launch.body : "Spin up a working tenant in under a week — no infra to manage, no integrations to wrangle."}
                 </p>
               </div>
               <div className="rounded-2xl border border-border bg-ink p-6 text-background shadow-card transition-all hover:-translate-y-1 sm:translate-y-6">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-cyan/20 text-brand-cyan">
                   <ShieldCheck className="h-5 w-5" />
                 </div>
-                <h3 className="mt-4 font-display text-lg font-medium">Enterprise-ready</h3>
+                <h3 className="mt-4 font-display text-lg font-medium">{isID ? idHome.saasCards.enterprise.title : "Enterprise-ready"}</h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-background/70">
-                  SSO, role-based access, audit logs and full data export — included from day one.
+                  {isID ? idHome.saasCards.enterprise.body : "SSO, role-based access, audit logs and full data export — included from day one."}
                 </p>
               </div>
               <div className="rounded-2xl border border-border bg-card p-6 shadow-soft transition-all hover:-translate-y-1 hover:border-brand/40 hover:shadow-brand">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-background">
                   <TrendingUp className="h-5 w-5" />
                 </div>
-                <h3 className="mt-4 font-display text-lg font-medium">Built to scale</h3>
+                <h3 className="mt-4 font-display text-lg font-medium">{isID ? idHome.saasCards.scale.title : "Built to scale"}</h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                  Multi-tenant architecture proven from single teams to 10,000+ seat deployments.
+                  {isID ? idHome.saasCards.scale.body : "Multi-tenant architecture proven from single teams to 10,000+ seat deployments."}
                 </p>
               </div>
               <div className="rounded-2xl border border-border bg-card p-6 shadow-soft transition-all hover:-translate-y-1 hover:border-brand/40 hover:shadow-brand sm:translate-y-6">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-background">
                   <Boxes className="h-5 w-5" />
                 </div>
-                <h3 className="mt-4 font-display text-lg font-medium">Modular by design</h3>
+                <h3 className="mt-4 font-display text-lg font-medium">{isID ? idHome.saasCards.modular.title : "Modular by design"}</h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                  Start with one module, add more as you grow. Pay only for what your team actually uses.
+                  {isID ? idHome.saasCards.modular.body : "Start with one module, add more as you grow. Pay only for what your team actually uses."}
                 </p>
               </div>
             </div>
