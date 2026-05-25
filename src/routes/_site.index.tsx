@@ -452,36 +452,36 @@ function HomePage() {
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-background">
                   <Sparkles className="h-5 w-5" />
                 </div>
-                <h3 className="mt-4 font-display text-lg font-medium">Launch in days</h3>
+                <h3 className="mt-4 font-display text-lg font-medium">{isID ? idHome.saasCards.launch.title : "Launch in days"}</h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                  Spin up a working tenant in under a week — no infra to manage, no integrations to wrangle.
+                  {isID ? idHome.saasCards.launch.body : "Spin up a working tenant in under a week — no infra to manage, no integrations to wrangle."}
                 </p>
               </div>
               <div className="rounded-2xl border border-border bg-ink p-6 text-background shadow-card transition-all hover:-translate-y-1 sm:translate-y-6">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-cyan/20 text-brand-cyan">
                   <ShieldCheck className="h-5 w-5" />
                 </div>
-                <h3 className="mt-4 font-display text-lg font-medium">Enterprise-ready</h3>
+                <h3 className="mt-4 font-display text-lg font-medium">{isID ? idHome.saasCards.enterprise.title : "Enterprise-ready"}</h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-background/70">
-                  SSO, role-based access, audit logs and full data export — included from day one.
+                  {isID ? idHome.saasCards.enterprise.body : "SSO, role-based access, audit logs and full data export — included from day one."}
                 </p>
               </div>
               <div className="rounded-2xl border border-border bg-card p-6 shadow-soft transition-all hover:-translate-y-1 hover:border-brand/40 hover:shadow-brand">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-background">
                   <TrendingUp className="h-5 w-5" />
                 </div>
-                <h3 className="mt-4 font-display text-lg font-medium">Built to scale</h3>
+                <h3 className="mt-4 font-display text-lg font-medium">{isID ? idHome.saasCards.scale.title : "Built to scale"}</h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                  Multi-tenant architecture proven from single teams to 10,000+ seat deployments.
+                  {isID ? idHome.saasCards.scale.body : "Multi-tenant architecture proven from single teams to 10,000+ seat deployments."}
                 </p>
               </div>
               <div className="rounded-2xl border border-border bg-card p-6 shadow-soft transition-all hover:-translate-y-1 hover:border-brand/40 hover:shadow-brand sm:translate-y-6">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-background">
                   <Boxes className="h-5 w-5" />
                 </div>
-                <h3 className="mt-4 font-display text-lg font-medium">Modular by design</h3>
+                <h3 className="mt-4 font-display text-lg font-medium">{isID ? idHome.saasCards.modular.title : "Modular by design"}</h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                  Start with one module, add more as you grow. Pay only for what your team actually uses.
+                  {isID ? idHome.saasCards.modular.body : "Start with one module, add more as you grow. Pay only for what your team actually uses."}
                 </p>
               </div>
             </div>
