@@ -11,30 +11,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { useStore } from "@/lib/store";
+import { useLang, setLang as setAppLang, type Lang } from "@/lib/i18n";
+import { idNavLabels, idHeader } from "@/lib/i18n-home";
 
-type Lang = "en" | "id";
-const LANG_KEY = "zanscode.lang";
 const LANG_LABELS: Record<Lang, { short: string; name: string }> = {
   en: { short: "EN", name: "English" },
   id: { short: "ID", name: "Bahasa Indonesia" },
 };
 
 function useLanguage(): [Lang, (l: Lang) => void] {
-  const [lang, setLang] = useState<Lang>("en");
-  useEffect(() => {
-    try {
-      const v = window.localStorage.getItem(LANG_KEY) as Lang | null;
-      if (v === "en" || v === "id") setLang(v);
-    } catch {}
-  }, []);
-  const update = (l: Lang) => {
-    setLang(l);
-    try {
-      window.localStorage.setItem(LANG_KEY, l);
-      document.documentElement.lang = l;
-    } catch {}
-  };
-  return [lang, update];
+  const lang = useLang();
+  return [lang, setAppLang];
 }
 
 function LanguageSwitcher({ className }: { className?: string }) {
