@@ -72,9 +72,53 @@ const fallbackTiles = [
 
 function HomePage() {
   const navigate = useNavigate();
-  const hero = useStore((s) => s.siteContent.hero);
-  const sections = useStore((s) => s.siteContent.sections);
-  const home = useStore((s) => s.siteContent.home);
+  const lang = useLang();
+  const isID = lang === "id";
+  const heroRaw = useStore((s) => s.siteContent.hero);
+  const sectionsRaw = useStore((s) => s.siteContent.sections);
+  const homeRaw = useStore((s) => s.siteContent.home);
+
+  const hero = isID ? { ...heroRaw, ...idHero } : heroRaw;
+  const sections = isID
+    ? sectionsRaw.map((sec) => {
+        const tr = idSections[sec.id];
+        if (!tr) return sec;
+        return {
+          ...sec,
+          title: tr.title,
+          subtitle: tr.subtitle,
+          cards: sec.cards.map((c) => {
+            const ct = tr.cards[c.id];
+            return ct ? { ...c, title: ct.title, description: ct.description } : c;
+          }),
+        };
+      })
+    : sectionsRaw;
+  const home = isID
+    ? {
+        ...homeRaw,
+        trustedHeadline: idHome.trustedHeadline,
+        industriesEyebrow: idHome.industriesEyebrow,
+        industriesTitle: idHome.industriesTitle,
+        industriesSubtitle: idHome.industriesSubtitle,
+        pullQuote: idHome.pullQuote,
+        pullQuoteRole: idHome.pullQuoteRole,
+        saasEyebrow: idHome.saasEyebrow,
+        saasTitle: idHome.saasTitle,
+        saasSubtitle: idHome.saasSubtitle,
+        saasBullets: homeRaw.saasBullets.map((b, i) => ({ ...b, text: idHome.saasBullets[i] ?? b.text })),
+        saasPrimaryCta: idHome.saasPrimaryCta,
+        saasSecondaryCta: idHome.saasSecondaryCta,
+        testimonialsEyebrow: idHome.testimonialsEyebrow,
+        testimonialsTitle: idHome.testimonialsTitle,
+        testimonials: homeRaw.testimonials.map((t, i) => ({ ...t, quote: idHome.testimonials[i] ?? t.quote })),
+        closingTitle: idHome.closingTitle,
+        closingHighlight: idHome.closingHighlight,
+        closingDescription: idHome.closingDescription,
+        stats: homeRaw.stats.map((s) => ({ ...s, label: idStatsLabels[s.label] ?? s.label })),
+        industries: homeRaw.industries.map((i) => ({ ...i, name: idHome.industryNames[i.name] ?? i.name })),
+      }
+    : homeRaw;
   const stats = home.stats;
   const trusted = home.trusted;
   const industries = home.industries.map((i) => ({ name: i.name, icon: industryIconMap[i.icon] ?? Boxes }));
