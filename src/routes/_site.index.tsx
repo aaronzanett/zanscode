@@ -304,7 +304,7 @@ function HomePage() {
             <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
               <div className="grid gap-10 lg:grid-cols-12">
                 <Reveal variant="up" className="lg:col-span-5">
-                  <p className="kicker">{meta.eyebrow}</p>
+                  <p className="kicker">{eyebrowText}</p>
                   <h2 className="mt-4 font-display text-4xl font-medium leading-[1.05] text-foreground sm:text-5xl lg:text-6xl">
                     {sec.title.split(" ").slice(0, -1).join(" ")}{" "}
                     <em className="serif-italic text-gradient-brand">{sec.title.split(" ").slice(-1)[0]}</em>
