@@ -65,6 +65,8 @@ function LanguageSwitcher({ className }: { className?: string }) {
 export function Header() {
   const [open, setOpen] = useState(false);
   const nav = useStore((s) => s.siteContent.nav);
+  const [lang] = useLanguage();
+  const navItems = nav.map((n) => ({ ...n, label: lang === "id" ? idNavLabels[n.to] ?? n.label : n.label }));
   const location = useLocation();
   const pathname = location.pathname;
 
