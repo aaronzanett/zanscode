@@ -9,128 +9,63 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SiteRouteImport } from './routes/_site'
 import { Route as AppRouteImport } from './routes/app'
-import { Route as SiteIndexRouteImport } from './routes/_site.index'
-import { Route as SiteAboutRouteImport } from './routes/_site.about'
-import { Route as SiteCareersRouteImport } from './routes/_site.careers'
-import { Route as SiteContactRouteImport } from './routes/_site.contact'
-import { Route as SiteProductsRouteImport } from './routes/_site.products'
-import { Route as SiteServicesRouteImport } from './routes/_site.services'
-import { Route as SiteTermsRouteImport } from './routes/_site.terms'
+import { Route as SiteRouteImport } from './routes/_site'
 import { Route as AppIndexRouteImport } from './routes/app.index'
-import { Route as AppClientsRouteImport } from './routes/app.clients'
-import { Route as AppContentStudioRouteImport } from './routes/app.content-studio'
-import { Route as AppFinanceRouteImport } from './routes/app.finance'
-import { Route as AppKnowledgeRouteImport } from './routes/app.knowledge'
-import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
-import { Route as AppProductsRouteImport } from './routes/app.products'
-import { Route as AppProjectsRouteImport } from './routes/app.projects'
-import { Route as AppRecruitmentRouteImport } from './routes/app.recruitment'
-import { Route as AppSettingsRouteImport } from './routes/app.settings'
-import { Route as AppTasksRouteImport } from './routes/app.tasks'
-import { Route as AppTeamRouteImport } from './routes/app.team'
+import { Route as SiteIndexRouteImport } from './routes/_site.index'
 import { Route as StaffLoginRouteImport } from './routes/staff.login'
-import { Route as SiteApplyJobSlugRouteImport } from './routes/_site.apply.$jobSlug'
+import { Route as AppTeamRouteImport } from './routes/app.team'
+import { Route as AppTasksRouteImport } from './routes/app.tasks'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
+import { Route as AppRecruitmentRouteImport } from './routes/app.recruitment'
+import { Route as AppProjectsRouteImport } from './routes/app.projects'
+import { Route as AppProductsRouteImport } from './routes/app.products'
+import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
+import { Route as AppKnowledgeRouteImport } from './routes/app.knowledge'
+import { Route as AppFinanceRouteImport } from './routes/app.finance'
+import { Route as AppContentStudioRouteImport } from './routes/app.content-studio'
+import { Route as AppClientsRouteImport } from './routes/app.clients'
+import { Route as SiteTermsRouteImport } from './routes/_site.terms'
+import { Route as SiteServicesRouteImport } from './routes/_site.services'
+import { Route as SiteProductsRouteImport } from './routes/_site.products'
+import { Route as SiteContactRouteImport } from './routes/_site.contact'
+import { Route as SiteCareersRouteImport } from './routes/_site.careers'
+import { Route as SiteAboutRouteImport } from './routes/_site.about'
 import { Route as AppRecruitmentIndexRouteImport } from './routes/app.recruitment.index'
-import { Route as AppRecruitmentInterviewsRouteImport } from './routes/app.recruitment.interviews'
-import { Route as AppRecruitmentJobsRouteImport } from './routes/app.recruitment.jobs'
-import { Route as AppRecruitmentMppRouteImport } from './routes/app.recruitment.mpp'
-import { Route as AppRecruitmentPipelineRouteImport } from './routes/app.recruitment.pipeline'
 import { Route as AppRecruitmentRequisitionsRouteImport } from './routes/app.recruitment.requisitions'
+import { Route as AppRecruitmentPipelineRouteImport } from './routes/app.recruitment.pipeline'
+import { Route as AppRecruitmentMppRouteImport } from './routes/app.recruitment.mpp'
+import { Route as AppRecruitmentJobsRouteImport } from './routes/app.recruitment.jobs'
+import { Route as AppRecruitmentInterviewsRouteImport } from './routes/app.recruitment.interviews'
+import { Route as SiteApplyJobSlugRouteImport } from './routes/_site.apply.$jobSlug'
 
-const SiteRoute = SiteRouteImport.update({
-  id: '/_site',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AppRoute = AppRouteImport.update({
   id: '/app',
   path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SiteIndexRoute = SiteIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => SiteRoute,
-} as any)
-const SiteAboutRoute = SiteAboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => SiteRoute,
-} as any)
-const SiteCareersRoute = SiteCareersRouteImport.update({
-  id: '/careers',
-  path: '/careers',
-  getParentRoute: () => SiteRoute,
-} as any)
-const SiteContactRoute = SiteContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => SiteRoute,
-} as any)
-const SiteProductsRoute = SiteProductsRouteImport.update({
-  id: '/products',
-  path: '/products',
-  getParentRoute: () => SiteRoute,
-} as any)
-const SiteServicesRoute = SiteServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
-  getParentRoute: () => SiteRoute,
-} as any)
-const SiteTermsRoute = SiteTermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
-  getParentRoute: () => SiteRoute,
+const SiteRoute = SiteRouteImport.update({
+  id: '/_site',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
-const AppClientsRoute = AppClientsRouteImport.update({
-  id: '/clients',
-  path: '/clients',
-  getParentRoute: () => AppRoute,
+const SiteIndexRoute = SiteIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SiteRoute,
 } as any)
-const AppContentStudioRoute = AppContentStudioRouteImport.update({
-  id: '/content-studio',
-  path: '/content-studio',
-  getParentRoute: () => AppRoute,
+const StaffLoginRoute = StaffLoginRouteImport.update({
+  id: '/staff/login',
+  path: '/staff/login',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AppFinanceRoute = AppFinanceRouteImport.update({
-  id: '/finance',
-  path: '/finance',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppKnowledgeRoute = AppKnowledgeRouteImport.update({
-  id: '/knowledge',
-  path: '/knowledge',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppNotificationsRoute = AppNotificationsRouteImport.update({
-  id: '/notifications',
-  path: '/notifications',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppProductsRoute = AppProductsRouteImport.update({
-  id: '/products',
-  path: '/products',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppProjectsRoute = AppProjectsRouteImport.update({
-  id: '/projects',
-  path: '/projects',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppRecruitmentRoute = AppRecruitmentRouteImport.update({
-  id: '/recruitment',
-  path: '/recruitment',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppSettingsRoute = AppSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
+const AppTeamRoute = AppTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
   getParentRoute: () => AppRoute,
 } as any)
 const AppTasksRoute = AppTasksRouteImport.update({
@@ -138,45 +73,84 @@ const AppTasksRoute = AppTasksRouteImport.update({
   path: '/tasks',
   getParentRoute: () => AppRoute,
 } as any)
-const AppTeamRoute = AppTeamRouteImport.update({
-  id: '/team',
-  path: '/team',
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => AppRoute,
 } as any)
-const StaffLoginRoute = StaffLoginRouteImport.update({
-  id: '/staff/login',
-  path: '/staff/login',
-  getParentRoute: () => rootRouteImport,
+const AppRecruitmentRoute = AppRecruitmentRouteImport.update({
+  id: '/recruitment',
+  path: '/recruitment',
+  getParentRoute: () => AppRoute,
 } as any)
-const SiteApplyJobSlugRoute = SiteApplyJobSlugRouteImport.update({
-  id: '/apply/$jobSlug',
-  path: '/apply/$jobSlug',
+const AppProjectsRoute = AppProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProductsRoute = AppProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppNotificationsRoute = AppNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppKnowledgeRoute = AppKnowledgeRouteImport.update({
+  id: '/knowledge',
+  path: '/knowledge',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFinanceRoute = AppFinanceRouteImport.update({
+  id: '/finance',
+  path: '/finance',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppContentStudioRoute = AppContentStudioRouteImport.update({
+  id: '/content-studio',
+  path: '/content-studio',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppClientsRoute = AppClientsRouteImport.update({
+  id: '/clients',
+  path: '/clients',
+  getParentRoute: () => AppRoute,
+} as any)
+const SiteTermsRoute = SiteTermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteServicesRoute = SiteServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteProductsRoute = SiteProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteContactRoute = SiteContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteCareersRoute = SiteCareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteAboutRoute = SiteAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => SiteRoute,
 } as any)
 const AppRecruitmentIndexRoute = AppRecruitmentIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AppRecruitmentRoute,
-} as any)
-const AppRecruitmentInterviewsRoute =
-  AppRecruitmentInterviewsRouteImport.update({
-    id: '/interviews',
-    path: '/interviews',
-    getParentRoute: () => AppRecruitmentRoute,
-  } as any)
-const AppRecruitmentJobsRoute = AppRecruitmentJobsRouteImport.update({
-  id: '/jobs',
-  path: '/jobs',
-  getParentRoute: () => AppRecruitmentRoute,
-} as any)
-const AppRecruitmentMppRoute = AppRecruitmentMppRouteImport.update({
-  id: '/mpp',
-  path: '/mpp',
-  getParentRoute: () => AppRecruitmentRoute,
-} as any)
-const AppRecruitmentPipelineRoute = AppRecruitmentPipelineRouteImport.update({
-  id: '/pipeline',
-  path: '/pipeline',
   getParentRoute: () => AppRecruitmentRoute,
 } as any)
 const AppRecruitmentRequisitionsRoute =
@@ -185,6 +159,32 @@ const AppRecruitmentRequisitionsRoute =
     path: '/requisitions',
     getParentRoute: () => AppRecruitmentRoute,
   } as any)
+const AppRecruitmentPipelineRoute = AppRecruitmentPipelineRouteImport.update({
+  id: '/pipeline',
+  path: '/pipeline',
+  getParentRoute: () => AppRecruitmentRoute,
+} as any)
+const AppRecruitmentMppRoute = AppRecruitmentMppRouteImport.update({
+  id: '/mpp',
+  path: '/mpp',
+  getParentRoute: () => AppRecruitmentRoute,
+} as any)
+const AppRecruitmentJobsRoute = AppRecruitmentJobsRouteImport.update({
+  id: '/jobs',
+  path: '/jobs',
+  getParentRoute: () => AppRecruitmentRoute,
+} as any)
+const AppRecruitmentInterviewsRoute =
+  AppRecruitmentInterviewsRouteImport.update({
+    id: '/interviews',
+    path: '/interviews',
+    getParentRoute: () => AppRecruitmentRoute,
+  } as any)
+const SiteApplyJobSlugRoute = SiteApplyJobSlugRouteImport.update({
+  id: '/apply/$jobSlug',
+  path: '/apply/$jobSlug',
+  getParentRoute: () => SiteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof SiteIndexRoute
@@ -376,13 +376,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_site': {
-      id: '/_site'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof SiteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/app': {
       id: '/app'
       path: '/app'
@@ -390,54 +383,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_site/': {
-      id: '/_site/'
-      path: '/'
+    '/_site': {
+      id: '/_site'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof SiteIndexRouteImport
-      parentRoute: typeof SiteRoute
-    }
-    '/_site/about': {
-      id: '/_site/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof SiteAboutRouteImport
-      parentRoute: typeof SiteRoute
-    }
-    '/_site/careers': {
-      id: '/_site/careers'
-      path: '/careers'
-      fullPath: '/careers'
-      preLoaderRoute: typeof SiteCareersRouteImport
-      parentRoute: typeof SiteRoute
-    }
-    '/_site/contact': {
-      id: '/_site/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof SiteContactRouteImport
-      parentRoute: typeof SiteRoute
-    }
-    '/_site/products': {
-      id: '/_site/products'
-      path: '/products'
-      fullPath: '/products'
-      preLoaderRoute: typeof SiteProductsRouteImport
-      parentRoute: typeof SiteRoute
-    }
-    '/_site/services': {
-      id: '/_site/services'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof SiteServicesRouteImport
-      parentRoute: typeof SiteRoute
-    }
-    '/_site/terms': {
-      id: '/_site/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof SiteTermsRouteImport
-      parentRoute: typeof SiteRoute
+      preLoaderRoute: typeof SiteRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/app/': {
       id: '/app/'
@@ -446,67 +397,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/clients': {
-      id: '/app/clients'
-      path: '/clients'
-      fullPath: '/app/clients'
-      preLoaderRoute: typeof AppClientsRouteImport
-      parentRoute: typeof AppRoute
+    '/_site/': {
+      id: '/_site/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof SiteIndexRouteImport
+      parentRoute: typeof SiteRoute
     }
-    '/app/content-studio': {
-      id: '/app/content-studio'
-      path: '/content-studio'
-      fullPath: '/app/content-studio'
-      preLoaderRoute: typeof AppContentStudioRouteImport
-      parentRoute: typeof AppRoute
+    '/staff/login': {
+      id: '/staff/login'
+      path: '/staff/login'
+      fullPath: '/staff/login'
+      preLoaderRoute: typeof StaffLoginRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/app/finance': {
-      id: '/app/finance'
-      path: '/finance'
-      fullPath: '/app/finance'
-      preLoaderRoute: typeof AppFinanceRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/knowledge': {
-      id: '/app/knowledge'
-      path: '/knowledge'
-      fullPath: '/app/knowledge'
-      preLoaderRoute: typeof AppKnowledgeRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/notifications': {
-      id: '/app/notifications'
-      path: '/notifications'
-      fullPath: '/app/notifications'
-      preLoaderRoute: typeof AppNotificationsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/products': {
-      id: '/app/products'
-      path: '/products'
-      fullPath: '/app/products'
-      preLoaderRoute: typeof AppProductsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/projects': {
-      id: '/app/projects'
-      path: '/projects'
-      fullPath: '/app/projects'
-      preLoaderRoute: typeof AppProjectsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/recruitment': {
-      id: '/app/recruitment'
-      path: '/recruitment'
-      fullPath: '/app/recruitment'
-      preLoaderRoute: typeof AppRecruitmentRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/settings': {
-      id: '/app/settings'
-      path: '/settings'
-      fullPath: '/app/settings'
-      preLoaderRoute: typeof AppSettingsRouteImport
+    '/app/team': {
+      id: '/app/team'
+      path: '/team'
+      fullPath: '/app/team'
+      preLoaderRoute: typeof AppTeamRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/tasks': {
@@ -516,25 +425,109 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTasksRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/team': {
-      id: '/app/team'
-      path: '/team'
-      fullPath: '/app/team'
-      preLoaderRoute: typeof AppTeamRouteImport
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/staff/login': {
-      id: '/staff/login'
-      path: '/staff/login'
-      fullPath: '/staff/login'
-      preLoaderRoute: typeof StaffLoginRouteImport
-      parentRoute: typeof rootRouteImport
+    '/app/recruitment': {
+      id: '/app/recruitment'
+      path: '/recruitment'
+      fullPath: '/app/recruitment'
+      preLoaderRoute: typeof AppRecruitmentRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/_site/apply/$jobSlug': {
-      id: '/_site/apply/$jobSlug'
-      path: '/apply/$jobSlug'
-      fullPath: '/apply/$jobSlug'
-      preLoaderRoute: typeof SiteApplyJobSlugRouteImport
+    '/app/projects': {
+      id: '/app/projects'
+      path: '/projects'
+      fullPath: '/app/projects'
+      preLoaderRoute: typeof AppProjectsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/products': {
+      id: '/app/products'
+      path: '/products'
+      fullPath: '/app/products'
+      preLoaderRoute: typeof AppProductsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/notifications': {
+      id: '/app/notifications'
+      path: '/notifications'
+      fullPath: '/app/notifications'
+      preLoaderRoute: typeof AppNotificationsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/knowledge': {
+      id: '/app/knowledge'
+      path: '/knowledge'
+      fullPath: '/app/knowledge'
+      preLoaderRoute: typeof AppKnowledgeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/finance': {
+      id: '/app/finance'
+      path: '/finance'
+      fullPath: '/app/finance'
+      preLoaderRoute: typeof AppFinanceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/content-studio': {
+      id: '/app/content-studio'
+      path: '/content-studio'
+      fullPath: '/app/content-studio'
+      preLoaderRoute: typeof AppContentStudioRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/clients': {
+      id: '/app/clients'
+      path: '/clients'
+      fullPath: '/app/clients'
+      preLoaderRoute: typeof AppClientsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_site/terms': {
+      id: '/_site/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof SiteTermsRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/services': {
+      id: '/_site/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof SiteServicesRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/products': {
+      id: '/_site/products'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof SiteProductsRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/contact': {
+      id: '/_site/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof SiteContactRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/careers': {
+      id: '/_site/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof SiteCareersRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/about': {
+      id: '/_site/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof SiteAboutRouteImport
       parentRoute: typeof SiteRoute
     }
     '/app/recruitment/': {
@@ -544,25 +537,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRecruitmentIndexRouteImport
       parentRoute: typeof AppRecruitmentRoute
     }
-    '/app/recruitment/interviews': {
-      id: '/app/recruitment/interviews'
-      path: '/interviews'
-      fullPath: '/app/recruitment/interviews'
-      preLoaderRoute: typeof AppRecruitmentInterviewsRouteImport
-      parentRoute: typeof AppRecruitmentRoute
-    }
-    '/app/recruitment/jobs': {
-      id: '/app/recruitment/jobs'
-      path: '/jobs'
-      fullPath: '/app/recruitment/jobs'
-      preLoaderRoute: typeof AppRecruitmentJobsRouteImport
-      parentRoute: typeof AppRecruitmentRoute
-    }
-    '/app/recruitment/mpp': {
-      id: '/app/recruitment/mpp'
-      path: '/mpp'
-      fullPath: '/app/recruitment/mpp'
-      preLoaderRoute: typeof AppRecruitmentMppRouteImport
+    '/app/recruitment/requisitions': {
+      id: '/app/recruitment/requisitions'
+      path: '/requisitions'
+      fullPath: '/app/recruitment/requisitions'
+      preLoaderRoute: typeof AppRecruitmentRequisitionsRouteImport
       parentRoute: typeof AppRecruitmentRoute
     }
     '/app/recruitment/pipeline': {
@@ -572,12 +551,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRecruitmentPipelineRouteImport
       parentRoute: typeof AppRecruitmentRoute
     }
-    '/app/recruitment/requisitions': {
-      id: '/app/recruitment/requisitions'
-      path: '/requisitions'
-      fullPath: '/app/recruitment/requisitions'
-      preLoaderRoute: typeof AppRecruitmentRequisitionsRouteImport
+    '/app/recruitment/mpp': {
+      id: '/app/recruitment/mpp'
+      path: '/mpp'
+      fullPath: '/app/recruitment/mpp'
+      preLoaderRoute: typeof AppRecruitmentMppRouteImport
       parentRoute: typeof AppRecruitmentRoute
+    }
+    '/app/recruitment/jobs': {
+      id: '/app/recruitment/jobs'
+      path: '/jobs'
+      fullPath: '/app/recruitment/jobs'
+      preLoaderRoute: typeof AppRecruitmentJobsRouteImport
+      parentRoute: typeof AppRecruitmentRoute
+    }
+    '/app/recruitment/interviews': {
+      id: '/app/recruitment/interviews'
+      path: '/interviews'
+      fullPath: '/app/recruitment/interviews'
+      preLoaderRoute: typeof AppRecruitmentInterviewsRouteImport
+      parentRoute: typeof AppRecruitmentRoute
+    }
+    '/_site/apply/$jobSlug': {
+      id: '/_site/apply/$jobSlug'
+      path: '/apply/$jobSlug'
+      fullPath: '/apply/$jobSlug'
+      preLoaderRoute: typeof SiteApplyJobSlugRouteImport
+      parentRoute: typeof SiteRoute
     }
   }
 }
